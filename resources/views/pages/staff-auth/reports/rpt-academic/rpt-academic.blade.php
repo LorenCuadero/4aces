@@ -33,37 +33,15 @@
                                             <th class="vertical-text">User Id</th>
                                             <th class="vertical-text">Name</th>
                                             <th class="vertical-text">Batch Year</th>
-                                            <th class="vertical-text">Joined</th>
-                                            <th class="vertical-text">Status</th>
+                                            <th class="vertical-text">GPA</th>
                                             <th class="vertical-text">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($students as $student)
-                                            <tr>
-                                                <td>{{ $student->id }}</td>
-                                                <td>{{ $student->name }}</td>
-                                                <td>{{ $student->batch_year }}</td>
-                                                <td>{{ $student->joined }}</td>
-                                                <td>{{ $student->status }}</td>
-                                                <td>
-                                                    <a href="" id="edt-btn" class="btn btn-success btn-sm"
-                                                        data-toggle="modal" data-student-id="{{ $student->id }}"
-                                                        data-target="#editModal">
-                                                        Edit
-                                                    </a>
-                                                    {{-- <form action="{{ route('students.destroy', $student->id) }}" method="POST" style="display:inline">
-                                                {{ csrf_field() }}
-                                                {{ method_field('DELETE') }}
-                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                            </form> --}}
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="11" class="text-center">No records found.</td>
-                                            </tr>
-                                        @endforelse
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tbody>
                                 </table>
                             </div>

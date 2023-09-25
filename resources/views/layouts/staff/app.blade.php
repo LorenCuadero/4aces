@@ -15,7 +15,6 @@
             window.fallbackLocale = "{{ config('app.fallback_locale') }}";
             window.languageResourceVersion = "{{ rspr::vers('app/public/lang/language-resource.json', true, true) }}";
         </script>
-        <script src="{{ rspr::vers('js/vue-component.js') }}"></script>
     @endif
 
     @vite(['resources/css/compile.css', 'resources/js/compile.js'])
@@ -34,8 +33,7 @@
         </div>
         @include('layouts.staff.footer')
     </div>
-    {{-- @include('assets.js.staff.asset-js-toastr-message')
-    <script src="{{ rspr::vers('js/app.js') }}" defer></script> --}}
+    <script src="{{ asset('js/pages/staff.js') }}" defer></script>
     @stack('js')
 </body>
 

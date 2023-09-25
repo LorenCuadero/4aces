@@ -8,12 +8,12 @@ let languageResource = null;
 var languageResourceVersion = "";
 
 import AdminRegisterControl from './components/admin/cmpt-admin-register.vue'; 
-// import AddPersonModal from "./components/person/AddPersonModal.vue";
+import StaffEditControl from "./components/staff/cmpt-staff-edit.vue";
 // import AddEmployee from "./components/AddEmployee.vue";
 // import AddEmployeeJobTitle from "./components/AddEmployeeJobTitle.vue";
 
 vueAppList['cmpt-admin-register'] = createApp(AdminRegisterControl);
-// vueAppList["add-person-mdl"] = createApp(AddPersonModal);
+vueAppList["cmpt-staff-edit"] = createApp(StaffEditControl);
 // vueAppList["add-employee-modal"] = createApp(AddEmployee);
 // vueAppList["add-employee-jobtitle-modal"] = createApp(AddEmployeeJobTitle);
 

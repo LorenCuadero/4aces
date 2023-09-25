@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -11,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,12 +24,18 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
-    Route::get('/accounts', [App\Http\Controllers\Auth\RegisterController::class, 'accounts'])->name('admin.accounts');
+    Route::get('/accounts', [RegisterController::class, 'accounts'])->name('admin.accounts');
+
+    Route::prefix('/students')->group(function () {
+        Route::get('/', [StudentController::class, 'index'])->name('students.index');
+        Route::post('/', [StudentController::class, 'store'])->name('students.store');
+        Route::put('/{id}', [StudentController::class, 'update'])->name('students.update');
+        Route::delete('/{id}', [StudentController::class, 'destroy'])->name('students.destroy');
+    });
+
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-
-Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
-

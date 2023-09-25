@@ -8,59 +8,62 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $students = Student::orderBy('created_at', 'desc')->paginate(1);
+        return view('pages.staff-auth.students.index', compact('students'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('students.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'batch_year' => 'required',
+            'joined' => 'required',
+            'status' => 'required'
+        ]);
+
+        $student = new Student([
+            'name' => $request->get('name'),
+            'batch_year' => $request->get('batch_year'),
+            'joined' => $request->get('joined'),
+            'status' => $request->get('status')
+        ]);
+        
+        $student->save();
+
+        return redirect('/students')->with('success', 'Student added!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Student $student)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'batch_year' => 'required',
+            'joined' => 'required',
+            'status' => 'required'
+        ]);
+
+        $student = Student::find($id);
+        $student->name = $request->get('name');
+        $student->batch_year = $request->get('batch_year');
+        $student->joined = $request->get('joined');
+        $student->status = $request->get('status');
+        $student->save();
+
+        return redirect('/students')->with('success', 'Student updated!');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Student $student)
-    {
-        //
-    }
+    // public function destroy($id)
+    // {
+    //     $student = Student::find($id);
+    //     $student->delete();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Student $student)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Student $student)
-    {
-        //
-    }
+    //     return redirect('/students')->with('success', 'Student deleted!');
+    // }
 }
