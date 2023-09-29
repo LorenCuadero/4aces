@@ -9,16 +9,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-    @if (View::hasSection('has-vue'))
-        <script>
-            window.defaultLocale = "{{ config('app.locale') }}";
-            window.fallbackLocale = "{{ config('app.fallback_locale') }}";
-            window.languageResourceVersion = "{{ rspr::vers('app/public/lang/language-resource.json', true, true) }}";
-        </script>
-    @endif
 
     @vite(['resources/css/compile.css', 'resources/js/compile.js'])
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/app.js') }}" defer></script>    
     @stack('css')
 </head>
 
@@ -28,12 +22,11 @@
         @include('layouts.staff.header')
         @include('layouts.staff.aside')
 
-        <div class="content-wrapper text-center p-5">
+        <div class="content-wrapper text-center p-3">
             @yield('content')
         </div>
         @include('layouts.staff.footer')
     </div>
-    <script src="{{ asset('js/pages/staff.js') }}" defer></script>
     @stack('js')
 </body>
 

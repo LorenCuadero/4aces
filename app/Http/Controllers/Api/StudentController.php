@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
@@ -11,18 +11,13 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::all();
-        return view('pages.staff-auth.students.index', compact('students'));
+        return response()->json(compact('students'));
     }
 
     public function getStudent($id)
     {
         $student = Student::find($id);
-        return view('pages.staff-auth.students.index', compact('student'));
-    }
-
-    public function create()
-    {
-        return view('students.create');
+        return response()->json(compact('student'));
     }
 
     public function store(Request $request)
@@ -45,7 +40,7 @@ class StudentController extends Controller
 
         $student->save();
 
-        return redirect('/students')->with('success', 'Student added!');
+        return response()->json(['message' => 'Student added!']);
     }
 
     public function update(Request $request, $id)
@@ -66,7 +61,7 @@ class StudentController extends Controller
         $student->gpa = $request->get('gpa');
         $student->save();
 
-        return redirect('/students')->with('success', 'Student updated!');
+        return response()->json(['message' => 'Student updated!']);
     }
 
     public function destroy($id)
@@ -74,26 +69,6 @@ class StudentController extends Controller
         $student = Student::find($id);
         $student->delete();
 
-        return redirect('/students')->with('success', 'Student deleted!');
-    }
-
-    // Academic Reports Controllers
-
-    public function indexAcdRpt()
-    {
-        $students = Student::all();
-        return view('pages.staff-auth.reports.rpt-academic.rpt-academic-page', compact('students'));
-    }
-
-    public function indexDcplRpt()
-    {
-        $students = Student::all();
-        return view('pages.staff-auth.reports.rpt-disciplinary.rpt-disciplinary-page', compact('students'));
-    }
-
-    public function indexStudent()
-    {
-        $students = Student::all();
-        return view('pages.staff-auth.students.student-info-page', compact('students'));
+        return response()->json(['message' => 'Student deleted!']);
     }
 }

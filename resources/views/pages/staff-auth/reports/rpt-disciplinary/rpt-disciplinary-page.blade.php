@@ -73,39 +73,60 @@
                                 </form>
                             </div>
                         </div>
-
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="example2" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th class="vertical-text">User Id</th>
-                                            <th class="vertical-text">Name</th>
-                                            <th class="vertical-text">Batch Year</th>
-                                            <th class="vertical-text">Joined</th>
-                                            <th class="vertical-text">Status</th>
-                                            <th class="vertical-text">Action</th>
+                                            <th class="vertical-text">Student</th>
+                                            <th class="vertical-text">Formal Verbal Warning</th>
+                                            <th class="vertical-text">Written Warning</th>
+                                            <th class="vertical-text">Provisionary</th>
+                                            <th class="vertical-text"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse ($students as $student)
                                             <tr>
-                                                <td>{{ $student->id }}</td>
                                                 <td>{{ $student->name }}</td>
-                                                <td>{{ $student->batch_year }}</td>
-                                                <td>{{ $student->joined }}</td>
-                                                <td>{{ $student->status }}</td>
                                                 <td>
-                                                    <a href="" id="edt-btn-students" class="btn btn-sm"
+                                                    @if ($student->verbal_warning == null)
+                                                        <input type="text" name="verbal_warning"
+                                                            id="verbal_warning{{ $student->id }}" value="0/0/0"
+                                                            class="form-control text-center align-middle" readonly>
+                                                    @else
+                                                        {{ $student->verbal_warning }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($student->written_warning == null)
+                                                        <input type="text" name="written_warning"
+                                                            id="written_warning{{ $student->id }}" value="0/0/0"
+                                                            class="form-control text-center align-middle" readonly>
+                                                    @else
+                                                        {{ $student->written_warning }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($student->provisionary == null)
+                                                        <input type="text" name="provisionary"
+                                                            id="provisionary_{{ $student->id }}" value="0/0/0"
+                                                            class="form-control text-center align-middle" readonly>
+                                                    @else
+                                                        {{ $student->provisionary }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="" id="edt-btn" class="btn btn-sm"
                                                         data-toggle="modal" data-student-id="{{ $student->id }}"
                                                         data-target="#editModal">
-                                                        EDIT
+                                                        VIEW | EDIT
                                                     </a>
                                                     {{-- <form action="{{ route('students.destroy', $student->id) }}" method="POST" style="display:inline">
-                                                            {{ csrf_field() }}
-                                                            {{ method_field('DELETE') }}
-                                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                                        </form> --}}
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('DELETE') }}
+                                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                    </form> --}}
                                                 </td>
                                             </tr>
                                         @empty
@@ -123,5 +144,6 @@
         </div>
     </section>
     {{-- <cmpt-staff-add></cmpt-staff-add>
-    <cmpt-staff-edit></cmpt-staff-edit> --}}
+<cmpt-staff-edit></cmpt-staff-edit>
+@include('pages.staff-auth.students.stds-frm-dtls-page') --}}
 @endsection

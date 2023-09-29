@@ -24,7 +24,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    // Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
@@ -32,10 +32,24 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('/students')->group(function () {
         Route::get('/', [StudentController::class, 'index'])->name('students.index');
+        Route::get('/{id}', [StudentController::class, 'getStudent'])->name('students.getStudent');
         Route::post('/', [StudentController::class, 'store'])->name('students.store');
         Route::put('/{id}', [StudentController::class, 'update'])->name('students.update');
         Route::delete('/{id}', [StudentController::class, 'destroy'])->name('students.destroy');
     });
 
+    Route::prefix('/reports-acd')->group(function () {
+        Route::get('/', [StudentController::class, 'indexAcdRpt'])->name('rpt.acd.index');
+    });
+
+    Route::prefix('/reports-dcpl')->group(function () {
+        Route::get('/', [StudentController::class, 'indexDcplRpt'])->name('rpt.dcpl.index');
+    });
+
+    Route::prefix('/students-info')->group(function () {
+        Route::get('/', [StudentController::class, 'indexStudent'])->name('students-info.index');
+    });
+
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
+

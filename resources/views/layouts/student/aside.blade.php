@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="#" class="brand-link">
-        <img src="https://assets.infyom.com/logo/blue_logo_150x150.png" alt="AdminLTE Logo"
+        <img src="" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3">
         <span class="admin-title brand-text font-weight-light">AppName</span>
     </a>

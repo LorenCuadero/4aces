@@ -17,3 +17,33 @@ main.py-4 .content {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
+thead, th, #batch-year-dropdown, #edt-btn {
+    background-color: #1f3c88;
+    color: #fff;
+}
+
+.card-header {
+    background-color: #B8DEFF;
+}
+
+#edt-btn {
+    border-radius: 16px;
+}
+
+#edt-btn-students {
+    border-radius: 15px;
+    background-color: #33711D;
+    color: #fff;
+}
+
+#grade-btn {
+    border-radius: 15px;
+    background-color: #FF8C04;
+    color: #fff;
+}
+
+table {
+    border: none;
+}
+

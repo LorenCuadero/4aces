@@ -15,6 +15,7 @@
 
     <!-- Scripts -->
     @vite(['resources/css/compile.css', 'resources/js/compile.js'])
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 <body>
     <div id="app">

@@ -9,13 +9,11 @@ var languageResourceVersion = "";
 
 import AdminRegisterControl from './components/admin/cmpt-admin-register.vue'; 
 import StaffEditControl from "./components/staff/cmpt-staff-edit.vue";
-// import AddEmployee from "./components/AddEmployee.vue";
-// import AddEmployeeJobTitle from "./components/AddEmployeeJobTitle.vue";
+import StaffAddControl from "./components/staff/cmpt-staff-add.vue";
 
 vueAppList['cmpt-admin-register'] = createApp(AdminRegisterControl);
 vueAppList["cmpt-staff-edit"] = createApp(StaffEditControl);
-// vueAppList["add-employee-modal"] = createApp(AddEmployee);
-// vueAppList["add-employee-jobtitle-modal"] = createApp(AddEmployeeJobTitle);
+vueAppList["cmpt-staff-add"] = createApp(StaffAddControl);
 
 function initVueComponents() {
     var defaultLocale = "en";

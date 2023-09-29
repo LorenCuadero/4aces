@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('name');
             $table->year('batch_year');
             $table->date('joined');
+            $table->decimal('gpa', 3, 1)->default(0.0);
+            $table->date('verbal_warning')->nullable()->default(null);
+            $table->date('written_warning')->nullable()->default(null);
+            $table->date('provisionary')->nullable()->default(null);
             $table->enum('status', ['active', 'inactive']);
             $table->softDeletes();
         });
