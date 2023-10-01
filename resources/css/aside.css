@@ -18,26 +18,35 @@ main.py-4 .content {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-thead, th, #batch-year-dropdown, #edt-btn {
+thead,
+th,
+#batch-year-dropdown,
+#order-by-dropdown,
+#reset-filter-btn,
+#addGradeBtn,
+#edt-dcpl-btn,
+#selectToAdd,
+#back {
     background-color: #1f3c88;
     color: #fff;
 }
 
 .card-header {
-    background-color: #B8DEFF;
+    background-color: #b8deff;
 }
 
-#edt-btn {
+#edt-dcpl-btn {
     border-radius: 16px;
 }
 
-#edt-btn-students {
+#edt-btn-students,
+.edit-grade-btn {
     border-radius: 15px;
-    background-color: #33711D;
+    background-color: #33711d;
     color: #fff;
 }
 
-#grade-btn {
+#grade-button {
     border-radius: 15px;
     background-color: #FF8C04;
     color: #fff;
@@ -47,3 +56,30 @@ table {
     border: none;
 }
 
+.card-body {
+    background-color: none;
+    border: none;
+}
+
+form {
+    background-color: none;
+    border: none;
+}
+@media (max-width: 767px) {
+    .form-group {
+        margin-bottom: 20px;
+    }
+}
+
+/* CSS */
+.custom-modal .modal-content {
+    background-color: rgba(0, 0, 0, 0.7); /* Adjust the transparency (0.7) as needed */
+    border: none; /* Remove the modal border if desired */
+    box-shadow: none; /* Remove the modal shadow if desired */
+}
+
+.custom-modal .modal-body {
+    background-color: #fff; /* Set the background color for the modal content area */
+    padding: 20px;
+    border-radius: 5px;
+}

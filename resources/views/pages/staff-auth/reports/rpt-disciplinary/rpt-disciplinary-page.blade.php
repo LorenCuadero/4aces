@@ -1,14 +1,10 @@
 @extends('layouts.staff.app')
-@push('js')
-    <script src="{{ asset('js/app.js') }}" defer></script>
-@endpush
 @section('content')
     <section class="content">
         <div class="row">
             <div class="col-md-12">
                 <h1 class="card-title mb-3 mb-md-0" style="color:#1f3c88; padding: 2%; padding-left:0%"><b>Disciplinary
-                        Reports</b>
-                    </h2>
+                        Reports</b></h1>
             </div>
         </div>
         <div class="container-fluid">
@@ -24,51 +20,17 @@
                                             placeholder="Search record here" aria-label="Search"
                                             style="height: 100%; width: 200px;">
                                     </div>
-                                    <div class="nav-item dropdown show btn btn-sm" id="batch-year-dropdown"
+                                    <div class="nav-item dropdown show btn btn-sm" id="reset-filter-btn"
                                         style="display: flex; align-items:center; height: 38px;">
-                                        <a class="nav-link dropdown-toggle align-items-center" data-toggle="dropdown"
-                                            href="#" role="button" aria-haspopup="true" aria-expanded="true"
-                                            style="color:#fff;height: 100%; display: flex; align-items: center;">Batch
-                                            Year</a>
-                                        <div class="dropdown-menu mt-0" style="left: 0px; right: inherit;">
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close"
-                                                data-type="all">Batch 2025</a>
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close"
-                                                data-type="all-other">Batch 2024</a>
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close">Batch
-                                                2023</a>
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close">Batch
-                                                2022</a>
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close">Batch
-                                                2021</a>
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close">Batch
-                                                2020</a>
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close">Batch
-                                                2019</a>
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close">Batch
-                                                2018</a>
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close">Batch
-                                                2017</a>
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close">Batch
-                                                2016</a>
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close">Batch
-                                                2015</a>
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close">Batch
-                                                2014</a>
-                                        </div>
+                                        <a class="nav-link align-items-center"
+                                            style="color:#fff;height: 100%; display: flex; align-items: center;">Reset
+                                            Table</a>
                                     </div>
-                                    <div class="nav-item dropdown show btn btn-sm" id="batch-year-dropdown"
+                                    <div class="nav-item btn btn-sm" id="selectToAdd" data-target="#student-selection-modal"
+                                        data-toggle="modal"
                                         style="display: flex; align-items:center; height: 38px; margin-left: 4px;">
-                                        <a class="nav-link dropdown-toggle align-items-center" data-toggle="dropdown"
-                                            href="#" role="button" aria-haspopup="true" aria-expanded="true"
-                                            style="color:#fff;height: 100%; display: flex; align-items: center;">Order
-                                            By</a>
-                                        <div class="dropdown-menu mt-0" style="left: 0px; right: inherit;">
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close"
-                                                data-type="all">Ascending Order</a>
-                                            <a class="dropdown-item" href="#" data-widget="iframe-close"
-                                                data-type="all-other">Descending Order</a>
-                                        </div>
+                                        <a href="#" class="nav-link align-items-center"
+                                            style="color:#fff;height: 100%; display: flex; align-items: center;">Add</a>
                                     </div>
                                 </form>
                             </div>
@@ -85,53 +47,48 @@
                                             <th class="vertical-text"></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @forelse ($students as $student)
-                                            <tr>
-                                                <td>{{ $student->name }}</td>
+                                    <tbody class="table-body">
+                                        @forelse ($studentsWithDisciplinaryRecords as $studentsWithRecord)
+                                            <tr class="table-row">
                                                 <td>
-                                                    @if ($student->verbal_warning == null)
-                                                        <input type="text" name="verbal_warning"
-                                                            id="verbal_warning{{ $student->id }}" value="0/0/0"
-                                                            class="form-control text-center align-middle" readonly>
-                                                    @else
-                                                        {{ $student->verbal_warning }}
-                                                    @endif
+                                                    {{ $studentsWithRecord->student->first_name }}
+                                                    {{ $studentsWithRecord->student->last_name }}
                                                 </td>
                                                 <td>
-                                                    @if ($student->written_warning == null)
-                                                        <input type="text" name="written_warning"
-                                                            id="written_warning{{ $student->id }}" value="0/0/0"
-                                                            class="form-control text-center align-middle" readonly>
-                                                    @else
-                                                        {{ $student->written_warning }}
-                                                    @endif
+                                                    <input type="date" name="verbal_warning_date"
+                                                        id="verbal_warning_date_{{ $studentsWithRecord->id }}"
+                                                        value="{{ $studentsWithRecord->verbal_warning_date }}"
+                                                        class="form-control text-center align-middle" readonly>
                                                 </td>
                                                 <td>
-                                                    @if ($student->provisionary == null)
-                                                        <input type="text" name="provisionary"
-                                                            id="provisionary_{{ $student->id }}" value="0/0/0"
-                                                            class="form-control text-center align-middle" readonly>
-                                                    @else
-                                                        {{ $student->provisionary }}
-                                                    @endif
+                                                    <input type="date" name="written_warning_date"
+                                                        id="written_warning_date_{{ $studentsWithRecord->id }}"
+                                                        value="{{ $studentsWithRecord->written_warning_date }}"
+                                                        class="form-control text-center align-middle" readonly>
                                                 </td>
                                                 <td>
-                                                    <a href="" id="edt-btn" class="btn btn-sm"
-                                                        data-toggle="modal" data-student-id="{{ $student->id }}"
-                                                        data-target="#editModal">
+                                                    <input type="date" name="provisionary_date"
+                                                        id="provisionary_date_{{ $studentsWithRecord->id }}"
+                                                        value="{{ $studentsWithRecord->provisionary_date }}"
+                                                        class="form-control text-center align-middle" readonly>
+                                                </td>
+                                                <td>
+                                                    <a href="#" id="edit-dcpl-btn" class="btn btn-sm"
+                                                        data-toggle="modal" data-target="#edit-student-dcpl-modal"
+                                                        data-student-id="{{ $studentsWithRecord->student->id }}"
+                                                        data-verbal-warning-date="{{ $studentsWithRecord->verbal_warning_date }}"
+                                                        data-verbal-warning-desc="{{ $studentsWithRecord->verbal_warning_description }}"
+                                                        data-written-warning-date="{{ $studentsWithRecord->written_warning_date }}"
+                                                        data-written-warning-desc="{{ $studentsWithRecord->written_warning_description }}"
+                                                        data-provisionary-warning-date="{{ $studentsWithRecord->provisionary_date }}"
+                                                        data-provisionary-warning-desc="{{ $studentsWithRecord->provisionary_dscription }}">
                                                         VIEW | EDIT
                                                     </a>
-                                                    {{-- <form action="{{ route('students.destroy', $student->id) }}" method="POST" style="display:inline">
-                                                        {{ csrf_field() }}
-                                                        {{ method_field('DELETE') }}
-                                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                                    </form> --}}
                                                 </td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="11" class="text-center">No records found.</td>
+                                                <td colspan="5" class="text-center">No records found.</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -143,7 +100,7 @@
             </div>
         </div>
     </section>
-    {{-- <cmpt-staff-add></cmpt-staff-add>
-<cmpt-staff-edit></cmpt-staff-edit>
-@include('pages.staff-auth.students.stds-frm-dtls-page') --}}
+    @include('modals.staff.mdl-student-dcpl-rpt-edit')
+    @include('modals.staff.mdl-student-dcpl-rpt-add')
+    @include('modals.staff.mdl-student-selection')
 @endsection

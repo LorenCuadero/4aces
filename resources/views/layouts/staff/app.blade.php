@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html>
 
 <head>
     <meta charset="utf-8">
@@ -11,10 +11,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     @vite(['resources/css/compile.css', 'resources/js/compile.js'])
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script src="{{ asset('js/app.js') }}" defer></script>    
-    @stack('css')
-</head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </head>
 
 <body class="hold-transition sidebar-mini layout-fixed" data-page="{{ Route::currentRouteName() }}">
     <div class="wrapper">
@@ -22,12 +21,11 @@
         @include('layouts.staff.header')
         @include('layouts.staff.aside')
 
-        <div class="content-wrapper text-center p-3">
+        <div class="content-wrapper text-center p-2">
             @yield('content')
         </div>
         @include('layouts.staff.footer')
     </div>
-    @stack('js')
 </body>
 
 </html>

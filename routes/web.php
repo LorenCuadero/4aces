@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\AcademicController;
+use App\Http\Controllers\DisciplinaryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,10 +23,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::group(['middleware' => 'auth'], function () {
-    // Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
@@ -40,16 +41,22 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('/reports-acd')->group(function () {
         Route::get('/', [StudentController::class, 'indexAcdRpt'])->name('rpt.acd.index');
+        Route::get('/{id}', [StudentController::class, 'getStudentGradeReport'])->name('rpt.acd.getStudentGradeReport');
+        Route::put('/{id}', [StudentController::class, 'updateStudentGradeReport'])->name('rpt.acd.updateStudentGradeReport');
+        Route::post('/{id}', [StudentController::class, 'addStudentGradeReport'])->name('rpt.acd.addStudentGradeReport');
     });
 
     Route::prefix('/reports-dcpl')->group(function () {
-        Route::get('/', [StudentController::class, 'indexDcplRpt'])->name('rpt.dcpl.index');
+        Route::get('/', [StudentController::class, 'indexStudsList'])->name('rpt.dcpl.index');
+        Route::get('/{id}', [DisciplinaryController::class, 'showDisciplinaryRecordsForStudent'])->name('rpt.dcpl.showDisciplinaryRecordsForStudent');
+        Route::post('/', [DisciplinaryController::class, 'store'])->name('rpt.dcpl.store');
     });
 
     Route::prefix('/students-info')->group(function () {
         Route::get('/', [StudentController::class, 'indexStudent'])->name('students-info.index');
+        Route::get('/{id}', [StudentController::class, 'getStudentInfo'])->name('students-info.getStudentInfo');
+        Route::put('/{id}', [StudentController::class, 'updateStudent'])->name('students-info.updateStudent');
     });
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-

@@ -29,7 +29,7 @@
         @include('layouts.common.header')
         @include('layouts.common.aside')
 
-        <div class="content-wrapper text-center p-3">
+        <div class="content-wrapper text-center p-2">
             @yield('content')
         </div>
         @include('layouts.common.footer')

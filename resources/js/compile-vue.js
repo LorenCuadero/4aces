@@ -1,6 +1,5 @@
 import $ from "jquery";
 import { createApp } from "vue";
-import Lang from "lang.js";
 import axios from "axios";
 
 let vueAppList = {};
@@ -10,10 +9,12 @@ var languageResourceVersion = "";
 import AdminRegisterControl from './components/admin/cmpt-admin-register.vue'; 
 import StaffEditControl from "./components/staff/cmpt-staff-edit.vue";
 import StaffAddControl from "./components/staff/cmpt-staff-add.vue";
+import StudentAcademicControl from "./components/student/cmpt-student-acd-rpt.vue";
 
 vueAppList['cmpt-admin-register'] = createApp(AdminRegisterControl);
 vueAppList["cmpt-staff-edit"] = createApp(StaffEditControl);
 vueAppList["cmpt-staff-add"] = createApp(StaffAddControl);
+vueAppList["cmpt-student-acd-rpt"] = createApp(StudentAcademicControl);
 
 function initVueComponents() {
     var defaultLocale = "en";
@@ -59,33 +60,3 @@ function initVueComponents() {
         }
     }
 }
-
-if (typeof window.languageResourceVersion !== "undefined") {
-    languageResourceVersion = window.languageResourceVersion;
-}
-
-axios
-    .get("/storage/lang/language-resource.json?v=" + languageResourceVersion)
-    .then((response) => {
-        let data = response.data;
-
-            if (
-                typeof data == "string"
-                    ? data.search("export default") !== -1
-                    : false
-            ) {
-                data = data.split("export default ");
-                if (data.length > 1) {
-                    languageResource = JSON.parse(data[1]);
-                } else {
-                    console.error(["error languageResource", data]);
-                }
-            } else {
-                languageResource = data;
-            }
-
-        initVueComponents();
-    })
-    .catch(function (error) {
-        initVueComponents();
-    });

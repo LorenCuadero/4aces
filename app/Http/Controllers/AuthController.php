@@ -12,14 +12,20 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
+    
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            $token = $user->createToken('AppToken');
-        
-            return response()->json(['access_token' => $token->plainTextToken]);
+            $role = $user->role;
+    
+            if ($role == '0') {
+                return redirect()->route('payable.index');
+            } elseif ($role == '1') {
+                return redirect()->route('students.index');
+            } else {
+                return redirect()->route('dashboard.index');
+            }
         } else {
-            return response()->json(['error' => 'Invalid email or password'], 401);
+            return redirect()->route('login')->with('error', 'Invalid email or password');
         }
     }
 
