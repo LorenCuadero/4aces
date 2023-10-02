@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html>
 
 <head>
     <meta charset="utf-8">
@@ -29,7 +29,7 @@
         @include('layouts.admin.header')
         @include('layouts.admin.aside')
 
-        <div class="content-wrapper text-center p-5">
+        <div class="content-wrapper text-center p-2">
             @yield('content')
         </div>
         @include('layouts.admin.footer')

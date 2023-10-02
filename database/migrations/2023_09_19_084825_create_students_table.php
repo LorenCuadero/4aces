@@ -13,8 +13,23 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('middle_name');
+            $table->string('email');
+            $table->string('phone');
+            $table->date('birthdate');
+            $table->text('address');
+            $table->string('parent_name');
+            $table->string('parent_contact');
+            $table->enum('payable_status', ['paid', 'unpaid']);
+            $table->enum('account_status', ['active', 'closed']);
+            $table->year('batch_year');
+            $table->date('joined');
+            $table->enum('status', ['active', 'inactive']);
             $table->timestamps();
-        });
+            $table->softDeletes();
+        });        
     }
 
     /**

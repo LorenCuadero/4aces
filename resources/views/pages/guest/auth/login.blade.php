@@ -4,7 +4,7 @@
     <div class="main-wrapper col-md-6 col-sm-8">
         <div class="form-icon"><i class="fas fa-user-tie"></i></div>
         <div class="h4 text-white text-center pt-2 sign-in mt-4 position-relative"><span>{{ __('words.SignIn') }}</span></div>
-        <form class="pt-3" action="{{ route('login') }}" method="post">
+        <form id="login-form" class="pt-3" action="{{ route('login') }}" method="post">
             @csrf
             @if ($errors->has('username'))
                 <span class="text-danger">{{ $errors->first('username') }}</span>
