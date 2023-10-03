@@ -62,13 +62,10 @@ class DisciplinaryController extends Controller
     public function update(Request $request, Disciplinary $disciplinary)
     {
         $data = $request->validate([
-            'verbal_warning' => 'nullable|boolean',
             'verbal_warning_description' => 'nullable|string',
             'verbal_warning_date' => 'nullable|date',
-            'written_warning' => 'nullable|boolean',
             'written_warning_description' => 'nullable|string',
             'written_warning_date' => 'nullable|date',
-            'provisionary' => 'nullable|boolean',
             'provisionary_description' => 'nullable|string',
             'provisionary_date' => 'nullable|date',
             'student_id' => 'required|exists:students,id',

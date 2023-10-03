@@ -15,7 +15,7 @@
             window.fallbackLocale = "{{ config('app.fallback_locale') }}";
             window.languageResourceVersion = "{{ rspr::vers('app/public/lang/language-resource.json', true, true) }}";
         </script>
-        <script src="{{ rspr::vers('js/vue-component.js') }}"></script>
+        <script src="{{ asset('js/vue-component.js') }}" defer></script>
     @endif
 
     @vite(['resources/css/compile.css', 'resources/js/compile.js'])

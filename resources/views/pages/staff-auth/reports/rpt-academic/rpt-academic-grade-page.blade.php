@@ -64,7 +64,6 @@
                                                 data-academic-first_sem_2nd_year="{{ $academic->first_sem_2nd_year }}"
                                                 data-academic-second_sem_2nd_year="{{ $academic->second_sem_2nd_year }}"
                                                 data-academic-gpa="{{ $academic->gpa }}">EDIT</a>
-                                             
                                             </td>
                                         </tr>
                                     @empty

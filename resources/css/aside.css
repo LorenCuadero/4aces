@@ -20,12 +20,13 @@ main.py-4 .content {
 
 thead,
 th,
-#batch-year-dropdown,
-#order-by-dropdown,
-#reset-filter-btn,
-#addGradeBtn,
-#edt-dcpl-btn,
+.batch-year-dropdown,
+.sort-by-user-id,
+.reset-filter-btn,
+#addStudentGradeButton,
+#edit-dcpl-btn,
 #selectToAdd,
+#addStudentButton,
 #back {
     background-color: #1f3c88;
     color: #fff;
@@ -35,7 +36,7 @@ th,
     background-color: #b8deff;
 }
 
-#edt-dcpl-btn {
+#edit-dcpl-btn {
     border-radius: 16px;
 }
 

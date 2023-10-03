@@ -59,18 +59,21 @@
                                                         id="verbal_warning_date_{{ $studentsWithRecord->id }}"
                                                         value="{{ $studentsWithRecord->verbal_warning_date }}"
                                                         class="form-control text-center align-middle" readonly>
+                                                    <input type="hidden" value="{{ $studentsWithRecord->verbal_warning_desccription }}">
                                                 </td>
                                                 <td>
                                                     <input type="date" name="written_warning_date"
                                                         id="written_warning_date_{{ $studentsWithRecord->id }}"
                                                         value="{{ $studentsWithRecord->written_warning_date }}"
                                                         class="form-control text-center align-middle" readonly>
+                                                        <input type="hidden" value="{{ $studentsWithRecord->written_warning_desccription }}">
                                                 </td>
                                                 <td>
                                                     <input type="date" name="provisionary_date"
                                                         id="provisionary_date_{{ $studentsWithRecord->id }}"
                                                         value="{{ $studentsWithRecord->provisionary_date }}"
                                                         class="form-control text-center align-middle" readonly>
+                                                        <input type="hidden" value="{{ $studentsWithRecord->provisionary_desccription }}">
                                                 </td>
                                                 <td>
                                                     <a href="#" id="edit-dcpl-btn" class="btn btn-sm"
