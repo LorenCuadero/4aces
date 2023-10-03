@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Academic;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class AcademicController extends Controller {
@@ -35,8 +36,8 @@ class AcademicController extends Controller {
     */
 
     public function create() {
-        $students = Student::all();
-        return view( 'academics.create', compact( 'students' ) );
+        $student = Student::all();
+        return view( 'modals.staff.mdl-student-acd-rpt-add', compact( 'student' ));
     }
 
     /**

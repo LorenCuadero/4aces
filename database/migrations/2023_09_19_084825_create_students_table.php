@@ -22,11 +22,8 @@ return new class extends Migration
             $table->text('address');
             $table->string('parent_name');
             $table->string('parent_contact');
-            $table->enum('payable_status', ['paid', 'unpaid']);
-            $table->enum('account_status', ['active', 'closed']);
             $table->year('batch_year');
             $table->date('joined');
-            $table->enum('status', ['active', 'inactive']);
             $table->timestamps();
             $table->softDeletes();
         });        
