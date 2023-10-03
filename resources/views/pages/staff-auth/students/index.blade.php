@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-12" id="table">
                     <div class="card">
-                        @include('assets.asst-table-headers')
+                        @include('assets.asst-table-headers-with-add')
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="example2" class="table table-bordered table-hover">
@@ -21,7 +21,6 @@
                                             <th class="vertical-text">Name</th>
                                             <th class="vertical-text">Batch Year</th>
                                             <th class="vertical-text">Joined</th>
-                                            <th class="vertical-text">Status</th>
                                             <th class="vertical-text">Action</th>
                                         </tr>
                                     </thead>
@@ -33,7 +32,6 @@
                                                 </td>
                                                 <td>Batch {{ $student->batch_year }}</td>
                                                 <td>{{ $student->joined }}</td>
-                                                <td>{{ $student->account_status }}</td>
                                                 <td>
                                                     <a href="{{ route('students-info.getStudentInfo', ['id' => $student->id]) }}"
                                                         id="edt-btn-students" class="btn btn-sm"
@@ -52,25 +50,20 @@
                                                         data-student-url="{{ route('students-info.getStudentInfo', ['id' => $student->id]) }}">
                                                         EDIT
                                                     </a>
-                                                    {{-- <form action="{{ route('students.destroy', $student->id) }}" method="POST" style="display:inline">
-                                                            {{ csrf_field() }}
-                                                            {{ method_field('DELETE') }}
-                                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                                        </form> --}}
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="11" class="text-center">No records found.</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="11" class="text-center">No records found.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 @endsection

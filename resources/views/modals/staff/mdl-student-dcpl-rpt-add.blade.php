@@ -30,7 +30,7 @@
                             <div class="col-md-3">
                                 <label for="written-warning">Written Warning:</label>
                                 <br>
-                                <input type="date" id="written_warning_date">
+                                <input type="date" id="written_warning_date" name="written_warning_date">
                             </div>
                             <div class="col-md-8">
                                 <label for="written-warning">Description:</label>
@@ -43,7 +43,7 @@
                             <div class="col-md-3">
                                 <label for="provisionary-warning">Provisionary Warning:</label>
                                 <br>
-                                <input type="date" id="provisionary_date">
+                                <input type="date" id="provisionary_date" name="provisionary_date">
                             </div>
                             <div class="col-md-8">
                                 <label for="written-warning">Description:</label>

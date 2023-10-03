@@ -18,7 +18,7 @@ class AuthController extends Controller
             $role = $user->role;
     
             if ($role == '0') {
-                return redirect()->route('payable.index');
+                return view('pages.student-parent-auth.payable.index');
             } elseif ($role == '1') {
                 return redirect()->route('students.index');
             } else {
@@ -27,6 +27,11 @@ class AuthController extends Controller
         } else {
             return redirect()->route('login')->with('error', 'Invalid email or password');
         }
+    }
+
+    public function loginPage()
+    {
+        return view('welcome');
     }
 
     public function logout(Request $request)

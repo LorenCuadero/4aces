@@ -1,20 +1,6 @@
 import "./bootstrap";
-
-$(document).ready(function () {
-    var searchInput = $("#searchInput");
-    var tableBody = $("#example2");
-
-    searchInput.on("keyup", function () {
-        var searchValue = searchInput.val().toLowerCase();
-
-        var filteredRows = tableBody.find(".table-row").filter(function () {
-            return $(this).text().toLowerCase().indexOf(searchValue) > -1;
-        });
-
-        tableBody.find(".table-row").hide();
-        filteredRows.show();
-    });
-});
+import "./compile-vue.js";
+import "./components/staff/cmpt-staff-table-header.js";
 
 $(document).ready(function () {
     $("#add-btn").click(function () {
@@ -43,42 +29,6 @@ $(document).ready(function () {
                 .show();
         }
     });
-
-    orderByDropdown.find(".dropdown-item").on("click", function () {
-        var selectedOrderBy = $(this).text().trim();
-
-        orderByDropdown.find(".nav-link").text(selectedOrderBy);
-
-        if (selectedOrderBy === "Ascending Order") {
-            tableBody
-                .find(".table-row")
-                .sort(function (a, b) {
-                    return $(a)
-                        .find("td:eq(1)")
-                        .text()
-                        .localeCompare($(b).find("td:eq(1)").text());
-                })
-                .appendTo(tableBody);
-        } else if (selectedOrderBy === "Descending Order") {
-            tableBody
-                .find(".table-row")
-                .sort(function (a, b) {
-                    return $(b)
-                        .find("td:eq(1)")
-                        .text()
-                        .localeCompare($(a).find("td:eq(1)").text());
-                })
-                .appendTo(tableBody);
-        }
-    });
-
-    var resetFilterBtn = $("#reset-filter-btn");
-
-    resetFilterBtn.on("click", function () {
-        batchYearDropdown.find(".nav-link").text("Year");
-        orderByDropdown.find(".nav-link").text("Order By");
-        tableBody.find(".table-row").show();
-    });
 });
 
 $(document).ready(function () {
@@ -96,6 +46,7 @@ $(document).ready(function () {
         addModal.modal("show");
     });
 });
+
 $(document).ready(function () {
     // Add a click event handler to the "Edit" buttons
     $(".edit-grade-btn").on("click", function () {
