@@ -11,8 +11,6 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     @vite(['resources/css/compile.css', 'resources/js/compile.js'])
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </head>
 
 <body class="hold-transition sidebar-mini layout-fixed" data-page="{{ Route::currentRouteName() }}">

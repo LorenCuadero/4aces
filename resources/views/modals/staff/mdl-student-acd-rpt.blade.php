@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
                 @if(isset($academic))
-                <form id="new-form" method="POST" action="{{ route('rpt.acd.updateStudentGradeReport', ['id' => $student->id]) }}">
+                <form id="new-form-edit" method="POST" action="{{ route('rpt.acd.updateStudentGradeReport', ['id' => $student->id]) }}">
                     @csrf
                     @method('PUT')                 
                     <div class="form-group" style="text-align: left">
@@ -50,6 +50,7 @@
                         </a>
                     </div>
                 </form>
+                @include('assets.asst-loading-spinner')
                 @else
                 <p>No academic record found for this student.</p>
                 @endif

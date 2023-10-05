@@ -34,8 +34,6 @@
         </div>
         @include('layouts.student.footer')
     </div>
-    {{-- @include('assets.js.student.asset-js-toastr-message')
-    <script src="{{ rspr::vers('js/app.js') }}" defer></script> --}}
     @stack('js')
 </body>
 

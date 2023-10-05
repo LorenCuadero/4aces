@@ -20,12 +20,16 @@ main.py-4 .content {
 
 thead,
 th,
-#batch-year-dropdown,
-#order-by-dropdown,
-#reset-filter-btn,
-#addGradeBtn,
-#edt-dcpl-btn,
+.batch-year-dropdown,
+.batch-year-dropdown1,
+.sort-by-user-id,
+.reset-filter-btn,
+.reset-filter-btn1,
+#addStudentGradeButton,
+#edit-dcpl-btn,
 #selectToAdd,
+#addGradeBtn,
+#addStudentButton,
 #back {
     background-color: #1f3c88;
     color: #fff;
@@ -35,7 +39,7 @@ th,
     background-color: #b8deff;
 }
 
-#edt-dcpl-btn {
+#edit-dcpl-btn {
     border-radius: 16px;
 }
 
@@ -82,4 +86,37 @@ form {
     background-color: #fff; /* Set the background color for the modal content area */
     padding: 20px;
     border-radius: 5px;
+}
+
+.Input {
+    border: none;
+    width: 100px;
+}
+
+.loading-spinner-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    z-index: 9999; /* Ensure it's above other content */
+}
+
+.loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    color: #333;
+}
+
+.dropdown-menu-column {
+    flex-direction: column;
 }

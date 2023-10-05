@@ -37,6 +37,11 @@
                     style="color:#fff;height: 100%; display: flex; align-items: center;">Reset Year
                     Filter</a>
             </div>
+            <div class="nav-item dropdown show btn btn-sm" id="addStudentButton"
+                style="display: flex; align-items:center; height: 38px; margin-left: 4px;">
+                <a href=" {{ route('students.addStudentPage') }}" class="nav-link align-items-center"
+                    style="color:#fff;height: 100%; display: flex; align-items: center;">Add</a>
+            </div>
         </form>
     </div>
 </div>

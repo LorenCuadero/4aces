@@ -29,6 +29,11 @@ class AuthController extends Controller
         }
     }
 
+    public function loginPage()
+    {
+        return view('welcome');
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();

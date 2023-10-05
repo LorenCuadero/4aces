@@ -83,4 +83,5 @@
     @include('modals.staff.mdl-student-acd-rpt')
     @include('modals.staff.mdl-student-acd-rpt-add')
     {{-- <cmpt-student-acd-rpt></cmpt-student-acd-rpt> --}}
+    <cmpt-staff-add></cmpt-staff-add>
 @endsection

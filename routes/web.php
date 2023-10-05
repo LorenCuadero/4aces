@@ -2,10 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\AcademicController;
 use App\Http\Controllers\DisciplinaryController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,11 +17,12 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [AuthController::class, 'loginPage']);
 
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::prefix('/login')->group(function () {
+    Route::get('/', [AuthController::class, 'loginPage'])->name('login');
+    Route::post('/', [AuthController::class, 'login'])->name('login');
+});
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -39,6 +38,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/{id}', [StudentController::class, 'destroy'])->name('students.destroy');
     });
 
+    Route::get('/student-add', [StudentController::class, 'addStudentPage'])->name('students.addStudentPage');
+
     Route::prefix('/reports-acd')->group(function () {
         Route::get('/', [StudentController::class, 'indexAcdRpt'])->name('rpt.acd.index');
         Route::get('/{id}', [StudentController::class, 'getStudentGradeReport'])->name('rpt.acd.getStudentGradeReport');
@@ -50,6 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [StudentController::class, 'indexStudsList'])->name('rpt.dcpl.index');
         Route::get('/{id}', [DisciplinaryController::class, 'showDisciplinaryRecordsForStudent'])->name('rpt.dcpl.showDisciplinaryRecordsForStudent');
         Route::post('/', [DisciplinaryController::class, 'store'])->name('rpt.dcpl.store');
+        Route::put('/{id}', [DisciplinaryController::class, 'update'])->name('rpt.dcpl.update');
     });
 
     Route::prefix('/students-info')->group(function () {

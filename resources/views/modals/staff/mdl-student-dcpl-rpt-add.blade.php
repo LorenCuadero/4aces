@@ -3,15 +3,15 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="student-warning-modal-label">Warning for <span></span></h5>
+                <h5 class="modal-title" id="student-warning-modal-label">Warning for <input name="first_name" value="" class="Input first_name" readonly/>  <input name="last_name" value="" class="Input last_name" readonly/></h5>
                 <button type="button" class="close">
                     <span aria-hidden="true" id="closeButton"><a href="#" data-toggle="modal" data-target="#student-selection-modal">&times;</a></span>
                 </button>
             </div>
             <div class="modal-body" style="text-align: left">
-                <form id="new-form" method="POST" action="{{ route('rpt.dcpl.store') }}">
+                <form id="new-form-dcpl" method="POST" action="{{ route('rpt.dcpl.store') }}">
                     @csrf
-                    <input type="hidden" name="student_id" id="student_id" value="">
+                    <input type="hidden" name="student_id" class="student_id" value="">
                     <div class="form-group">
                         <div class="row d-flex justify-content-between">
                             <div class="col-md-3">
@@ -30,7 +30,7 @@
                             <div class="col-md-3">
                                 <label for="written-warning">Written Warning:</label>
                                 <br>
-                                <input type="date" id="written_warning_date">
+                                <input type="date" id="written_warning_date" name="written_warning_date">
                             </div>
                             <div class="col-md-8">
                                 <label for="written-warning">Description:</label>
@@ -43,7 +43,7 @@
                             <div class="col-md-3">
                                 <label for="provisionary-warning">Provisionary Warning:</label>
                                 <br>
-                                <input type="date" id="provisionary_date">
+                                <input type="date" id="provisionary_date" name="provisionary_date">
                             </div>
                             <div class="col-md-8">
                                 <label for="written-warning">Description:</label>
@@ -51,11 +51,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group" style="text-align: center; margin-top: 10px;">
-                        <button type="submit" class="btn btn-success">Save Records</button>
+                    <div class="form-group" style="text-align: center; margin-top: 10px; float:right;">
+                        <button id="saveRecordsAddStudent" type="submit" class="btn btn-success">Save Records</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
+                @include('assets.asst-loading-spinner')
             </div>
         </div>
     </div>
