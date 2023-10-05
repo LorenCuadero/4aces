@@ -14,10 +14,10 @@ class DisciplinaryController extends Controller
         return view('pages.staff-auth.reports.rpt-disciplinary.rpt-disciplinary-page', compact('studentsWithDisciplinaryRecords'));
     }
     
-    public function showDisciplinaryRecordsForStudent($id) {
-        $students = Student::find($id);
-        return view('modals.staff.mdl-student-dcpl-rpt-add', compact('students'));
-    }
+    // public function showDisciplinaryRecordsForStudent($id) {
+    //     $students = Student::find($id);
+    //     return view('modals.staff.mdl-student-dcpl-rpt-add', compact('students'));
+    // }
     
 
     public function create()
@@ -59,27 +59,29 @@ class DisciplinaryController extends Controller
         return view('disciplinary.edit', compact('disciplinary', 'students'));
     }
 
-    public function update(Request $request, Disciplinary $disciplinary)
+    public function update(Request $request, $id)
     {
+        // Find the existing disciplinary record by its ID
+        $existingRecord = Disciplinary::findOrFail($id);
+        
         $data = $request->validate([
-            'verbal_warning' => 'nullable|boolean',
             'verbal_warning_description' => 'nullable|string',
             'verbal_warning_date' => 'nullable|date',
-            'written_warning' => 'nullable|boolean',
             'written_warning_description' => 'nullable|string',
             'written_warning_date' => 'nullable|date',
-            'provisionary' => 'nullable|boolean',
             'provisionary_description' => 'nullable|string',
             'provisionary_date' => 'nullable|date',
             'student_id' => 'required|exists:students,id',
         ]);
-
-        $disciplinary->fill($data);
-        $disciplinary->save();
-
-        return redirect()->route('disciplinary.index')->with('success', 'Disciplinary record updated.');
+    
+        // Apply the validated data to the existing record
+        $existingRecord->fill($data);
+    
+        $existingRecord->save();
+    
+        return redirect()->route('rpt.dcpl.index')->with('success', 'Disciplinary record updated.');
     }
-
+    
     public function destroy(Disciplinary $disciplinary)
     {
         $disciplinary->delete();

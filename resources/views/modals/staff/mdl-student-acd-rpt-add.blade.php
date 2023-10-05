@@ -35,10 +35,14 @@
                     </div>
                     <div class="form-group">
                         <label for="gpa">GPA</label>
-                        <input type="number" name="gpa" id="gpa" class="form-control">
+                        <input type="number" placeholder="GPA will automatically be added" name="gpa" id="gpa" class="form-control" readonly>
                     </div>
                     <button type="submit" class="btn btn-primary">Add Grade</button>
+                    <a href="#" onclick="window.location.href = '{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id]) }}'; return false;" style="text-decoration: none; color: #fff;">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                    </a>
                 </form>
+                @include('assets.asst-loading-spinner')
             </div>
         </div>
     </div>
