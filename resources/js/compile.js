@@ -221,7 +221,7 @@ $(document).ready(function () {
             error: function (error) {
                 // Hide the loading spinner when there's an error
                 hideLoadingSpinner();
-
+                console.log(error);
                 // Handle errors if needed
                 toastr.error("An error occurred while submitting the form.");
             },
