@@ -122,4 +122,9 @@ return [
         ],
     ],
 
+    'channels' => [
+        'mail' => [
+            'driver' => 'mail',
+        ],
+    ],   
 ];

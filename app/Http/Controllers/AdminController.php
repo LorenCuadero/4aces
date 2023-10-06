@@ -11,9 +11,9 @@ class AdminController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function indexAdmin()
     {
-        //
+        return view('pages.admin-auth.dashboard.index');
     }
 
     /**

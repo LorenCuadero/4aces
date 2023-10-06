@@ -491,6 +491,81 @@ $(document).ready(function () {
     });
 });
 
+// $(document).ready(function () {
+//     const loadingOverlay = $(".loading-spinner-overlay");
+//     let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+//     // Function to show the loading spinner
+//     function showLoadingSpinner() {
+//         loadingOverlay.show();
+//         $("body").css("overflow", "hidden");
+//     }
+
+//     // Function to hide the loading spinner
+//     function hideLoadingSpinner() {
+//         loadingOverlay.hide();
+//         $("body").css("overflow", "auto");
+//     }
+
+//     $("#form_otp").submit(function (e) {
+//         e.preventDefault(); // Prevent the default form submission
+
+//         // Show the loading spinner when the form is submitted
+//         showLoadingSpinner();
+
+//         // Perform an AJAX form submission
+//         $.ajax({
+//             url: $(this).attr("action"), // Use the form's action attribute as the URL
+//             type: $(this).attr("method"), // Use the form's method attribute as the HTTP method
+//             data: $(this).serialize(), // Serialize the form data
+
+//             success: function (response) {
+//                 // Display a success Toastr notification if it hasn't been shown already
+//                 if (!successNotificationShown) {
+//                     toastr.success("Success!");
+//                     successNotificationShown = true; // Set the flag to true
+//                 }
+
+//                 // Optionally, you can redirect to another page after success
+//                 // window.location.href = "{{ route('your.redirect.route') }}";
+//             },
+//             error: function (error) {
+//                 // Hide the loading spinner when there's an error
+//                 hideLoadingSpinner();
+
+//                 // Handle errors if needed
+//                 toastr.error("Invalid OTP, please try again.");
+//             },
+//         });
+//     });
+// });
+
+// $(document).ready(function() {
+//     $('#login-form').submit(function() {
+//         $('#submit-btn').prop('disabled', true);
+//     });
+// });
+
+// Todo
+
+// $(document).ready(function() {
+//     let emailInputClicked = false;
+
+//     // Disable email input after it's clicked
+//     $('#email').click(function() {
+//         if (!emailInputClicked) {
+//             $(this).prop('disabled', true);
+//             emailInputClicked = true;
+//         }
+//     });
+
+//     // Enable email input when form is reset
+//     $('#login-form').on('reset', function() {
+//         $('#email').prop('disabled', false);
+//         emailInputClicked = false;
+//     });
+// });
+
 $(document).ready(function () {
     // Attach a click event handler to the "Logout" link
     $("#logout-link").on("click", function (e) {
