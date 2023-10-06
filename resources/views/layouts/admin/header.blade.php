@@ -9,7 +9,7 @@
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                 <img src=""
                     class="user-image img-circle elevation-2" alt="User Image">
-                <span class="d-none d-md-inline">{{ \Auth::user()->username }}</span>
+                {{-- <span class="d-none d-md-inline">{{ \Auth::user()->username }}</span> --}}
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <!-- User image -->
@@ -17,7 +17,7 @@
                     <img src="" class="img-circle elevation-2"
                         alt="User Image">
                     <p>
-                        {{ \Auth::user()->username }}
+                        {{-- {{ \Auth::user()->username }} --}}
                         <small>Member since August 12, 2023</small>
                     </p>
                 </li>

@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DisciplinaryController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentParentController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'loginPage']);
 
+Route::get('/verify-account', [AuthController::class, 'verifyAccount'])->name('verify_account');
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify_otp');
+
 Route::prefix('/login')->group(function () {
     Route::get('/', [AuthController::class, 'loginPage'])->name('login');
     Route::post('/', [AuthController::class, 'login'])->name('login');
@@ -26,8 +31,8 @@ Route::prefix('/login')->group(function () {
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::post('/register', [RegisterController::class, 'register'])->name('register');
-
+    Route::get('/pn-portal', [StudentParentController::class, 'indexStudent'])->name('payable.index');
+    Route::get('/dashboard', [AdminController::class, 'indexAdmin'])->name('dashboard.index');
     Route::get('/accounts', [RegisterController::class, 'accounts'])->name('admin.accounts');
 
     Route::prefix('/students')->group(function () {
@@ -58,6 +63,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [StudentController::class, 'indexStudent'])->name('students-info.index');
         Route::get('/{id}', [StudentController::class, 'getStudentInfo'])->name('students-info.getStudentInfo');
         Route::put('/{id}', [StudentController::class, 'updateStudent'])->name('students-info.updateStudent');
+    });
+
+    Route::prefix('/student-portal')->group(function () {
+        Route::get('/', [StudentParentController::class, 'index'])->name('student.parent.index');
     });
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
