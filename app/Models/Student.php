@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Academic;
+use App\Models\User;
 use App\Models\Disciplinary;
 
 class Student extends Model
@@ -36,5 +37,10 @@ class Student extends Model
     public function disciplinary()
     {
         return $this->hasMany(Disciplinary::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'email', 'email');
     }
 }

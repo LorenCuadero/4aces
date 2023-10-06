@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Academic;
 use App\Models\Disciplinary;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -60,18 +61,23 @@ class StudentController extends Controller
             'batch_year' => 'required',
             'joined' => 'required|date',
         ]);
-
+    
         // Create a new student instance with the validated data
         $student = new Student($validatedData);
-
+    
         // Save the student to the database
         $student->save();
-
+    
+        // Create a new user instance associated with the student's email
+        $user = new User();
+        $user->email = $validatedData['email'];
+        $user->save();
         session()->flash('success', 'Student added successfully.');
-
+        
         // Redirect to the students index page with a success message
         return redirect()->route('students.index')->with('success', 'New student added successfully!');
     }
+    
 
     public function updateStudent(Request $request, $id)
     {

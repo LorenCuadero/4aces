@@ -24,7 +24,7 @@ class AuthController extends Controller
 
         if (!$user) {
             // Email not found, show an error message
-            return redirect()->route('login')->with('error', 'Email not found.');
+            return redirect()->back()->with('error', 'Email not found.');
         }
 
         // Generate a random OTP
