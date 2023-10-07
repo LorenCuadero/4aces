@@ -43,7 +43,7 @@
                                             <th class="vertical-text">Student</th>
                                             <th class="vertical-text">Formal Verbal Warning</th>
                                             <th class="vertical-text">Written Warning</th>
-                                            <th class="vertical-text">Provisionary</th>
+                                            <th class="vertical-text">Probationary</th>
                                             <th class="vertical-text"></th>
                                         </tr>
                                     </thead>

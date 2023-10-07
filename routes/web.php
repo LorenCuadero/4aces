@@ -69,5 +69,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [StudentParentController::class, 'index'])->name('student.parent.index');
     });
 
+    Route::prefix('/student-reports')->group(function () {
+        Route::get('/', [StudentParentController::class, 'indexReports'])->name('student.reports.index');
+    });
+
+    Route::prefix('/student-payments')->group(function () {
+        Route::get('/', [StudentParentController::class, 'indexPayment'])->name('student.payments.index');
+    });
+
+    Route::prefix('/student-profile')->group(function () {
+        Route::get('/', [StudentParentController::class, 'indexProfile'])->name('student.profile.index');
+    });
+
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });

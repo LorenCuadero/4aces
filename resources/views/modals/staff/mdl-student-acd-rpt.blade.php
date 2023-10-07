@@ -40,7 +40,7 @@
                   
                     <div class="form-group" style="text-align: left">
                         <label for="gpa">GPA</label>
-                        <input type="number" class="form-control" id="gpa" name="gpa" value="{{ $academic->gpa }}" min="0" max="4" step="0.01"  />
+                        <input type="number" class="form-control" id="gpa" name="gpa" value="{{ $academic->gpa }}" min="0" max="4" step="0.01" readonly />
                     </div>
                   
                     <div class="form-group" style="text-align: left; float:right;">

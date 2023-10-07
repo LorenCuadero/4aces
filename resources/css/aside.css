@@ -18,8 +18,8 @@ main.py-4 .content {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-thead,
-th,
+.vertical-text,
+.table,
 .batch-year-dropdown,
 .batch-year-dropdown1,
 .sort-by-user-id,
@@ -30,7 +30,8 @@ th,
 #selectToAdd,
 #addGradeBtn,
 #addStudentButton,
-#back {
+#back,
+.user-header {
     background-color: #1f3c88;
     color: #fff;
 }
@@ -165,4 +166,17 @@ form {
 .greetings {
     padding-left: 3%;
     color: #1f3c88;
+}
+
+.table-header, .table {
+    background-color: transparent;
+    border-top: none;
+}
+
+.dcpl-records {
+    text-align: left;
+}
+
+.main-footer {
+    background-color: transparent;
 }

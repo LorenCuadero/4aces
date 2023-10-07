@@ -1,5 +1,6 @@
 import "./bootstrap";
 import "./components/staff/cmpt-staff-table-header.js";
+import "./components/student/cmpt-student-reports.js"
 
 $(document).ready(function () {
     $("#add-btn").click(function () {

@@ -20,7 +20,7 @@
                                             <th class="vertical-text">User Id</th>
                                             <th class="vertical-text">Name</th>
                                             <th class="vertical-text">Batch Year</th>
-                                            <th class="vertical-text">GPA</th>
+                                            <th class="vertical-text">GWA</th>
                                             <th class="vertical-text">Action</th>
                                         </tr>
                                     </thead>

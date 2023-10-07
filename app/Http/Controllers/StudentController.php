@@ -203,6 +203,8 @@ class StudentController extends Controller
             'gpa' => 'nullable|numeric|between:0,4',
         ]);
 
+        $gpa = ($validatedData['first_sem_1st_year'] + $validatedData['second_sem_1st_year'] + $validatedData['first_sem_2nd_year'] + $validatedData['second_sem_2nd_year']) / 4;
+
         // Find the academic record by student ID and course code
         $academic = Academic::where('student_id', $studentId)
             ->where('course_code', $validatedData['course_code'])
@@ -213,7 +215,7 @@ class StudentController extends Controller
         }
 
         // Update the academic record with the validated data
-        $academic->update($validatedData);
+        $academic->update(array_merge($validatedData, ['gpa' => $gpa]));
 
         return redirect()->back()->with('success', 'Academic record updated successfully.');
     }

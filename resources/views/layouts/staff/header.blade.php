@@ -14,12 +14,9 @@
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <!-- User image -->
                 <li class="user-header bg-primary">
-                    <img src="https://thumbs.dreamstime.com/b/icon-profile-circle-not-shadow-color-dark-blue-icon-profile-circle-not-shadow-color-dark-blue-background-194699290.jpg" class="img-circle elevation-2"
-                        alt="User Image">
-                    <p>
-                        {{ \Auth::user()->username }}
-                        <small>Member since August 12, 2023</small>
-                    </p>
+                    <img src="https://thumbs.dreamstime.com/b/icon-profile-circle-not-shadow-color-dark-blue-icon-profile-circle-not-shadow-color-dark-blue-background-194699290.jpg"
+                        class="img-circle elevation-2" alt="User Image"><br>
+                    <p>{{ \Auth::user()->email }}</p>
                 </li>
                 <!-- Menu Footer-->
                 <li class="user-footer">

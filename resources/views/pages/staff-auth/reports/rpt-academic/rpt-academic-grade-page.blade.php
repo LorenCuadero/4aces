@@ -41,7 +41,7 @@
                                         <th class="vertical-text">2nd Sem - 1st Year</th>
                                         <th class="vertical-text">1st Sem - 2nd Year</th>
                                         <th class="vertical-text">2nd Sem - 2nd Year</th>
-                                        <th class="vertical-text">GPA</th>
+                                        <th class="vertical-text">GWA</th>
                                         <th class="vertical-text">Action</th>
                                     </tr>
                                 </thead>
