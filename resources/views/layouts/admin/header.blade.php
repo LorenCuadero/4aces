@@ -7,21 +7,16 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                <img src=""
-                    class="user-image img-circle elevation-2" alt="User Image">
+                <img src="" class="user-image img-circle elevation-2" alt="User Image">
                 {{-- <span class="d-none d-md-inline">{{ \Auth::user()->username }}</span> --}}
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <!-- User image -->
-                <li class="user-header bg-primary">
-                    <img src="" class="img-circle elevation-2"
-                        alt="User Image">
-                    <p>
-                        {{-- {{ \Auth::user()->username }} --}}
-                        <small>Member since August 12, 2023</small>
-                    </p>
+                <li class="user-header">
+                    <img src="https://thumbs.dreamstime.com/b/icon-profile-circle-not-shadow-color-dark-blue-icon-profile-circle-not-shadow-color-dark-blue-background-194699290.jpg"
+                        class="img-circle elevation-2" alt="User Image"><br>
+                    <p>{{ \Auth::user()->email }}</p>
                 </li>
-                <!-- Menu Footer-->
                 <li class="user-footer">
                     <a href="#" class="btn btn-default btn-flat">{{ __('words.Profile') }}</a>
                     <a href="{{ route('logout') }}" class="btn btn-default btn-flat float-right">

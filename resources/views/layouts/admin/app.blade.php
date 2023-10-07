@@ -29,7 +29,7 @@
         @include('layouts.admin.header')
         @include('layouts.admin.aside')
 
-        <div class="content-wrapper text-center p-2">
+        <div class="content-wrapper text-center p-3">
             @yield('content')
         </div>
         @include('layouts.admin.footer')

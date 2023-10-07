@@ -3,9 +3,9 @@
 @section('content')
     <div class="container-fluid">
         <div class="" style="text-align: left">
-            <h1 style="color: #1f3c88">Payable</h1>
+            <h1 style="color: #1f3c88">Payable Records</h1>
             <br>
-            <div class="greetings">
+            <div style="color:#1f3c88">
                 <p><b>Hello, {{ $userName }}!</b></p>
                 <p>Have a nice day!</p>
             </div>
