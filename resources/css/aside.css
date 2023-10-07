@@ -120,3 +120,49 @@ form {
 .dropdown-menu-column {
     flex-direction: column;
 }
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Center items vertically */
+}
+
+.left-column {
+    flex: 1;
+}
+
+.right-column {
+    flex: 1;
+}
+
+.left-content {
+    background-color: #1f3c88;
+    border-radius: 10px;
+    padding: 10px 16px; /* Specify padding in the format: top/right/bottom/left */
+}
+
+
+.right-content {
+    padding: 10px;
+    border: 1px solid #1f3c88;
+    border-radius: 10px;
+}
+
+.divider {
+    border: 1px solid #ccc; /* Change the border properties as needed */
+    margin: 10px 0; /* Adjust margin for spacing */
+}
+
+.left-content1 {
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.text-disp {
+    margin: 0%;
+}
+
+.greetings {
+    padding-left: 3%;
+    color: #1f3c88;
+}
