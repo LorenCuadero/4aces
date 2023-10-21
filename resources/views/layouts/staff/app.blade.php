@@ -18,6 +18,7 @@
         @include('layouts.staff.loading')
         @include('layouts.staff.header')
         @include('layouts.staff.aside')
+        @include('modals.mdl-logout-confirmation')
 
         <div class="content-wrapper text-center p-3">
             @yield('content')

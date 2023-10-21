@@ -14,6 +14,11 @@ class StudentParentController extends Controller {
     public function indexStudent() {
         $user = Auth::user();
         $userName = '';
+        $gradeReports = null; // Initialize gradeReports as null
+        $userFname = null;
+        $userMname = null;
+        $userLname = null;
+        $gradeFirstSemFirstYear = null;
 
         if ( $user->role == 0 ) {
             // Retrieve the student's name based on the email using the relationship
@@ -36,6 +41,14 @@ class StudentParentController extends Controller {
         $userFname = null;
         $userMname = null;
         $userLname = null;
+        $userFname = null;
+        $userMname = null;
+        $userLname = null;
+        $disciplinaryRecords = null;
+        $totalGPA = null;
+        $userJoinedYear = null;
+        $userJoinedYearInt = null;
+        $userJoinedEffectiveYear = null;
 
         if ($user->role == 0) {
             $student = $user->student;
@@ -51,24 +64,16 @@ class StudentParentController extends Controller {
                 $userJoinedYear = $userJoined->year;
                 $userJoinedYearInt = (int) $userJoinedYear; // Convert to an integer
                 $userJoinedEffectiveYear = $userJoinedYearInt + 2;
-                $gradeFirstSemFirstYear = $student->first_sem_1st_year;
-                $gradeFirstSemSecondYear = $student->first_sem_2nd_year;
-                $gradeSecondSemFirstYear = $student->second_sem_1st_year;
-                $gradeSecondSemSecondYear = $student->second_sem_2nd_year;
                 $totalGPA = $gradeReports->sum('gpa');
             } else {
                 $userName = $user->name;
             }
 
             return view('pages.student-parent-auth.reports.index', compact(
-                'gradeReports', 
-                'userFname', 
-                'userLname', 
-                'userMname', 
-                'gradeFirstSemFirstYear',
-                'gradeFirstSemSecondYear',
-                'gradeSecondSemFirstYear',
-                'gradeSecondSemSecondYear',
+                'gradeReports',
+                'userFname',
+                'userLname',
+                'userMname',
                 'disciplinaryRecords',
                 'totalGPA',
                 'userJoinedYearInt',
@@ -100,11 +105,11 @@ class StudentParentController extends Controller {
     {
         $user = Auth::user();
         $userData = null;
-    
+
         if ($user->role == 0) {
             // Retrieve the student's information based on the email using the relationship
             $student = $user->student;
-    
+
             if ($student) {
                 // Create an array with the student's information
                 $userData = [
@@ -125,9 +130,9 @@ class StudentParentController extends Controller {
         } else {
             $userData = $user->first_name;
         }
-    
+
         return view('pages.student-parent-auth.profile.index', compact('userData'));
     }
-    
+
 
 }

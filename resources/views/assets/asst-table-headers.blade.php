@@ -1,9 +1,11 @@
 <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
+    <p class="card-title mb-3 mb-md-0" style="color:#1f3c88; padding-left:0%; font-size: 22px"><b>Academic Reports</b>
+    </p>
     <div class="d-flex flex-wrap align-items-center ml-auto">
         <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0" style="display: flex; align-items: center;">
             <div style="display: flex; align-items: center; height: 38px;">
-                <input class="form-control mr-sm-1 searchInput" type="search" placeholder="Search record here"
-                    aria-label="Search" style="height: 100%; width: 200px;">
+                {{-- <input class="form-control mr-sm-1 searchInput" type="search" placeholder="Search record here"
+                    aria-label="Search" style="height: 100%; width: 200px;"> --}}
             </div>
             <div class="nav-item dropdown show btn btn-sm batch-year-dropdown"
                 style="display: flex; align-items:center; height: 38px;">

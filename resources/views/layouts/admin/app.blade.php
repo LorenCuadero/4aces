@@ -28,6 +28,7 @@
         @include('layouts.admin.loading')
         @include('layouts.admin.header')
         @include('layouts.admin.aside')
+        @include('modals.mdl-logout-confirmation')
 
         <div class="content-wrapper text-center p-3">
             @yield('content')

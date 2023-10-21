@@ -1,12 +1,6 @@
 @extends('layouts.staff.app')
 @section('content')
     <section class="content">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="card-title mb-3 mb-md-0" style="color:#1f3c88; padding: 2%; padding-left:0%"><b>Academic Reports</b>
-                    </h2>
-            </div>
-        </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12" id="table">
@@ -14,7 +8,7 @@
                         @include('assets.asst-table-headers')
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="example2" class="table table-bordered table-hover">
+                                <table id="example2" class="table table-bordered table-hover data-table text-center">
                                     <thead>
                                         <tr>
                                             <th class="vertical-text">User Id</th>

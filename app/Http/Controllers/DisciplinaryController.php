@@ -13,12 +13,12 @@ class DisciplinaryController extends Controller
         $studentsWithDisciplinaryRecords = Student::has('disciplinary')->get();
         return view('pages.staff-auth.reports.rpt-disciplinary.rpt-disciplinary-page', compact('studentsWithDisciplinaryRecords'));
     }
-    
+
     // public function showDisciplinaryRecordsForStudent($id) {
     //     $students = Student::find($id);
     //     return view('modals.staff.mdl-student-dcpl-rpt-add', compact('students'));
     // }
-    
+
 
     public function create()
     {
@@ -39,14 +39,14 @@ class DisciplinaryController extends Controller
         ]);
 
         $disciplinary = new Disciplinary($data);
-    
-        // Associate the disciplinary record with the student
+
+// Associate the disciplinary record with the student
         $student = Student::find($data['student_id']);
         $student->disciplinary()->save($disciplinary);
-    
+
         return redirect()->route('rpt.dcpl.index')->with('success', 'Disciplinary record created.');
     }
-    
+
 
     public function show(Disciplinary $disciplinary)
     {
@@ -63,7 +63,7 @@ class DisciplinaryController extends Controller
     {
         // Find the existing disciplinary record by its ID
         $existingRecord = Disciplinary::findOrFail($id);
-        
+
         $data = $request->validate([
             'verbal_warning_description' => 'nullable|string',
             'verbal_warning_date' => 'nullable|date',
@@ -73,15 +73,15 @@ class DisciplinaryController extends Controller
             'provisionary_date' => 'nullable|date',
             'student_id' => 'required|exists:students,id',
         ]);
-    
+
         // Apply the validated data to the existing record
         $existingRecord->fill($data);
-    
+
         $existingRecord->save();
-    
+
         return redirect()->route('rpt.dcpl.index')->with('success', 'Disciplinary record updated.');
     }
-    
+
     public function destroy(Disciplinary $disciplinary)
     {
         $disciplinary->delete();

@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <div class="right-column" style="text-align: center">
-                        <div class="right-content">
+                        <div class="right-content" style="border: none">
                             <h1>Total no of Payment</h1>
                         </div>
                     </div>
@@ -30,8 +30,8 @@
         </div>
         <br>
         <div class="flex-container align-middle" style="background-color: none;">
-            <div class="left-column">
-                <div class="left-content1" style="background-color: none;">
+            <div class="right-column">
+                <div class="right-content" style="border: none">
                     <p>PAID COUNTERPART</p>
                     <div class="flex-container"
                         style="font-size: 13px; display: flex; align-items: center; text-align: center;">
@@ -148,8 +148,8 @@
                     </div>
                 </div>
             </div>
-            <div class="left-column"> <!-- Add a new left-column -->
-                <div class="left-content" style="background-color: transparent;">
+            <div class="right-column">
+                <div class="right-content" style="border: none">
                     <p>PAID PERSONAL CA</p>
                     <div class="flex-container"
                         style="font-size: 13px; display: flex; align-items: center; text-align: center;">
@@ -207,7 +207,7 @@
                     </div>
                 </div>
             </div>
-            <div class="right-column"> <!-- Add a new right-column -->
+            <div class="right-column">
                 <div class="right-content" style="border: none">
                     <p>PAID GRADUATION FEE</p>
                     <div class="flex-container"

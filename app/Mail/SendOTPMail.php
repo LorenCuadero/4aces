@@ -17,16 +17,18 @@ class SendOTPMail extends Mailable
      */
 
     public $otp;
+    public $email;
 
-    public function __construct($otp)
+    public function __construct($otp, $email)
     {
         $this->otp = $otp;
+        $this->email = $email;
     }
 
     /**
      * Get the message envelope.
      */
-    
+
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -40,7 +42,7 @@ class SendOTPMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'student',
+            view: 'message',
         );
     }
 

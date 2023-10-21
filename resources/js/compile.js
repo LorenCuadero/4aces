@@ -213,7 +213,7 @@ $(document).ready(function () {
                     returnToIndex();
                     toastr.success("Student information added successfully!");
                     successNotificationShown = true; // Set the flag to true
-                    
+
                 }
 
                 // Optionally, you can redirect to another page after success
@@ -317,8 +317,8 @@ $(document).ready(function () {
         const verbalWarningDesc = button.data("verbal-warning-desc");
         const writtenWarningDate = button.data("written-warning-date");
         const writtenWarningDesc = button.data("written-warning-desc");
-        const provisionaryDate = button.data("provisionary-date");
-        const provisionaryDesc = button.data("provisionary-desc");
+        const provisionaryDate = button.data("provisionary-warning-date");
+        const provisionaryDesc = button.data("provisionary-warning-desc");
         const studentUrl = button.data("student-url");
         const studentLName = button.data("student-lname");
         const studentFName = button.data("student-fname");
@@ -355,7 +355,7 @@ $(document).ready(function () {
             const studentUrl = form.data("student-url");
             const studentId = $("#student_id").val();
             const studentRoute = form.data("student-route");
-            
+
             // Show the loading spinner when the form is submitted
             showLoadingSpinner();
 
@@ -568,16 +568,22 @@ $(document).ready(function () {
 // });
 
 $(document).ready(function () {
-    // Attach a click event handler to the "Logout" link
-    $("#logout-link").on("click", function (e) {
-        e.preventDefault(); // Prevent the default link behavior
-
-        // Display a confirmation dialog using the built-in `confirm` function
-        const confirmed = confirm("Are you sure you want to logout?");
-
-        if (confirmed) {
-            // If the user confirms, proceed with the logout action
-            window.location.href = "/logout";
-        }
+    $(".logout-link").on("click", function (e) {
+        $("#logoutModal").modal("show");
     });
+});
+
+$(document).ready(function () {
+    if ($(".data-table tbody tr").length > 0) {
+        $(".data-table").DataTable({
+            "paging": true,
+            "paging": true,
+            "pageLength": 5,
+            "searching": true,
+            "ordering": false,
+            "lengthChange": false,
+        });
+    } else {
+        $(".data-table").html("<p>No data available.</p>");
+    }
 });

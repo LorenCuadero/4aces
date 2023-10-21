@@ -13,7 +13,7 @@
                 <div class="flex-container align-middle">
                     <div class="left-column">
                         <div class="left-content" style="background-color: #1f3c88;">
-                            <p class="text-disp">Total Due</p>
+                            <p class="text-disp">Total Amount UNPaid</p>
                             <p class="text-disp">Counterpart: ₱ 11,500.00</p>
                             <p class="text-disp">Medical (15%): ₱ 1,000.00</p>
                             <p class="text-disp">Personal cash advance: ₱ 1,000.00</p>
@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <div class="right-column" style="text-align: center">
-                        <div class="right-content">
+                        <div class="right-content" style="border: none">
                             <h1>Total no of Payable</h1>
                         </div>
                     </div>
@@ -30,10 +30,10 @@
         </div>
         <br>
         <div class="flex-container align-middle" style="background-color: none;">
-            <div class="left-column">
-                <div class="left-content1" style="background-color: none;">
+            <div class="right-column">
+                <div class="right-content" style="border: none">
                     <p>UNPAID COUNTERPART</p>
-                    <div class="flex-container"
+                    <div class="flex-container d-flex"
                         style="font-size: 13px; display: flex; align-items: center; text-align: center;">
                         <div class="left-column" style="display: flex; align-items: center;">
                             <div class="left-content1">
@@ -54,7 +54,7 @@
                     <div class="left-column" style="background-color: none;">
                         <div class="left-content1">
                             <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
-                                <!-- Content for "Unpaid Counterpart" -->
+                                <!-- Content for "UNpaid Counterpart" -->
                                 <div class="flex-container align-middle"
                                     style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
                                     <div class="left-column" style="padding: 2%;">
@@ -113,7 +113,7 @@
                     <div class="left-column" style="background-color: none;">
                         <div class="left-content1">
                             <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
-                                <!-- Content for "Unpaid Counterpart" -->
+                                <!-- Content for "UNpaid Counterpart" -->
                                 <div class="flex-container align-middle"
                                     style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
                                     <div class="left-column" style="padding: 2%;">
@@ -148,8 +148,8 @@
                     </div>
                 </div>
             </div>
-            <div class="left-column"> <!-- Add a new left-column -->
-                <div class="left-content" style="background-color: transparent;">
+            <div class="right-column">
+                <div class="right-content" style="border: none">
                     <p>UNPAID PERSONAL CA</p>
                     <div class="flex-container"
                         style="font-size: 13px; display: flex; align-items: center; text-align: center;">
@@ -172,7 +172,7 @@
                     <div class="left-column" style="background-color: none;">
                         <div class="left-content1">
                             <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
-                                <!-- Content for "Unpaid Counterpart" -->
+                                <!-- Content for "UNpaid Counterpart" -->
                                 <div class="flex-container align-middle"
                                     style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
                                     <div class="left-column" style="padding: 2%;">
@@ -207,7 +207,7 @@
                     </div>
                 </div>
             </div>
-            <div class="right-column"> <!-- Add a new right-column -->
+            <div class="right-column">
                 <div class="right-content" style="border: none">
                     <p>UNPAID GRADUATION FEE</p>
                     <div class="flex-container"
@@ -231,7 +231,7 @@
                     <div class="left-column" style="background-color: none;">
                         <div class="left-content1">
                             <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
-                                <!-- Content for "Unpaid Counterpart" -->
+                                <!-- Content for "UNpaid Counterpart" -->
                                 <div class="flex-container align-middle"
                                     style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
                                     <div class="left-column" style="padding: 2%;">

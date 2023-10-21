@@ -10,42 +10,49 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-home"></i>
-                        <p>{{ __('Dashboard') }}</p>
+                        <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-briefcase"></i>
-                        <p>{{ __('Records') }}</p>
+                        <p>Records</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#"
                         class="nav-link">
                         <i class="fas fa-user-tie nav-icon"></i>
-                        <p>{{ __('Email') }}</p>
+                        <p>Email</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#"
                         class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
-                        <p>{{ __('COA') }}</p>
+                        <p>COA</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.accounts') }}" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
-                        <p>{{ __('Accounts') }}</p>
+                        <p>Accounts</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#"
                         class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
-                        <p>{{ __('Logs') }}</p>
+                        <p>Logs</p>
                     </a>
-                </li>                
+                </li>
+                <li class="nav-item">
+                    <a href="#"
+                        class="nav-link logout-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>Logout</p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>

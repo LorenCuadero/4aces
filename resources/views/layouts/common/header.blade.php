@@ -24,7 +24,7 @@
                 <!-- Menu Footer-->
                 <li class="user-footer">
                     <a href="#" class="btn btn-default btn-flat">{{ __('words.Profile') }}</a>
-                    <a href="{{ route('logout') }}" class="btn btn-default btn-flat float-right">
+                    <a href="#" class="btn btn-default btn-flat float-right">
                         {{ __('words.SignOut') }}
                     </a>
                 </li>

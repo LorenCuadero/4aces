@@ -1,19 +1,15 @@
 @extends('layouts.staff.app')
 @section('content')
     <section class="content">
-        <div class="row mb-3">
-            <div class="col-md-12">
-                <h1 class="card-title mb-3 mb-md-0" style="color:#1f3c88;">
-                    <b>{{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}</b>
-                </h1>
-                <br>
-                <span class="text-muted" style="float: left">Student</span>
-            </div>
-        </div>
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
+                        <h1 class="card-title mb-3 mb-md-0" style="color:#1f3c88;">
+                            <b>Grades of:</b>
+                            {{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
+                        </h1>
+                        <br>
                         <div class="d-flex flex-wrap align-items-center ml-auto">
                             <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0">
                                 <div class="nav-item btn btn-sm" id="addGradeBtn"
@@ -56,15 +52,15 @@
                                             <td>{{ $academic->second_sem_2nd_year }}</td>
                                             <td>{{ $academic->gpa }}</td>
                                             <td>
-                                                <a href="#" class="edit-grade-btn btn btn-sm" 
-                                                data-academic-id="{{ $academic->id }}"
-                                                data-academic-course_code="{{ $academic->course_code }}"
-                                                data-academic-first_sem_1st_year="{{ $academic->first_sem_1st_year }}"
-                                                data-academic-second_sem_1st_year="{{ $academic->second_sem_1st_year }}"
-                                                data-academic-first_sem_2nd_year="{{ $academic->first_sem_2nd_year }}"
-                                                data-academic-second_sem_2nd_year="{{ $academic->second_sem_2nd_year }}"
-                                                data-academic-gpa="{{ $academic->gpa }}">EDIT</a>
-                                             
+                                                <a href="#" class="edit-grade-btn btn btn-sm"
+                                                    data-academic-id="{{ $academic->id }}"
+                                                    data-academic-course_code="{{ $academic->course_code }}"
+                                                    data-academic-first_sem_1st_year="{{ $academic->first_sem_1st_year }}"
+                                                    data-academic-second_sem_1st_year="{{ $academic->second_sem_1st_year }}"
+                                                    data-academic-first_sem_2nd_year="{{ $academic->first_sem_2nd_year }}"
+                                                    data-academic-second_sem_2nd_year="{{ $academic->second_sem_2nd_year }}"
+                                                    data-academic-gpa="{{ $academic->gpa }}">EDIT</a>
+
                                             </td>
                                         </tr>
                                     @empty
