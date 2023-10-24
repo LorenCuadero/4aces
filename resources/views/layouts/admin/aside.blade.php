@@ -20,7 +20,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#"
+                    <a href="{{ route('admin.email') }}"
                         class="nav-link">
                         <i class="fas fa-user-tie nav-icon"></i>
                         <p>Email</p>

@@ -81,5 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [StudentParentController::class, 'indexProfile'])->name('student.profile.index');
     });
 
+    Route::get('/email', [AdminController::class, 'email'])->name('admin.email');
+
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });

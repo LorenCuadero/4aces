@@ -587,3 +587,41 @@ $(document).ready(function () {
         $(".data-table").html("<p>No data available.</p>");
     }
 });
+
+$(document).ready(function() {
+    // Dynamically generate year options
+    var currentYear = new Date().getFullYear();
+    for (var i = currentYear; i >= currentYear - 5; i--) {
+        $("#yearDropdown").append($('<option>', {
+            value: i,
+            text: i
+        }));
+    }
+
+    // Function to update the message
+    function updateMessage() {
+        var selectedMonth = $("#monthDropdown option:selected").text();
+        var selectedYear = $("#yearDropdown").val();
+
+        var message = "Hi (Name),\n\n";
+        message += "I hope this email finds you well.\n\n";
+        message += "We would like to take this opportunity to remind you of your outstanding Parents' Counterpart Balances as of " + selectedMonth + ", " + selectedYear + ". We understand that your families may be facing financial difficulties, but we would like to remind you that your Scholarship Contract states that your parents/guardians agreed to support your counterpart with $500 per month.\n\n";
+        message += "Here's your account statement; please settle your balances regularly so that it won't be burdensome for you to pay prior to graduation.\n\n";
+        message += "Parents Counterpart as of " + selectedMonth + ", " + selectedYear + ": 7,000.00 PHP\n";
+        message += "Remaining Debt from Medical Fees: 0.00 PHP\n";
+        message += "Other Payable: 0.00 PHP\n\n";
+        message += "To see all your records, click this link: www.link.passerelles.org\n\n";
+        message += "Thank you so much!";
+
+        // Update the message textarea
+        $("#messageTextarea").val(message);
+    }
+
+    // When a month or year is selected
+    $("#monthDropdown, #yearDropdown").on("change", function() {
+        updateMessage();
+    });
+
+    // Trigger the initial update
+    updateMessage();
+});
