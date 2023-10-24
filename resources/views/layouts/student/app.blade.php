@@ -28,6 +28,7 @@
         @include('layouts.student.loading')
         @include('layouts.student.header')
         @include('layouts.student.aside')
+        @include('modals.mdl-logout-confirmation')
 
         <div class="content-wrapper text-center p-3">
             @yield('content')

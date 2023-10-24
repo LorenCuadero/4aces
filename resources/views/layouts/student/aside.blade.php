@@ -32,7 +32,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('logout') }}" id="logout-link" class="nav-link">
+                    <a href="#" class="nav-link logout-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>Logout</p>
                     </a>

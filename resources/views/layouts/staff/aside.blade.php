@@ -16,7 +16,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="report-dropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">    
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="nav-icon fas fa-briefcase"></i><p>Reports</p>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="report-dropdown">
@@ -25,12 +25,12 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('logout') }}" id="logout-link" class="nav-link">
+                    <a href="#" class="nav-link logout-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>Logout</p>
                     </a>
                 </li>
-                
+
             </ul>
         </nav>
     </div>
