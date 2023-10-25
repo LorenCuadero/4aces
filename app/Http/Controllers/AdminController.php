@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
 use App\Http\Controllers\Controller;
+use App\Mail\SendClosingOfAccountsEmail;
+use App\Mail\SendEmailPayable;
+use App\Models\Admin;
 use App\Models\Student;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -29,10 +33,57 @@ class AdminController extends Controller
             }
         }
 
-        return view ('pages.admin-auth.email.index', [
+        return view('pages.admin-auth.email.index', [
             'students' => $students,
             'batchYears' => $batchYears,
         ]);
+    }
+
+    public function sendEmail(Request $request)
+    {
+        $students = Student::where('batch_year', $request->selectedBatchYear)->get();
+        $month = $request->month;
+        $year = $request->year;
+
+        foreach ($students as $student) {
+            $student_name = $student->first_name . ' ' . $student->last_name;
+            Mail::to($student->email)->send(new SendEmailPayable($student_name, $month, $year));
+        }
+
+        return redirect()->back()->with('success', 'Emails sent successfully');
+    }
+
+    public function coa() 
+    {
+        $students = Student::all();
+
+        $batchYears = [];
+
+        foreach ($students as $student) {
+            if (!in_array($student->batch_year, $batchYears)) {
+                $batchYears[] = $student->batch_year;
+            }
+        }
+
+        return view('pages.admin-auth.coa.index', [
+            'students' => $students,
+            'batchYears' => $batchYears,
+        ]);
+    }
+
+    public function sendCOA(Request $request)
+    {
+        $students = Student::where('batch_year', $request->selectedBatchYear)->get();
+        $graduation_date_value = $request->graduation_date;
+        $datetime = new DateTime($graduation_date_value);
+        $graduation_date = $datetime->format('F d, Y');
+
+        foreach ($students as $student) {
+            $student_name = $student->first_name . ' ' . $student->last_name;
+            Mail::to($student->email)->send(new SendClosingOfAccountsEmail($student_name, $graduation_date));
+        }
+
+        return redirect()->back()->with('success', 'Emails sent successfully');
     }
 
     public function index()

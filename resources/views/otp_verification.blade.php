@@ -25,7 +25,7 @@
                                 <input type="number" id="otp" name="otp" class="form-control"
                                     placeholder="Enter token here">
                             </div>
-                            <button type="submit" class="btn bt-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                         @include('assets.asst-loading-spinner')
                     </div>

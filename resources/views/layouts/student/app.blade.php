@@ -29,7 +29,7 @@
         @include('layouts.student.header')
         @include('layouts.student.aside')
         @include('modals.mdl-logout-confirmation')
-
+        @include('assets.ass-loading-spinner-blade')
         <div class="content-wrapper text-center p-3">
             @yield('content')
         </div>

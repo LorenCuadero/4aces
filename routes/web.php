@@ -81,7 +81,20 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [StudentParentController::class, 'indexProfile'])->name('student.profile.index');
     });
 
-    Route::get('/email', [AdminController::class, 'email'])->name('admin.email');
+    Route::prefix('/email')->group(function () {
+        Route::get('/', [AdminController::class, 'email'])->name('admin.email');
+        Route::post('/', [AdminController::class, 'sendEmail'])->name('admin.sendEmail');
+    });
+
+    Route::prefix('/email')->group(function () {
+        Route::get('/', [AdminController::class, 'email'])->name('admin.email');
+        Route::post('/', [AdminController::class, 'sendEmail'])->name('admin.sendEmail');
+    });
+
+    Route::prefix('/closing-of-accounts-letter')->group(function () {
+        Route::get('/', [AdminController::class, 'coa'])->name('admin.coa');
+        Route::post('/', [AdminController::class, 'sendCoa'])->name('admin.sendCoa');
+    });
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
