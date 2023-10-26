@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CounterpartController;
 use App\Http\Controllers\DisciplinaryController;
+use App\Http\Controllers\MedicalShareController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentParentController;
 use App\Http\Controllers\AdminController;
@@ -94,6 +96,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('/closing-of-accounts-letter')->group(function () {
         Route::get('/', [AdminController::class, 'coa'])->name('admin.coa');
         Route::post('/', [AdminController::class, 'sendCoa'])->name('admin.sendCoa');
+    });
+
+    Route::prefix('/counterpart-records')->group(function () {
+        Route::get('/', [CounterpartController::class, 'counterpartRecords'])->name('admin.counterpartRecords');
+        Route::get('/{id}', [CounterpartController::class, 'studentPageCounterpartRecords'])->name('admin.studentPageCounterpartRecords');
+        Route::post('/{id}', [CounterpartController::class, 'storeCounterpart'])->name('admin.storeCounterpart');
+    });
+
+    Route::prefix('/medical-share-records')->group(function () {
+        Route::get('/', [MedicalShareController::class, 'medicalShare'])->name('admin.medicalShare');
     });
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

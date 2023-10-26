@@ -1,6 +1,6 @@
-<div class="modal fade" id="student-selection-modal" tabindex="-1" role="dialog"
+<div class="modal fade" id="student-selection-medical-share-modal" tabindex="-1" role="dialog"
     aria-labelledby="student-selection-modal-label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog custom-modal-width" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="student-selection-modal-label">Select Student</h5>
@@ -12,17 +12,17 @@
                     <div class="row" d-flex>
                         <div class="col-12" id="table">
                             <div class="card">
-                                @include('assets.asst-table-headers-no-order-by')
+                                {{-- @include('assets.asst-table-headers-no-order-by') --}}
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <form>
-                                            <table id="selection" class="table table-bordered table-hover">
+                                            <table id="selection" class="table table-bordered table-hover data-table text-center">
                                                 <thead>
                                                     <tr>
                                                         <th class="vertical-text">User Id</th>
                                                         <th class="vertical-text">Name</th>
                                                         <th class="vertical-text">Batch Year</th>
-                                                        <th class="vertical-text">Action</th>
+                                                        <th class="vertical-text"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-body1">
@@ -33,13 +33,11 @@
                                                             </td>
                                                             <td>Batch {{ $student->batch_year }}</td>
                                                             <td> <a id="selectToAddDisciplinary"
-                                                                    href="{{ route('rpt.dcpl.showDisciplinaryRecordsForStudent', ['id', $student->id]) }}"
-                                                                    data-toggle="modal"
-                                                                    data-target="#add-student-dcpl-modal"
+                                                                    href="{{ route('admin.studentPageCounterpartRecords', ['id' => $student->id]) }}"
                                                                     data-student-id="{{ $student->id }}"
                                                                     data-student-fname="{{ $student->first_name }}"
                                                                     data-student-lname="{{ $student->last_name }}"
-                                                                    class="select-student-link">Select</a>
+                                                                    class="select-student-link-counterpart">Select</a>
                                                             </td>
                                                         </tr>
                                                     @empty
@@ -51,6 +49,7 @@
                                                 </tbody>
                                             </table>
                                         </form>
+                                        @include('assets.asst-loading-spinner')
                                     </div>
                                 </div>
                             </div>

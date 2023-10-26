@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\SendClosingOfAccountsEmail;
 use App\Mail\SendEmailPayable;
 use App\Models\Admin;
+use App\Models\Counterpart;
 use App\Models\Student;
 use DateTime;
 use Illuminate\Http\Request;
@@ -53,7 +54,7 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Emails sent successfully');
     }
 
-    public function coa() 
+    public function coa()
     {
         $students = Student::all();
 

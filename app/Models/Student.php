@@ -43,4 +43,14 @@ class Student extends Model
     {
         return $this->belongsTo(User::class, 'email', 'email');
     }
+
+    public function counterpart()
+    {
+        return $this->hasMany(Counterpart::class);
+    }
+
+    public function medicalShare()
+    {
+        return $this->hasMany(MedicalShare::class);
+    }
 }

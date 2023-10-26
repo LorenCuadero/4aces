@@ -585,7 +585,7 @@ $(document).ready(function () {
             pageLength: 5,
             searching: true,
             ordering: false,
-            lengthChange: false,
+            lengthChange: true,
         });
     } else {
         $(".data-table").html("<p>No data available.</p>");
