@@ -131,7 +131,7 @@ $(document).ready(function () {
     // Access the data passed from the Blade view
     var counterpartPercentage = counterpartPercentage;
     var medicalSharePercentage = medicalSharePercentage;
-    var personalCAPercentage = personalCashAdvancePercentage;
+    var personalCashAdvancePercentage = personalCashAdvancePercentage;
     var graduationFeePercentage = graduationFeePercentage;
 
     // Define your chart data and options
@@ -169,7 +169,7 @@ $(document).ready(function () {
                 pointStrokeColor: '#7EB1ED',
                 pointHighlightFill: '#fff',
                 pointHighlightStroke: 'rgba(60,141,188,1)',
-                data: [counterpartPercentage, 59, 80, 81, 56, 55, 40, 12, 12, 0, 45, 63] // Use your data here
+                data: [personalCashAdvancePercentage, 59, 80, 81, 56, 55, 40, 12, 12, 0, 45, 63] // Use your data here
             },
             {
                 label: 'Graduation Fee Percentage',
@@ -177,7 +177,7 @@ $(document).ready(function () {
                 borderColor: 'rgba(60,141,188,0.8)',
                 pointRadius: false,
                 pointColor: '#3b8bba',
-                pointStrokeColor: '#FFB13D',
+                pointStrokeColor: 'rgba(60,141,188,1)',
                 pointHighlightFill: '#fff',
                 pointHighlightStroke: 'rgba(60,141,188,1)',
                 data: [graduationFeePercentage, 59, 80, 81, 56, 55, 40, 12, 12, 0, 45, 63] // Use your data here
@@ -205,9 +205,9 @@ $(document).ready(function () {
         }
     };
 
-    // Create the combined chart using the data and options
-    var combinedChartCanvas = $('#combinedChart')[0].getContext('2d');
-    new Chart(combinedChartCanvas, {
+    // Create the bar chart using the data and options
+    var barChartCanvas = $('#barChart')[0].getContext('2d');
+    new Chart(barChartCanvas, {
         type: 'bar',
         data: barChartData,
         options: barChartOptions

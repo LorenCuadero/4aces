@@ -95,7 +95,7 @@
                                             <div class=""></div>
                                         </div>
                                     </div>
-                                    <canvas id="combinedChart"
+                                    <canvas id="barChart"
                                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 514px;"
                                         width="606" height="294" class="chartjs-render-monitor"></canvas>
                                 </div>
