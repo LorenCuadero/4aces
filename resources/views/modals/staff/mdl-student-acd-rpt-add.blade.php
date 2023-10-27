@@ -35,7 +35,7 @@
                     </div>
                     <div class="form-group">
                         <label for="gpa">GPA</label>
-                        <input type="number" placeholder="GPA will automatically be added" name="gpa" id="gpa" class="form-control" readonly>
+                        <input type="number" placeholder="GPA will automatically be calculated" name="gpa" id="gpa" class="form-control" readonly>
                     </div>
                     <button type="submit" class="btn btn-primary">Add Grade</button>
                     <a href="#" onclick="window.location.href = '{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id]) }}'; return false;" style="text-decoration: none; color: #fff;">

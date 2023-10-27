@@ -111,7 +111,6 @@ class CounterpartController extends Controller
         $counterpart->amount_paid = $validatedData['amount_paid'];
         $counterpart->date = $validatedData['date'];
         $counterpart->student_id = $id;
-
         $counterpart->save();
 
         return back()->with('success', 'Counterpart record added!', compact('counterpart'));

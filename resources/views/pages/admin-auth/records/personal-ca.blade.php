@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-12" id="table">
                     <div class="card">
-                        @include('assets.asst-table-headers-with-add-ms-records')
+                        @include('assets.asst-table-headers-with-add-pca-records')
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="example2" class="table table-bordered table-hover data-table text-center">
@@ -13,13 +13,13 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Batch Year</th>
-                                            <th>Total Share Due</th>
-                                            <th>Total Share Paid</th>
+                                            <th>Total Amount Due</th>
+                                            <th>Total Amount Paid</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-body">
-                                        @forelse ($student_ms_records as $student)
+                                        @forelse ($student_pca_records as $student)
                                             <tr>
                                                 <td>
                                                     {{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
@@ -64,5 +64,5 @@
             </div>
         </div>
     </section>
-    @include('modals.admin.mdl-student-selection-for-medical')
+    @include('modals.admin.mdl-student-selection-for-personal-ca')
 @endsection

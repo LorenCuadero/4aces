@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class GraduationFee extends Model
 {
     use HasFactory;
+
+    public $fillable = [
+        'student_id',
+        'amount_due',
+        'amount_paid',
+        'date',
+    ];
 }

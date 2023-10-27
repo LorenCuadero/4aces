@@ -1,4 +1,4 @@
-<div class="modal fade" id="add-student-counterpart-modal" tabindex="-1" role="dialog"
+<div class="modal fade" id="add-student-graduation-fee-modal" tabindex="-1" role="dialog"
     aria-labelledby="add-student-modal-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -10,26 +10,9 @@
             </div>
             <div class="modal-body" style="text-align: left">
                 <form id="new-form" method="POST"
-                    action="{{ route('admin.storeCounterpart', ['id' => $student->id]) }}">
+                    action="{{ route('admin.storeGraduationFee', ['id' => $student->id]) }}">
                     @csrf
                     <input type="hidden" name="student_id" value="{{ $student->id }}">
-                    <div class="form-group">
-                        <label for="course_code">Month</label>
-                        <select name="month" id="month" class="form-control" required>
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                        </select>
-                    </div>
                     <div class="form-group">
                         <label for="amount_due">Amount Due</label>
                         <input type="number" name="amount_due" id="amount_due" class="form-control">

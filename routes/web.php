@@ -4,7 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CounterpartController;
 use App\Http\Controllers\DisciplinaryController;
+use App\Http\Controllers\GraduationFeeController;
 use App\Http\Controllers\MedicalShareController;
+use App\Http\Controllers\PersonalCashAdvanceController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentParentController;
 use App\Http\Controllers\AdminController;
@@ -106,7 +108,22 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('/medical-share-records')->group(function () {
         Route::get('/', [MedicalShareController::class, 'medicalShare'])->name('admin.medicalShare');
+        Route::get('/{id}', [MedicalShareController::class, 'studentMedicalShareRecords'])->name('admin.studentMedicalShareRecords');
+        Route::post('/{id}', [MedicalShareController::class, 'storeMedicalShare'])->name('admin.storeMedicalShare');
     });
+
+    Route::prefix('/personal-cash-advance-records')->group(function () {
+        Route::get('/', [PersonalCashAdvanceController::class, 'personalCA'])->name('admin.personalCA');
+        Route::get('/{id}', [PersonalCashAdvanceController::class, 'studentPersonalCARecords'])->name('admin.studentPersonalCARecords');
+        Route::post('/{id}', [PersonalCashAdvanceController::class, 'storePersonalCA'])->name('admin.storePersonalCA');
+    });
+
+    
+    Route::prefix('/graduation-fees-records')->group(function () {
+        Route::get('/', [GraduationFeeController::class, 'graduationFees'])->name('admin.graduationFees');
+        Route::get('/{id}', [GraduationFeeController::class, 'studentGraduationFeeRecords'])->name('admin.studentGraduationFeeRecords');
+        Route::post('/{id}', [GraduationFeeController::class, 'storeGraduationFee'])->name('admin.storeGraduationFee');
+    });    
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });

@@ -9,9 +9,6 @@ use Illuminate\Http\Request;
 
 class MedicalShareController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function medicalShare()
     {
         $students = Student::all();
@@ -23,58 +20,60 @@ class MedicalShareController extends Controller
                 $batchYears[] = $student->batch_year;
             }
         }
-
+    
+        $studentIdsWithMedicalShares = MedicalShare::distinct()->pluck('student_id');
+        $student_ms_records = Student::whereIn('id', $studentIdsWithMedicalShares)->get();
+    
+        $medicalShareRecords = MedicalShare::select('student_id', \DB::raw('SUM(total_cost) as total_due'), \DB::raw('SUM(amount_paid) as total_paid'))
+            ->groupBy('student_id')
+            ->get();
+    
+        $totalAmounts = [];
+        foreach ($medicalShareRecords as $record) {
+            $totalAmounts[$record->student_id] = [
+                'amount_due' => $record->total_due * 0.15,
+                'amount_paid' => $record->total_paid,
+            ];
+        }
+    
         return view('pages.admin-auth.records.medical-share', [
             'students' => $students,
-            'batchYears' => $batchYears,
+            'student_ms_records' => $student_ms_records,
+            'totalAmounts' => $totalAmounts,
+            'medicalShareRecords' => $medicalShareRecords,
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function studentMedicalShareRecords($id)
     {
-        //
+        $student = Student::find($id);
+
+        if (!$student) {
+            return back()->with('error', 'Student not found!');
+        }
+
+        $medical_share_records = MedicalShare::where('student_id', $student->id)->get();
+
+        return view('pages.admin-auth.records.student-medical-share', compact('student', 'medical_share_records'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function storeMedicalShare(Request $request, $id)
     {
-        //
-    }
+        $validatedData = $request->validate([
+            'medical_concern' => ['required', 'string', 'max:255'],
+            'amount_due' => ['required', 'numeric'],
+            'amount_paid' => ['required', 'numeric'],
+            'date' => ['required', 'date'],
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(MedicalShare $medicalShare)
-    {
-        //
-    }
+        $medical_share = new MedicalShare();
+        $medical_share->medical_concern = $validatedData['medical_concern'];
+        $medical_share->total_cost = $validatedData['amount_due'];
+        $medical_share->amount_paid = $validatedData['amount_paid'];
+        $medical_share->date = $validatedData['date'];
+        $medical_share->student_id = $id;
+        $medical_share->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MedicalShare $medicalShare)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, MedicalShare $medicalShare)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(MedicalShare $medicalShare)
-    {
-        //
+        return back()->with('success', 'medical_share record added!', compact('medical_share'));
     }
 }

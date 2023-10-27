@@ -18,13 +18,13 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function() {
-    $(".dropdown-item").click(function() {
+$(document).ready(function () {
+    $(".dropdown-item").click(function () {
         var selectedYear = $(this).text();
 
         $("#selectedBatchYear").val(selectedYear);
         var sendButton = $("#sendButton");
-        
+
         if (selectedYear === "Year") {
             sendButton.removeAttr("required");
         } else {
@@ -50,11 +50,27 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $(".select-student-link-counterpart").click(function (event) {
-        event.preventDefault(); 
+    $("#selectToAddStudentPersonalCA").click(function () {
+        const addModal = $("#student-selection-personal-ca-modal");
 
-        var studentId = $(this).data('student-id');
-        var redirectUrl = $(this).attr('href');
+        addModal.modal("show");
+    });
+});
+
+$(document).ready(function () {
+    $("#selectToAddStudentGraduationFee").click(function () {
+        const addModal = $("#student-selection-graduation-fee-modal");
+
+        addModal.modal("show");
+    });
+});
+
+$(document).ready(function () {
+    $(".select-student-link-counterpart").click(function (event) {
+        event.preventDefault();
+
+        var studentId = $(this).data("student-id");
+        var redirectUrl = $(this).attr("href");
         const loadingOverlay = $(".loading-spinner-overlay");
 
         function showLoadingSpinner() {
@@ -68,19 +84,30 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $("#addStudentCounterpartRecordBtn").click(function (event) {
-        $('#add-student-counterpart-modal').modal('show');
+        $("#add-student-counterpart-modal").modal("show");
     });
 });
 
+$(document).ready(function () {
+    $("#addStudentPersonalCARecordBtn").click(function (event) {
+        $("#add-student-personal-ca-modal").modal("show");
+    });
+});
 
-$(document).ready(function() {
-    $('#example2').on('click', 'tr', function() {
+$(document).ready(function () {
+    $("#addStudentGraduationFeeRecordRecordBtn").click(function (event) {
+        $("#add-student-graduation-fee-modal").modal("show");
+    });
+});
+
+$(document).ready(function () {
+    $("#example2").on("click", "tr", function () {
         // Get the data from the clicked row
-        var studentName = $(this).find('td:eq(0)').text();
-        var batchYear = $(this).find('td:eq(1)').text();
-        var totalAmountDue = $(this).find('td:eq(2)').text();
-        var totalAmountPaid = $(this).find('td:eq(3)').text();
-        var status = $(this).find('td:eq(4)').text();
+        var studentName = $(this).find("td:eq(0)").text();
+        var batchYear = $(this).find("td:eq(1)").text();
+        var totalAmountDue = $(this).find("td:eq(2)").text();
+        var totalAmountPaid = $(this).find("td:eq(3)").text();
+        var status = $(this).find("td:eq(4)").text();
 
         // Construct the HTML for student details
         var studentDetailsHtml = `
@@ -92,9 +119,97 @@ $(document).ready(function() {
         `;
 
         // Set the HTML in the modal body
-        $('#studentDetails').html(studentDetailsHtml);
+        $("#studentDetails").html(studentDetailsHtml);
 
         // Show the modal
-        $('#studentModal').modal('show');
+        $("#studentModal").modal("show");
+    });
+});
+
+// your-external-script.js
+$(document).ready(function () {
+    // Access the data passed from the Blade view
+    var counterpartPercentage = counterpartPercentage;
+    var medicalSharePercentage = medicalSharePercentage;
+    var personalCAPercentage = personalCashAdvancePercentage;
+    var graduationFeePercentage = graduationFeePercentage;
+
+    // Define your chart data and options
+    var barChartData = {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        datasets: [
+            {
+                label: 'Counterpart Percentage',
+                backgroundColor: 'rgba(60,141,188,0.9)',
+                borderColor: 'rgba(60,141,188,0.8)',
+                pointRadius: false,
+                pointColor: '#3b8bba',
+                pointStrokeColor: 'rgba(60,141,188,1)',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data: [counterpartPercentage, 59, 80, 81, 56, 55, 40, 12, 12, 0, 45, 63] // Use your data here
+            },
+            {
+                label: 'Medical Percentage',
+                backgroundColor: 'rgba(60,141,188,0.9)',
+                borderColor: 'rgba(60,141,188,0.8)',
+                pointRadius: false,
+                pointColor: '#3b8bba',
+                pointStrokeColor: '#1f3c88',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data: [graduationFeePercentage, 59, 80, 81, 56, 55, 40, 12, 12, 0, 45, 63] // Use your data here
+            },
+            {
+                label: 'Personal CA Percentage',
+                backgroundColor: 'rgba(60,141,188,0.9)',
+                borderColor: 'rgba(60,141,188,0.8)',
+                pointRadius: false,
+                pointColor: '#3b8bba',
+                pointStrokeColor: '#7EB1ED',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data: [counterpartPercentage, 59, 80, 81, 56, 55, 40, 12, 12, 0, 45, 63] // Use your data here
+            },
+            {
+                label: 'Graduation Fee Percentage',
+                backgroundColor: 'rgba(60,141,188,0.9)',
+                borderColor: 'rgba(60,141,188,0.8)',
+                pointRadius: false,
+                pointColor: '#3b8bba',
+                pointStrokeColor: '#FFB13D',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data: [graduationFeePercentage, 59, 80, 81, 56, 55, 40, 12, 12, 0, 45, 63] // Use your data here
+            },
+        ]
+    };
+
+    var barChartOptions = {
+        maintainAspectRatio: false,
+        responsive: true,
+        legend: {
+            display: false
+        },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    display: false,
+                }
+            }],
+            yAxes: [{
+                gridLines: {
+                    display: false,
+                }
+            }]
+        }
+    };
+
+    // Create the combined chart using the data and options
+    var combinedChartCanvas = $('#combinedChart')[0].getContext('2d');
+    new Chart(combinedChartCanvas, {
+        type: 'bar',
+        data: barChartData,
+        options: barChartOptions
     });
 });

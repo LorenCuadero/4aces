@@ -53,4 +53,9 @@ class Student extends Model
     {
         return $this->hasMany(MedicalShare::class);
     }
+
+    public function personalCashAdvance()
+    {
+        return $this->hasMany(PersonalCashAdvance::class);
+    }
 }

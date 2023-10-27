@@ -13,7 +13,6 @@ class MedicalShare extends Model
         'student_id',
         'medical_concern',
         'total_cost',
-        'total_share',
         'amount_paid',
         'date',
     ];

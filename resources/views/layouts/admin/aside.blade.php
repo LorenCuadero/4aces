@@ -8,7 +8,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('dashboard.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>
@@ -21,6 +21,8 @@
                     <ul class="dropdown-menu" aria-labelledby="report-dropdown">
                         <li><a class="dropdown-item" href="{{ route('admin.counterpartRecords')}}">Counterpart</a></li>
                         <li><a class="dropdown-item" href="{{ route('admin.medicalShare')}}">Medical</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.personalCA')}}">Personal CA</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.graduationFees')}}">Graduation Fees</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">

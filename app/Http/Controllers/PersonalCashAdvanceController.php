@@ -2,65 +2,80 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PersonalCashAdvance;
 use App\Http\Controllers\Controller;
+use App\Models\PersonalCashAdvance;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class PersonalCashAdvanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function personalCA()
     {
-        //
+        $students = Student::all();
+
+        $batchYears = [];
+
+        foreach ($students as $student) {
+            if (!in_array($student->batch_year, $batchYears)) {
+                $batchYears[] = $student->batch_year;
+            }
+        }
+
+        $studentIdsWithPersonalCA = PersonalCashAdvance::distinct()->pluck('student_id');
+        $student_pca_records = Student::whereIn('id', $studentIdsWithPersonalCA)->get();
+
+        $personalCArecords = PersonalCashAdvance::select('student_id', \DB::raw('SUM(amount_due) as total_due'), \DB::raw('SUM(amount_paid) as total_paid'))
+            ->groupBy('student_id')
+            ->get();
+
+        $totalAmounts = [];
+        foreach ($personalCArecords as $record) {
+            $totalAmounts[$record->student_id] = [
+                'amount_due' => $record->total_due,
+                'amount_paid' => $record->total_paid,
+            ];
+        }
+
+        return view('pages.admin-auth.records.personal-ca', [
+            'students' => $students,
+            'batchYears' => $batchYears,
+            'student_pca_records' => $student_pca_records,
+            'totalAmounts' => $totalAmounts,
+            'personalCArecords' => $personalCArecords,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function studentPersonalCARecords($id)
     {
-        //
+        $student = Student::find($id);
+
+        if (!$student) {
+            return back()->with('error', 'Student not found!');
+        }
+
+        $personal_ca_records = PersonalCashAdvance::where('student_id', $student->id)->get();
+
+        return view('pages.admin-auth.records.student-personal-ca', compact('student', 'personal_ca_records'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function storePersonalCA(Request $request, $id)
     {
-        //
-    }
+        $validatedData = $request->validate([
+            'purpose' => ['required', 'string', 'max:255'],
+            'amount_due' => ['required', 'numeric'],
+            'amount_paid' => ['required', 'numeric'],
+            'date' => ['required', 'date'],
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(PersonalCashAdvance $personalCashAdvance)
-    {
-        //
-    }
+        $personal_ca = new PersonalCashAdvance();
+        $personal_ca->purpose = $validatedData['purpose'];
+        $personal_ca->amount_due = $validatedData['amount_due'];
+        $personal_ca->amount_paid = $validatedData['amount_paid'];
+        $personal_ca->date = $validatedData['date'];
+        $personal_ca->student_id = $id;
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(PersonalCashAdvance $personalCashAdvance)
-    {
-        //
-    }
+        $personal_ca->save();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, PersonalCashAdvance $personalCashAdvance)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(PersonalCashAdvance $personalCashAdvance)
-    {
-        //
+        return back()->with('success', 'personal_ca record added!', compact('personal_ca'));
     }
 }

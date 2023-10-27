@@ -8,6 +8,7 @@ import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
 import 'datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js';
 import 'datatables.net-buttons/js/dataTables.buttons.min.js';
 import '@fortawesome/fontawesome-free/js/all.min.js';
+import 'admin-lte/plugins/chart.js/Chart.min.js';
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

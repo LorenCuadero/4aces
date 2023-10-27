@@ -1,4 +1,4 @@
-<div class="modal fade" id="student-selection-medical-share-modal" tabindex="-1" role="dialog"
+<div class="modal fade" id="student-selection-personal-ca-modal" tabindex="-1" role="dialog"
     aria-labelledby="student-selection-modal-label" aria-hidden="true">
     <div class="modal-dialog custom-modal-width" role="document">
         <div class="modal-content">
@@ -33,7 +33,7 @@
                                                             </td>
                                                             <td>Batch {{ $student->batch_year }}</td>
                                                             <td> <a id="selectToAddDisciplinary"
-                                                                    href="{{ route('admin.studentMedicalShareRecords', ['id' => $student->id]) }}"
+                                                                    href="{{ route('admin.studentPersonalCARecords', ['id' => $student->id]) }}"
                                                                     data-student-id="{{ $student->id }}"
                                                                     data-student-fname="{{ $student->first_name }}"
                                                                     data-student-lname="{{ $student->last_name }}"

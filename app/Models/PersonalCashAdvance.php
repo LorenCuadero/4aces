@@ -16,4 +16,9 @@ class PersonalCashAdvance extends Model
         'purpose',
         'date',
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
 }
