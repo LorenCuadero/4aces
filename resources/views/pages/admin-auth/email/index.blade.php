@@ -5,7 +5,8 @@
             <div class="row">
                 <div class="col-12" id="table">
                     <div class="card">
-                        <div class="card-header d-flex flex-wrap align-items-center justify-content-between" style="background-color:#ffffff">
+                        <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
+                            style="background-color:#ffffff">
                             <div class="row">
                                 <div class="col-md-12">
                                     <p class="card-title mb-3 mb-md-0"
@@ -63,7 +64,7 @@
                                                         <option value="11">November</option>
                                                         <option value="12">December</option>
                                                     </select>
-                                                    <select id="yearDropdown" class="form-control selections"
+                                                    <select class="form-control selections yearDropdown"
                                                         style="width: 150px;"></select>
                                                 </div>
                                                 <p><b style="color:#1f3c88;">Message Preview:</b></p>
@@ -75,7 +76,8 @@
                             <div class="row">
                                 <div class="col-md-12 justify-content">
                                     <div class="container">
-                                        <form id="email-form" enctype="multipart/form-data" method="POST" action="{{ route('admin.sendEmail') }}">
+                                        <form id="email-form" enctype="multipart/form-data" method="POST"
+                                            action="{{ route('admin.sendEmail') }}">
                                             @csrf
                                             <input type="hidden" id="selectedBatchYear" name="selectedBatchYear">
                                             <input type="hidden" id="year" name="year">
@@ -109,4 +111,5 @@ Thank you so much!
             </div>
         </div>
     </section>
+    @include('assets.asst-loading-spinner')
 @endsection

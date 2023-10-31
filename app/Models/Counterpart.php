@@ -13,6 +13,7 @@ class Counterpart extends Model
     public $fillable = [
         'student_id',
         'month',
+        'year',
         'amount_due',
         'amount_paid',
         'date',

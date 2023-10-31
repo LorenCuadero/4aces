@@ -23,11 +23,20 @@ class SendEmailPayable extends Mailable
 
     public $year;
 
-    public function __construct($student_name, $month, $year)
+    public  $counterpartBalance; 
+
+    public $medicalShareBalance;
+    
+    public $total;
+
+    public function __construct($student_name, $month, $year, $counterpartBalance, $medicalShareBalance, $total)
     {
         $this->student_name = $student_name;
         $this->month = $month;
         $this->year = $year;
+        $this->counterpartBalance = $counterpartBalance;
+        $this->medicalShareBalance = $medicalShareBalance;
+        $this->total = $total;
     }
 
     /**

@@ -31,6 +31,10 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="amount_due">Year</label>
+                        <select id="year" name="year" class="form-control yearDropdown"></select>
+                    </div>
+                    <div class="form-group">
                         <label for="amount_due">Amount Due</label>
                         <input type="number" name="amount_due" id="amount_due" class="form-control">
                     </div>

@@ -33,6 +33,7 @@
                                 <thead style="background-color: #fff; color:#1f3c88;">
                                     <tr>
                                         <th class="vertical-text">Month</th>
+                                        <th class="vertical-text">Year</th>
                                         <th class="vertical-text">Amount Due</th>
                                         <th class="vertical-text">Amount Paid</th>
                                         <th class="vertical-text">Date</th>
@@ -43,6 +44,7 @@
                                     @forelse ($student_counterpart_records as $counterpart)
                                         <tr class="table-row">
                                             <td>{{ $months[$counterpart->month] }}</td>
+                                            <td>{{ $counterpart->year }}</td>
                                             <td>{{ $counterpart->amount_due }}</td>
                                             <td>{{ $counterpart->amount_paid }}</td>
                                             <td>{{ $counterpart->date }}</td>
@@ -55,6 +57,7 @@
                                         </tr>
                                     @empty
                                         <tr>
+                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>

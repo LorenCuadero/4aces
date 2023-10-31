@@ -29,6 +29,7 @@
         @include('layouts.admin.header')
         @include('layouts.admin.aside')
         @include('modals.mdl-logout-confirmation')
+        @include('assets.asst-loading-spinner')
 
         <div class="content-wrapper text-center p-3">
             @yield('content')

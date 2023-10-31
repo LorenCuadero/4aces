@@ -4,8 +4,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
-                        <h1 class="card-title mb-3 mb-md-0" style="color:#1f3c88;">
+                    <div class="card-header d-flex flex-wrap align-items-center justify-content-between"  style="color:#1f3c88; background-color:#fff">
+                        <h1 class="card-title mb-3 mb-md-0">
                             <b>Personal Record of:</b>
                             {{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
                         </h1>
@@ -16,7 +16,7 @@
                                     style="display: flex; align-items:center; height: 38px; margin-left: 4px;"
                                     data-target="add-student-grd-modal" data-toggle="modal">
                                     <a class="nav-link align-items-center"
-                                        style="color:#fff;height: 100%; display: flex; align-items: center;">Add</a>
+                                        style="color:#1f3c88;height: 100%; display: flex; align-items: center;">Add</a>
                                 </div>
                                 <div class="nav-item btn btn-sm" id="back"
                                     style="display: flex; align-items:center; height: 38px; margin-left: 4px;">
@@ -30,13 +30,13 @@
                         <div class="table-responsive">
                             <input type="hidden" value="{{ $student->id }}">
                             <table class="table table-bordered table-hover data-table text-center">
-                                <thead style="background-color: #fff; color:#1f3c88;">
-                                    <tr>
-                                        <th class="vertical-text">Purpose</th>
-                                        <th class="vertical-text">Amount Due</th>
-                                        <th class="vertical-text">Amount Paid</th>
-                                        <th class="vertical-text">Date</th>
-                                        <th class="vertical-text"></th>
+                                <thead>
+                                    <tr >
+                                        <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Purpose</th>
+                                        <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Amount Due</th>
+                                        <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Amount Paid</th>
+                                        <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Date</th>
+                                        <th  style="background-color: #fff; color:#1f3c88;" class="vertical-text"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-body">
@@ -55,7 +55,6 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>

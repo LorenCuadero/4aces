@@ -15,7 +15,7 @@
                     <input type="hidden" name="student_id" value="{{ $student->id }}">
                     <div class="form-group">
                         <label for="course_code">Purpose</label>
-                        <input type="text" class="form-control" id="purpose" name="purpose">
+                        <textarea class="form-control" id="purpose" name="purpose"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="amount_due">Amount Due</label>

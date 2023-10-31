@@ -52,7 +52,11 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="6">No records found.</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                         @endforelse
                                     </tbody>
