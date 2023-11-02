@@ -108,6 +108,25 @@ $(document).ready(function () {
         // Navigate to the custom URL
         window.location.href = customUrl;
     });
+
+    $(".back-medical").click(function (event) {
+        event.preventDefault();
+
+        // Specify the URL you want to navigate to
+        const customUrl = "/medical-share-records";
+
+        const loadingOverlay = $(".loading-spinner-overlay");
+
+        function showLoadingSpinner() {
+            loadingOverlay.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        showLoadingSpinner();
+
+        // Navigate to the custom URL
+        window.location.href = customUrl;
+    });
 });
 
 
@@ -579,3 +598,70 @@ $(document).ready(function () {
         });
     });
 });
+
+// Medical View Button
+$(document).ready(function () {
+    // Handle the click event on the "View" button
+    $(".view-button-medical").on("click", function () {
+        // Get the student ID from the data attribute
+        const studentId = $(this).data("student-id");
+
+        // Construct the URL for the route
+        const finalUrl = `/medical-share-records/${studentId}`;
+
+        const loadingOverlay = $(".loading-spinner-overlay");
+        let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+        // Function to show the loading spinner
+        function showLoadingSpinner() {
+            loadingOverlay.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        showLoadingSpinner();
+
+        // Use setTimeout to delay the redirection
+        setTimeout(function () {
+            // Redirect to the intended page
+            window.location.href = finalUrl;
+        }, 100); // Replace 1000 with the desired delay in milliseconds
+    });
+});
+
+// Medical Share Edit
+$(document).ready(function () {
+    $(".edit-student-medical-share-button").click(function () {
+        const editModalMedical = $("#edit-student-medical-share-modal");
+        editModalMedical.modal("show");
+    });
+});
+
+$(document).ready(function () {
+    $(".view-all").click(function () {
+        const viewModalDash = $("#dashboard-modal");
+        viewModalDash.modal("show");
+    });
+});
+$(document).ready(function () {
+    const totalNumberOfStudentsPerBatch = $("#batch-year-form");
+    const totalByYear = totalNumberOfStudentsPerBatch.data("total-by-year");
+    const batchYearSelect = $('#batch_year');
+    const selectedBatchYearElement = $('#selected-batch-year');
+    const totalStudentsPerYearElement = $('#total-students-per-year');
+
+    // Listen for changes in the select element
+    batchYearSelect.on('change', function () {
+        const selectedYear = batchYearSelect.val();
+
+        // Update the content of the selectedBatchYearElement
+        selectedBatchYearElement.text(selectedYear);
+
+        // Update the total students count for the selected year
+        if (selectedYear in totalByYear) {
+            totalStudentsPerYearElement.text(totalByYear[selectedYear]);
+        } else {
+            totalStudentsPerYearElement.text("No data available");
+        }
+    });
+});
+

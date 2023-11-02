@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/pn-portal', [StudentParentController::class, 'indexStudent'])->name('payable.index');
     Route::get('/dashboard', [AdminController::class, 'indexAdmin'])->name('dashboard.index');
     Route::get('/accounts', [RegisterController::class, 'accounts'])->name('admin.accounts');
+    // Route::get('/view-all-status', [AdminController::class, 'getTotals'])->name('admin.getTotals');
 
     Route::prefix('/students')->group(function () {
         Route::get('/', [StudentController::class, 'index'])->name('students.index');
@@ -112,6 +113,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [MedicalShareController::class, 'medicalShare'])->name('admin.medicalShare');
         Route::get('/{id}', [MedicalShareController::class, 'studentMedicalShareRecords'])->name('admin.studentMedicalShareRecords');
         Route::post('/{id}', [MedicalShareController::class, 'storeMedicalShare'])->name('admin.storeMedicalShare');
+        Route::put('/{id}', [MedicalShareController::class,'updateMedicalShare'])->name('admin.updateMedicalShare');
     });
 
     Route::prefix('/personal-cash-advance-records')->group(function () {

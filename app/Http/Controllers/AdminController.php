@@ -45,6 +45,14 @@ class AdminController extends Controller
         // Count the total number of students
         $totalNumberOfStudents = Student::count();
 
+        // Batch Years
+        $batchYears = Student::distinct('batch_year')->pluck('batch_year');
+
+        $totalStudentsByBatchYear = [];
+        foreach ($batchYears as $year) {
+            $totalStudentsByBatchYear[$year] = Student::where('batch_year', $year)->count();
+        }
+
         // Calculate the total number of students that are paid in:
         // Counterparts
         $counterpartPaidStudentsCount = Counterpart::whereColumn('amount_paid', '=', 'amount_due')->count();
@@ -55,15 +63,25 @@ class AdminController extends Controller
         // Graduation Fee
         $graduationFeePaidStudentsCount = GraduationFee::whereColumn('amount_paid', '=', 'amount_due')->count();
 
+        // Calculate the total number of students that are not fully paid in:
+        // Counterparts
+        $counterpartNotFullyPaidStudentsCount = Counterpart::whereColumn('amount_paid', '<', 'amount_due')->count();
+        // MedicalShare
+        $medicalShareNotFullyPaidStudentsCount = MedicalShare::whereColumn('amount_paid', '<', \DB::raw('total_cost * 0.15'))->count();
+        // Personal Cash Advance
+        $personalCashAdvanceNotFullyPaidStudentsCount = PersonalCashAdvance::where('amount_paid', '<', 'amount_due')->count();
+        // Graduation Fee
+        $graduationFeeNotFullyPaidStudentsCount = GraduationFee::whereColumn('amount_paid', '<', 'amount_due')->count();
+
         // Calculate the total number of students that are unpaid in:
         // Counterparts
-        $counterpartUnpaidStudentsCount = Counterpart::whereColumn('amount_paid', '<', 'amount_due')->count();
+        $counterpartUnpaidStudentsCount = Counterpart::where('amount_paid', '=', 0)->count();
         // MedicalShare
-        $medicalShareUnpaidStudentsCount = MedicalShare::whereColumn('amount_paid', '<', \DB::raw('total_cost * 0.15'))->count();
+        $medicalShareUnpaidStudentsCount = MedicalShare::where('amount_paid', '=', 0)->count();
         // Personal Cash Advance
-        $personalCashAdvanceUnpaidStudentsCount = PersonalCashAdvance::where('amount_paid', '<', 'amount_due')->count();
+        $personalCashAdvancetUnpaidStudentsCount = PersonalCashAdvance::where('amount_paid', '=', 0)->count();
         // Graduation Fee
-        $graduationFeeUnpaidStudentsCount = GraduationFee::whereColumn('amount_paid', '<', 'amount_due')->count();
+        $graduationFeeUnpaidStudentsCount = GraduationFee::where('amount_paid', '=', 0)->count();
 
         // Count the number of students who have paid for each category
         $medicalSharePaidCount = MedicalShare::where('amount_paid', '>', 0)->count();
@@ -210,6 +228,7 @@ class AdminController extends Controller
             'personalCashAdvancePercentage' => $personalCashAdvancePercentage,
             'receivableTotal' => $receivableTotal,
             'receivedTotal' => $receivedTotal,
+            'totalNumberOfStudents' => $totalNumberOfStudents,
             // Medical
             'medicalSharePaidCountJanuary' => $medicalSharePaidCountJanuary,
             'medicalSharePaidCountFebruary' => $medicalSharePaidCountFebruary,
@@ -267,13 +286,115 @@ class AdminController extends Controller
             'counterpartPaidStudentsCount' => $counterpartPaidStudentsCount,
             'medicalSharePaidStudentsCount' => $medicalSharePaidStudentsCount,
             'personalCashAdvancePaidStudentsCount' => $personalCashAdvancePaidStudentsCount,
+            'personalCashAdvanceNotFullyPaidStudentsCount' => $personalCashAdvanceNotFullyPaidStudentsCount,
             'graduationFeePaidStudentsCount' => $graduationFeePaidStudentsCount,
+            'graduationFeeNotFullyPaidStudentsCount' => $graduationFeeNotFullyPaidStudentsCount,
             'counterpartUnpaidStudentsCount' => $counterpartUnpaidStudentsCount,
             'medicalShareUnpaidStudentsCount' => $medicalShareUnpaidStudentsCount,
-            'personalCashAdvanceUnpaidStudentsCount' => $personalCashAdvanceUnpaidStudentsCount,
+            'personalCashAdvanceUnpaidStudentsCount' => $personalCashAdvancetUnpaidStudentsCount,
             'graduationFeeUnpaidStudentsCount' => $graduationFeeUnpaidStudentsCount,
+            'medicalShareNotFullyPaidStudentsCount' => $medicalShareNotFullyPaidStudentsCount,
+            'counterpartNotFullyPaidStudentsCount' => $counterpartNotFullyPaidStudentsCount,
+            'batchYears' => $batchYears,
+            'totalStudentsByBatchYear' => $totalStudentsByBatchYear,
         ]);
     }
+
+    // public function getTotals(Request $request)
+    // {
+    //     $batchYear = $request->input('batch_year');
+
+    //     // Counterpart
+    //     $totalPaidCounterpart = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '=', 'amount_due');
+    //         })
+    //         ->count();
+
+    //     $totalNotFullyPaidCounterpart = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '=', 'amount_due');
+    //         })
+    //         ->count(); // Modify the query as needed
+
+    //     $totalUnpaidCounterpart = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '!=', 'amount_due');
+    //         })
+    //         ->where('category', 'Counterpart')
+    //         ->count(); // Modify the query as needed
+
+    //     // Medical Share
+    //     $totalPaidMedicalShare = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '=', 'amount_due');
+    //         })
+    //         ->where('category', 'Medical Share')
+    //         ->count();
+
+    //     $totalFullyPaidMedicalShare = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '=', 'amount_due');
+    //         })
+    //         ->where('category', 'Medical Share')
+    //         ->count(); // Modify the query as needed
+
+    //     $totalUnpaidMedicalShare = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '!=', 'amount_due');
+    //         })
+    //         ->where('category', 'Medical Share')
+    //         ->count(); // Modify the query as needed
+
+    //     $totalPaidPersonalCashAdvance = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '=', 'amount_due');
+    //         })
+    //         ->where('category', 'Personal Cash Advance')
+    //         ->count();
+
+    //     $totalFullyPaidPersonalCashAdvance = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '=', 'amount_due');
+    //         })
+    //         ->where('category', 'Personal Cash Advance')
+    //         ->count(); // Modify the query as needed
+
+    //     $totalUnpaidPersonalCashAdvance = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '!=', 'amount_due');
+    //         })
+    //         ->where('category', 'Personal Cash Advance')
+    //         ->count(); // Modify the query as needed
+
+    //     // Graduation Fees
+    //     $totalPaidGraduationFees = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '=', 'amount_due');
+    //         })
+    //         ->where('category', 'Graduation Fees')
+    //         ->count();
+
+    //     $totalFullyPaidGraduationFees = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '=', 'amount_due');
+    //         })
+    //         ->where('category', 'Graduation Fees')
+    //         ->count(); // Modify the query as needed
+
+    //     $totalUnpaidGraduationFees = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '!=', 'amount_due');
+    //         })
+    //         ->where('category', 'Graduation Fees')
+    //         ->count(); // Modify the query as needed
+
+    //     return response()->json([
+    //         'totalPaidCounterpart' => $totalPaidCounterpart,
+    //         'totalUnpaidCounterpart' => $totalUnpaidCounterpart,
+    //         'totalNotFullyPaidCounterpart' => $totalNotFullyPaidCounterpart,
+    //     ]);
+    // }
 
     public function email()
     {
@@ -365,71 +486,5 @@ class AdminController extends Controller
         }
 
         return redirect()->back()->with('success', 'Emails sent successfully');
-    }
-
-    public function index()
-    {
-        $students = Student::all();
-
-        $batchYears = [];
-
-        foreach ($students as $student) {
-            if (!in_array($student->batch_year, $batchYears)) {
-                $batchYears[] = $student->batch_year;
-            }
-        }
-
-        return view('pages.staff-auth.students.index', [
-            'students' => $students,
-            'batchYears' => $batchYears,
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Admin $admin)
-    {
-        //
     }
 }

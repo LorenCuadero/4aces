@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendReceiptOrPaymentInfo;
 use App\Models\MedicalShare;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class MedicalShareController extends Controller
 {
@@ -20,14 +22,15 @@ class MedicalShareController extends Controller
                 $batchYears[] = $student->batch_year;
             }
         }
-    
-        $studentIdsWithMedicalShares = MedicalShare::distinct()->pluck('student_id');
+
+        $studentIdsWithMedicalShares = MedicalShare::distinct()->pluck('student_id')->toArray();
         $student_ms_records = Student::whereIn('id', $studentIdsWithMedicalShares)->get();
-    
+        $student_with_no_ms_records = Student::whereNotIn('id', $studentIdsWithMedicalShares)->get();
+
         $medicalShareRecords = MedicalShare::select('student_id', \DB::raw('SUM(total_cost) as total_due'), \DB::raw('SUM(amount_paid) as total_paid'))
             ->groupBy('student_id')
             ->get();
-    
+
         $totalAmounts = [];
         foreach ($medicalShareRecords as $record) {
             $totalAmounts[$record->student_id] = [
@@ -35,12 +38,13 @@ class MedicalShareController extends Controller
                 'amount_paid' => $record->total_paid,
             ];
         }
-    
+
         return view('pages.admin-auth.records.medical-share', [
             'students' => $students,
             'student_ms_records' => $student_ms_records,
             'totalAmounts' => $totalAmounts,
             'medicalShareRecords' => $medicalShareRecords,
+            'student_with_no_ms_records' => $student_with_no_ms_records,
         ]);
     }
 
@@ -76,4 +80,34 @@ class MedicalShareController extends Controller
 
         return back()->with('success', 'medical_share record added!', compact('medical_share'));
     }
+
+    public function updateMedicalShare(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'medical_concern' => ['required', 'string', 'max:255'],
+            'amount_due' => ['required', 'numeric'],
+            'amount_paid' => ['required', 'numeric'],
+            'date' => ['required', 'date'],
+        ]);
+
+        $medicalShare = MedicalShare::find($id);
+        $studentId = $medicalShare->student_id;
+        $studentEmail = $medicalShare->student->email;
+        $studentName = $medicalShare->student->first_name . " " . $medicalShare->student->last_name;
+
+        $medicalShare->medical_concern = $validatedData['medical_concern'];
+        $medicalShare->total_cost = $validatedData['amount_due'];
+        $medicalShare->amount_paid = $validatedData['amount_paid'];
+        $medicalShare->date = $validatedData['date'];
+        $medicalShare->student_id = $studentId;
+
+        $medicalShare->save();
+
+        // Send email notification to the student
+        Mail::to($studentEmail)->send(new SendReceiptOrPaymentInfo($studentName, $medicalShare->month, $medicalShare->year, $medicalShare->amount_due, $medicalShare->amount_paid, $medicalShare->date));
+
+        // Return success message only if no duplicate was found
+        return back()->with('success', 'medicalShare record updated!', compact('medicalShare'));
+    }
+
 }

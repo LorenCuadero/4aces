@@ -155,40 +155,49 @@
                                         <td style="border: none padding: 0%;"><b style="color: #1f3c88;">STATUS</b></td>
                                     </tr>
                                     <tr>
+                                        <td style="border: none; padding: 0vh">Total No of Students (All Batches)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: none; padding: 0vh"><b>{{ $totalNumberOfStudents }}</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td style="border: none; padding: 0vh">Total No of Students with Paid Counterpart
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border: none; padding: 0vh"><b>{{ $counterpartPaidStudentsCount }}</b></td>
+                                        <td style="border: none; padding: 0vh"><b>{{ $counterpartPaidStudentsCount }}</b>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="border: none; padding: 0vh">Total No of Students with Unpaid Counterpart
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border: none; padding: 0vh"><b>{{ $counterpartUnpaidStudentsCount }}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 0vh">Total No of Students with Paid MedicShare
+                                        <td style="border: none; padding: 0vh">
+                                            <b>{{ $counterpartUnpaidStudentsCount }}</b>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border: none; padding: 0vh"><b>{{ $medicalSharePaidStudentsCount }}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 0vh">Total No of Students with Unpaid MedicShare
+                                        <td style="border: none; padding: 0vh">Total No of Students with Not Fully Paid
+                                            Counterpart
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border: none; padding: 0vh"><b>{{ $medicalShareUnpaidStudentsCount }}</b></td>
+                                        <td style="border: none; padding: 0vh">
+                                            <b>{{ $counterpartNotFullyPaidStudentsCount }}</b>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
-                            <button type="submit" class="btn" style="background-color: #1f3c88; color: #ffff;">View All</button>
+                            <button type="submit" class="btn view-all" style="background-color: #1f3c88; color: #ffff;">View
+                                All</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    @include('modals.admin.mdl-view-all-dashboard')
 @endsection
