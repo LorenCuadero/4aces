@@ -81,7 +81,7 @@ class AdminController extends Controller
         // January
         $medicalSharePaidCountJanuary = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '01')->count();
         $medicalSharePaidCountJanuary = $medicalSharePaidCountJanuary / $totalNumberOfStudents * 100;
-        $counterpartPaidCountJanuary = Counterpart::where('amount_paid', '>', 0)->whereMonth('created_at', '01')->count();
+        $counterpartPaidCountJanuary = Counterpart::where('amount_paid', '>', 0)->where('month', '1')->count();
         $counterpartPaidCountJanuary = $counterpartPaidCountJanuary / $totalNumberOfStudents * 100;
         $graduationFeePaidCountJanuary = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '01')->count();
         $graduationFeePaidCountJanuary = $graduationFeePaidCountJanuary / $totalNumberOfStudents * 100;
@@ -91,17 +91,17 @@ class AdminController extends Controller
         // February
         $medicalSharePaidCountFebruary = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '02')->count();
         $medicalSharePaidCountFebruary = $medicalSharePaidCountFebruary / $totalNumberOfStudents * 100;
-        $counterpartPaidCountFebruary = Counterpart::where('amount_paid', '>', 0)->whereMonth('created_at', '02')->count();
+        $counterpartPaidCountFebruary = Counterpart::where('amount_paid', '>', 0)->where('month', '2')->count();
         $counterpartPaidCountFebruary = $counterpartPaidCountFebruary / $totalNumberOfStudents * 100;
         $graduationFeePaidCountFebruary = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '02')->count();
         $graduationFeePaidCountFebruary = $graduationFeePaidCountFebruary / $totalNumberOfStudents * 100;
-        $personalCashAdvancePaidCountFebruary = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '02')->count();
+        $personalCashAdvancePaidCountFebruary = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '20')->count();
         $personalCashAdvancePaidCountFebruary = $personalCashAdvancePaidCountFebruary / $totalNumberOfStudents * 100;
 
         // March
         $medicalSharePaidCountMarch = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '03')->count();
         $medicalSharePaidCountMarch = $medicalSharePaidCountMarch / $totalNumberOfStudents * 100;
-        $counterpartPaidCountMarch = Counterpart::where('amount_paid', '>', 0)->whereMonth('created_at', '03')->count();
+        $counterpartPaidCountMarch = Counterpart::where('amount_paid', '>', 0)->where('month', '3')->count();
         $counterpartPaidCountMarch = $counterpartPaidCountMarch / $totalNumberOfStudents * 100;
         $graduationFeePaidCountMarch = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '03')->count();
         $graduationFeePaidCountMarch = $graduationFeePaidCountMarch / $totalNumberOfStudents * 100;
@@ -111,7 +111,7 @@ class AdminController extends Controller
         // April
         $medicalSharePaidCountApril = MedicalShare::where('amount_paid', '', 0)->whereMonth('created_at', '04')->count();
         $medicalSharePaidCountApril = $medicalSharePaidCountApril / $totalNumberOfStudents * 100;
-        $counterpartPaidCountApril = Counterpart::where('amount_paid', '>', 0)->whereMonth('created_at', '04')->count();
+        $counterpartPaidCountApril = Counterpart::where('amount_paid', '>', 0)->where('month', '4')->count();
         $counterpartPaidCountApril = $counterpartPaidCountApril / $totalNumberOfStudents * 100;
         $graduationFeePaidCountApril = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '04')->count();
         $graduationFeePaidCountApril = $graduationFeePaidCountApril / $totalNumberOfStudents * 100;
@@ -121,7 +121,7 @@ class AdminController extends Controller
         // May
         $medicalSharePaidCountMay = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '05')->count();
         $medicalSharePaidCountMay = $medicalSharePaidCountMay / $totalNumberOfStudents * 100;
-        $counterpartPaidCountMay = Counterpart::where('amount_paid', '>', 0)->whereMonth('created_at', '05')->count();
+        $counterpartPaidCountMay = Counterpart::where('amount_paid', '>', 0)->where('month', '5')->count();
         $counterpartPaidCountMay = $counterpartPaidCountMay / $totalNumberOfStudents * 100;
         $graduationFeePaidCountMay = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '05')->count();
         $graduationFeePaidCountMay = $graduationFeePaidCountMay / $totalNumberOfStudents * 100;
@@ -131,7 +131,7 @@ class AdminController extends Controller
         // June
         $medicalSharePaidCountJune = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '06')->count();
         $medicalSharePaidCountJune = $medicalSharePaidCountJune / $totalNumberOfStudents * 100;
-        $counterpartPaidCountJune = Counterpart::where('amount_paid', '>', 0)->whereMonth('created_at', '06')->count();
+        $counterpartPaidCountJune = Counterpart::where('amount_paid', '>', 0)->where('month', '6')->count();
         $counterpartPaidCountJune = $counterpartPaidCountJune / $totalNumberOfStudents * 100;
         $graduationFeePaidCountJune = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '06')->count();
         $graduationFeePaidCountJune = $graduationFeePaidCountJune / $totalNumberOfStudents * 100;
@@ -141,7 +141,7 @@ class AdminController extends Controller
         // July
         $medicalSharePaidCountJuly = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '07')->count();
         $medicalSharePaidCountJuly = $medicalSharePaidCountJuly / $totalNumberOfStudents * 100;
-        $counterpartPaidCountJuly = Counterpart::where('amount_paid', '>', 0)->whereMonth('created_at', '07')->count();
+        $counterpartPaidCountJuly = Counterpart::where('amount_paid', '>', 0)->where('month', '7')->count();
         $counterpartPaidCountJuly = $counterpartPaidCountJuly / $totalNumberOfStudents * 100;
         $graduationFeePaidCountJuly = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '07')->count();
         $graduationFeePaidCountJuly = $graduationFeePaidCountJuly / $totalNumberOfStudents * 100;
@@ -151,7 +151,7 @@ class AdminController extends Controller
         // August
         $medicalSharePaidCountAugust = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '08')->count();
         $medicalSharePaidCountAugust = $medicalSharePaidCountAugust / $totalNumberOfStudents * 100;
-        $counterpartPaidCountAugust = Counterpart::where('amount_paid', '>', 0)->whereMonth('created_at', '08')->count();
+        $counterpartPaidCountAugust = Counterpart::where('amount_paid', '>', 0)->where('month', '8')->count();
         $counterpartPaidCountAugust = $counterpartPaidCountAugust / $totalNumberOfStudents * 100;
         $graduationFeePaidCountAugust = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '08')->count();
         $graduationFeePaidCountAugust = $graduationFeePaidCountAugust / $totalNumberOfStudents * 100;
@@ -161,7 +161,7 @@ class AdminController extends Controller
         // September
         $medicalSharePaidCountSeptember = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '09')->count();
         $medicalSharePaidCountSeptember = $medicalSharePaidCountSeptember / $totalNumberOfStudents * 100;
-        $counterpartPaidCountSeptember = Counterpart::where('amount_paid', '>', 0)->whereMonth('created_at', '09')->count();
+        $counterpartPaidCountSeptember = Counterpart::where('amount_paid', '>', 0)->where('month', '9')->count();
         $counterpartPaidCountSeptember = $counterpartPaidCountSeptember / $totalNumberOfStudents * 100;
         $graduationFeePaidCountSeptember = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '09')->count();
         $graduationFeePaidCountSeptember = $graduationFeePaidCountSeptember / $totalNumberOfStudents * 100;
@@ -171,7 +171,7 @@ class AdminController extends Controller
         // October
         $medicalSharePaidCountOctober = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '10')->count();
         $medicalSharePaidCountOctober = $medicalSharePaidCountOctober / $totalNumberOfStudents * 100;
-        $counterpartPaidCountOctober = Counterpart::where('amount_paid', '>', 0)->whereMonth('created_at', '10')->count();
+        $counterpartPaidCountOctober = Counterpart::where('amount_paid', '>', 0)->where('month', '10')->count();
         $counterpartPaidCountOctober = $counterpartPaidCountOctober / $totalNumberOfStudents * 100;
         $graduationFeePaidCountOctober = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '10')->count();
         $graduationFeePaidCountOctober = $graduationFeePaidCountOctober / $totalNumberOfStudents * 100;
@@ -181,7 +181,7 @@ class AdminController extends Controller
         // November
         $medicalSharePaidCountNovember = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '11')->count();
         $medicalSharePaidCountNovember = $medicalSharePaidCountNovember / $totalNumberOfStudents * 100;
-        $counterpartPaidCountNovember = Counterpart::where('amount_paid', '>', 0)->whereMonth('created_at', '11')->count();
+        $counterpartPaidCountNovember = Counterpart::where('amount_paid', '>', 0)->where('month', '11')->count();
         $counterpartPaidCountNovember = $counterpartPaidCountNovember / $totalNumberOfStudents * 100;
         $graduationFeePaidCountNovember = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '11')->count();
         $graduationFeePaidCountNovember = $graduationFeePaidCountNovember / $totalNumberOfStudents * 100;
@@ -191,7 +191,7 @@ class AdminController extends Controller
         // December
         $medicalSharePaidCountDecember = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '12')->count();
         $medicalSharePaidCountDecember = $medicalSharePaidCountDecember / $totalNumberOfStudents * 100;
-        $counterpartPaidCountDecember = Counterpart::where('amount_paid', '>', 0)->whereMonth('created_at', '12')->count();
+        $counterpartPaidCountDecember = Counterpart::where('amount_paid', '>', 0)->where('month', '12')->count();
         $counterpartPaidCountDecember = $counterpartPaidCountDecember / $totalNumberOfStudents * 100;
         $graduationFeePaidCountDecember = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '12')->count();
         $graduationFeePaidCountDecember = $graduationFeePaidCountDecember / $totalNumberOfStudents * 100;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendDeletionNotification;
 use App\Mail\SendReceiptOrPaymentInfo;
 use App\Models\Counterpart;
 use App\Models\Student;
@@ -14,12 +15,12 @@ class CounterpartController extends Controller
 
     public function counterpartRecords()
     {
-
         $students = Student::all();
 
         // Fetch all students who have counterpart records
         $studentIdsWithCounterparts = Counterpart::distinct()->pluck('student_id');
         $students_counterpart_records = Student::whereIn('id', $studentIdsWithCounterparts)->get();
+        $studentsWithoutCounterparts = Student::whereNotIn('id', $studentIdsWithCounterparts)->get();
 
         // Fetch and organize the counterpart records data
         $counterpartRecords = Counterpart::select('student_id', \DB::raw('SUM(amount_due) as total_due'), \DB::raw('SUM(amount_paid) as total_paid'))
@@ -37,6 +38,7 @@ class CounterpartController extends Controller
         return view('pages.admin-auth.records.counterpart', [
             'students' => $students,
             'students_counterpart_records' => $students_counterpart_records,
+            'studentsWithoutCounterparts' => $studentsWithoutCounterparts,
             'totalAmounts' => $totalAmounts,
             'counterpartRecords' => $counterpartRecords,
         ]);
@@ -105,23 +107,23 @@ class CounterpartController extends Controller
             'amount_paid' => 'required|integer',
             'date' => 'required',
         ]);
-    
+
         $student = Student::find($id);
         $student_email = $student->email;
         $student_name = $student->first_name . ' ' . $student->last_name;
-    
+
         // Check for duplicates
         $existingCounterpart = Counterpart::where('month', $validatedData['month'])
             ->where('year', $validatedData['year'])
             ->where('student_id', $id)
             ->first();
-    
+
         if ($existingCounterpart) {
             // A record with the same month, year, and student_id already exists.
-            // You can handle this as needed, e.g., show an error message.
-            return back()->with('error', 'Duplicate counterpart record found');
+            // Return an error response.
+            return response()->json(['error' => 'Duplicate counterpart record found'], 422);
         }
-    
+
         // If no duplicate is found, create and save the counterpart record.
         $counterpart = new Counterpart();
         $counterpart->month = $validatedData['month'];
@@ -130,12 +132,76 @@ class CounterpartController extends Controller
         $counterpart->amount_paid = $validatedData['amount_paid'];
         $counterpart->date = $validatedData['date'];
         $counterpart->student_id = $id;
-    
+
         $counterpart->save();
-    
+
         // Send email notification to the student
         Mail::to($student->email)->send(new SendReceiptOrPaymentInfo($student_name, $counterpart->month, $counterpart->year, $counterpart->amount_due, $counterpart->amount_paid, $counterpart->date));
-    
+
+        // Return success message only if no duplicate was found
         return back()->with('success', 'Counterpart record added!', compact('counterpart'));
-    }    
+    }
+
+    public function updateCounterpart(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'month' => 'required|string',
+            'year' => 'required|integer',
+            'amount_due' => 'required|integer',
+            'amount_paid' => 'required|integer',
+            'date' => 'required',
+        ]);
+
+        $counterpart = Counterpart::find($id);
+        $studentId = $counterpart->student_id;
+        $studentEmail = $counterpart->student->email;
+        $studentName = $counterpart->student->first_name . " " . $counterpart->student->last_name;
+
+        // Check for duplicates
+        $existingCounterpart = Counterpart::where('month', $validatedData['month'])
+            ->where('year', $validatedData['year'])
+            ->where('student_id', $studentId)
+            ->first();
+
+        $counterpart->month = $validatedData['month'];
+        $counterpart->year = $validatedData['year'];
+        $counterpart->amount_due = $validatedData['amount_due'];
+        $counterpart->amount_paid = $validatedData['amount_paid'];
+        $counterpart->date = $validatedData['date'];
+        $counterpart->student_id = $studentId;
+
+        $counterpart->save();
+
+        // Send email notification to the student
+        Mail::to($studentEmail)->send(new SendReceiptOrPaymentInfo($studentName, $counterpart->month, $counterpart->year, $counterpart->amount_due, $counterpart->amount_paid, $counterpart->date));
+
+        // Return success message only if no duplicate was found
+        return back()->with('success', 'Counterpart record updated!', compact('counterpart'));
+    }
+
+    public function deleteCounterpart($id)
+    {
+        // Find the Counterpart record by ID
+        $counterpart = Counterpart::find($id);
+
+        if (!$counterpart) {
+            return back()->with('error', 'Counterpart record not found.');
+        }
+
+        // Store student information before deletion
+        $studentName = $counterpart->student->first_name . ' ' . $counterpart->student->last_name;
+        $studentEmail = $counterpart->student->email;
+        $month = $counterpart->month;
+        $year = $counterpart->year;
+        $amountDue = $counterpart->amount_due;
+        $amountPaid = $counterpart->amount_paid;
+        $date = $counterpart->date;
+
+        Mail::to($studentEmail)->send(new SendDeletionNotification($studentName, $month, $year, $amountDue, $amountPaid, $date));
+
+        $counterpart->delete();
+
+        // Return success message
+        return back()->with('success', 'Counterpart record deleted successfully.');
+    }
 }

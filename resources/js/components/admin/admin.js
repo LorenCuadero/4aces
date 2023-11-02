@@ -9,14 +9,21 @@ $(document).ready(function () {
         );
     }
 
-    $("#monthDropdown, .yearDropdown").change(function () {
-        const selectedMonth = $("#monthDropdown option:selected").text();
-        const selectedYear = $(".yearDropdown option:selected").text();
+    // $("#month, #year").change(function () {
+    //     const selectedMonth = $("#month option:selected").val();
+    //     const selectedYear = $("#year option:selected").val();
 
-        $("#year").val(selectedYear);
-        $("#month").val(selectedMonth);
-    });
+    //     $("#year").val(selectedYear);
+    //     $("#month").val(selectedMonth);
+    // });
 });
+
+const loadingOverlay = $(".loading-spinner-overlay");
+
+function showLoadingSpinner() {
+    loadingOverlay.show();
+    $("body").css("overflow", "hidden");
+}
 
 $(document).ready(function () {
     $(".dropdown-item").click(function () {
@@ -83,6 +90,28 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $(".back").click(function (event) {
+        event.preventDefault();
+
+        // Specify the URL you want to navigate to
+        const customUrl = "/counterpart-records";
+
+        const loadingOverlay = $(".loading-spinner-overlay");
+
+        function showLoadingSpinner() {
+            loadingOverlay.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        showLoadingSpinner();
+
+        // Navigate to the custom URL
+        window.location.href = customUrl;
+    });
+});
+
+
+$(document).ready(function () {
     $("#addStudentCounterpartRecordBtn").click(function (event) {
         $("#add-student-counterpart-modal").modal("show");
     });
@@ -101,28 +130,30 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $("#example2").on("click", "tr", function () {
-        // Get the data from the clicked row
-        const studentName = $(this).find("td:eq(0)").text();
-        const batchYear = $(this).find("td:eq(1)").text();
-        const totalAmountDue = $(this).find("td:eq(2)").text();
-        const totalAmountPaid = $(this).find("td:eq(3)").text();
-        const status = $(this).find("td:eq(4)").text();
+    // Handle the click event on the "View" button
+    $(".view-button-counterpart").on("click", function () {
+        // Get the student ID from the data attribute
+        const studentId = $(this).data("student-id");
 
-        // Construct the HTML for student details
-        const studentDetailsHtml = `
-            <p><strong>Name:</strong> ${studentName}</p>
-            <p><strong>Batch Year:</strong> ${batchYear}</p>
-            <p><strong>Total Amount Due:</strong> ${totalAmountDue}</p>
-            <p><strong>Total Amount Paid:</strong> ${totalAmountPaid}</p>
-            <p><strong>Status:</strong> ${status}</p>
-        `;
+        // Construct the URL for the route
+        const finalUrl = `/counterpart-records/${studentId}`;
 
-        // Set the HTML in the modal body
-        $("#studentDetails").html(studentDetailsHtml);
+        const loadingOverlay = $(".loading-spinner-overlay");
+        let successNotificationShown = false; // Flag to track whether the success notification has been shown
 
-        // Show the modal
-        $("#studentModal").modal("show");
+        // Function to show the loading spinner
+        function showLoadingSpinner() {
+            loadingOverlay.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        showLoadingSpinner();
+
+        // Use setTimeout to delay the redirection
+        setTimeout(function () {
+            // Redirect to the intended page
+            window.location.href = finalUrl;
+        }, 100); // Replace 1000 with the desired delay in milliseconds
     });
 });
 
@@ -456,5 +487,95 @@ $(document).ready(function () {
             $("body").css("overflow", "auto");
             toastr.success("Email sent successfully!");
         }, 5000);
+    });
+});
+
+
+$(document).ready(function () {
+    $(".edit-student-counterpart-button").click(function () {
+        const editModal = $("#edit-student-counterpart-modal");
+        const month = $(this).data("month");
+        const year = $(this).data("year");
+        const amountDue = $(this).data("amount-due");
+        const amountPaid = $(this).data("amount-paid");
+        const date = $(this).data("date");
+        const id = $(this).data("id");
+        const editUrl = $(this).data("edit-url");
+
+        // Set the values in the modal fields
+        editModal.find("#edit-month").val(month);
+        editModal.find("#edit-year").val(year);
+        editModal.find("#edit-amount_due").val(amountDue);
+        editModal.find("#edit-amount_paid").val(amountPaid);
+        editModal.find("#edit-date").val(date);
+        $("#edit-counterpart-form").attr(
+            "action",
+            editUrl.replace("counterpart_id", id)
+        );
+
+
+        editModal.modal("show");
+    });
+});
+
+$(document).ready(function () {
+    $(".delete-counterpart").click(function () {
+        const deleteId = $(this).data("id");
+        const deleteModal = $("#delete-counterpart-confirmation-modal");
+        const deletionUrl = $(this).data("delete-url");
+
+        $("#deletion-confirmed-form").attr(
+            "action",
+            deletionUrl.replace("counterpart_id", deleteId)
+        );
+
+        deleteModal.modal("show");
+    });
+
+}); $(document).ready(function () {
+    $("#deletion-confirmed-form").submit(function (e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        var loadingOverlay1 = $(".loading-spinner-overlay");
+        let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+        // Function to show the loading spinner
+        function showLoadingSpinner() {
+            loadingOverlay1.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        // Function to hide the loading spinner
+        function hideLoadingSpinner() {
+            loadingOverlay1.hide();
+            $("body").css("overflow", "auto");
+        }
+
+        // Show the loading spinner when the form is submitted
+        showLoadingSpinner();
+
+        // Perform an AJAX form submission
+        $.ajax({
+            url: $(this).attr("action"), // Use the form's action attribute as the URL
+            type: $(this).attr("method"), // Use the form's method attribute as the HTTP method
+            data: $(this).serialize(), // Serialize the form data
+
+            success: function (response) {
+                // Hide the loading spinner when the request is complete
+                hideLoadingSpinner();
+
+                // Display a success Toastr notification
+                toastr.success("Successfully removed data!");
+
+                // Optionally, you can add code to update the page without a full reload
+                location.reload();
+            },
+            error: function (error) {
+                // Hide the loading spinner when there's an error
+                hideLoadingSpinner();
+
+                toastr.error("An error occurred while removing data, please try again.");
+            },
+        });
     });
 });

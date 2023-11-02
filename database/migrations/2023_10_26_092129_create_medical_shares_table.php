@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained();
             $table->string('medical_concern');
-            $table->integer('total_cost');
-            $table->integer('amount_paid');
+            $table->decimal('total_cost');
+            $table->decimal('amount_paid');
             $table->date('date');
             $table->timestamps();
         });

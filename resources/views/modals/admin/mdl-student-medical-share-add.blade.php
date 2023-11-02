@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group">
                         <label for="amount_due">Total Medical Expense</label>
-                        <input type="number" name="amount_due" id="amount_due" class="form-control">
+                        <input type="number" name="amount_due" id="amount_due" class="form-control" step="0.0000001" inputmode="numeric">
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">15% Share</label>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">Amount Paid</label>
-                        <input type="number" name="amount_paid" id="amount_paid" class="form-control">
+                        <input type="number" name="amount_paid" id="amount_paid" class="form-control" step="0.0000001" inputmode="numeric">
                     </div>
                     <div class="form-group">
                         <label for="date">Date</label>

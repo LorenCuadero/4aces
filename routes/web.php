@@ -104,6 +104,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [CounterpartController::class, 'counterpartRecords'])->name('admin.counterpartRecords');
         Route::get('/{id}', [CounterpartController::class, 'studentPageCounterpartRecords'])->name('admin.studentPageCounterpartRecords');
         Route::post('/{id}', [CounterpartController::class, 'storeCounterpart'])->name('admin.storeCounterpart');
+        Route::put('/{id}', [CounterpartController::class, 'updateCounterpart'])->name('admin.updateCounterpart');
+        Route::delete('/{id}', [CounterpartController::class, 'deleteCounterpart'])->name('admin.deleteCounterpart');
     });
 
     Route::prefix('/medical-share-records')->group(function () {
@@ -118,12 +120,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/{id}', [PersonalCashAdvanceController::class, 'storePersonalCA'])->name('admin.storePersonalCA');
     });
 
-    
+
     Route::prefix('/graduation-fees-records')->group(function () {
         Route::get('/', [GraduationFeeController::class, 'graduationFees'])->name('admin.graduationFees');
         Route::get('/{id}', [GraduationFeeController::class, 'studentGraduationFeeRecords'])->name('admin.studentGraduationFeeRecords');
         Route::post('/{id}', [GraduationFeeController::class, 'storeGraduationFee'])->name('admin.storeGraduationFee');
-    });    
+    });
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
