@@ -96,7 +96,7 @@ Total Payable: 0.00 PHP
 Thank you so much!
                                             </textarea>
                                             <br>
-                                            <button class="btn" type="submit" id="sendButton">Send</button>
+                                            <button class="btn btn-sm sendButton p-2" style="background-color: #1f3c88; color:#ffffff"  type="submit">Send</button>
                                         </div>
                                     </div>
                                 </div>

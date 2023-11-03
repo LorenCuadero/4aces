@@ -13,16 +13,16 @@
                 <div class="flex-container align-middle">
                     <div class="left-column">
                         <div class="left-content" style="background-color: #1f3c88;">
-                            <p class="text-disp">Total Amount UNPaid</p>
-                            <p class="text-disp">Counterpart: ₱ 11,500.00</p>
-                            <p class="text-disp">Medical (15%): ₱ 1,000.00</p>
-                            <p class="text-disp">Personal cash advance: ₱ 1,000.00</p>
-                            <p class="text-disp">Graduation fee: not available</p>
+                            <p class="text-disp">Total Amount Unpaid</p>
+                            <p class="text-disp">Counterpart: ₱ {{ $totalCounterpart }}</p>
+                            <p class="text-disp">Medical (15%): ₱ {{ $totalMedical }}</p>
+                            <p class="text-disp">Personal cash advance: ₱ {{ $totalPersonalCashAdvance }}</p>
+                            <p class="text-disp">Graduation fee: ₱ {{ $totalGraduationFee }}</p>
                         </div>
                     </div>
                     <div class="right-column" style="text-align: center">
                         <div class="right-content" style="border: none">
-                            <h1>Total no of Payable</h1>
+                            <h1 style="font-size: 50px">₱ {{ $totalPayables }}</h1>
                         </div>
                     </div>
                 </div>
@@ -55,35 +55,28 @@
                         <div class="left-content1">
                             <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
                                 <!-- Content for "UNpaid Counterpart" -->
-                                <div class="flex-container align-middle"
-                                    style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
-                                    <div class="left-column" style="padding: 2%;">
-                                        <div class="left-content1">
-                                            <p style="margin: 1%">JUNE 2023</p>
-                                            <p>06/30/2023</p>
+                                @if (count($unpaidCounterpartRecords) > 0)
+                                    @foreach ($unpaidCounterpartRecords as $record)
+                                        <div class="flex-container align-middle"
+                                            style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
+                                            <div class="left-column" style="padding: 2%;">
+                                                <div class="left-content1">
+                                                    <p style="margin: 1%">
+                                                        {{ date('F', mktime(0, 0, 0, $record->month, 1)) }}</p>
+                                                    <p>{{ $record->created_at->format('M d, Y') }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="right-column" style="padding: 2%;">
+                                                <div class="right-content" style="border: none">
+                                                    <p>₱ {{ number_format($record->amount_due, 2) }}</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="right-column" style="padding: 2%;">
-                                        <div class="right-content" style="border: none">
-                                            <p>₱ 500.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="flex-container align-middle"
-                                    style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
-                                    <div class="left-column" style="padding: 2%;">
-                                        <div class="left-content1">
-                                            <p style="margin: 1%">JUNE 2023</p>
-                                            <p>06/30/2023</p>
-                                        </div>
-                                    </div>
-                                    <div class="right-column" style="padding: 2%;">
-                                        <div class="right-content" style="border: none">
-                                            <p>₱ 500.00</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                        <br>
+                                    @endforeach
+                                @else
+                                    <p>No unpaid counterpart records found.</p>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -114,35 +107,31 @@
                         <div class="left-content1">
                             <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
                                 <!-- Content for "UNpaid Counterpart" -->
-                                <div class="flex-container align-middle"
-                                    style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
-                                    <div class="left-column" style="padding: 2%;">
-                                        <div class="left-content1">
-                                            <p style="margin: 1%">JUNE 2023</p>
-                                            <p>06/30/2023</p>
+                                @if (count($unpaidMedicalRecords) > 0)
+                                    @foreach ($unpaidMedicalRecords as $record)
+                                        <div class="flex-container align-middle"
+                                            style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
+                                            <div class="left-column" style="padding: 2%;">
+                                                <div class="left-content1">
+                                                    <p style="margin: 1%">
+                                                        {{ date('F', mktime(0, 0, 0, $record->month, 1)) }}</p>
+                                                    <p>{{ $record->created_at->format('M d, Y') }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="right-column" style="padding: 2%;">
+                                                <div class="right-content" style="border: none">
+                                                    <p>₱ {{ number_format($record->total_cost * 0.15, 2) }}</p>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <br>
+                                    @endforeach
+                                @else
+                                    <div class="flex-container align-middle"
+                                        style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
+                                        <p>No unpaid counterpart records found.</p>
                                     </div>
-                                    <div class="right-column" style="padding: 2%;">
-                                        <div class="right-content" style="border: none">
-                                            <p>₱ 500.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="flex-container align-middle"
-                                    style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
-                                    <div class="left-column" style="padding: 2%;">
-                                        <div class="left-content1">
-                                            <p style="margin: 1%">JUNE 2023</p>
-                                            <p>06/30/2023</p>
-                                        </div>
-                                    </div>
-                                    <div class="right-column" style="padding: 2%;">
-                                        <div class="right-content" style="border: none">
-                                            <p>₱ 500.00</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -173,35 +162,31 @@
                         <div class="left-content1">
                             <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
                                 <!-- Content for "UNpaid Counterpart" -->
-                                <div class="flex-container align-middle"
-                                    style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
-                                    <div class="left-column" style="padding: 2%;">
-                                        <div class="left-content1">
-                                            <p style="margin: 1%">JUNE 2023</p>
-                                            <p>06/30/2023</p>
+                                @if (count($unpaidPersonalCARecords) > 0)
+                                    @foreach ($unpaidPersonalCARecords as $record)
+                                        <div class="flex-container align-middle"
+                                            style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
+                                            <div class="left-column" style="padding: 2%;">
+                                                <div class="left-content1">
+                                                    <p style="margin: 1%">
+                                                        {{ date('F', mktime(0, 0, 0, $record->month, 1)) }}</p>
+                                                    <p>{{ $record->created_at->format('M d, Y') }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="right-column" style="padding: 2%;">
+                                                <div class="right-content" style="border: none">
+                                                    <p>₱ {{ number_format($record->amount_due, 2) }}</p>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <br>
+                                    @endforeach
+                                @else
+                                    <div class="flex-container align-middle"
+                                        style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
+                                        <p>No unpaid counterpart records found.</p>
                                     </div>
-                                    <div class="right-column" style="padding: 2%;">
-                                        <div class="right-content" style="border: none">
-                                            <p>₱ 500.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="flex-container align-middle"
-                                    style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
-                                    <div class="left-column" style="padding: 2%;">
-                                        <div class="left-content1">
-                                            <p style="margin: 1%">JUNE 2023</p>
-                                            <p>06/30/2023</p>
-                                        </div>
-                                    </div>
-                                    <div class="right-column" style="padding: 2%;">
-                                        <div class="right-content" style="border: none">
-                                            <p>₱ 500.00</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -232,35 +217,31 @@
                         <div class="left-content1">
                             <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
                                 <!-- Content for "UNpaid Counterpart" -->
-                                <div class="flex-container align-middle"
-                                    style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
-                                    <div class="left-column" style="padding: 2%;">
-                                        <div class="left-content1">
-                                            <p style="margin: 1%">JUNE 2023</p>
-                                            <p>06/30/2023</p>
+                                @if (count($unpaidGraduationFeeRecords) > 0)
+                                    @foreach ($unpaidGraduationFeeRecords as $record)
+                                        <div class="flex-container align-middle"
+                                            style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
+                                            <div class="left-column" style="padding: 2%;">
+                                                <div class="left-content1">
+                                                    <p style="margin: 1%">
+                                                        {{ date('F', mktime(0, 0, 0, $record->month, 1)) }}</p>
+                                                    <p>{{ $record->created_at->format('M d, Y') }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="right-column" style="padding: 2%;">
+                                                <div class="right-content" style="border: none">
+                                                    <p>₱ {{ number_format($record->amount_due, 2) }}</p>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <br>
+                                    @endforeach
+                                @else
+                                    <div class="flex-container align-middle"
+                                        style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
+                                        <p>No unpaid counterpart records found.</p>
                                     </div>
-                                    <div class="right-column" style="padding: 2%;">
-                                        <div class="right-content" style="border: none">
-                                            <p>₱ 500.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="flex-container align-middle"
-                                    style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
-                                    <div class="left-column" style="padding: 2%;">
-                                        <div class="left-content1">
-                                            <p style="margin: 1%">JUNE 2023</p>
-                                            <p>06/30/2023</p>
-                                        </div>
-                                    </div>
-                                    <div class="right-column" style="padding: 2%;">
-                                        <div class="right-content" style="border: none">
-                                            <p>₱ 500.00</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>

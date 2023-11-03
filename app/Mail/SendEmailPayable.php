@@ -23,16 +23,16 @@ class SendEmailPayable extends Mailable
 
     public $year;
 
-    public  $counterpartBalance; 
+    public  $counterpartBalance;
 
     public $medicalShareBalance;
-    
+
     public $total;
 
     public function __construct($student_name, $month, $year, $counterpartBalance, $medicalShareBalance, $total)
     {
         $this->student_name = $student_name;
-        $this->month = $month;
+        $this->month = $this->getMonthName($month);
         $this->year = $year;
         $this->counterpartBalance = $counterpartBalance;
         $this->medicalShareBalance = $medicalShareBalance;
@@ -48,7 +48,7 @@ class SendEmailPayable extends Mailable
             subject: "Statement of Account for Parents' Counterpart Balances as of: {$this->month} {$this->year}"
         );
     }
-    
+
 
     /**
      * Get the message content definition.
@@ -68,5 +68,25 @@ class SendEmailPayable extends Mailable
     public function attachments(): array
     {
         return [];
+    }
+
+    private function getMonthName($month)
+    {
+        $months = [
+            1 => 'January',
+            2 => 'February',
+            3 => 'March',
+            4 => 'April',
+            5 => 'May',
+            6 => 'June',
+            7 => 'July',
+            8 => 'August',
+            9 => 'September',
+            10 => 'October',
+            11 => 'November',
+            12 => 'December',
+        ];
+
+        return $months[$month] ?? 'Unknown'; // Provide a default value for unknown months
     }
 }

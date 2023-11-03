@@ -18,14 +18,22 @@ class SendClosingOfAccountsEmail extends Mailable
      */
 
     public $student_name;
-
     public $graduation_date;
+    public $counterpartBalance;
+    public $medicalShareBalance;
+    public $personalShareBalance;
+    public $graduationFeeBalance;
 
-    public function __construct($student_name, $graduation_date)
+    public function __construct($student_name, $graduation_date, $counterpartBalance, $medicalShareBalance, $personalShareBalance, $graduationFeeBalance)
     {
         $this->student_name = $student_name;
         $this->graduation_date = $graduation_date;
+        $this->counterpartBalance = $counterpartBalance;
+        $this->medicalShareBalance = $medicalShareBalance;
+        $this->personalShareBalance = $personalShareBalance;
+        $this->graduationFeeBalance = $graduationFeeBalance;
     }
+
 
     /**
      * Get the message envelope.

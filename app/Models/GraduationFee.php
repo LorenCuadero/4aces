@@ -15,4 +15,9 @@ class GraduationFee extends Model
         'amount_paid',
         'date',
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
 }

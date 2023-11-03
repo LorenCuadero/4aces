@@ -22,11 +22,10 @@
     <p> Here's your account statement, please settle your balances regularly so that it won't be burdensome for you to
         pay
         prior to graduation.</p>
-    <p style="margin-left: 5%"> Parents Counterpart as of {{ $month }}, {{ $year }}: {{ $counterpartBalance }} PHP <br>
-        Remaining Debt from Medical Fees: {{ $medicalShareBalance }} PHP <br>
-        Other Payable: 0.00 PHP <br>
+    <p style="margin-left: 5%"> Parents Counterpart as of {{ $month }}, {{ $year }}: <b>{{ $counterpartBalance }} PHP</b>  <br>
+        Remaining Debt from Medical Fees: <b>{{ $medicalShareBalance }} PHP</b> <br>
+        Other Payable: <b>0.00 PHP</b> <br>
         <b>Total Payable: {{ $total }} PHP</b></p>
-
 
     <p>To see all your records, click this link: (ioms-pn-student-parent-portal-link)</p>
 

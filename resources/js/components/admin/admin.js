@@ -9,13 +9,19 @@ $(document).ready(function () {
         );
     }
 
-    // $("#month, #year").change(function () {
-    //     const selectedMonth = $("#month option:selected").val();
-    //     const selectedYear = $("#year option:selected").val();
+    $("#email-form").submit(function (e) {
+        e.preventDefault(); // Prevent the form from submitting
 
-    //     $("#year").val(selectedYear);
-    //     $("#month").val(selectedMonth);
-    // });
+        const selectedMonth = $("#monthDropdown option:selected").val();
+        const selectedYear = $(".yearDropdown option:selected").val();
+
+        // Set the hidden input values with the selected month and year
+        $("#month").val(selectedMonth);
+        $("#year").val(selectedYear);
+
+        // Now you can submit the form
+        this.submit();
+    });
 });
 
 const loadingOverlay = $(".loading-spinner-overlay");
@@ -490,10 +496,10 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $("#sendButton").click(function (event) {
+    $(".sendButton").click(function (event) {
         event.preventDefault();
 
-        const form = $("#email-form");
+        const form = $("#send-coa-email-form");
         const loadingOverlay = $(".loading-spinner-overlay");
 
         function showLoadingSpinner() {
@@ -501,9 +507,9 @@ $(document).ready(function () {
             $("body").css("overflow", "hidden");
         }
         showLoadingSpinner();
-        form.submit();
         setTimeout(function () {
             $("body").css("overflow", "auto");
+            form.submit();
             toastr.success("Email sent successfully!");
         }, 5000);
     });
@@ -642,6 +648,7 @@ $(document).ready(function () {
         viewModalDash.modal("show");
     });
 });
+
 $(document).ready(function () {
     const totalNumberOfStudentsPerBatch = $("#batch-year-form");
     const totalByYear = totalNumberOfStudentsPerBatch.data("total-by-year");
