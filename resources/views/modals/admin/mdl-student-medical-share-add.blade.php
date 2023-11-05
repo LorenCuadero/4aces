@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body" style="text-align: left">
-                <form id="new-form" method="POST"
+                <form id="new-form-medical" method="POST"
                     action="{{ route('admin.storeMedicalShare', ['id' => $student->id]) }}">
                     @csrf
                     <input type="hidden" name="student_id" value="{{ $student->id }}">
@@ -19,19 +19,23 @@
                     </div>
                     <div class="form-group">
                         <label for="amount_due">Total Medical Expense</label>
-                        <input type="number" name="amount_due" id="amount_due" class="form-control" step="0.0000001" inputmode="numeric">
+                        <input type="text" name="amount_due" id="amount_due" class="form-control"
+                            inputmode="numeric">
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">15% Share</label>
-                        <input type="number" class="form-control" placeholder="15% share will automatically be calculated" readonly>
+                        <input type="text" class="form-control"
+                            placeholder="15% share will automatically be calculated" readonly>
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">Amount Paid</label>
-                        <input type="number" name="amount_paid" id="amount_paid" class="form-control" step="0.0000001" inputmode="numeric">
+                        <input type="text" name="amount_paid" id="amount_paid" class="form-control"
+                            inputmode="numeric">
                     </div>
                     <div class="form-group">
                         <label for="date">Date</label>
-                        <input type="date" name="date" class="form-control" id="date" rows="3" placeholder="" required />
+                        <input type="date" name="date" class="form-control" id="date" rows="3"
+                            placeholder="" required />
                     </div>
                     <div class="form-group" style="float: right;">
                         <button type="submit" class="btn btn-primary">Add</button>

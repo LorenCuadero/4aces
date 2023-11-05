@@ -4,7 +4,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header d-flex flex-wrap align-items-center justify-content-between"  style="color:#1f3c88; background-color:#fff">
+                    <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
+                        style="color:#1f3c88; background-color:#fff">
                         <h1 class="card-title mb-3 mb-md-0">
                             <b>Personal Record of:</b>
                             {{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
@@ -13,15 +14,14 @@
                         <div class="d-flex flex-wrap align-items-center ml-auto">
                             <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0">
                                 <div class="nav-item btn btn-sm" id="addStudentPersonalCARecordBtn"
-                                    style="display: flex; align-items:center; height: 38px; margin-left: 4px;"
+                                    style="display: flex; align-items:center; background-color:#1f3c88; margin-right:2px;"
                                     data-target="add-student-grd-modal" data-toggle="modal">
                                     <a class="nav-link align-items-center"
-                                        style="color:#1f3c88;height: 100%; display: flex; align-items: center;">Add</a>
+                                        style="color:#ffffff;height: 100%; display: flex;">Add</a>
                                 </div>
-                                <div class="nav-item btn btn-sm" id="back"
-                                    style="display: flex; align-items:center; height: 38px; margin-left: 4px;">
+                                <div class="nav-item btn btn-sm" id="back" style="display: flex; align-items:center;">
                                     <a href="{{ route('admin.personalCA') }}" class="nav-link align-items-center"
-                                        style="color:#fff;height: 100%; display: flex; align-items: center;">Back</a>
+                                        style="color:#fff;">Back</a>
                                 </div>
                             </form>
                         </div>
@@ -31,12 +31,15 @@
                             <input type="hidden" value="{{ $student->id }}">
                             <table class="table table-bordered table-hover data-table text-center">
                                 <thead>
-                                    <tr >
-                                        <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Purpose</th>
-                                        <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Amount Due</th>
-                                        <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Amount Paid</th>
+                                    <tr>
+                                        <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Purpose
+                                        </th>
+                                        <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Amount Due
+                                        </th>
+                                        <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Amount Paid
+                                        </th>
                                         <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Date</th>
-                                        <th  style="background-color: #fff; color:#1f3c88;" class="vertical-text"></th>
+                                        <th style="background-color: #fff; color:#1f3c88;" class="vertical-text"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-body">
@@ -47,9 +50,21 @@
                                             <td>{{ $personal_ca_record->amount_paid }}</td>
                                             <td>{{ $personal_ca_record->date }}</td>
                                             <td>
-                                                <a href="{{ route('admin.storeCounterpart', ['id' => $student->id]) }}"
-                                                    id="grade-button" class="btn btn-sm">
+                                                <a href="#" id="edit-pca" data-id="{{ $personal_ca_record->id }}"
+                                                    data-edit-url="{{ route('admin.updatePersonalCA', ['id' => 'personal_ca_id']) }}"
+                                                    data-purpose="{{ $personal_ca_record->purpose }}"
+                                                    data-amount-due="{{ $personal_ca_record->amount_due }}"
+                                                    data-amount-paid="{{ $personal_ca_record->amount_paid }}"
+                                                    data-date="{{ $personal_ca_record->date }}"
+                                                    class="btn btn-sm edit-student-personal-ca-button"
+                                                    style="background-color: #1f3c88; color: #ffff; width:50%; border-radius: 20px; margin: 2px">
                                                     Edit
+                                                </a>
+                                                <a href="#" data-id="{{ $counterpart->id }}"
+                                                    data-delete-url="{{ route('admin.deletePersonalCA', ['id' => 'personal_ca_id']) }}"
+                                                    class="btn btn-sm delete-personal-ca"
+                                                    style="background-color: #dd3e3e; color: #ffff; width:50%; border-radius: 20px; margin: 2px;">
+                                                    Delete
                                                 </a>
                                             </td>
                                         </tr>
@@ -71,4 +86,6 @@
         </div>
     </section>
     @include('modals.admin.mdl-student-personal-ca-add')
+    @include('modals.admin.mdl-student-personal-ca-edit')
+    @include('modals.admin.mdl-delete-personal-confirmation')
 @endsection

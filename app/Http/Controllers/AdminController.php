@@ -11,7 +11,7 @@ use App\Models\GraduationFee;
 use App\Models\MedicalShare;
 use App\Models\PersonalCashAdvance;
 use App\Models\Student;
-use DateTime;
+use dateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -97,123 +97,165 @@ class AdminController extends Controller
 
         // Calculate the percentage for each category per month
         // January
-        $medicalSharePaidCountJanuary = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '01')->count();
+        $medicalSharePaidCountJanuary = MedicalShare::where('amount_paid', '>', 0)
+            ->whereMonth('date', 1)
+            ->count();
         $medicalSharePaidCountJanuary = $medicalSharePaidCountJanuary / $totalNumberOfStudents * 100;
         $counterpartPaidCountJanuary = Counterpart::where('amount_paid', '>', 0)->where('month', '1')->count();
         $counterpartPaidCountJanuary = $counterpartPaidCountJanuary / $totalNumberOfStudents * 100;
-        $graduationFeePaidCountJanuary = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '01')->count();
+        $graduationFeePaidCountJanuary = GraduationFee::where('amount_paid', '>', 0)
+            ->whereMonth('date', 1)
+            ->count();
         $graduationFeePaidCountJanuary = $graduationFeePaidCountJanuary / $totalNumberOfStudents * 100;
-        $personalCashAdvancePaidCountJanuary = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '01')->count();
+        $personalCashAdvancePaidCountJanuary = PersonalCashAdvance::where('amount_paid', '>', 0)
+            ->whereMonth('date', 1)
+            ->count();
         $personalCashAdvancePaidCountJanuary = $personalCashAdvancePaidCountJanuary / $totalNumberOfStudents * 100;
 
         // February
-        $medicalSharePaidCountFebruary = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '02')->count();
+        $medicalSharePaidCountFebruary = MedicalShare::where('amount_paid', '>', 0)
+            ->whereMonth('date', 2)
+            ->count();
         $medicalSharePaidCountFebruary = $medicalSharePaidCountFebruary / $totalNumberOfStudents * 100;
         $counterpartPaidCountFebruary = Counterpart::where('amount_paid', '>', 0)->where('month', '2')->count();
         $counterpartPaidCountFebruary = $counterpartPaidCountFebruary / $totalNumberOfStudents * 100;
-        $graduationFeePaidCountFebruary = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '02')->count();
+        $graduationFeePaidCountFebruary = GraduationFee::where('amount_paid', '>', 0)
+            ->whereMonth('date', 2)
+            ->count();
         $graduationFeePaidCountFebruary = $graduationFeePaidCountFebruary / $totalNumberOfStudents * 100;
-        $personalCashAdvancePaidCountFebruary = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '20')->count();
+        $personalCashAdvancePaidCountFebruary = PersonalCashAdvance::where('amount_paid', '>', 0)
+            ->whereMonth('date', 2)
+            ->count();
         $personalCashAdvancePaidCountFebruary = $personalCashAdvancePaidCountFebruary / $totalNumberOfStudents * 100;
 
         // March
-        $medicalSharePaidCountMarch = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '03')->count();
+        $medicalSharePaidCountMarch = MedicalShare::where('amount_paid', '>', 0)
+            ->whereMonth('date', 3)->count();
         $medicalSharePaidCountMarch = $medicalSharePaidCountMarch / $totalNumberOfStudents * 100;
         $counterpartPaidCountMarch = Counterpart::where('amount_paid', '>', 0)->where('month', '3')->count();
         $counterpartPaidCountMarch = $counterpartPaidCountMarch / $totalNumberOfStudents * 100;
-        $graduationFeePaidCountMarch = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '03')->count();
+        $graduationFeePaidCountMarch = GraduationFee::where('amount_paid', '>', 0)
+            ->whereMonth('date', 3)->count();
         $graduationFeePaidCountMarch = $graduationFeePaidCountMarch / $totalNumberOfStudents * 100;
-        $personalCashAdvancePaidCountMarch = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '03')->count();
+        $personalCashAdvancePaidCountMarch = PersonalCashAdvance::where('amount_paid', '>', 0)
+            ->whereMonth('date', 3)->count();
         $personalCashAdvancePaidCountMarch = $personalCashAdvancePaidCountMarch / $totalNumberOfStudents * 100;
 
         // April
-        $medicalSharePaidCountApril = MedicalShare::where('amount_paid', '', 0)->whereMonth('created_at', '04')->count();
+        $medicalSharePaidCountApril = MedicalShare::where('amount_paid', '', 0)
+            ->whereMonth('date', 4)->count();
         $medicalSharePaidCountApril = $medicalSharePaidCountApril / $totalNumberOfStudents * 100;
         $counterpartPaidCountApril = Counterpart::where('amount_paid', '>', 0)->where('month', '4')->count();
         $counterpartPaidCountApril = $counterpartPaidCountApril / $totalNumberOfStudents * 100;
-        $graduationFeePaidCountApril = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '04')->count();
+        $graduationFeePaidCountApril = GraduationFee::where('amount_paid', '>', 0)
+            ->whereMonth('date', 4)->count();
         $graduationFeePaidCountApril = $graduationFeePaidCountApril / $totalNumberOfStudents * 100;
-        $personalCashAdvancePaidCountApril = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '04')->count();
+        $personalCashAdvancePaidCountApril = PersonalCashAdvance::where('amount_paid', '>', 0)
+            ->whereMonth('date', 4)->count();
         $personalCashAdvancePaidCountApril = $personalCashAdvancePaidCountApril / $totalNumberOfStudents * 100;
 
         // May
-        $medicalSharePaidCountMay = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '05')->count();
+        $medicalSharePaidCountMay = MedicalShare::where('amount_paid', '>', 0)
+            ->whereMonth('date', 5)->count();
         $medicalSharePaidCountMay = $medicalSharePaidCountMay / $totalNumberOfStudents * 100;
         $counterpartPaidCountMay = Counterpart::where('amount_paid', '>', 0)->where('month', '5')->count();
         $counterpartPaidCountMay = $counterpartPaidCountMay / $totalNumberOfStudents * 100;
-        $graduationFeePaidCountMay = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '05')->count();
+        $graduationFeePaidCountMay = GraduationFee::where('amount_paid', '>', 0)
+            ->whereMonth('date', 5)->count();
         $graduationFeePaidCountMay = $graduationFeePaidCountMay / $totalNumberOfStudents * 100;
-        $personalCashAdvancePaidCountMay = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '05')->count();
+        $personalCashAdvancePaidCountMay = PersonalCashAdvance::where('amount_paid', '>', 0)
+            ->whereMonth('date', 5)->count();
         $personalCashAdvancePaidCountMay = $personalCashAdvancePaidCountMay / $totalNumberOfStudents * 100;
 
         // June
-        $medicalSharePaidCountJune = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '06')->count();
+        $medicalSharePaidCountJune = MedicalShare::where('amount_paid', '>', 0)
+            ->whereMonth('date', 6)->count();
         $medicalSharePaidCountJune = $medicalSharePaidCountJune / $totalNumberOfStudents * 100;
         $counterpartPaidCountJune = Counterpart::where('amount_paid', '>', 0)->where('month', '6')->count();
         $counterpartPaidCountJune = $counterpartPaidCountJune / $totalNumberOfStudents * 100;
-        $graduationFeePaidCountJune = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '06')->count();
+        $graduationFeePaidCountJune = GraduationFee::where('amount_paid', '>', 0)
+            ->whereMonth('date', 6)->count();
         $graduationFeePaidCountJune = $graduationFeePaidCountJune / $totalNumberOfStudents * 100;
-        $personalCashAdvancePaidCountJune = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '06')->count();
+        $personalCashAdvancePaidCountJune = PersonalCashAdvance::where('amount_paid', '>', 0)
+            ->whereMonth('date', 6)->count();
         $personalCashAdvancePaidCountJune = $graduationFeePaidCountJune / $totalNumberOfStudents * 100;
 
         // July
-        $medicalSharePaidCountJuly = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '07')->count();
+        $medicalSharePaidCountJuly = MedicalShare::where('amount_paid', '>', 0)
+            ->whereMonth('date', 7)->count();
         $medicalSharePaidCountJuly = $medicalSharePaidCountJuly / $totalNumberOfStudents * 100;
         $counterpartPaidCountJuly = Counterpart::where('amount_paid', '>', 0)->where('month', '7')->count();
         $counterpartPaidCountJuly = $counterpartPaidCountJuly / $totalNumberOfStudents * 100;
-        $graduationFeePaidCountJuly = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '07')->count();
+        $graduationFeePaidCountJuly = GraduationFee::where('amount_paid', '>', 0)
+            ->whereMonth('date', 7)->count();
         $graduationFeePaidCountJuly = $graduationFeePaidCountJuly / $totalNumberOfStudents * 100;
-        $personalCashAdvancePaidCountJuly = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '07')->count();
+        $personalCashAdvancePaidCountJuly = PersonalCashAdvance::where('amount_paid', '>', 0)
+            ->whereMonth('date', 7)->count();
         $personalCashAdvancePaidCountJuly = $personalCashAdvancePaidCountJuly / $totalNumberOfStudents * 100;
 
         // August
-        $medicalSharePaidCountAugust = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '08')->count();
+        $medicalSharePaidCountAugust = MedicalShare::where('amount_paid', '>', 0)
+            ->whereMonth('date', 8)->count();
         $medicalSharePaidCountAugust = $medicalSharePaidCountAugust / $totalNumberOfStudents * 100;
         $counterpartPaidCountAugust = Counterpart::where('amount_paid', '>', 0)->where('month', '8')->count();
         $counterpartPaidCountAugust = $counterpartPaidCountAugust / $totalNumberOfStudents * 100;
-        $graduationFeePaidCountAugust = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '08')->count();
+        $graduationFeePaidCountAugust = GraduationFee::where('amount_paid', '>', 0)
+            ->whereMonth('date', 8)->count();
         $graduationFeePaidCountAugust = $graduationFeePaidCountAugust / $totalNumberOfStudents * 100;
-        $personalCashAdvancePaidCountAugust = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '08')->count();
+        $personalCashAdvancePaidCountAugust = PersonalCashAdvance::where('amount_paid', '>', 0)
+            ->whereMonth('date', 8)->count();
         $personalCashAdvancePaidCountAugust = $personalCashAdvancePaidCountAugust / $totalNumberOfStudents * 100;
 
         // September
-        $medicalSharePaidCountSeptember = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '09')->count();
+        $medicalSharePaidCountSeptember = MedicalShare::where('amount_paid', '>', 0)
+            ->whereMonth('date', 9)->count();
         $medicalSharePaidCountSeptember = $medicalSharePaidCountSeptember / $totalNumberOfStudents * 100;
         $counterpartPaidCountSeptember = Counterpart::where('amount_paid', '>', 0)->where('month', '9')->count();
         $counterpartPaidCountSeptember = $counterpartPaidCountSeptember / $totalNumberOfStudents * 100;
-        $graduationFeePaidCountSeptember = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '09')->count();
+        $graduationFeePaidCountSeptember = GraduationFee::where('amount_paid', '>', 0)
+            ->whereMonth('date', 9)->count();
         $graduationFeePaidCountSeptember = $graduationFeePaidCountSeptember / $totalNumberOfStudents * 100;
-        $personalCashAdvancePaidCountSeptember = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '09')->count();
+        $personalCashAdvancePaidCountSeptember = PersonalCashAdvance::where('amount_paid', '>', 0)
+            ->whereMonth('date', 9)->count();
         $personalCashAdvancePaidCountSeptember = $personalCashAdvancePaidCountSeptember / $totalNumberOfStudents * 100;
 
         // October
-        $medicalSharePaidCountOctober = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '10')->count();
+        $medicalSharePaidCountOctober = MedicalShare::where('amount_paid', '>', 0)
+            ->whereMonth('date', 10)->count();
         $medicalSharePaidCountOctober = $medicalSharePaidCountOctober / $totalNumberOfStudents * 100;
         $counterpartPaidCountOctober = Counterpart::where('amount_paid', '>', 0)->where('month', '10')->count();
         $counterpartPaidCountOctober = $counterpartPaidCountOctober / $totalNumberOfStudents * 100;
-        $graduationFeePaidCountOctober = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '10')->count();
+        $graduationFeePaidCountOctober = GraduationFee::where('amount_paid', '>', 0)
+            ->whereMonth('date', 10)->count();
         $graduationFeePaidCountOctober = $graduationFeePaidCountOctober / $totalNumberOfStudents * 100;
-        $personalCashAdvancePaidCountOctober = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '10')->count();
+        $personalCashAdvancePaidCountOctober = PersonalCashAdvance::where('amount_paid', '>', 0)
+            ->whereMonth('date', 10)->count();
         $personalCashAdvancePaidCountOctober = $personalCashAdvancePaidCountOctober / $totalNumberOfStudents * 100;
 
         // November
-        $medicalSharePaidCountNovember = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '11')->count();
+        $medicalSharePaidCountNovember = MedicalShare::where('amount_paid', '>', 0)
+            ->whereMonth('date', 11)->count();
         $medicalSharePaidCountNovember = $medicalSharePaidCountNovember / $totalNumberOfStudents * 100;
         $counterpartPaidCountNovember = Counterpart::where('amount_paid', '>', 0)->where('month', '11')->count();
         $counterpartPaidCountNovember = $counterpartPaidCountNovember / $totalNumberOfStudents * 100;
-        $graduationFeePaidCountNovember = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '11')->count();
+        $graduationFeePaidCountNovember = GraduationFee::where('amount_paid', '>', 0)
+            ->whereMonth('date', 11)->count();
         $graduationFeePaidCountNovember = $graduationFeePaidCountNovember / $totalNumberOfStudents * 100;
-        $personalCashAdvancePaidCountNovember = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '11')->count();
+        $personalCashAdvancePaidCountNovember = PersonalCashAdvance::where('amount_paid', '>', 0)
+            ->whereMonth('date', 11)->count();
         $personalCashAdvancePaidCountNovember = $personalCashAdvancePaidCountNovember / $totalNumberOfStudents * 100;
 
         // December
-        $medicalSharePaidCountDecember = MedicalShare::where('amount_paid', '>', 0)->whereMonth('created_at', '12')->count();
+        $medicalSharePaidCountDecember = MedicalShare::where('amount_paid', '>', 0)
+            ->whereMonth('date', 12)->count();
         $medicalSharePaidCountDecember = $medicalSharePaidCountDecember / $totalNumberOfStudents * 100;
         $counterpartPaidCountDecember = Counterpart::where('amount_paid', '>', 0)->where('month', '12')->count();
         $counterpartPaidCountDecember = $counterpartPaidCountDecember / $totalNumberOfStudents * 100;
-        $graduationFeePaidCountDecember = GraduationFee::where('amount_paid', '>', 0)->whereMonth('created_at', '12')->count();
+        $graduationFeePaidCountDecember = GraduationFee::where('amount_paid', '>', 0)
+            ->whereMonth('date', 12)->count();
         $graduationFeePaidCountDecember = $graduationFeePaidCountDecember / $totalNumberOfStudents * 100;
-        $personalCashAdvancePaidCountDecember = PersonalCashAdvance::where('amount_paid', '>', 0)->whereMonth('created_at', '12')->count();
+        $personalCashAdvancePaidCountDecember = PersonalCashAdvance::where('amount_paid', '>', 0)
+            ->whereMonth('date', 12)->count();
         $personalCashAdvancePaidCountDecember = $personalCashAdvancePaidCountDecember / $totalNumberOfStudents * 100;
 
         // Pass the totals and percentages to the view
@@ -300,101 +342,101 @@ class AdminController extends Controller
         ]);
     }
 
-    public function getTotals(Request $request)
-    {
-        $batchYear = $request->input('batch_year');
+    // public function getTotals(Request $request)
+    // {
+    //     $batchYear = $request->input('batch_year');
 
-        // Counterpart
-        $totalPaidCounterpart = Student::where('batch_year', $batchYear)
-            ->whereHas('counterparts', function ($query) {
-                $query->whereColumn('amount_paid', '=', 'amount_due');
-            })
-            ->count();
+    //     // Counterpart
+    //     $totalPaidCounterpart = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '=', 'amount_due');
+    //         })
+    //         ->count();
 
-        $totalNotFullyPaidCounterpart = Student::where('batch_year', $batchYear)
-            ->whereHas('counterparts', function ($query) {
-                $query->whereColumn('amount_paid', '<', 'amount_due');
-            })
-            ->count();
+    //     $totalNotFullyPaidCounterpart = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->whereColumn('amount_paid', '<', 'amount_due');
+    //         })
+    //         ->count();
 
-        $totalUnpaidCounterpart = Student::where('batch_year', $batchYear)
-            ->whereHas('counterparts', function ($query) {
-                $query->whereColumn('amount_paid', '=', 0);
-            })
-            ->count();
+    //     $totalUnpaidCounterpart = Student::where('batch_year', $batchYear)
+    //         ->whereHas('counterpart', function ($query) {
+    //             $query->where('amount_paid', '=', 0);
+    //         })
+    //         ->count();
 
-        // Medical Share
-        $totalPaidMedicalShare = Student::where('batch_year', $batchYear)
-            ->whereHas('medical_shares', function ($query) {
-                $query->whereColumn('amount_paid', '=', \DB::raw('total_cost * 0.15'));
-            })
-            ->count();
+    //     // Medical Share
+    //     $totalPaidMedicalShare = Student::where('batch_year', $batchYear)
+    //         ->whereHas('medicalShare', function ($query) {
+    //             $query->whereColumn('amount_paid', '=', \DB::raw('total_cost * 0.15'));
+    //         })
+    //         ->count();
 
-        $totalNotFullyPaidMedicalShare = Student::where('batch_year', $batchYear)
-            ->whereHas('medical_shares', function ($query) {
-                $query->whereColumn('amount_paid', '<', \DB::raw('total_cost * 0.15'));
-            })
-            ->count();
+    //     $totalNotFullyPaidMedicalShare = Student::where('batch_year', $batchYear)
+    //         ->whereHas('medicalShare', function ($query) {
+    //             $query->whereColumn('amount_paid', '<', \DB::raw('total_cost * 0.15'));
+    //         })
+    //         ->count();
 
-        $totalUnpaidMedicalShare = Student::where('batch_year', $batchYear)
-            ->whereHas('medical_shares', function ($query) {
-                $query->whereColumn('amount_paid', '=', 0);
-            })
-            ->count();
+    //     $totalUnpaidMedicalShare = Student::where('batch_year', $batchYear)
+    //         ->whereHas('medicalShare', function ($query) {
+    //             $query->where('amount_paid', '=', 0);
+    //         })
+    //         ->count();
 
-        // Personal Cash Advances
-        $totalPaidPersonalCashAdvance = Student::where('batch_year', $batchYear)
-            ->whereHas('personal_cash_advances', function ($query) {
-                $query->whereColumn('amount_paid', '=', 'amount_due');
-            })
-            ->count();
+    //     // Personal Cash Advances
+    //     $totalPaidPersonalCashAdvance = Student::where('batch_year', $batchYear)
+    //         ->whereHas('personalCashAdvance', function ($query) {
+    //             $query->whereColumn('amount_paid', '=', 'amount_due');
+    //         })
+    //         ->count();
 
-        $totalNotFullyPaidPersonalCashAdvance = Student::where('batch_year', $batchYear)
-            ->whereHas('personal_cash_advances', function ($query) {
-                $query->whereColumn('amount_paid', '<', 'amount_due');
-            })
-            ->count();
+    //     $totalNotFullyPaidPersonalCashAdvance = Student::where('batch_year', $batchYear)
+    //         ->whereHas('personalCashAdvance', function ($query) {
+    //             $query->whereColumn('amount_paid', '<', 'amount_due');
+    //         })
+    //         ->count();
 
-        $totalUnpaidPersonalCashAdvance = Student::where('batch_year', $batchYear)
-            ->whereHas('personal_cash_advances', function ($query) {
-                $query->whereColumn('amount_paid', '=', 0);
-            })
-            ->count();
+    //     $totalUnpaidPersonalCashAdvance = Student::where('batch_year', $batchYear)
+    //         ->whereHas('personalCashAdvance', function ($query) {
+    //             $query->where('amount_paid', '=', 0);
+    //         })
+    //         ->count();
 
-        // Graduation Fees
-        $totalPaidGraduationFees = Student::where('batch_year', $batchYear)
-            ->whereHas('graduation_fees', function ($query) {
-                $query->whereColumn('amount_paid', '=', 'amount_due');
-            })
-            ->count();
+    //     // Graduation Fees
+    //     $totalPaidGraduationFees = Student::where('batch_year', $batchYear)
+    //         ->whereHas('graduationFee', function ($query) {
+    //             $query->whereColumn('amount_paid', '=', 'amount_due');
+    //         })
+    //         ->count();
 
-        $totalNotFullyPaidGraduationFees = Student::where('batch_year', $batchYear)
-            ->whereHas('graduation_fees', function ($query) {
-                $query->whereColumn('amount_paid', '<', 'amount_due');
-            })
-            ->count();
+    //     $totalNotFullyPaidGraduationFees = Student::where('batch_year', $batchYear)
+    //         ->whereHas('graduationFee', function ($query) {
+    //             $query->whereColumn('amount_paid', '<', 'amount_due');
+    //         })
+    //         ->count();
 
-        $totalUnpaidGraduationFees = Student::where('batch_year', $batchYear)
-            ->whereHas('graduation_fees', function ($query) {
-                $query->whereColumn('amount_paid', '=', 0);
-            })
-            ->count();
+    //     $totalUnpaidGraduationFees = Student::where('batch_year', $batchYear)
+    //         ->whereHas('graduationFee', function ($query) {
+    //             $query->where('amount_paid', '=', 0);
+    //         })
+    //         ->count();
 
-        return response()->json([
-            'totalPaidCounterpart' => $totalPaidCounterpart,
-            'totalUnpaidCounterpart' => $totalUnpaidCounterpart,
-            'totalNotFullyPaidCounterpart' => $totalNotFullyPaidCounterpart,
-            'totalPaidMedicalShare' => $totalPaidMedicalShare,
-            'totalUnpaidMedicalShare' => $totalUnpaidMedicalShare,
-            'totalNotFullyPaidMedicalShare' => $totalNotFullyPaidMedicalShare,
-            'totalPaidPersonalCashAdvance' => $totalPaidPersonalCashAdvance,
-            'totalUnpaidPersonalCashAdvance' => $totalUnpaidPersonalCashAdvance,
-            'totalNotFullyPaidPersonalCashAdvance' => $totalNotFullyPaidPersonalCashAdvance,
-            'totalPaidGraduationFees' => $totalPaidGraduationFees,
-            'totalNotFullyPaidGraduationFees' => $totalNotFullyPaidGraduationFees,
-            'totalUnpaidGraduationFees' => $totalUnpaidGraduationFees,
-        ]);
-    }
+    //     return response()->json([
+    //         'totalPaidCounterpart' => $totalPaidCounterpart,
+    //         'totalUnpaidCounterpart' => $totalUnpaidCounterpart,
+    //         'totalNotFullyPaidCounterpart' => $totalNotFullyPaidCounterpart,
+    //         'totalPaidMedicalShare' => $totalPaidMedicalShare,
+    //         'totalUnpaidMedicalShare' => $totalUnpaidMedicalShare,
+    //         'totalNotFullyPaidMedicalShare' => $totalNotFullyPaidMedicalShare,
+    //         'totalPaidPersonalCashAdvance' => $totalPaidPersonalCashAdvance,
+    //         'totalUnpaidPersonalCashAdvance' => $totalUnpaidPersonalCashAdvance,
+    //         'totalNotFullyPaidPersonalCashAdvance' => $totalNotFullyPaidPersonalCashAdvance,
+    //         'totalPaidGraduationFees' => $totalPaidGraduationFees,
+    //         'totalNotFullyPaidGraduationFees' => $totalNotFullyPaidGraduationFees,
+    //         'totalUnpaidGraduationFees' => $totalUnpaidGraduationFees,
+    //     ]);
+    // }
 
     public function email()
     {
@@ -476,7 +518,7 @@ class AdminController extends Controller
     {
         $selectedBatchYear = $request->selectedBatchYear;
         $graduation_date_value = $request->graduation_date;
-        $datetime = new DateTime($graduation_date_value);
+        $datetime = new dateTime($graduation_date_value);
         $graduation_date = $datetime->format('F d, Y');
 
         $students = Student::where('batch_year', $selectedBatchYear)->get();

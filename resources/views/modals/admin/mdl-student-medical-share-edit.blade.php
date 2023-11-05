@@ -1,5 +1,4 @@
-<div class="modal fade" id="edit-student-medical-share-modal" tabindex="-1" role="dialog"
-    aria-labelledby="edit-student-medical-share-modal-label" aria-hidden="true">
+<div class="modal fade" id="edit-student-medical-share-modal" tabindex="-1" role="dialog" aria-labelledby="edit-student-medical-share-modal-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

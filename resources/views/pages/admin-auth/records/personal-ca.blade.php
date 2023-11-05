@@ -16,6 +16,7 @@
                                             <th>Total Amount Due</th>
                                             <th>Total Amount Paid</th>
                                             <th>Status</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-body">
@@ -48,6 +49,11 @@
                                                         $status = $totalDue == $totalPaid ? 'Paid' : 'Unpaid';
                                                     @endphp
                                                     {{ $status }}
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm view-button-personal-ca"
+                                                        style="background-color: #1f3c88; color: #ffff; width:70%; border-radius: 20px"
+                                                        data-student-id="{{ $student->id }}">View</button>
                                                 </td>
                                             </tr>
                                         @empty

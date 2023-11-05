@@ -26,7 +26,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-body1">
-                                                    @forelse ($students as $student)
+                                                    @forelse ($studentsWithoutPCA as $student)
                                                         <tr class="table-row1">
                                                             <td>{{ $student->id }}</td>
                                                             <td>{{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}

@@ -65,8 +65,8 @@ class MedicalShareController extends Controller
     {
         $validatedData = $request->validate([
             'medical_concern' => ['required', 'string', 'max:255'],
-            'amount_due' => ['required', 'numeric'],
-            'amount_paid' => ['required', 'numeric'],
+            'amount_due' => ['required'],
+            'amount_paid' => ['required'],
             'date' => ['required', 'date'],
         ]);
 

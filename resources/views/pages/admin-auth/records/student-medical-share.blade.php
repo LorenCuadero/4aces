@@ -52,9 +52,10 @@
                                             <td>{{ $medical_share_record->amount_paid }}</td>
                                             <td>{{ $medical_share_record->date }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-sm edit-student-medical-share-button">
-                                                    Edit
-                                                </a>
+                                                <a href="#" class="btn btn-sm edit-student-medical-share-button"
+                                                    data-toggle="modal"
+                                                    data-target="#edit-student-medical-share-modal">Edit</a>
+
                                             </td>
                                         </tr>
                                     @empty

@@ -182,6 +182,35 @@ $(document).ready(function () {
     });
 });
 
+
+$(document).ready(function () {
+    // Handle the click event on the "View" button
+    $(".view-button-personal-ca").on("click", function () {
+        // Get the student ID from the data attribute
+        const studentId = $(this).data("student-id");
+
+        // Construct the URL for the route
+        const finalUrl = `/personal-cash-advance-records/${studentId}`;
+
+        const loadingOverlay = $(".loading-spinner-overlay");
+        let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+        // Function to show the loading spinner
+        function showLoadingSpinner() {
+            loadingOverlay.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        showLoadingSpinner();
+
+        // Use setTimeout to delay the redirection
+        setTimeout(function () {
+            // Redirect to the intended page
+            window.location.href = finalUrl;
+        }, 100); // Replace 1000 with the desired delay in milliseconds
+    });
+});
+
 // your-external-script.js
 $(document).ready(function () {
     // Access the data passed from the Blade view
@@ -544,6 +573,28 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $(".edit-student-personal-ca-button").click(function () {
+        const editModal = $("#edit-student-personal-ca-modal");
+        const purpose = $(this).data("purpose");
+        const amountDue = $(this).data("amount-due");
+        const amountPaid = $(this).data("amount-paid");
+        const date = $(this).data("date");
+        const id = $(this).data("id");
+        const editUrl = $(this).data("edit-url");
+
+        editModal.find("#edit_purpose").val(purpose);
+        editModal.find("#edit_amount_due").val(amountDue);
+        editModal.find("#edit_amount_paid").val(amountPaid);
+        editModal.find("#edit_date").val(date);
+        $("#edit-personal-ca-form").attr(
+            "action",
+            editUrl.replace("personal_ca_id", id)
+        );
+        editModal.modal("show");
+    });
+});
+
+$(document).ready(function () {
     $(".delete-counterpart").click(function () {
         const deleteId = $(this).data("id");
         const deleteModal = $("#delete-counterpart-confirmation-modal");
@@ -556,8 +607,24 @@ $(document).ready(function () {
 
         deleteModal.modal("show");
     });
+});
 
-}); $(document).ready(function () {
+$(document).ready(function () {
+    $(".delete-personal-ca").click(function () {
+        const deleteId = $(this).data("id");
+        const deleteModal = $("#delete-personal-confirmation-modal");
+        const deletionUrl = $(this).data("delete-url");
+
+        $("#deletion-confirmed-form-personal").attr(
+            "action",
+            deletionUrl.replace("personal_ca_id", deleteId)
+        );
+
+        deleteModal.modal("show");
+    });
+});
+
+$(document).ready(function () {
     $("#deletion-confirmed-form").submit(function (e) {
         e.preventDefault(); // Prevent the default form submission
 
@@ -650,8 +717,6 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    const totalNumberOfStudentsPerBatch = $("#batch-year-form");
-    const totalByYear = totalNumberOfStudentsPerBatch.data("total-by-year");
     const batchYearSelect = $('#batch_year');
     const selectedBatchYearElement = $('#selected-batch-year');
     const totalStudentsPerYearElement = $('#total-students-per-year');
@@ -672,3 +737,89 @@ $(document).ready(function () {
     });
 });
 
+
+// $(document).ready(function () {
+//     const batchYearSelect = $('#batch_year');
+//     const getTotalsForm = $("#getTotalsForm");
+//     const tableBody = $('#table-body');
+
+//     // Listen for changes in the select element
+//     batchYearSelect.on('change', function () {
+//         getTotalsForm.submit();
+//     });
+
+//     // Handle form submission and update the table
+//     getTotalsForm.on('submit', function (event) {
+//         event.preventDefault();
+//         const formData = $(this).serialize();
+
+//         $.ajax({
+//             url: $(this).attr('action'),
+//             type: 'POST',
+//             data: formData,
+//             success: function (data) {
+//                 // Clear the table rows
+//                 tableBody.empty();
+
+//                 // Loop through the response data and append new rows
+//                 $.each(data, function (key, value) {
+//                     const newRow = `
+//                         <tr>
+//                             <td style="text-align:left">${key}</td>
+//                             <td>${value}</td>
+//                         </tr>
+//                     `;
+//                     tableBody.append(newRow);
+//                 });
+//             },
+//         });
+//     });
+// });
+
+// $(document).ready(function () {
+//     const batchYearSelect = $('#batch_year');
+//     const getTotalsForm = $("#getTotalsForm");
+//     const selectedBatchYearElement = $('#selected-batch-year');
+//     const totalStudentsPerYearElement = $('#total-students-per-year');
+//     const totalNumberOfStudentsPerBatch = $("#batch-year-form");
+//     const totalByYear = totalNumberOfStudentsPerBatch.data("total-by-year");
+
+//     // Listen for changes in the select element
+//     batchYearSelect.on('change', function () {
+//         const selectedYear = batchYearSelect.val();
+
+//         if (selectedYear in totalByYear) {
+//             selectedBatchYearElement.text(selectedYear);
+//             totalStudentsPerYearElement.text(totalByYear[selectedYear]);
+//         } else {
+//             selectedBatchYearElement.text("No data available");
+//             totalStudentsPerYearElement.text("");
+//         }
+
+//         // Set the selected year in the batch_year input field
+//         $('#batch_year').val(selectedYear);
+
+//         getTotalsForm.submit();
+//     });
+
+//     // Handle form submission and update the results
+//     getTotalsForm.on('submit', function (event) {
+//         event.preventDefault();
+//         const formData = $(this).serialize();
+
+//         $.ajax({
+//             url: $(this).attr('action'),
+//             type: 'POST',
+//             data: formData,
+//             success: function (data) {
+//                 // Loop through each row with a data-key attribute
+//                 $('tbody.table-body1 tr[data-key]').each(function () {
+//                     const key = $(this).data('key');
+//                     if (data[key] !== undefined) {
+//                         $(this).find('td:last').text(data[key]);
+//                     }
+//                 });
+//             },
+//         });
+//     });
+// });

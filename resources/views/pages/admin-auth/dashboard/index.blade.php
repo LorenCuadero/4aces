@@ -150,48 +150,56 @@
                             <div class="table-responsive">
                                 <h4 style="color: #1f3c88;">Analytics</h4>
                                 <p>Percentage of accumulated amount</p>
-                                <table class="table" style="border: none">
-                                    <tr style="border: none">
-                                        <td style="border: none padding: 0%;"><b style="color: #1f3c88;">STATUS</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 0vh">Total No of Students (All Batches)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 0vh"><b>{{ $totalNumberOfStudents }}</b>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 0vh">Total No of Students with Paid Counterpart
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 0vh"><b>{{ $counterpartPaidStudentsCount }}</b>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 0vh">Total No of Students with Unpaid Counterpart
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 0vh">
-                                            <b>{{ $counterpartUnpaidStudentsCount }}</b>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 0vh">Total No of Students with Not Fully Paid
-                                            Counterpart
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 0vh">
-                                            <b>{{ $counterpartNotFullyPaidStudentsCount }}</b>
-                                        </td>
-                                    </tr>
+                                <table class="table table-bordered table-hover text-center align-middle">
+                                    <tbody id="table-body">
+
+                                        <tr style="border: none">
+                                            <td style="border: none padding: 0%;"><b style="color: #1f3c88;">STATUS</b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: none; padding: 0vh">Total No of Students (All Batches)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: none; padding: 0vh"><b>{{ $totalNumberOfStudents }}</b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: none; padding: 0vh">Total No of Students with Paid
+                                                Counterpart
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: none; padding: 0vh">
+                                                <b>{{ $counterpartPaidStudentsCount }}</b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: none; padding: 0vh">Total No of Students with Unpaid
+                                                Counterpart
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: none; padding: 0vh">
+                                                <b>{{ $counterpartUnpaidStudentsCount }}</b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: none; padding: 0vh">Total No of Students with Not Fully Paid
+                                                Counterpart
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: none; padding: 0vh">
+                                                <b>{{ $counterpartNotFullyPaidStudentsCount }}</b>
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
-                            <button type="submit" class="btn view-all" style="background-color: #1f3c88; color: #ffff;">View
+                            <button type="submit" class="btn view-all"
+                                style="background-color: #1f3c88; color: #ffff;">View
                                 All</button>
                         </div>
                     </div>
