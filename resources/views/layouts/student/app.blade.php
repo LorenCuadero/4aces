@@ -19,7 +19,6 @@
     @endif
 
     @vite(['resources/css/compile.css', 'resources/js/compile.js'])
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @stack('css')
 </head>
 

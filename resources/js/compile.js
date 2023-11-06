@@ -582,11 +582,122 @@ $(document).ready(function () {
 //     });
 // });
 
-// $(document).ready(function() {
-//     $('#login-form').submit(function() {
-//         $('#submit-btn').prop('disabled', true);
-//     });
-// });
+
+$(document).ready(function () {
+    $("#btn-submit-login").click(function () {
+        var loadingOverlay1 = $(".loading-spinner-overlay");
+        let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+        // Function to show the loading spinner
+        function showLoadingSpinner() {
+            loadingOverlay1.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        // Function to hide the loading spinner
+        function hideLoadingSpinner() {
+            loadingOverlay1.hide();
+            $("body").css("overflow", "auto");
+        }
+
+        // Show the loading spinner when the form is submitted
+        showLoadingSpinner();
+
+        // Perform an AJAX form submission
+        $.ajax({
+            url: $("#login-form").attr("action"),
+            type: $("#login-form").attr("method"),
+            data: $("#login-form").serialize(),
+
+            success: function (response) {
+                toastr.success("Successfully sent OTP to the email used!");
+            },
+            error: function (error) {
+                // Hide the loading spinner when there's an error
+                hideLoadingSpinner();
+
+                toastr.error("Email not found, please try again.");
+            },
+        });
+    });
+});
+
+
+$(document).ready(function () {
+    $("#verify_button").click(function () {
+        var loadingOverlay1 = $(".loading-spinner-overlay");
+        let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+        // Function to show the loading spinner
+        function showLoadingSpinner() {
+            loadingOverlay1.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        // Function to hide the loading spinner
+        function hideLoadingSpinner() {
+            loadingOverlay1.hide();
+            $("body").css("overflow", "auto");
+        }
+
+        // Show the loading spinner when the form is submitted
+        showLoadingSpinner();
+
+        // Perform an AJAX form submission
+        $.ajax({
+            url: $("#form_otp").attr("action"),
+            type: $("#form_otp").attr("method"),
+            data: $("#form_otp").serialize(),
+
+            success: function (response) {
+                toastr.success("OTP successfully verified!");
+            },
+            error: function (error) {
+                // Hide the loading spinner when there's an error
+                hideLoadingSpinner();
+
+                toastr.error("Incorrect OTP, please try again.");
+            },
+        });
+    });
+
+    $("#cancel_verify").click(function () {
+        var loadingOverlay1 = $(".loading-spinner-overlay");
+        let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+        // Function to show the loading spinner
+        function showLoadingSpinner() {
+            loadingOverlay1.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        // Function to hide the loading spinner
+        function hideLoadingSpinner() {
+            loadingOverlay1.hide();
+            $("body").css("overflow", "auto");
+        }
+
+        // Show the loading spinner when the form is submitted
+        showLoadingSpinner();
+
+        // Perform an AJAX form submission
+        $.ajax({
+            url: $("#cancel_verify").attr("href"),
+            type: 'GET',
+
+            success: function (response) {
+                toastr.success("Canceled OTP verification!");
+                window.location.href = "/login";
+            },
+            error: function (error) {
+                // Hide the loading spinner when there's an error
+                hideLoadingSpinner();
+
+                toastr.error("An error occurred, please try again.");
+            },
+        });
+    });
+});
 
 // Todo
 

@@ -25,7 +25,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'loginPage']);
 
-Route::get('/verify-account', [AuthController::class, 'verifyAccount'])->name('verify_account');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify_otp');
 
 Route::prefix('/login')->group(function () {

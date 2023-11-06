@@ -150,7 +150,7 @@
                             <div class="table-responsive">
                                 <h4 style="color: #1f3c88;">Analytics</h4>
                                 <p>Percentage of accumulated amount</p>
-                                <table class="table table-bordered table-hover text-center align-middle">
+                                <table class="table table-bordered table-hover align-middle">
                                     <tbody id="table-body">
 
                                         <tr style="border: none">

@@ -10,7 +10,7 @@
                             <b>Parents Counterpart Record of:</b>
                             {{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
                         </h1>
-                        \ <br>
+                       <br>
                         <div class="d-flex flex-wrap align-items-center ml-auto">
                             <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0">
                                 <div class="nav-item btn btn-sm" id="addStudentCounterpartRecordBtn"

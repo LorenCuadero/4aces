@@ -21,11 +21,12 @@
                             @csrf
                             <div class="form-group">
                                 <label for="">Enter OTP</label>
-                                <input type="hidden" id="email" name="email" value="{{ $user->email }}">
+                                <input type="hidden" id="email" name="email" value="{{ $user_email }}">
                                 <input type="number" id="otp" name="otp" class="form-control"
                                     placeholder="Enter token here">
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button id="verify_button" type="submit" class="btn btn-primary">Submit</button>
+                            <button id="cancel" type="submit" class="btn btn-primary">Cancel</button>
                         </form>
                         @include('assets.asst-loading-spinner')
                     </div>
