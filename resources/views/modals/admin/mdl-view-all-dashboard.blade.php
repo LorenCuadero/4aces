@@ -23,7 +23,9 @@
                                                             students: </b><span id="total-students-per-year"></span></p>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <form class="" action="" method="">
+                                                    <form id="get_totals_by_batch_year_form" class=""
+                                                        action="{{ route('admin.getTotals') }}" method="POST">
+                                                        @csrf
                                                         <input type="hidden" id="batch-year-form"
                                                             data-total-by-year="{{ json_encode($totalStudentsByBatchYear) }}">
                                                         <div class="form-group row d-flex align-items-center">
@@ -32,117 +34,90 @@
                                                             <div class="col-md-7">
                                                                 <select class="form-control" name="batch_year"
                                                                     id="batch_year">
-                                                                    <option value="">Year</option>
+                                                                    <option value="">All Batch Year</option>
                                                                     @foreach ($batchYears as $batchYear)
-                                                                        <option value="{{ $batchYear }}">
+                                                                        <option name="batch_year"
+                                                                            value="{{ $batchYear }}">
                                                                             {{ $batchYear }}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     </form>
-
-
-                                                    {{-- <form class="" action="{{ route('admin.getTotals') }}" method="POST" id="getTotalsForm">
-                                                        @csrf <!-- Add CSRF token -->
-                                                        <input type="hidden" id="batch-year-form" data-total-by-year="{{ json_encode($totalStudentsByBatchYear) }}">
-                                                        <div class="form-group row d-flex align-items-center">
-                                                            <label for="batch_year" class="col-md-5 col-form-label" style="text-align: right">Batch Year</label>
-                                                            <div class="col-md-7">
-                                                                <select class="form-control" name="batch_year" id="batch_year">
-                                                                    <option value="">Year</option>
-                                                                    @foreach ($batchYears as $batchYear)
-                                                                        <option value="{{ $batchYear }}">{{ $batchYear }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </form> --}}
-                                                    {{-- <form class="" action="{{ route('admin.getTotals') }}"
-                                                            method="POST" id="getTotalsForm">
-                                                            @csrf <!-- Add CSRF token -->
-                                                            <input type="hidden" id="batch-year-form"
-                                                                data-total-by-year="{{ json_encode($totalStudentsByBatchYear) }}">
-                                                            <input type="hidden" id="batch_year" name="batch_year">
-                                                            <!-- Add the 'name' attribute for the hidden input -->
-                                                            <div class="form-group row d-flex align-items-center">
-                                                                <label for="batch_year" class="col-md-5 col-form-label"
-                                                                    style="text-align: right">Batch Year</label>
-                                                                <div class="col-md-7">
-                                                                    <select class="form-control" name="selected_batch_year"
-                                                                        id="selected_batch_year">
-                                                                        <!-- Update the 'id' attribute -->
-                                                                        <option value="">Year</option>
-                                                                        @foreach ($batchYears as $batchYear)
-                                                                            <option value="{{ $batchYear }}">
-                                                                                {{ $batchYear }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </form> --}}
                                                 </div>
                                             </div>
                                             <tbody class="table-body1">
-                                                <tr data-key="counterpartPaidStudentsCount">
+                                                <tr>
                                                     <td style="text-align:left">Total No of Students with Paid
                                                         Counterpart</td>
-                                                    <td>{{ $counterpartPaidStudentsCount }}</td>
+                                                    <td id="counterpartPaidStudentsCount">
+                                                        {{ $counterpartPaidStudentsCount }}</td>
                                                 </tr>
-                                                <tr data-key="counterpartUnpaidStudentsCount">
+                                                <tr>
                                                     <td style="text-align:left">Total No of Students with Unpaid
                                                         Counterpart</td>
-                                                    <td>{{ $counterpartUnpaidStudentsCount }}</td>
+                                                    <td id="counterpartUnpaidStudentsCount">
+                                                        {{ $counterpartUnpaidStudentsCount }}</td>
                                                 </tr>
-                                                <tr data-key="counterpartNotFullyPaidStudentsCount">
+                                                <tr>
                                                     <td style="text-align:left">Total No of Students with Not Fully Paid
                                                         Counterpart</td>
-                                                    <td>{{ $counterpartNotFullyPaidStudentsCount }}</td>
+                                                    <td id="counterpartNotFullyPaidStudentsCount">
+                                                        {{ $counterpartNotFullyPaidStudentsCount }}</td>
                                                 </tr>
-                                                <tr data-key="medicalSharePaidStudentsCount">
+                                                <tr>
                                                     <td style="text-align:left">Total No of Students with Paid Medical
                                                         Share</td>
-                                                    <td>{{ $medicalSharePaidStudentsCount }}</td>
+                                                    <td id="medicalSharePaidStudentsCount">
+                                                        {{ $medicalSharePaidStudentsCount }}</td>
                                                 </tr>
-                                                <tr data-key="medicalShareUnpaidStudentsCount">
+                                                <tr>
                                                     <td style="text-align:left">Total No of Students with Unpaid Medical
                                                         Share</td>
-                                                    <td>{{ $medicalShareUnpaidStudentsCount }}</td>
+                                                    <td id="medicalShareUnpaidStudentsCount">
+                                                        {{ $medicalShareUnpaidStudentsCount }}</td>
                                                 </tr>
-                                                <tr data-key="medicalShareNotFullyPaidStudentsCount">
+                                                <tr>
                                                     <td style="text-align:left">Total No of Students with Not Fully
                                                         Medical Share</td>
-                                                    <td>{{ $medicalShareNotFullyPaidStudentsCount }}</td>
+                                                    <td id="medicalShareNotFullyPaidStudentsCount">
+                                                        {{ $medicalShareNotFullyPaidStudentsCount }}</td>
                                                 </tr>
-                                                <tr data-key="personalCashAdvancePaidStudentsCount">
+                                                <tr>
                                                     <td style="text-align:left">Total No of Students with Paid Personal
                                                         Cash Advance</td>
-                                                    <td>{{ $personalCashAdvancePaidStudentsCount }}</td>
+                                                    <td id="personalCashAdvancePaidStudentsCount">
+                                                        {{ $personalCashAdvancePaidStudentsCount }}</td>
                                                 </tr>
-                                                <tr data-key="personalCashAdvanceUnpaidStudentsCount">
+                                                <tr>
                                                     <td style="text-align:left">Total No of Students with Unpaid
                                                         Personal Cash Advance</td>
-                                                    <td>{{ $personalCashAdvanceUnpaidStudentsCount }}</td>
+                                                    <td id="personalCashAdvanceUnpaidStudentsCount">
+                                                        {{ $personalCashAdvanceUnpaidStudentsCount }}</td>
                                                 </tr>
-                                                <tr data-key="personalCashAdvanceNotFullyPaidStudentsCount">
+                                                <tr>
                                                     <td style="text-align:left">Total No of Students with Not Fully
                                                         Personal Cash Advance</td>
-                                                    <td>{{ $personalCashAdvanceNotFullyPaidStudentsCount }}</td>
+                                                    <td id="personalCashAdvanceNotFullyPaidStudentsCount">
+                                                        {{ $personalCashAdvanceNotFullyPaidStudentsCount }}</td>
                                                 </tr>
-                                                <tr data-key="graduationFeePaidStudentsCount">
+                                                <tr>
                                                     <td style="text-align:left">Total No of Students with Paid
                                                         Graduation Fees</td>
-                                                    <td>{{ $graduationFeePaidStudentsCount }}</td>
+                                                    <td id="graduationFeePaidStudentsCount">
+                                                        {{ $graduationFeePaidStudentsCount }}</td>
                                                 </tr>
-                                                <tr data-key="graduationFeeUnpaidStudentsCount">
+                                                <tr>
                                                     <td style="text-align:left">Total No of Students with Unpaid
                                                         Graduation Fees</td>
-                                                    <td>{{ $graduationFeeUnpaidStudentsCount }}</td>
+                                                    <td id="graduationFeeUnpaidStudentsCount">
+                                                        {{ $graduationFeeUnpaidStudentsCount }}</td>
                                                 </tr>
-                                                <tr data-key="graduationFeeNotFullyPaidStudentsCount">
+                                                <tr>
                                                     <td style="text-align:left">Total No of Students with Not Fully
                                                         Graduation Fees</td>
-                                                    <td>{{ $graduationFeeNotFullyPaidStudentsCount }}</td>
+                                                    <td id="graduationFeeNotFullyPaidStudentsCount">
+                                                        {{ $graduationFeeNotFullyPaidStudentsCount }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

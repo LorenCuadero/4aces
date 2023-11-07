@@ -661,7 +661,7 @@ $(document).ready(function () {
         });
     });
 
-    $("#cancel_verify").click(function () {
+    $("#cancel").click(function () {
         var loadingOverlay1 = $(".loading-spinner-overlay");
         let successNotificationShown = false; // Flag to track whether the success notification has been shown
 

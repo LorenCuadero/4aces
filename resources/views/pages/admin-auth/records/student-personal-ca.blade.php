@@ -60,8 +60,8 @@
                                                     style="background-color: #1f3c88; color: #ffff; width:50%; border-radius: 20px; margin: 2px">
                                                     Edit
                                                 </a>
-                                                <a href="#" data-id="{{ $counterpart->id }}"
-                                                    data-delete-url="{{ route('admin.deletePersonalCA', ['id' => 'personal_ca_id']) }}"
+                                                <a href="#" data-id="{{ $personal_ca_record->id }}"
+                                                    {{-- data-delete-url="{{ route('admin.deletePersonalCA', ['id' => 'personal_ca_id']) }}" --}}
                                                     class="btn btn-sm delete-personal-ca"
                                                     style="background-color: #dd3e3e; color: #ffff; width:50%; border-radius: 20px; margin: 2px;">
                                                     Delete

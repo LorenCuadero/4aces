@@ -716,27 +716,165 @@ $(document).ready(function () {
     });
 });
 
+// $(document).ready(function () {
+//     const batchYearSelect = $('#batch_year');
+//     const selectedBatchYearElement = $('#selected-batch-year');
+//     const totalStudentsPerYearElement = $('#total-students-per-year');
+//     const totalNumberOfStudentsPerBatch = $("#batch-year-form");
+//     const totalByYear = totalNumberOfStudentsPerBatch.data("total-by-year");
+
+//     // Listen for changes in the select element
+//     batchYearSelect.on('change', function () {
+//         const selectedYear = batchYearSelect.val();
+
+//         // Update the content of the selectedBatchYearElement
+//         selectedBatchYearElement.text(selectedYear);
+
+//         // Update the total students count for the selected year
+//         if (selectedYear in totalByYear) {
+//             totalStudentsPerYearElement.text(totalByYear[selectedYear]);
+//         } else {
+//             totalStudentsPerYearElement.text("No data available");
+//         }
+//     });
+// });
+
+// $(document).ready(function () {
+//     const batchYearSelect = $('#batch_year');
+//     const selectedBatchYearElement = $('#selected-batch-year');
+//     const totalStudentsPerYearElement = $('#total-students-per-year');
+//     const tableBody = $('.table-body1');
+//     const totalNumberOfStudentsPerBatch = $("#batch-year-form");
+//     const totalByYear = totalNumberOfStudentsPerBatch.data("total-by-year");
+
+//     // Listen for changes in the select element
+//     batchYearSelect.on('change', function () {
+//         const selectedYear = batchYearSelect.val();
+
+//         // Update the content of the selectedBatchYearElement
+//         selectedBatchYearElement.text(selectedYear);
+//         const loadingOverlay = $(".loading-spinner-overlay");
+//         let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+//         // Function to show the loading spinner
+//         function showLoadingSpinner() {
+//             loadingOverlay.show();
+//             $("body").css("overflow", "hidden");
+//         }
+
+//         showLoadingSpinner();
+
+//         $.ajax({
+//             url: '/view-all-status', // Use the correct route URL
+//             method: 'GET',
+//             data: {
+//                 batch_year: selectedYear,
+//             },
+//             success: function (data) {
+//                 // Clear the table body
+//                 tableBody.html('');
+
+//                 // Loop through the received data and update the table rows
+//                 for (const key in data) {
+//                     const row = $('<tr>');
+//                     row.append($('<td>').text(data[key].label));
+//                     row.append($('<td>').text(data[key].count));
+//                     tableBody.append(row);
+//                 }
+
+//                 if (selectedYear in totalByYear) {
+//                     totalStudentsPerYearElement.text(totalByYear[selectedYear]);
+//                 } else {
+//                     totalStudentsPerYearElement.text("No data available");
+//                 }
+//             },
+//             error: function (error) {
+//                 console.error(error);
+//             }
+//         });
+//     });
+// });
+
 $(document).ready(function () {
     const batchYearSelect = $('#batch_year');
     const selectedBatchYearElement = $('#selected-batch-year');
     const totalStudentsPerYearElement = $('#total-students-per-year');
+    const totalNumberOfStudentsPerBatch = $("#batch-year-form");
+    const totalByYear = totalNumberOfStudentsPerBatch.data("total-by-year");
+    const formYear = $('#get_totals_by_batch_year_form');
+    let successNotificationShown = false;
 
-    // Listen for changes in the select element
+    // Function to update the modal content with totals
+    function updateModalContent(response) {
+        // Update the modal content with data from the response
+        $('#counterpartPaidStudentsCount').text(response.totalPaidCounterpart);
+        $('#counterpartUnpaidStudentsCount').text(response.totalUnpaidCounterpart);
+        $('#counterpartNotFullyPaidStudentsCount').text(response.totalNotFullyPaidCounterpart);
+        $('#medicalSharePaidStudentsCount').text(response.totalPaidMedicalShare);
+        $('#medicalShareUnpaidStudentsCount').text(response.totalUnpaidMedicalShare);
+        $('#medicalShareNotFullyPaidStudentsCount').text(response.totalNotFullyPaidMedicalShare);
+        $('#personalCashAdvancePaidStudentsCount').text(response.totalPaidPersonalCashAdvance);
+        $('#personalCashAdvanceUnpaidStudentsCount').text(response.totalUnpaidPersonalCashAdvance);
+        $('#personalCashAdvanceNotFullyPaidStudentsCount').text(response.totalNotFullyPaidPersonalCashAdvance);
+        $('#graduationFeePaidStudentsCount').text(response.totalPaidGraduationFees);
+        $('#graduationFeeUnpaidStudentsCount').text(response.totalUnpaidGraduationFees);
+        $('#graduationFeeNotFullyPaidStudentsCount').text(response.totalNotFullyPaidGraduationFees);
+
+        // Show the modal
+        $('#dashboard-modal').modal('show');
+    }
+
+    function showLoadingSpinner() {
+        const loadingOverlay = $(".loading-spinner-overlay");
+        loadingOverlay.show();
+        $("body").css("overflow", "hidden");
+    }
+
+    function hideLoadingSpinner() {
+        const loadingOverlay = $(".loading-spinner-overlay");
+        loadingOverlay.hide();
+        $("body").css("overflow", "auto");
+    }
+
     batchYearSelect.on('change', function () {
         const selectedYear = batchYearSelect.val();
-
-        // Update the content of the selectedBatchYearElement
         selectedBatchYearElement.text(selectedYear);
 
-        // Update the total students count for the selected year
         if (selectedYear in totalByYear) {
             totalStudentsPerYearElement.text(totalByYear[selectedYear]);
+            formYear.submit();
         } else {
             totalStudentsPerYearElement.text("No data available");
         }
     });
-});
 
+    formYear.submit(function (e) {
+        e.preventDefault();
+
+        showLoadingSpinner();
+
+        $.ajax({
+            url: $(this).attr("action"),
+            type: $(this).attr("method"),
+            data: $(this).serialize(),
+
+            success: function (response) {
+                if (!successNotificationShown) {
+                    successNotificationShown = true;
+                }
+
+                // Update the modal with data
+                updateModalContent(response);
+
+                hideLoadingSpinner();
+            },
+            error: function (error) {
+                hideLoadingSpinner();
+                // Handle errors if needed
+            },
+        });
+    });
+});
 
 // $(document).ready(function () {
 //     const batchYearSelect = $('#batch_year');
