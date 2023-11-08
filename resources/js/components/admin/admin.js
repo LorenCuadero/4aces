@@ -135,7 +135,6 @@ $(document).ready(function () {
     });
 });
 
-
 $(document).ready(function () {
     $("#addStudentCounterpartRecordBtn").click(function (event) {
         $("#add-student-counterpart-modal").modal("show");
@@ -181,7 +180,6 @@ $(document).ready(function () {
         }, 100); // Replace 1000 with the desired delay in milliseconds
     });
 });
-
 
 $(document).ready(function () {
     // Handle the click event on the "View" button
@@ -489,7 +487,6 @@ $(document).ready(function () {
     $("#currentYear").text("Year " + currentYearData);
 });
 
-
 $(document).ready(function () {
     var currentYear = new Date().getFullYear();
     for (var i = currentYear; i >= currentYear - 14; i--) {
@@ -502,7 +499,9 @@ $(document).ready(function () {
     }
 
     $("#yearDropdownAnalytics").change(function () {
-        const selectedYearAnalytics = $("#yearDropdownAnalytics option:selected").text();
+        const selectedYearAnalytics = $(
+            "#yearDropdownAnalytics option:selected"
+        ).text();
 
         $("#year_analytics").val(selectedYearAnalytics);
     });
@@ -513,8 +512,18 @@ $(document).ready(function () {
 
     // Define an array of month names
     const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
     ];
 
     // Get the current month and year
@@ -544,7 +553,6 @@ $(document).ready(function () {
     });
 });
 
-
 $(document).ready(function () {
     $(".edit-student-counterpart-button").click(function () {
         const editModal = $("#edit-student-counterpart-modal");
@@ -566,7 +574,6 @@ $(document).ready(function () {
             "action",
             editUrl.replace("counterpart_id", id)
         );
-
 
         editModal.modal("show");
     });
@@ -666,7 +673,9 @@ $(document).ready(function () {
                 // Hide the loading spinner when there's an error
                 hideLoadingSpinner();
 
-                toastr.error("An error occurred while removing data, please try again.");
+                toastr.error(
+                    "An error occurred while removing data, please try again."
+                );
             },
         });
     });
@@ -796,32 +805,54 @@ $(document).ready(function () {
 // });
 
 $(document).ready(function () {
-    const batchYearSelect = $('#batch_year');
-    const selectedBatchYearElement = $('#selected-batch-year');
-    const totalStudentsPerYearElement = $('#total-students-per-year');
+    const batchYearSelect = $("#batch_year");
+    const selectedBatchYearElement = $("#selected-batch-year");
+    const totalStudentsPerYearElement = $("#total-students-per-year");
     const totalNumberOfStudentsPerBatch = $("#batch-year-form");
     const totalByYear = totalNumberOfStudentsPerBatch.data("total-by-year");
-    const formYear = $('#get_totals_by_batch_year_form');
+    const formYear = $("#get_totals_by_batch_year_form");
     let successNotificationShown = false;
 
     // Function to update the modal content with totals
     function updateModalContent(response) {
         // Update the modal content with data from the response
-        $('#counterpartPaidStudentsCount').text(response.totalPaidCounterpart);
-        $('#counterpartUnpaidStudentsCount').text(response.totalUnpaidCounterpart);
-        $('#counterpartNotFullyPaidStudentsCount').text(response.totalNotFullyPaidCounterpart);
-        $('#medicalSharePaidStudentsCount').text(response.totalPaidMedicalShare);
-        $('#medicalShareUnpaidStudentsCount').text(response.totalUnpaidMedicalShare);
-        $('#medicalShareNotFullyPaidStudentsCount').text(response.totalNotFullyPaidMedicalShare);
-        $('#personalCashAdvancePaidStudentsCount').text(response.totalPaidPersonalCashAdvance);
-        $('#personalCashAdvanceUnpaidStudentsCount').text(response.totalUnpaidPersonalCashAdvance);
-        $('#personalCashAdvanceNotFullyPaidStudentsCount').text(response.totalNotFullyPaidPersonalCashAdvance);
-        $('#graduationFeePaidStudentsCount').text(response.totalPaidGraduationFees);
-        $('#graduationFeeUnpaidStudentsCount').text(response.totalUnpaidGraduationFees);
-        $('#graduationFeeNotFullyPaidStudentsCount').text(response.totalNotFullyPaidGraduationFees);
+        $("#counterpartPaidStudentsCount").text(response.totalPaidCounterpart);
+        $("#counterpartUnpaidStudentsCount").text(
+            response.totalUnpaidCounterpart
+        );
+        $("#counterpartNotFullyPaidStudentsCount").text(
+            response.totalNotFullyPaidCounterpart
+        );
+        $("#medicalSharePaidStudentsCount").text(
+            response.totalPaidMedicalShare
+        );
+        $("#medicalShareUnpaidStudentsCount").text(
+            response.totalUnpaidMedicalShare
+        );
+        $("#medicalShareNotFullyPaidStudentsCount").text(
+            response.totalNotFullyPaidMedicalShare
+        );
+        $("#personalCashAdvancePaidStudentsCount").text(
+            response.totalPaidPersonalCashAdvance
+        );
+        $("#personalCashAdvanceUnpaidStudentsCount").text(
+            response.totalUnpaidPersonalCashAdvance
+        );
+        $("#personalCashAdvanceNotFullyPaidStudentsCount").text(
+            response.totalNotFullyPaidPersonalCashAdvance
+        );
+        $("#graduationFeePaidStudentsCount").text(
+            response.totalPaidGraduationFees
+        );
+        $("#graduationFeeUnpaidStudentsCount").text(
+            response.totalUnpaidGraduationFees
+        );
+        $("#graduationFeeNotFullyPaidStudentsCount").text(
+            response.totalNotFullyPaidGraduationFees
+        );
 
         // Show the modal
-        $('#dashboard-modal').modal('show');
+        $("#dashboard-modal").modal("show");
     }
 
     function showLoadingSpinner() {
@@ -836,9 +867,9 @@ $(document).ready(function () {
         $("body").css("overflow", "auto");
     }
 
-    batchYearSelect.on('change', function () {
+    batchYearSelect.on("change", function () {
         const selectedYear = batchYearSelect.val();
-        selectedBatchYearElement.text(selectedYear);
+        selectedBatchYearElement.text( "Batch " + selectedYear + " total number of students: ");
 
         if (selectedYear in totalByYear) {
             totalStudentsPerYearElement.text(totalByYear[selectedYear]);
@@ -877,87 +908,16 @@ $(document).ready(function () {
 });
 
 // $(document).ready(function () {
-//     const batchYearSelect = $('#batch_year');
-//     const getTotalsForm = $("#getTotalsForm");
-//     const tableBody = $('#table-body');
-
-//     // Listen for changes in the select element
-//     batchYearSelect.on('change', function () {
-//         getTotalsForm.submit();
-//     });
-
-//     // Handle form submission and update the table
-//     getTotalsForm.on('submit', function (event) {
-//         event.preventDefault();
-//         const formData = $(this).serialize();
-
-//         $.ajax({
-//             url: $(this).attr('action'),
-//             type: 'POST',
-//             data: formData,
-//             success: function (data) {
-//                 // Clear the table rows
-//                 tableBody.empty();
-
-//                 // Loop through the response data and append new rows
-//                 $.each(data, function (key, value) {
-//                     const newRow = `
-//                         <tr>
-//                             <td style="text-align:left">${key}</td>
-//                             <td>${value}</td>
-//                         </tr>
-//                     `;
-//                     tableBody.append(newRow);
-//                 });
-//             },
-//         });
-//     });
-// });
-
-// $(document).ready(function () {
-//     const batchYearSelect = $('#batch_year');
-//     const getTotalsForm = $("#getTotalsForm");
-//     const selectedBatchYearElement = $('#selected-batch-year');
-//     const totalStudentsPerYearElement = $('#total-students-per-year');
-//     const totalNumberOfStudentsPerBatch = $("#batch-year-form");
-//     const totalByYear = totalNumberOfStudentsPerBatch.data("total-by-year");
-
-//     // Listen for changes in the select element
-//     batchYearSelect.on('change', function () {
-//         const selectedYear = batchYearSelect.val();
-
-//         if (selectedYear in totalByYear) {
-//             selectedBatchYearElement.text(selectedYear);
-//             totalStudentsPerYearElement.text(totalByYear[selectedYear]);
-//         } else {
-//             selectedBatchYearElement.text("No data available");
-//             totalStudentsPerYearElement.text("");
-//         }
-
-//         // Set the selected year in the batch_year input field
-//         $('#batch_year').val(selectedYear);
-
-//         getTotalsForm.submit();
-//     });
-
-//     // Handle form submission and update the results
-//     getTotalsForm.on('submit', function (event) {
-//         event.preventDefault();
-//         const formData = $(this).serialize();
-
-//         $.ajax({
-//             url: $(this).attr('action'),
-//             type: 'POST',
-//             data: formData,
-//             success: function (data) {
-//                 // Loop through each row with a data-key attribute
-//                 $('tbody.table-body1 tr[data-key]').each(function () {
-//                     const key = $(this).data('key');
-//                     if (data[key] !== undefined) {
-//                         $(this).find('td:last').text(data[key]);
-//                     }
-//                 });
-//             },
-//         });
+//     $(function () {
+//         $("#example1")
+//             .DataTable({
+//                 responsive: true,
+//                 lengthChange: false,
+//                 autoWidth: false,
+//                 buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
+//             })
+//             .buttons()
+//             .container()
+//             .appendTo("#example1_wrapper .col-md-6:eq(0)");
 //     });
 // });

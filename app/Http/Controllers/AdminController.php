@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Mail\SendClosingOfAccountsEmail;
 use App\Mail\SendEmailPayable;
-use App\Models\Admin;
 use App\Models\Counterpart;
 use App\Models\GraduationFee;
 use App\Models\MedicalShare;
 use App\Models\PersonalCashAdvance;
 use App\Models\Student;
 use dateTime;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -86,7 +86,6 @@ class AdminController extends Controller
                 ->groupBy('student_id');
         })->distinct()->count('student_id');
 
-
         // Calculate the total number of students that are not fully paid in counterparts
         // Counterpart
         $counterpartNotFullyPaidStudentsCount = Counterpart::whereIn('student_id', function ($query) {
@@ -120,7 +119,6 @@ class AdminController extends Controller
                 ->groupBy('student_id');
         })->distinct()->count('student_id');
 
-
         // Calculate the total number of students that are unpaid in:
         // Counterparts
         $counterpartUnpaidStudentsCount = Counterpart::whereIn('student_id', function ($query) {
@@ -146,7 +144,6 @@ class AdminController extends Controller
                 ->groupBy('student_id');
         })->distinct()->count('student_id');
 
-
         // Graduation Fee
         $graduationFeeUnpaidStudentsCount = GraduationFee::whereIn('student_id', function ($query) {
             $query->select('student_id')
@@ -154,7 +151,6 @@ class AdminController extends Controller
                 ->where('amount_paid', '=', 0)
                 ->groupBy('student_id');
         })->distinct()->count('student_id');
-
 
         // Count the number of students who have paid for each category
         $medicalSharePaidCount = MedicalShare::where('amount_paid', '>', 0)->count();
@@ -654,16 +650,19 @@ class AdminController extends Controller
         $batchYear = $request->input('batch_year');
 
         // Counterpart
-        $totalNoOfStudentPaidCounterpart = Counterpart::whereIn('student_id', function ($query) {
-            $query->select('student_id')
-                ->from('counterparts')
-                ->whereColumn('amount_paid', '=', 'amount_due')
-                ->groupBy('student_id');
-        })->distinct()->get();
-        $totalPaidCounterpart = $totalNoOfStudentPaidCounterpart->where('batch_year', $batchYear)->count();
+        $sqlCP = "
+        SELECT DISTINCT counterparts.student_id
+        FROM counterparts
+        INNER JOIN students ON counterparts.student_id = students.id
+        WHERE counterparts.amount_paid = counterparts.amount_due
+        AND students.batch_year = :batch_year
+        ";
+
+        $totalPaidCounterpartDB = DB::select($sqlCP, ['batch_year' => $batchYear]);
+        $totalPaidCounterpart = count($totalPaidCounterpartDB);
 
         $totalNoOfStudentNotFullyPaidCounterpart = Counterpart::whereIn('student_id', function ($query) use ($batchYear) {
-            $query->select('student_id') && student id of batch year
+            $query->select('student_id')
                 ->from('counterparts')
                 ->whereColumn('amount_paid', '<', 'amount_due')
                 ->where('batch_year', $batchYear)
@@ -872,7 +871,6 @@ class AdminController extends Controller
             // Calculate the balances for graduation fee
             $graduationFeeBalance = $student->graduationFee
                 ->sum('amount_due') - $student->graduationFee->sum('amount_paid');
-
 
             // Send the email with the calculated balances
             Mail::to($student->email)->send(

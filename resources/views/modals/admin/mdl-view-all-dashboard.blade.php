@@ -14,13 +14,13 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover text-center align-middle">
+                                        <table class="table table-bordered table-hover text-center">
                                             <div class="row">
                                                 <div class="col-md-6" style="text-align: left">
                                                     <p style="margin-bottom: 0%"><b>Total number of students:</b>
                                                         {{ $totalNumberOfStudents }}</p>
-                                                    <p><b>Batch <span id="selected-batch-year"></span> total number of
-                                                            students: </b><span id="total-students-per-year"></span></p>
+                                                    <p><b><span id="selected-batch-year"></span></b><span
+                                                            id="total-students-per-year"></span></p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <form id="get_totals_by_batch_year_form" class=""
@@ -28,7 +28,7 @@
                                                         @csrf
                                                         <input type="hidden" id="batch-year-form"
                                                             data-total-by-year="{{ json_encode($totalStudentsByBatchYear) }}">
-                                                        <div class="form-group row d-flex align-items-center">
+                                                        <div class="form-group row">
                                                             <label for="batch_year" class="col-md-5 col-form-label"
                                                                 style="text-align: right">Batch Year</label>
                                                             <div class="col-md-7">

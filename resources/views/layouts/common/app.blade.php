@@ -16,6 +16,11 @@
             window.languageResourceVersion = "{{ rspr::vers('app/public/lang/language-resource.json', true, true) }}";
         </script>
         <script src="{{ rspr::vers('js/vue-component.js') }}"></script>
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js">
+        </script>
     @endif
 
     @vite(['resources/css/compile.css', 'resources/js/compile.js'])
