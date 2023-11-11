@@ -209,7 +209,6 @@ $(document).ready(function () {
     });
 });
 
-// your-external-script.js
 $(document).ready(function () {
     // Access the data passed from the Blade view
     const $percentageInput = $("#percentage");
@@ -492,8 +491,10 @@ $(document).ready(function () {
     for (var i = currentYear; i >= currentYear - 14; i--) {
         $("#yearDropdownAnalytics").append(
             $("<option>", {
+                id: "year",
+                name: "year",
                 value: i,
-                text: i,
+                text: i
             })
         );
     }
@@ -505,6 +506,243 @@ $(document).ready(function () {
 
         $("#year_analytics").val(selectedYearAnalytics);
     });
+
+    const monthlyForm = $('#monthly-form');
+    const yearSelections = $('#yearDropdownAnalytics');
+
+    yearSelections.on("change", function () {
+        monthlyForm.submit(function (e) {
+            e.preventDefault();
+
+            showLoadingSpinner();
+
+            $.ajax({
+                url: $(this).attr("action"),
+                type: $(this).attr("method"),
+                data: $(this).serialize(),
+
+                success: function (response) {
+                    if (!successNotificationShown) {
+                        successNotificationShown = true;
+                    }
+
+                    changeCanvasValues(response);
+
+                    loadingOverlay.reload();
+                },
+                error: function (error) {
+                    hideLoadingSpinner();
+                },
+            });
+        });
+    });
+
+    function changeCanvasValues(response) {
+        // Counterpart
+        var counterpartPercentageJanuary = response.counterpartPaidCountJanuary;
+        var counterpartPercentageFebruary = response.counterpartPaidCountFebruary;
+        var counterpartPercentageMarch = response.counterpartPaidCountMarch;
+        var counterpartPercentageApril = response.counterpartPaidCountApril;
+        var counterpartPercentageMay = response.counterpartPaidCountMay;
+        var counterpartPercentageJune = response.counterpartPaidCountJune;
+        var counterpartPercentageJuly = response.counterpartPaidCountJuly;
+        var counterpartPercentageAugust = response.counterpartPaidCountAugust;
+        var counterpartPercentageSeptember = response.counterpartPaidCountSeptember;
+        var counterpartPercentageOctober = response.counterpartPaidCountOctober;
+        var counterpartPercentageNovember = response.counterpartPaidCountNovember;
+        var counterpartPercentageDecember = response.counterpartPaidCountDecember;
+
+        // MedicalShare
+        var medicalSharePercentageJanuary = response.medicalSharePaidCountJanuary;
+        var medicalSharePercentageFebruary = response.medicalSharePaidCountFebruary;
+        var medicalSharePercentageMarch = response.medicalSharePaidCountMarch;
+        var medicalSharePercentageApril = response.medicalSharePaidCountApril;
+        var medicalSharePercentageMay = response.medicalSharePaidCountMay;
+        var medicalSharePercentageJune = response.medicalSharePaidCountJune;
+        var medicalSharePercentageJuly = response.medicalSharePaidCountJuly;
+        var medicalSharePercentageAugust = response.medicalSharePaidCountAugust;
+        var medicalSharePercentageSeptember = response.medicalSharePaidCountSeptember;
+        var medicalSharePercentageOctober = response.medicalSharePaidCountOctober;
+        var medicalSharePercentageNovember = response.medicalSharePaidCountNovember;
+        var medicalSharePercentageDecember = response.medicalSharePaidCountDecember;
+
+        // PersonalCashAdvance
+        var personalCashAdvancePercentageJanuary = response.personalCashAdvancePaidCountJanuary;
+        var personalCashAdvancePercentageFebruary = response.personalCashAdvancePaidCountFebruary;
+        var personalCashAdvancePercentageMarch = response.personalCashAdvancePaidCountMarch;
+        var personalCashAdvancePercentageApril =response.personalCashAdvancePaidCountApril;
+        var personalCashAdvancePercentageMay = response.personalCashAdvancePaidCountMay;
+        var personalCashAdvancePercentageJune = response.personalCashAdvancePaidCountJune;
+        var personalCashAdvancePercentageJuly = response.personalCashAdvancePaidCountJuly;
+        var personalCashAdvancePercentageAugust = response.personalCashAdvancePaidCountAugust;
+        var personalCashAdvancePercentageSeptember = response.personalCashAdvancePaidCountSeptember;
+        var personalCashAdvancePercentageOctober = response.personalCashAdvancePaidCountOctober;
+        var personalCashAdvancePercentageNovember = response.personalCashAdvancePaidCountNovember;
+        var personalCashAdvancePercentageDecember = response.personalCashAdvancePaidCountDecember;
+
+        // GraduationFee
+        var graduationFeePercentageJanuary = response.graduationFeePaidCountJanuary;
+        var graduationFeePercentageFebruary = response.graduationFeePaidCountFebruary;
+        var graduationFeePercentageMarch = response.graduationFeePaidCountMarch;
+        var graduationFeePercentageApril = response.graduationFeePaidCountApril;
+        var graduationFeePercentageMay = response.graduationFeePaidCountMay;
+        var graduationFeePercentageJune = response.graduationFeePaidCountJune;
+        var graduationFeePercentageJuly = response.graduationFeePaidCountJuly;
+        var graduationFeePercentageAugust = response.graduationFeePaidCountAugust;
+        var graduationFeePercentageSeptember = response.graduationFeePaidCountSeptember;
+        var graduationFeePercentageOctober = response.graduationFeePaidCountOctober;
+        var graduationFeePercentageNovember = response.graduationFeePaidCountNovember;
+        var graduationFeePercentageDecember = response.graduationFeePaidCountDecember;
+
+        // Define your chart data and options
+        const barChartData = {
+            labels: [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December",
+            ],
+            datasets: [
+                {
+                    label: "Counterpart Percentage",
+                    backgroundColor: "rgba(60,141,188,0.9)",
+                    borderColor: "rgba(60,141,188,0.8)",
+                    pointRadius: false,
+                    pointColor: "#3b8bba",
+                    pointStrokeColor: "rgba(60,141,188,1)",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(60,141,188,1)",
+                    data: [
+                        counterpartPercentageJanuary,
+                        counterpartPercentageFebruary,
+                        counterpartPercentageMarch,
+                        counterpartPercentageApril,
+                        counterpartPercentageMay,
+                        counterpartPercentageJune,
+                        counterpartPercentageJuly,
+                        counterpartPercentageAugust,
+                        counterpartPercentageSeptember,
+                        counterpartPercentageOctober,
+                        counterpartPercentageNovember,
+                        counterpartPercentageDecember,
+                    ],
+                },
+                {
+                    label: "Medical Percentage",
+                    backgroundColor: "#7EB1ED",
+                    borderColor: "#7EB1ED",
+                    pointRadius: false,
+                    pointColor: "#3b8bba",
+                    pointStrokeColor: "#7EB1ED",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "#7EB1ED",
+                    data: [
+                        medicalSharePercentageJanuary,
+                        medicalSharePercentageFebruary,
+                        medicalSharePercentageMarch,
+                        medicalSharePercentageApril,
+                        medicalSharePercentageMay,
+                        medicalSharePercentageJune,
+                        medicalSharePercentageJuly,
+                        medicalSharePercentageAugust,
+                        medicalSharePercentageSeptember,
+                        medicalSharePercentageOctober,
+                        medicalSharePercentageNovember,
+                        medicalSharePercentageDecember,
+                    ],
+                },
+                {
+                    label: "Personal CA Percentage",
+                    backgroundColor: "#1F3C88",
+                    borderColor: "#1F3C88",
+                    pointRadius: false,
+                    pointColor: "#3b8bba",
+                    pointStrokeColor: "#1F3C88",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "#1F3C88",
+                    data: [
+                        personalCashAdvancePercentageJanuary,
+                        personalCashAdvancePercentageFebruary,
+                        personalCashAdvancePercentageMarch,
+                        personalCashAdvancePercentageApril,
+                        personalCashAdvancePercentageMay,
+                        personalCashAdvancePercentageJune,
+                        personalCashAdvancePercentageJuly,
+                        personalCashAdvancePercentageAugust,
+                        personalCashAdvancePercentageSeptember,
+                        personalCashAdvancePercentageOctober,
+                        personalCashAdvancePercentageNovember,
+                        personalCashAdvancePercentageDecember,
+                    ],
+                },
+                {
+                    label: "Graduation Fee Percentage",
+                    backgroundColor: "#FFB13D",
+                    borderColor: "#FFB13D",
+                    pointRadius: false,
+                    pointColor: "#3b8bba",
+                    pointStrokeColor: "#FFB13D",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "#FFB13D",
+                    data: [
+                        graduationFeePercentageJanuary,
+                        graduationFeePercentageFebruary,
+                        graduationFeePercentageMarch,
+                        graduationFeePercentageApril,
+                        graduationFeePercentageMay,
+                        graduationFeePercentageJune,
+                        graduationFeePercentageJuly,
+                        graduationFeePercentageAugust,
+                        graduationFeePercentageSeptember,
+                        graduationFeePercentageOctober,
+                        graduationFeePercentageNovember,
+                        graduationFeePercentageDecember,
+                    ],
+                },
+            ],
+        };
+
+        const barChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            legend: {
+                display: true,
+            },
+            scales: {
+                xAxes: [
+                    {
+                        gridLines: {
+                            display: true,
+                        },
+                    },
+                ],
+                yAxes: [
+                    {
+                        gridLines: {
+                            display: true,
+                        },
+                    },
+                ],
+            },
+        };
+
+        // Create the bar chart using the data and options
+        const barChartCanvas = $("#barChart")[0].getContext("2d");
+        new Chart(barChartCanvas, {
+            type: "bar",
+            data: barChartData,
+            options: barChartOptions,
+        });
+    }
+
 });
 
 $(document).ready(function () {
@@ -725,85 +963,6 @@ $(document).ready(function () {
     });
 });
 
-// $(document).ready(function () {
-//     const batchYearSelect = $('#batch_year');
-//     const selectedBatchYearElement = $('#selected-batch-year');
-//     const totalStudentsPerYearElement = $('#total-students-per-year');
-//     const totalNumberOfStudentsPerBatch = $("#batch-year-form");
-//     const totalByYear = totalNumberOfStudentsPerBatch.data("total-by-year");
-
-//     // Listen for changes in the select element
-//     batchYearSelect.on('change', function () {
-//         const selectedYear = batchYearSelect.val();
-
-//         // Update the content of the selectedBatchYearElement
-//         selectedBatchYearElement.text(selectedYear);
-
-//         // Update the total students count for the selected year
-//         if (selectedYear in totalByYear) {
-//             totalStudentsPerYearElement.text(totalByYear[selectedYear]);
-//         } else {
-//             totalStudentsPerYearElement.text("No data available");
-//         }
-//     });
-// });
-
-// $(document).ready(function () {
-//     const batchYearSelect = $('#batch_year');
-//     const selectedBatchYearElement = $('#selected-batch-year');
-//     const totalStudentsPerYearElement = $('#total-students-per-year');
-//     const tableBody = $('.table-body1');
-//     const totalNumberOfStudentsPerBatch = $("#batch-year-form");
-//     const totalByYear = totalNumberOfStudentsPerBatch.data("total-by-year");
-
-//     // Listen for changes in the select element
-//     batchYearSelect.on('change', function () {
-//         const selectedYear = batchYearSelect.val();
-
-//         // Update the content of the selectedBatchYearElement
-//         selectedBatchYearElement.text(selectedYear);
-//         const loadingOverlay = $(".loading-spinner-overlay");
-//         let successNotificationShown = false; // Flag to track whether the success notification has been shown
-
-//         // Function to show the loading spinner
-//         function showLoadingSpinner() {
-//             loadingOverlay.show();
-//             $("body").css("overflow", "hidden");
-//         }
-
-//         showLoadingSpinner();
-
-//         $.ajax({
-//             url: '/view-all-status', // Use the correct route URL
-//             method: 'GET',
-//             data: {
-//                 batch_year: selectedYear,
-//             },
-//             success: function (data) {
-//                 // Clear the table body
-//                 tableBody.html('');
-
-//                 // Loop through the received data and update the table rows
-//                 for (const key in data) {
-//                     const row = $('<tr>');
-//                     row.append($('<td>').text(data[key].label));
-//                     row.append($('<td>').text(data[key].count));
-//                     tableBody.append(row);
-//                 }
-
-//                 if (selectedYear in totalByYear) {
-//                     totalStudentsPerYearElement.text(totalByYear[selectedYear]);
-//                 } else {
-//                     totalStudentsPerYearElement.text("No data available");
-//                 }
-//             },
-//             error: function (error) {
-//                 console.error(error);
-//             }
-//         });
-//     });
-// });
-
 $(document).ready(function () {
     const batchYearSelect = $("#batch_year");
     const selectedBatchYearElement = $("#selected-batch-year");
@@ -811,6 +970,7 @@ $(document).ready(function () {
     const totalNumberOfStudentsPerBatch = $("#batch-year-form");
     const totalByYear = totalNumberOfStudentsPerBatch.data("total-by-year");
     const formYear = $("#get_totals_by_batch_year_form");
+    const allBatch = $("#allBatch");
     let successNotificationShown = false;
 
     // Function to update the modal content with totals
@@ -855,6 +1015,48 @@ $(document).ready(function () {
         $("#dashboard-modal").modal("show");
     }
 
+
+    function updateModalContentWhenAllBatch(response) {
+        // Update the modal content with data from the response
+        $("#counterpartPaidStudentsCount").text(
+            response.counterpartPaidStudentsCount
+        );
+        $("#counterpartUnpaidStudentsCount").text(
+            response.counterpartUnpaidStudentsCount
+        );
+        $("#counterpartNotFullyPaidStudentsCount").text(
+            response.counterpartNotFullyPaidStudentsCount
+        );
+        $("#medicalSharePaidStudentsCount").text(
+            response.medicalSharePaidStudentsCount
+        );
+        $("#medicalShareUnpaidStudentsCount").text(
+            response.medicalShareUnpaidStudentsCount
+        );
+        $("#medicalShareNotFullyPaidStudentsCount").text(
+            response.medicalShareNotFullyPaidStudentsCount
+        );
+        $("#personalCashAdvancePaidStudentsCount").text(
+            response.personalCashAdvancePaidStudentsCount
+        );
+        $("#personalCashAdvanceUnpaidStudentsCount").text(
+            response.personalCashAdvanceUnpaidStudentsCount
+        );
+        $("#personalCashAdvanceNotFullyPaidStudentsCount").text(
+            response.personalCashAdvanceNotFullyPaidStudentsCount
+        );
+        $("#graduationFeePaidStudentsCount").text(
+            response.graduationFeePaidStudentsCount
+        );
+        $("#graduationFeeUnpaidStudentsCount").text(
+            response.graduationFeeUnpaidStudentsCount
+        );
+        $("#graduationFeeNotFullyPaidStudentsCount").text(
+            response.graduationFeeNotFullyPaidStudentsCount
+        );
+
+    }
+
     function showLoadingSpinner() {
         const loadingOverlay = $(".loading-spinner-overlay");
         loadingOverlay.show();
@@ -868,14 +1070,35 @@ $(document).ready(function () {
     }
 
     batchYearSelect.on("change", function () {
+        selectedBatchYearElement.show();
         const selectedYear = batchYearSelect.val();
-        selectedBatchYearElement.text( "Batch " + selectedYear + " total number of students: ");
+        selectedBatchYearElement.text("Batch " + selectedYear + " total number of students: ");
 
         if (selectedYear in totalByYear) {
             totalStudentsPerYearElement.text(totalByYear[selectedYear]);
             formYear.submit();
+            $("#total-students-per-year").show();
         } else {
-            totalStudentsPerYearElement.text("No data available");
+            selectedBatchYearElement.text("");
+            selectedBatchYearElement.hide();
+            $("#total-students-per-year").hide();
+
+            if (allBatch) {
+                showLoadingSpinner();
+                $.ajax({
+                    url: "/allBatchTotalCount",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (response) {
+                        updateModalContentWhenAllBatch(response);
+                        hideLoadingSpinner();
+                    },
+                    error: function (error) {
+                        hideLoadingSpinner();
+                    }
+                });
+                return;
+            }
         }
     });
 

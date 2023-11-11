@@ -38,6 +38,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [AdminController::class, 'indexAdmin'])->name('dashboard.index');
     Route::get('/accounts', [RegisterController::class, 'accounts'])->name('admin.accounts');
     Route::post('/view-all-status', [AdminController::class, 'getTotals'])->name('admin.getTotals');
+    Route::get('/allBatchTotalCount', [AdminController::class, 'allBatchTotalCount'])->name('admin.allBatchTotalCount');
+    Route::post('/perYearViewMonthlyAcquisition', [AdminController::class, 'perYearViewMonthlyAcquisition'])->name('admin.perYearViewMonthlyAcquisition');
 
     Route::prefix('/students')->group(function () {
         Route::get('/', [StudentController::class, 'index'])->name('students.index');

@@ -46,3 +46,7 @@ input[type="date"]::-ms-clear {
     max-width: 1000px;
     width: 50%;
 }
+
+.b-gray-color {
+    background-color: #d2d4d5;
+}

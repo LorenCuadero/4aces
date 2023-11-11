@@ -3,11 +3,11 @@
     <div class="modal-dialog custom-modal-width" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="student-selection-modal-label">Status</h5>
+                <h5 class="modal-title" id="student-selection-modal-label">Analytics Status</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <a href="{{ route('rpt.dcpl.index') }}"><span aria-hidden="true">&times;</span> </a> </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body b-gray-color">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12" id="table">
@@ -17,9 +17,11 @@
                                         <table class="table table-bordered table-hover text-center">
                                             <div class="row">
                                                 <div class="col-md-6" style="text-align: left">
-                                                    <p style="margin-bottom: 0%"><b>Total number of students:</b>
+                                                    <p class="p-2" style="margin-bottom: 0%"><b>Total number of
+                                                            students:</b>
                                                         {{ $totalNumberOfStudents }}</p>
-                                                    <p><b><span id="selected-batch-year"></span></b><span
+                                                    <p class="pl-2 pt-0"><b><span
+                                                                id="selected-batch-year"></span></b><span
                                                             id="total-students-per-year"></span></p>
                                                 </div>
                                                 <div class="col-md-6">
@@ -30,11 +32,14 @@
                                                             data-total-by-year="{{ json_encode($totalStudentsByBatchYear) }}">
                                                         <div class="form-group row">
                                                             <label for="batch_year" class="col-md-5 col-form-label"
-                                                                style="text-align: right">Batch Year</label>
+                                                                style="text-align: right">Batch Year:</label>
                                                             <div class="col-md-7">
                                                                 <select class="form-control" name="batch_year"
                                                                     id="batch_year">
-                                                                    <option value="">All Batch Year</option>
+                                                                    <a id="allBatch" href="{{ route('admin.allBatchTotalCount') }}">
+                                                                        <option value="">All
+                                                                            Batch Year</option>
+                                                                    </a>
                                                                     @foreach ($batchYears as $batchYear)
                                                                         <option name="batch_year"
                                                                             value="{{ $batchYear }}">
@@ -127,6 +132,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer">
             </div>
         </div>
     </div>

@@ -82,8 +82,9 @@
                             <div class="card-header border-0" style="background-color: #ffff;">
                                 <div class="d-flex justify-content-between">
                                     <h3 class="card-title">Monthly Acquisition</h3>
-                                    <form action=""><input type="hidden" id="year_analytics"> <select
-                                            id="yearDropdownAnalytics" class="form-control" style="width: 150px;"></select>
+                                    <form id="monthly-form" action="{{ route('admin.perYearViewMonthlyAcquisition') }}" method="POST">
+                                        <input type="hidden" id="year_analytics"> <select id="yearDropdownAnalytics"
+                                            class="form-control" style="width: 150px;"></select>
                                     </form>
                                 </div>
                             </div>
