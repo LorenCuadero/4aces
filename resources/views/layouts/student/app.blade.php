@@ -19,7 +19,6 @@
     @endif
 
     @vite(['resources/css/compile.css', 'resources/js/compile.js'])
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @stack('css')
 </head>
 
@@ -29,7 +28,7 @@
         @include('layouts.student.header')
         @include('layouts.student.aside')
         @include('modals.mdl-logout-confirmation')
-
+        @include('assets.asst-loading-spinner')
         <div class="content-wrapper text-center p-3">
             @yield('content')
         </div>

@@ -10,7 +10,6 @@
                     <div class="card-body">
                         <form id="login-form" method="POST" action="{{ route('login') }}">
                             @csrf
-
                             <div class="form-group">
                                 <label for="email">{{ __('Email Address') }}</label>
                                 <input id="email" type="email"
@@ -24,10 +23,11 @@
                                 @enderror
                             </div>
 
-                            <button id="btn-submit" type="submit" class="btn btn-primary">
+                            <button id="btn-submit-login" type="submit" class="btn btn-primary">
                                 {{ __('Send OTP') }}
                             </button>
                         </form>
+                        @include('assets.asst-loading-spinner')
                     </div>
                 </div>
             </div>

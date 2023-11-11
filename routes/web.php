@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CounterpartController;
 use App\Http\Controllers\DisciplinaryController;
+use App\Http\Controllers\GraduationFeeController;
+use App\Http\Controllers\MedicalShareController;
+use App\Http\Controllers\PersonalCashAdvanceController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentParentController;
 use App\Http\Controllers\AdminController;
@@ -21,7 +25,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'loginPage']);
 
-Route::get('/verify-account', [AuthController::class, 'verifyAccount'])->name('verify_account');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify_otp');
 
 Route::prefix('/login')->group(function () {
@@ -34,6 +37,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/pn-portal', [StudentParentController::class, 'indexStudent'])->name('payable.index');
     Route::get('/dashboard', [AdminController::class, 'indexAdmin'])->name('dashboard.index');
     Route::get('/accounts', [RegisterController::class, 'accounts'])->name('admin.accounts');
+    Route::post('/view-all-status', [AdminController::class, 'getTotals'])->name('admin.getTotals');
+    Route::get('/allBatchTotalCount', [AdminController::class, 'allBatchTotalCount'])->name('admin.allBatchTotalCount');
+    Route::post('/perYearViewMonthlyAcquisition', [AdminController::class, 'perYearViewMonthlyAcquisition'])->name('admin.perYearViewMonthlyAcquisition');
 
     Route::prefix('/students')->group(function () {
         Route::get('/', [StudentController::class, 'index'])->name('students.index');
@@ -79,6 +85,50 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('/student-profile')->group(function () {
         Route::get('/', [StudentParentController::class, 'indexProfile'])->name('student.profile.index');
+    });
+
+    Route::prefix('/email')->group(function () {
+        Route::get('/', [AdminController::class, 'email'])->name('admin.email');
+        Route::post('/', [AdminController::class, 'sendEmail'])->name('admin.sendEmail');
+    });
+
+    Route::prefix('/email')->group(function () {
+        Route::get('/', [AdminController::class, 'email'])->name('admin.email');
+        Route::post('/', [AdminController::class, 'sendEmail'])->name('admin.sendEmail');
+    });
+
+    Route::prefix('/closing-of-accounts-letter')->group(function () {
+        Route::get('/', [AdminController::class, 'coa'])->name('admin.coa');
+        Route::post('/', [AdminController::class, 'sendCoa'])->name('admin.sendCoa');
+    });
+
+    Route::prefix('/counterpart-records')->group(function () {
+        Route::get('/', [CounterpartController::class, 'counterpartRecords'])->name('admin.counterpartRecords');
+        Route::get('/{id}', [CounterpartController::class, 'studentPageCounterpartRecords'])->name('admin.studentPageCounterpartRecords');
+        Route::post('/{id}', [CounterpartController::class, 'storeCounterpart'])->name('admin.storeCounterpart');
+        Route::put('/{id}', [CounterpartController::class, 'updateCounterpart'])->name('admin.updateCounterpart');
+        Route::delete('/{id}', [CounterpartController::class, 'deleteCounterpart'])->name('admin.deleteCounterpart');
+    });
+
+    Route::prefix('/medical-share-records')->group(function () {
+        Route::get('/', [MedicalShareController::class, 'medicalShare'])->name('admin.medicalShare');
+        Route::get('/{id}', [MedicalShareController::class, 'studentMedicalShareRecords'])->name('admin.studentMedicalShareRecords');
+        Route::post('/{id}', [MedicalShareController::class, 'storeMedicalShare'])->name('admin.storeMedicalShare');
+        Route::put('/{id}', [MedicalShareController::class,'updateMedicalShare'])->name('admin.updateMedicalShare');
+    });
+
+    Route::prefix('/personal-cash-advance-records')->group(function () {
+        Route::get('/', [PersonalCashAdvanceController::class, 'personalCA'])->name('admin.personalCA');
+        Route::get('/{id}', [PersonalCashAdvanceController::class, 'studentPersonalCARecords'])->name('admin.studentPersonalCARecords');
+        Route::post('/{id}', [PersonalCashAdvanceController::class, 'storePersonalCA'])->name('admin.storePersonalCA');
+        Route::put('/{id}', [PersonalCashAdvanceController::class, 'updatePersonalCA'])->name('admin.updatePersonalCA');
+    });
+
+
+    Route::prefix('/graduation-fees-records')->group(function () {
+        Route::get('/', [GraduationFeeController::class, 'graduationFees'])->name('admin.graduationFees');
+        Route::get('/{id}', [GraduationFeeController::class, 'studentGraduationFeeRecords'])->name('admin.studentGraduationFeeRecords');
+        Route::post('/{id}', [GraduationFeeController::class, 'storeGraduationFee'])->name('admin.storeGraduationFee');
     });
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

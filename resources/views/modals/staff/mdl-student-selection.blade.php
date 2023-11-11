@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="student-selection-modal-label">Select a Student</h5>
+                <h5 class="modal-title" id="student-selection-modal-label">Select Student</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <a href="{{ route('rpt.dcpl.index') }}"><span aria-hidden="true">&times;</span> </a>
             </div>

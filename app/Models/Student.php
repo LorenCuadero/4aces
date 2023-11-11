@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Academic;
 use App\Models\User;
 use App\Models\Disciplinary;
+use App\Models\Counterpart;
+use App\Models\MedicalShare;
+use App\Models\PersonalCashAdvance;
+use App\Models\GraduationFee;
 
 class Student extends Model
 {
@@ -42,5 +46,25 @@ class Student extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'email', 'email');
+    }
+
+    public function counterpart()
+    {
+        return $this->hasMany(Counterpart::class);
+    }
+
+    public function medicalShare()
+    {
+        return $this->hasMany(MedicalShare::class);
+    }
+
+    public function personalCashAdvance()
+    {
+        return $this->hasMany(PersonalCashAdvance::class);
+    }
+
+    public function graduationFee()
+    {
+        return $this->hasMany(GraduationFee::class);
     }
 }

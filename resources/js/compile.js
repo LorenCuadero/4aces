@@ -1,6 +1,7 @@
 import "./bootstrap";
 import "./components/staff/cmpt-staff-table-header.js";
-import "./components/student/cmpt-student-reports.js"
+import "./components/student/cmpt-student-reports.js";
+import "./components/admin/admin.js";
 
 $(document).ready(function () {
     $("#add-btn").click(function () {
@@ -122,15 +123,6 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    const loadingOverlay = $(".loading-spinner-overlay");
-    let successNotificationShown = false; // Flag to track whether the success notification has been shown
-
-    // Function to show the loading spinner
-    function showLoadingSpinner() {
-        loadingOverlay.show();
-        $("body").css("overflow", "hidden");
-    }
-
     // Function to hide the loading spinner
     function hideLoadingSpinner() {
         loadingOverlay.hide();
@@ -213,7 +205,6 @@ $(document).ready(function () {
                     returnToIndex();
                     toastr.success("Student information added successfully!");
                     successNotificationShown = true; // Set the flag to true
-
                 }
 
                 // Optionally, you can redirect to another page after success
@@ -378,7 +369,9 @@ $(document).ready(function () {
                     // Display a success Toastr notification if it hasn't been shown already
                     if (!successNotificationShown) {
                         returnToIndex();
-                        toastr.success("Student disciplinary record updated successfully!");
+                        toastr.success(
+                            "Student disciplinary record updated successfully!"
+                        );
                         successNotificationShown = true; // Set the flag to true
                     }
 
@@ -390,7 +383,9 @@ $(document).ready(function () {
                     hideLoadingSpinner();
 
                     // Handle errors if needed
-                    toastr.error("An error occurred while submitting the form.");
+                    toastr.error(
+                        "An error occurred while submitting the form."
+                    );
                 },
             });
         });
@@ -436,7 +431,53 @@ $(document).ready(function () {
             error: function (error) {
                 // Hide the loading spinner when there's an error
                 hideLoadingSpinner();
-                toastr.error("An error occurred while submitting the form");
+                toastr.error("An error occurred while submitting the form. The combination of the month and year already exists, please try again.");
+            },
+        });
+    });
+});
+
+
+$(document).ready(function () {
+    const loadingOverlay = $(".loading-spinner-overlay");
+    let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+    // Function to show the loading spinner
+    function showLoadingSpinner() {
+        loadingOverlay.show();
+        $("body").css("overflow", "hidden");
+    }
+
+    // Function to hide the loading spinner
+    function hideLoadingSpinner() {
+        loadingOverlay.hide();
+        $("body").css("overflow", "auto");
+    }
+
+    $("#new-form-medical").submit(function (e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Show the loading spinner when the form is submitted
+        showLoadingSpinner();
+
+        // Perform an AJAX form submission
+        $.ajax({
+            url: $(this).attr("action"), // Use the form's action attribute as the URL
+            type: $(this).attr("method"), // Use the form's method attribute as the HTTP method
+            data: $(this).serialize(), // Serialize the form data
+
+            success: function (response) {
+                // Display a success Toastr notification if it hasn't been shown already
+                if (!successNotificationShown) {
+                    location.reload();
+                    toastr.success("Successfully added!");
+                    successNotificationShown = true; // Set the flag to true
+                }
+            },
+            error: function (error) {
+                // Hide the loading spinner when there's an error
+                hideLoadingSpinner();
+                toastr.error("An error occurred while submitting the form, please try again.");
             },
         });
     });
@@ -492,60 +533,136 @@ $(document).ready(function () {
     });
 });
 
-// $(document).ready(function () {
-//     const loadingOverlay = $(".loading-spinner-overlay");
-//     let successNotificationShown = false; // Flag to track whether the success notification has been shown
+$(document).ready(function () {
+    const loadingOverlay = $(".loading-spinner-overlay");
+    let successNotificationShown = false; // Flag to track whether the success notification has been shown
 
-//     // Function to show the loading spinner
-//     function showLoadingSpinner() {
-//         loadingOverlay.show();
-//         $("body").css("overflow", "hidden");
-//     }
+    // Function to show the loading spinner
+    function showLoadingSpinner() {
+        loadingOverlay.show();
+        $("body").css("overflow", "hidden");
+    }
 
-//     // Function to hide the loading spinner
-//     function hideLoadingSpinner() {
-//         loadingOverlay.hide();
-//         $("body").css("overflow", "auto");
-//     }
+    // Function to hide the loading spinner
+    function hideLoadingSpinner() {
+        loadingOverlay.hide();
+        $("body").css("overflow", "auto");
+    }
 
-//     $("#form_otp").submit(function (e) {
-//         e.preventDefault(); // Prevent the default form submission
+    $("#verify_otp").submit(function (e) {
+        e.preventDefault(); // Prevent the default form submission
 
-//         // Show the loading spinner when the form is submitted
-//         showLoadingSpinner();
+        // Show the loading spinner when the form is submitted
+        showLoadingSpinner();
 
-//         // Perform an AJAX form submission
-//         $.ajax({
-//             url: $(this).attr("action"), // Use the form's action attribute as the URL
-//             type: $(this).attr("method"), // Use the form's method attribute as the HTTP method
-//             data: $(this).serialize(), // Serialize the form data
+        // Perform an AJAX form submission
+        $.ajax({
+            url: $(this).attr("action"), // Use the form's action attribute as the URL
+            type: $(this).attr("method"), // Use the form's method attribute as the HTTP method
+            data: $(this).serialize(), // Serialize the form data
 
-//             success: function (response) {
-//                 // Display a success Toastr notification if it hasn't been shown already
-//                 if (!successNotificationShown) {
-//                     toastr.success("Success!");
-//                     successNotificationShown = true; // Set the flag to true
-//                 }
+            success: function (response) {
+                // Display a success Toastr notification if it hasn't been shown already
+                if (!successNotificationShown) {
+                    toastr.success("Success!");
+                    successNotificationShown = true; // Set the flag to true
+                }
 
-//                 // Optionally, you can redirect to another page after success
-//                 // window.location.href = "{{ route('your.redirect.route') }}";
-//             },
-//             error: function (error) {
-//                 // Hide the loading spinner when there's an error
-//                 hideLoadingSpinner();
+                // Optionally, you can redirect to another page after success
+                // window.location.href = "{{ route('your.redirect.route') }}";
+            },
+            error: function (error) {
+                // Hide the loading spinner when there's an error
+                hideLoadingSpinner();
 
-//                 // Handle errors if needed
-//                 toastr.error("Invalid OTP, please try again.");
-//             },
-//         });
-//     });
-// });
+                // Handle errors if needed
+                toastr.error("Invalid OTP, please try again.");
+            },
+        });
+    });
+});
 
-// $(document).ready(function() {
-//     $('#login-form').submit(function() {
-//         $('#submit-btn').prop('disabled', true);
-//     });
-// });
+
+$(document).ready(function () {
+    $("#btn-submit-login").click(function () {
+        var loadingOverlay1 = $(".loading-spinner-overlay");
+        let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+        // Function to show the loading spinner
+        function showLoadingSpinner() {
+            loadingOverlay1.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        // Function to hide the loading spinner
+        function hideLoadingSpinner() {
+            loadingOverlay1.hide();
+            $("body").css("overflow", "auto");
+        }
+
+        // Show the loading spinner when the form is submitted
+        showLoadingSpinner();
+
+        // Perform an AJAX form submission
+        $.ajax({
+            url: $("#login-form").attr("action"),
+            type: $("#login-form").attr("method"),
+            data: $("#login-form").serialize(),
+
+            success: function (response) {
+                toastr.success("Successfully sent OTP to the email used!");
+            },
+            error: function (error) {
+                // Hide the loading spinner when there's an error
+                hideLoadingSpinner();
+
+                toastr.error("Email not found, please try again.");
+            },
+        });
+    });
+});
+
+
+$(document).ready(function () {
+    $("#cancel").click(function () {
+        var loadingOverlay1 = $(".loading-spinner-overlay");
+        let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+        // Function to show the loading spinner
+        function showLoadingSpinner() {
+            loadingOverlay1.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        // Function to hide the loading spinner
+        function hideLoadingSpinner() {
+            loadingOverlay1.hide();
+            $("body").css("overflow", "auto");
+        }
+
+        // Show the loading spinner when the form is submitted
+        showLoadingSpinner();
+
+        // Perform an AJAX form submission
+        $.ajax({
+            url: $("#cancel_verify").attr("href"),
+            type: 'GET',
+
+            success: function (response) {
+                toastr.success("Canceled OTP verification!");
+                window.location.href = "/login";
+            },
+            error: function (error) {
+                toastr.error("Incorrect OTP, please try again.");
+                toastr.error(error);
+
+                // Hide the loading spinner when there's an error
+                hideLoadingSpinner();
+                toastr.error("An error occurred, please try again.");
+            },
+        });
+    });
+});
 
 // Todo
 
@@ -576,14 +693,104 @@ $(document).ready(function () {
 $(document).ready(function () {
     if ($(".data-table tbody tr").length > 0) {
         $(".data-table").DataTable({
-            "paging": true,
-            "paging": true,
-            "pageLength": 5,
-            "searching": true,
-            "ordering": false,
-            "lengthChange": false,
+            paging: true,
+            paging: true,
+            pageLength: 5,
+            searching: true,
+            ordering: false,
+            lengthChange: true,
         });
     } else {
         $(".data-table").html("<p>No data available.</p>");
     }
+});
+
+$(document).ready(function () {
+    const loadingOverlay = $(".loading-spinner-overlay");
+    let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+    // Function to show the loading spinner
+    function showLoadingSpinner() {
+        loadingOverlay.show();
+        $("body").css("overflow", "hidden");
+    }
+
+    // Function to hide the loading spinner
+    function hideLoadingSpinner() {
+        loadingOverlay.hide();
+        $("body").css("overflow", "auto");
+    }
+
+    $("#edit-personal-ca-form").submit(function (e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Show the loading spinner when the form is submitted
+        showLoadingSpinner();
+
+        // Perform an AJAX form submission
+        $.ajax({
+            url: $(this).attr("action"), // Use the form's action attribute as the URL
+            type: $(this).attr("method"), // Use the form's method attribute as the HTTP method
+            data: $(this).serialize(), // Serialize the form data
+
+            success: function (response) {
+                // Display a success Toastr notification if it hasn't been shown already
+                if (!successNotificationShown) {
+                    location.reload();
+                    toastr.success("Successfully updated!");
+                    successNotificationShown = true; // Set the flag to true
+                }
+            },
+            error: function (error) {
+                // Hide the loading spinner when there's an error
+                hideLoadingSpinner();
+                toastr.error("An error occurred while submitting the form. Please try again.");
+            },
+        });
+    });
+});
+
+$(document).ready(function () {
+    const loadingOverlay = $(".loading-spinner-overlay");
+    let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+    // Function to show the loading spinner
+    function showLoadingSpinner() {
+        loadingOverlay.show();
+        $("body").css("overflow", "hidden");
+    }
+
+    // Function to hide the loading spinner
+    function hideLoadingSpinner() {
+        loadingOverlay.hide();
+        $("body").css("overflow", "auto");
+    }
+
+    $("#edit-counterpart-form").submit(function (e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Show the loading spinner when the form is submitted
+        showLoadingSpinner();
+
+        // Perform an AJAX form submission
+        $.ajax({
+            url: $(this).attr("action"), // Use the form's action attribute as the URL
+            type: $(this).attr("method"), // Use the form's method attribute as the HTTP method
+            data: $(this).serialize(), // Serialize the form data
+
+            success: function (response) {
+                // Display a success Toastr notification if it hasn't been shown already
+                if (!successNotificationShown) {
+                    location.reload();
+                    toastr.success("Successfully updated!");
+                    successNotificationShown = true; // Set the flag to true
+                }
+            },
+            error: function (error) {
+                // Hide the loading spinner when there's an error
+                hideLoadingSpinner();
+                toastr.error("An error occurred while submitting the form. Please try again.");
+            },
+        });
+    });
 });

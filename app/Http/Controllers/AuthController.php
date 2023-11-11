@@ -32,6 +32,7 @@ class AuthController extends Controller
 
         // Store the OTP in the user's record (you may use a different storage method)
         $user->otp = $otp;
+        $user_email = $user->email;
 
         $user->save();
 
@@ -39,7 +40,7 @@ class AuthController extends Controller
         Mail::to($user->email)->send(new SendOTPMail($otp, $user->email));
 
         // Pass both email and OTP to the OTP verification view
-        return view('otp_verification', compact('otp', 'user'));
+        return view('otp_verification', compact('otp', 'user_email'));
     }
 
     public function loginPage()
@@ -56,10 +57,11 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function verifyAccount()
-    {
-        return view('otp_verification');
-    }
+    // public function verifyAccount()
+    // {
+
+    //     return view('otp_verification');
+    // }
 
     public function verifyOTP(Request $request)
     {
@@ -92,7 +94,7 @@ class AuthController extends Controller
             }
         } else {
             // OTP is incorrect, show an error message
-            return redirect()->route('verify_account')->with('error', 'Invalid OTP. Please try again.');
+            return redirect()->back()->with('error', 'OTP is incorrect.');
         }
     }
 

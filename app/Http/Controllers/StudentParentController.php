@@ -10,28 +10,68 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class StudentParentController extends Controller {
-    public function indexStudent() {
+class StudentParentController extends Controller
+{
+    public function indexStudent()
+    {
         $user = Auth::user();
         $userName = '';
-        $gradeReports = null; // Initialize gradeReports as null
-        $userFname = null;
-        $userMname = null;
-        $userLname = null;
-        $gradeFirstSemFirstYear = null;
+        $userFname = '';
+        $userMname = '';
+        $userLname = '';
+        $totalCounterpart = 0;
+        $totalMedical = 0;
+        $totalPersonalCashAdvance = 0;
+        $totalGraduationFee = 0;
 
-        if ( $user->role == 0 ) {
-            // Retrieve the student's name based on the email using the relationship
+        if ($user->role == 0) {
+            // Retrieve the student's name and their payable amounts using the relationship
             $student = $user->student;
 
             if ($student) {
                 $userName = $student->first_name;
+                $userFname = $student->first_name;
+                $userMname = $student->middle_name;
+                $userLname = $student->last_name;
+
+                // Calculate the total payable for counterpart
+                $totalCounterpart = $student->counterpart
+                    ->sum('amount_due') - $student->counterpart->sum('amount_paid');
+
+                // Calculate the total payable for medical share
+                $totalMedical = ($student->medicalShare->sum('total_cost') * 0.15) - $student->medicalShare->sum('amount_paid');
+
+                // Calculate the total payable for personal cash advance
+                $totalPersonalCashAdvance = $student->personalCashAdvance
+                    ->sum('amount_due') - $student->personalCashAdvance->sum('amount_paid');
+
+                // Calculate the total payable for graduation fee
+                $totalGraduationFee = $student->graduationFee
+                    ->sum('amount_due') - $student->graduationFee->sum('amount_paid');
+
+                $totalPayables = $totalCounterpart + $totalMedical + $totalPersonalCashAdvance + $totalGraduationFee;
+
+                $unpaidCounterpartRecords = $student->counterpart->filter(function ($item) {
+                    return $item->amount_due > $item->amount_paid;
+                });
+
+                $unpaidMedicalRecords = $student->medicalShare->filter(function ($item) {
+                    return $item->total_cost * 0.15 > $item->amount_paid;
+                });
+
+                $unpaidPersonalCARecords = $student->personalCashAdvance->filter(function ($item) {
+                    return $item->amount_due > $item->amount_paid;
+                });
+
+                $unpaidGraduationFeeRecords = $student->graduationFee->filter(function ($item) {
+                    return $item->amount_due > $item->amount_paid;
+                });
             }
         } else {
             $userName = $user->name;
         }
 
-        return view('pages.student-parent-auth.payable.index', compact('userName'));
+        return view('pages.student-parent-auth.payable.index', compact('userName', 'userFname', 'userMname', 'userLname', 'totalCounterpart', 'totalMedical', 'totalPersonalCashAdvance', 'totalGraduationFee', 'totalPayables', 'unpaidCounterpartRecords', 'unpaidMedicalRecords', 'unpaidPersonalCARecords', 'unpaidGraduationFeeRecords'));
     }
 
     public function indexReports()
@@ -69,16 +109,19 @@ class StudentParentController extends Controller {
                 $userName = $user->name;
             }
 
-            return view('pages.student-parent-auth.reports.index', compact(
-                'gradeReports',
-                'userFname',
-                'userLname',
-                'userMname',
-                'disciplinaryRecords',
-                'totalGPA',
-                'userJoinedYearInt',
-                'userJoinedEffectiveYear'
-            ));
+            return view(
+                'pages.student-parent-auth.reports.index',
+                compact(
+                    'gradeReports',
+                    'userFname',
+                    'userLname',
+                    'userMname',
+                    'disciplinaryRecords',
+                    'totalGPA',
+                    'userJoinedYearInt',
+                    'userJoinedEffectiveYear'
+                )
+            );
         }
     }
 
@@ -91,14 +134,14 @@ class StudentParentController extends Controller {
             // Retrieve the student's name based on the email using the relationship
             $student = $user->student;
 
-            if ( $student ) {
+            if ($student) {
                 $userName = $student->first_name;
             }
         } else {
             $userName = $user->name;
         }
 
-        return view( 'pages.student-parent-auth.payment.index', compact( 'userName' ) );
+        return view('pages.student-parent-auth.payment.index', compact('userName'));
     }
 
     public function indexProfile()

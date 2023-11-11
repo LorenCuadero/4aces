@@ -1,95 +1,110 @@
-@extends('layouts.common.app')
-@section('has-vue', '')
-@push('css')
-    <link rel="stylesheet" href="{{ rspr::vers('css/page/person.css') }}">
-@endpush
-@push('js')
-    <script src="{{ rspr::vers('js/page/person.js') }}" defer></script>
-@endpush
+@extends('layouts.admin.app')
 @section('content')
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12" id="table">
-                <div class="card">
-                    <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
-                        <h4 class="card-title mb-3 mb-md-0">{{ __('words.PersonManagementTable') }}</h4>
-                        <div class="d-flex flex-wrap align-items-center ml-auto">
-                            <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0">
-                                <input id="searchInput" class="form-control mr-sm-1" type="search" placeholder="Search record here" aria-label="Search">
-                                <a id="add-btn" class="btn btn-primary btn-sm" href="#" data-toggle="modal" data-target="#addModal" alt="Add person">
-                                    <i class="fas fa-user-plus"></i> {{ __('words.Add') }}
-                                </a>
-                            </form>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12" id="table">
+                    <div class="card">
+                        <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
+                            style="color: #1f3c88; background-color:#ffffff">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="card-title mb-3 mb-md-0"
+                                        style="color:#1f3c88; padding-left:0%; font-size: 22px"><b>Closing of Accounts
+                                            Letter (Email)</b></p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="example2" class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="vertical-text">{{ __('words.Id') }}</th>
-                                        <th class="vertical-text">{{ __('words.FirstName') }}</th>
-                                        <th class="vertical-text">{{ __('words.LastName') }}</th>
-                                        <th class="vertical-text">{{ __('words.MiddleName') }}</th>
-                                        <th class="vertical-text">{{ __('words.Email') }}</th>
-                                        <th class="vertical-text">{{ __('words.Phone') }}</th>
-                                        <th class="vertical-text">{{ __('words.BirthDate') }}</th>
-                                        <th class="vertical-text">{{ __('words.CivilStatus') }}</th>
-                                        <th class="vertical-text">{{ __('words.Address') }}</th>
-                                        <th class="vertical-text">{{ __('words.ProfileImage') }}</th>
-                                        @if ($persons->isNotEmpty())
-                                        <th class="vertical-text">{{ __('words.View') }}</th>
-                                        <th class="vertical-text">{{ __('words.Actions') }}</th>
-                                        @endif
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($persons as $person)
-                                    <tr data-search="{{ $person->id }} {{ $person->first_name }} {{ $person->middle_name }} {{ $person->last_name }} {{ $person->email }} {{ $person->phone }} {{ $person->birthdate }} {{ $person->civil_status }} {{ $person->address }}">
-                                        <td>{{ $person->id }}</td>
-                                        <td>{{ $person->first_name }}</td>
-                                        <td>{{ $person->last_name }}</td>
-                                        <td>{{ $person->middle_name }}</td>
-                                        <td>{{ $person->email }}</td>
-                                        <td>{{ $person->phone }}</td>
-                                        <td>{{ $person->birthdate }}</td>
-                                        <td>{{ $person->civil_status }}</td>
-                                        <td>{{ $person->address }}</td>
-                                        <td><img class="prof-image" src="{{ $person->profileImage }}" alt="Profile Image"></td>
-                                        <td>
-                                            <a href="#" class="btn view-btn" data-toggle="modal" data-target="#viewModal" data-person-id="{{ $person->id }}" data-person-first-name="{{ $person->first_name }}" data-person-last-name="{{ $person->last_name }}" data-person-middle-name="{{ $person->middle_name }}" data-person-email="{{ $person->email }}" data-person-phone="{{ $person->phone }}" data-person-birthdate="{{ $person->birthdate }}" data-person-civil-status="{{ $person->civil_status }}" data-person-address="{{ $person->address }}" data-person-profile-image="{{ $person->profileImage }}" data-edit-url="{{ route('person.show', ['person' => '__person_id__']) }}">
-                                                <i class="fas fa-folder"></i> {{ __('words.View') }}
-                                            </a>
-                                        </td>
-                                        <td class="project-actions text-right">
-                                            <a id="edt-btn" href="#" class="btn btn-info edit-btn" data-toggle="modal" data-target="#editModal" data-person-id="{{ $person->id }}" data-person-firstname="{{ $person->first_name }}" data-person-lastname="{{ $person->last_name }}" data-person-middlename="{{ $person->middle_name }}" data-person-email="{{ $person->email }}" data-person-phone="{{ $person->phone }}" data-person-birthdate="{{ $person->birthdate }}" data-person-civilstatus="{{ $person->civil_status }}" data-person-address="{{ $person->address }}" data-person-profileimage="{{ $person->profile_image }}" data-edit-url="{{ route('person.update', ['person' => '__person_id__']) }}">
-                                                <i class="fas fa-user-edit"></i> {{ __('words.Edit') }}
-                                            </a>
-                                            <form method="POST" action="{{ route('person.destroy', ['person' => $person]) }}" onsubmit="return confirm('Are you sure you want to delete this person?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button id="del-btn" type="submit" class="btn btn-danger btn-sm"><i class="fas fa-user-minus"></i>
-                                                    {{ __('words.Delete') }}</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    @empty
-                                    <tr>
-                                        <td colspan="11">{{ __('words.NoRecordsFound' )}}</td>
-                                    </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                            {{ $persons->links('assets.element.common.asset-el-pagination') }}
+                        <div class="card-body">
+                            <form id="send-coa-email-form" enctype="multipart/form-data" method="POST"
+                                action="{{ route('admin.sendCoa') }}">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-12 text-left">
+                                        <div class="flex-wrap align-items-center ml-auto">
+                                            <div class="row">
+                                                <div class="col-md-12 text-left align-middle" style="padding-left: 2%">
+                                                    <div class="d-flex align-items-center justify-content">
+                                                        <div class="d-flex align-items-center mr-0">
+                                                            <p style="margin: 2px 2px 0px"><b style="color:#1f3c88;">To
+                                                                    Batch:
+                                                                </b>
+                                                            </p> <span> </span>
+                                                        </div>
+                                                        <div class="nav-item dropdown show btn btn-sm batch-year-dropdown selections1"
+                                                            style="display: flex; align-items: center; background-color: #ffff; border: 1px solid #ced4da;">
+                                                            <a class="nav-link dropdown-toggle align-items-center"
+                                                                data-toggle="dropdown" href="#" role="button"
+                                                                aria-haspopup="true" aria-expanded="true"
+                                                                style="color:#495057;height: 100%; display: flex; align-items: center; padding-left: 2%;">
+                                                                {{ $selectedBatchYear ?? 'Year' }}
+                                                            </a>
+                                                            <div class="dropdown-menu mt-0"
+                                                                style="left: 0px; right: inherit;">
+                                                                @foreach ($students->pluck('batch_year')->unique() as $year)
+                                                                    <a class="dropdown-item" href="#"
+                                                                        data-widget="iframe-close">{{ $year }}</a>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center justify-content">
+                                                        <div class="align-middle">
+                                                            <p style="margin: 2px 2px 0px"><b style="color:#1f3c88;">Set
+                                                                    Graduation Date: </b>
+                                                                <input class="selections1"
+                                                                    style="color:#495057; width: 120px; padding: 6px;     height: 25px;"
+                                                                    type="date" id="graduation_date"
+                                                                    name="graduation_date">
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center justify-content">
+                                                        <div class="align-middle">
+                                                            <p style="margin: 2px 2px 0px"><b
+                                                                    style="color:#1f3c88;">Subject:</b> Statement of Account
+                                                                for
+                                                                Parents' Counterpart Balances for Graduating Alumni</p>
+                                                        </div>
+                                                    </div>
+                                                    <p style="margin-top: 4px"><b style="color:#1f3c88;">Message
+                                                            Preview:</b></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 justify-content">
+                                        <div class="container">
+                                            <input type="hidden" id="selectedBatchYear" name="selectedBatchYear" required>
+                                            <textarea class="form-control" rows="10" readonly>
+Dear (Name),
+
+I hope this email finds you well.
+
+You will be graduating from Passerelles Numeriques Philippines Scholarship this coming (Graduation Date).
+
+Here's your statement of account, settling your financial situation with PN:
+
+Remaining Debt from Parent's Counterpart: 0.00 PHP
+Remaining Debt from Medical Fees: 0.00 PHP
+Graduation Fees at USC: 0.00 PHP
+Other Remaining Debts: 0.00 PHP
+Total Payable: 0.00 PHP
+
+Thank you so much!
+                                            </textarea>
+                                            <br>
+                                            <button class="btn btn-sm sendButton p-2" style="background-color: #1f3c88; color:#ffffff"  type="submit">Send</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-@include('modals.common.mdl-view-person')
-@include('modals.common.mdl-edit-person')
-<add-person-mdl></add-person-mdl>
+    </section>
 @endsection

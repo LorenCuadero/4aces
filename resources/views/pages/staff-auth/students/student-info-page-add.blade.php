@@ -59,7 +59,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="batch_year">Batch Year</label>
-                                <input type="number" max="2" class="form-control" id="batch_year" name="batch_year"
+                                <input type="number" class="form-control" id="batch_year" name="batch_year"
                                     required />
                             </div>
                             <div class="form-group">
