@@ -32,7 +32,7 @@ class SendOTPMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'IOMS: Login Verification Code',
+            subject: 'Login Verification Code',
         );
     }
 

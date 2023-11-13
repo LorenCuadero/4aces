@@ -17,7 +17,7 @@
                         </div>
                     @endif
                     <div class="card-body">
-                        <form id="form_otp" method="POST" action="{{ route('verify_otp') }}">
+                        <form method="POST" action="{{ route('verify_otp') }}">
                             @csrf
                             <div class="form-group">
                                 <label for="">Enter OTP</label>

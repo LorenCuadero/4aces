@@ -6,7 +6,8 @@
                 <div class="col-12" id="table">
                     <div class="card">
                         <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
-                            <p class="card-title mb-3 mb-md-0" style="color:#1f3c88; padding-left:0%; font-size: 22px"><b>Disciplinary Reports</b>
+                            <p class="card-title mb-3 mb-md-0" style="color:#1f3c88; padding-left:0%; font-size: 22px">
+                                <b>Disciplinary Reports</b>
                             </p>
                             <div class="d-flex flex-wrap align-items-center ml-auto">
                                 <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0"
@@ -80,7 +81,7 @@
                                                         data-student-id="{{ $studentsWithRecord->id }}"
                                                         data-student-fname="{{ $studentsWithRecord->student->first_name }}"
                                                         data-student-lname="{{ $studentsWithRecord->student->last_name }}"
-                                                        data-student-url="{{ route('rpt.dcpl.update', ['id'=>'__student_id__']) }}"
+                                                        data-student-url="{{ route('rpt.dcpl.update', ['id' => '__student_id__']) }}"
                                                         data-verbal-warning-date="{{ $studentsWithRecord->verbal_warning_date }}"
                                                         data-verbal-warning-desc="{{ $studentsWithRecord->verbal_warning_description }}"
                                                         data-written-warning-date="{{ $studentsWithRecord->written_warning_date }}"
@@ -94,7 +95,11 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="5" class="text-center">No records found.</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                         @endforelse
                                     </tbody>
