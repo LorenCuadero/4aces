@@ -122,6 +122,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{id}', [PersonalCashAdvanceController::class, 'studentPersonalCARecords'])->name('admin.studentPersonalCARecords');
         Route::post('/{id}', [PersonalCashAdvanceController::class, 'storePersonalCA'])->name('admin.storePersonalCA');
         Route::put('/{id}', [PersonalCashAdvanceController::class, 'updatePersonalCA'])->name('admin.updatePersonalCA');
+        Route::delete('/{id}', [PersonalCashAdvanceController::class, 'deletePersonalCA'])->name('admin.deletePersonalCA');
     });
 
 

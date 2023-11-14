@@ -156,7 +156,6 @@ $(document).ready(function () {
 $(document).ready(function () {
     // Handle the click event on the "View" button
     $(".view-button-counterpart").on("click", function () {
-        // Get the student ID from the data attribute
         const studentId = $(this).data("student-id");
 
         // Construct the URL for the route
@@ -182,9 +181,29 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $(".view-button-graduation-fee").on("click", function () {
+        const studentId = $(this).data("student-id");
+        const finalUrl = `/graduation-fees-records/${studentId}`;
+
+        const loadingOverlay = $(".loading-spinner-overlay");
+        let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+        function showLoadingSpinner() {
+            loadingOverlay.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        showLoadingSpinner();
+
+        setTimeout(function () {
+            window.location.href = finalUrl;
+        }, 100);
+    });
+});
+
+$(document).ready(function () {
     // Handle the click event on the "View" button
     $(".view-button-personal-ca").on("click", function () {
-        // Get the student ID from the data attribute
         const studentId = $(this).data("student-id");
 
         // Construct the URL for the route
@@ -898,9 +917,6 @@ $(document).ready(function () {
             data: $(this).serialize(), // Serialize the form data
 
             success: function (response) {
-                // Hide the loading spinner when the request is complete
-                hideLoadingSpinner();
-
                 // Display a success Toastr notification
                 toastr.success("Successfully removed data!");
 
@@ -923,7 +939,6 @@ $(document).ready(function () {
 $(document).ready(function () {
     // Handle the click event on the "View" button
     $(".view-button-medical").on("click", function () {
-        // Get the student ID from the data attribute
         const studentId = $(this).data("student-id");
 
         // Construct the URL for the route

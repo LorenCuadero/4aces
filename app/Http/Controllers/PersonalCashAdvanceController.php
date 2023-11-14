@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendDeletionNotification;
 use App\Mail\SendPersonalCATransInfo;
 use App\Mail\SendReceiptOrPaymentInfo;
 use App\Models\PersonalCashAdvance;
@@ -117,6 +118,31 @@ class PersonalCashAdvanceController extends Controller
 
         // Return success message only if no duplicate was found
         return back()->with('success', 'personal_cash_advance record updated!', compact('personal_cash_advance'));
+    }
+
+    public function deletePersonalCA($id)
+    {
+        $personalCA = PersonalCashAdvance::find($id);
+
+        if (!$personalCA) {
+            return back()->with('error', 'personal cash advance record not found.');
+        }
+
+        // Store student information before deletion
+        $studentName = $personalCA->student->first_name . ' ' . $personalCA->student->last_name;
+        $studentEmail = $personalCA->student->email;
+        $month = $personalCA->month;
+        $year = $personalCA->year;
+        $amountDue = $personalCA->amount_due;
+        $amountPaid = $personalCA->amount_paid;
+        $date = $personalCA->date;
+
+        Mail::to($studentEmail)->send(new SendDeletionNotification($studentName, $month, $year, $amountDue, $amountPaid, $date));
+
+        $personalCA->delete();
+
+        // Return success message
+        return back()->with('success', 'personal cash advance record deleted successfully.');
     }
 }
 

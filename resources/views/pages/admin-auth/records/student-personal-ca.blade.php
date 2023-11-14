@@ -61,7 +61,7 @@
                                                     Edit
                                                 </a>
                                                 <a href="#" data-id="{{ $personal_ca_record->id }}"
-                                                    {{-- data-delete-url="{{ route('admin.deletePersonalCA', ['id' => 'personal_ca_id']) }}" --}}
+                                                    data-delete-url="{{ route('admin.deletePersonalCA', ['id' => 'personal_ca_id']) }}"
                                                     class="btn btn-sm delete-personal-ca"
                                                     style="background-color: #dd3e3e; color: #ffff; width:50%; border-radius: 20px; margin: 2px;">
                                                     Delete

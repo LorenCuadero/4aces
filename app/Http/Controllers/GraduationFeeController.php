@@ -23,6 +23,7 @@ class GraduationFeeController extends Controller
 
         $studentIdsWithGraduationFees = GraduationFee::distinct()->pluck('student_id');
         $student_gf_records = Student::whereIn('id', $studentIdsWithGraduationFees)->get();
+        $studentsWithoutGraduationFees = Student::whereNotIn('id', $studentIdsWithGraduationFees)->get();
 
         $gradutionFeesRecords = GraduationFee::select('student_id', \DB::raw('SUM(amount_due) as total_due'), \DB::raw('SUM(amount_paid) as total_paid'))
             ->groupBy('student_id')
@@ -42,6 +43,7 @@ class GraduationFeeController extends Controller
             'student_gf_records' => $student_gf_records,
             'totalAmounts' => $totalAmounts,
             'gradutionFeesRecords' => $gradutionFeesRecords,
+            'studentsWithoutGraduationFees' => $studentsWithoutGraduationFees,
         ]);
     }
 
@@ -65,15 +67,15 @@ class GraduationFeeController extends Controller
                 'amount_paid' => ['required', 'numeric'],
                 'date' => ['required', 'date'],
             ]);
-    
+
             $graduation_fee = new GraduationFee();
             $graduation_fee->amount_due = $validatedData['amount_due'];
             $graduation_fee->amount_paid = $validatedData['amount_paid'];
             $graduation_fee->date = $validatedData['date'];
             $graduation_fee->student_id = $id;
-    
+
             $graduation_fee->save();
-    
-            return back()->with('success', 'graduation_fee record added!', compact('graduation_fee'));      
+
+            return back()->with('success', 'graduation_fee record added!', compact('graduation_fee'));
     }
 }
