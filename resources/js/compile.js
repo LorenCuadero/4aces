@@ -750,44 +750,78 @@ $(document).ready(function () {
     });
 });
 
+
 $(document).ready(function () {
     const loadingOverlay = $(".loading-spinner-overlay");
-    let successNotificationShown = false; // Flag to track whether the success notification has been shown
+    let successNotificationShown = false; 
 
-    // Function to show the loading spinner
     function showLoadingSpinner() {
         loadingOverlay.show();
         $("body").css("overflow", "hidden");
     }
 
-    // Function to hide the loading spinner
+    function hideLoadingSpinner() {
+        loadingOverlay.hide();
+        $("body").css("overflow", "auto");
+    }
+
+    $("#edit-graduation-fee-form").submit(function (e) {
+        e.preventDefault();
+
+        showLoadingSpinner();
+
+        $.ajax({
+            url: $(this).attr("action"),
+            type: $(this).attr("method"), 
+            data: $(this).serialize(),
+
+            success: function (response) {
+                if (!successNotificationShown) {
+                    location.reload();
+                    toastr.success("Successfully updated!");
+                    successNotificationShown = true; 
+                }
+            },
+            error: function (error) {
+                hideLoadingSpinner();
+                toastr.error("An error occurred while submitting the form. Please try again.");
+            },
+        });
+    });
+});
+
+$(document).ready(function () {
+    const loadingOverlay = $(".loading-spinner-overlay");
+    let successNotificationShown = false; 
+
+    function showLoadingSpinner() {
+        loadingOverlay.show();
+        $("body").css("overflow", "hidden");
+    }
+
     function hideLoadingSpinner() {
         loadingOverlay.hide();
         $("body").css("overflow", "auto");
     }
 
     $("#edit-counterpart-form").submit(function (e) {
-        e.preventDefault(); // Prevent the default form submission
+        e.preventDefault();
 
-        // Show the loading spinner when the form is submitted
         showLoadingSpinner();
 
-        // Perform an AJAX form submission
         $.ajax({
-            url: $(this).attr("action"), // Use the form's action attribute as the URL
-            type: $(this).attr("method"), // Use the form's method attribute as the HTTP method
-            data: $(this).serialize(), // Serialize the form data
+            url: $(this).attr("action"), 
+            type: $(this).attr("method"), 
+            data: $(this).serialize(), 
 
             success: function (response) {
-                // Display a success Toastr notification if it hasn't been shown already
                 if (!successNotificationShown) {
                     location.reload();
                     toastr.success("Successfully updated!");
-                    successNotificationShown = true; // Set the flag to true
+                    successNotificationShown = true; 
                 }
             },
             error: function (error) {
-                // Hide the loading spinner when there's an error
                 hideLoadingSpinner();
                 toastr.error("An error occurred while submitting the form. Please try again.");
             },

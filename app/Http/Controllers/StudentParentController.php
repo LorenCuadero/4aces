@@ -51,21 +51,13 @@ class StudentParentController extends Controller
 
                 $totalPayables = $totalCounterpart + $totalMedical + $totalPersonalCashAdvance + $totalGraduationFee;
 
-                $unpaidCounterpartRecords = $student->counterpart->filter(function ($item) {
-                    return $item->amount_due > $item->amount_paid;
-                });
+                $unpaidCounterpartRecords = $student->counterpart;
 
-                $unpaidMedicalRecords = $student->medicalShare->filter(function ($item) {
-                    return $item->total_cost * 0.15 > $item->amount_paid;
-                });
+                $unpaidMedicalRecords = $student->medicalShare;
 
-                $unpaidPersonalCARecords = $student->personalCashAdvance->filter(function ($item) {
-                    return $item->amount_due > $item->amount_paid;
-                });
+                $unpaidPersonalCARecords = $student->personalCashAdvance;
 
-                $unpaidGraduationFeeRecords = $student->graduationFee->filter(function ($item) {
-                    return $item->amount_due > $item->amount_paid;
-                });
+                $unpaidGraduationFeeRecords = $student->graduationFee;
             }
         } else {
             $userName = $user->name;
@@ -119,7 +111,7 @@ class StudentParentController extends Controller
                     'disciplinaryRecords',
                     'totalGPA',
                     'userJoinedYearInt',
-                    'userJoinedEffectiveYear'
+                    'userJoinedEffectiveYear',
                 )
             );
         }
@@ -133,6 +125,32 @@ class StudentParentController extends Controller
         if ($user->role == 0) {
             // Retrieve the student's name based on the email using the relationship
             $student = $user->student;
+            $userName = $student->first_name;
+            $userFname = $student->first_name;
+            $userMname = $student->middle_name;
+            $userLname = $student->last_name;
+
+            // Calculate the total payments for counterpart
+            $totalCounterpartPayment = $student->counterpart->sum('amount_paid');
+
+            // Calculate the total payments for medical share
+            $totalMedicalPayment = $student->medicalShare->sum('amount_paid');
+
+            // Calculate the total payments for personal cash advance
+            $totalPersonalCashAdvancePayment = $student->personalCashAdvance->sum('amount_paid');
+
+            // Calculate the total payments for graduation fee
+            $totalGraduationFeePayment = $student->graduationFee->sum('amount_paid');
+
+            $totalPayments = $totalCounterpartPayment + $totalMedicalPayment + $totalPersonalCashAdvancePayment + $totalGraduationFeePayment;
+
+            $paidCounterpartRecords = $student->counterpart;
+
+            $paidMedicalRecords = $student->medicalShare;
+
+            $paidPersonalCARecords = $student->personalCashAdvance;
+
+            $paidGraduationFeeRecords = $student->graduationFee;
 
             if ($student) {
                 $userName = $student->first_name;
@@ -141,7 +159,23 @@ class StudentParentController extends Controller
             $userName = $user->name;
         }
 
-        return view('pages.student-parent-auth.payment.index', compact('userName'));
+        return view('pages.student-parent-auth.payment.index',
+            compact(
+                'userName',
+                'userFname',
+                'userLname',
+                'userMname',
+                'totalCounterpartPayment',
+                'totalMedicalPayment',
+                'totalPersonalCashAdvancePayment',
+                'totalGraduationFeePayment',
+                'totalPayments',
+                'paidCounterpartRecords',
+                'paidMedicalRecords',
+                'paidPersonalCARecords',
+                'paidGraduationFeeRecords'
+            )
+        );
     }
 
     public function indexProfile()
@@ -176,6 +210,5 @@ class StudentParentController extends Controller
 
         return view('pages.student-parent-auth.profile.index', compact('userData'));
     }
-
 
 }

@@ -6,7 +6,7 @@
             <div class="nav-item btn btn-sm" id="selectToAddStudentGraduationFee"
                 style="display: flex; align-items:center; height: 38px; margin-left: 4px;">
                 <a href="#" class="nav-link align-items-center"
-                    style="color:#fff;height: 100%; display: flex; align-items: center;">Add</a>
+                    style="color:#fff;height: 100%; display: flex; align-items: center;">Add Student</a>
             </div>
         </form>
     </div>

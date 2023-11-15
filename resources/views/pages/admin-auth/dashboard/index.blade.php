@@ -149,8 +149,8 @@
                     <div class="col-lg-3 align-items-center align-middle text-left" style="padding-left: 5vh">
                         <div class="col-md-14">
                             <div class="table-responsive">
-                                <h4 style="color: #1f3c88;">Analytics</h4>
-                                <p>Percentage of accumulated amount</p>
+                                <h4 style="color: #1f3c88;">Summary Reports</h4>
+                                {{-- <p>Percentage of accumulated amount</p> --}}
                                 <table class="table table-bordered table-hover align-middle">
                                     <tbody id="table-body">
 
@@ -167,7 +167,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="border: none; padding: 0vh">Total No of Students with Paid
+                                            <td style="border: none; padding: 0vh">Total No of Students with Fully Paid
                                                 Counterpart
                                             </td>
                                         </tr>

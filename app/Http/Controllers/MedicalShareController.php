@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Mail\SendReceiptOrPaymentInfo;
+use App\Mail\SendMedicalShareTransInfo;
 use App\Models\MedicalShare;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -73,10 +73,17 @@ class MedicalShareController extends Controller
         $medical_share = new MedicalShare();
         $medical_share->medical_concern = $validatedData['medical_concern'];
         $medical_share->total_cost = $validatedData['amount_due'];
+        $percent_share = $validatedData['amount_due'] * 0.15;
         $medical_share->amount_paid = $validatedData['amount_paid'];
         $medical_share->date = $validatedData['date'];
         $medical_share->student_id = $id;
         $medical_share->save();
+
+        $student = Student::find($id);
+        $student_email = $student->email;
+        $student_name = $student->first_name . ' ' . $student->last_name;
+
+        Mail::to($student_email)->send(new SendMedicalShareTransInfo($student_name, $medical_share->medical_concern, $medical_share->total_cost, $percent_share, $medical_share->amount_paid, $medical_share->date));
 
         return back()->with('success', 'medical_share record added!', compact('medical_share'));
     }
@@ -97,6 +104,7 @@ class MedicalShareController extends Controller
 
         $medicalShare->medical_concern = $validatedData['medical_concern'];
         $medicalShare->total_cost = $validatedData['amount_due'];
+        $percent_share = $validatedData['amount_due'] * 0.15;
         $medicalShare->amount_paid = $validatedData['amount_paid'];
         $medicalShare->date = $validatedData['date'];
         $medicalShare->student_id = $studentId;
@@ -104,7 +112,7 @@ class MedicalShareController extends Controller
         $medicalShare->save();
 
         // Send email notification to the student
-        Mail::to($studentEmail)->send(new SendReceiptOrPaymentInfo($studentName, $medicalShare->month, $medicalShare->year, $medicalShare->amount_due, $medicalShare->amount_paid, $medicalShare->date));
+        Mail::to($studentEmail)->send(new SendMedicalShareTransInfo($studentName, $medicalShare->medical_concern, $medicalShare->total_cost, $percent_share, $medicalShare->amount_paid, $medicalShare->date));
 
         // Return success message only if no duplicate was found
         return back()->with('success', 'medicalShare record updated!', compact('medicalShare'));

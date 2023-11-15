@@ -3,7 +3,7 @@
     <div class="modal-dialog custom-modal-width" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="student-selection-modal-label">Analytics Status</h5>
+                <h5 class="modal-title" id="student-selection-modal-label">Summary Report</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <a href="{{ route('rpt.dcpl.index') }}"><span aria-hidden="true">&times;</span> </a> </button>
             </div>
@@ -53,7 +53,7 @@
                                             </div>
                                             <tbody class="table-body1">
                                                 <tr>
-                                                    <td style="text-align:left">Total No of Students with Paid
+                                                    <td style="text-align:left">Total No of Students with Fully Paid
                                                         Counterpart</td>
                                                     <td id="counterpartPaidStudentsCount">
                                                         {{ $counterpartPaidStudentsCount }}</td>
@@ -71,7 +71,7 @@
                                                         {{ $counterpartNotFullyPaidStudentsCount }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="text-align:left">Total No of Students with Paid Medical
+                                                    <td style="text-align:left">Total No of Students with Fully Paid Medical
                                                         Share</td>
                                                     <td id="medicalSharePaidStudentsCount">
                                                         {{ $medicalSharePaidStudentsCount }}</td>
@@ -89,7 +89,7 @@
                                                         {{ $medicalShareNotFullyPaidStudentsCount }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="text-align:left">Total No of Students with Paid Personal
+                                                    <td style="text-align:left">Total No of Students with Fully Paid Personal
                                                         Cash Advance</td>
                                                     <td id="personalCashAdvancePaidStudentsCount">
                                                         {{ $personalCashAdvancePaidStudentsCount }}</td>
@@ -107,7 +107,7 @@
                                                         {{ $personalCashAdvanceNotFullyPaidStudentsCount }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="text-align:left">Total No of Students with Paid
+                                                    <td style="text-align:left">Total No of Students with Fully Paid
                                                         Graduation Fees</td>
                                                     <td id="graduationFeePaidStudentsCount">
                                                         {{ $graduationFeePaidStudentsCount }}</td>

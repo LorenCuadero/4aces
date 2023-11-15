@@ -18,9 +18,19 @@ $(document).ready(function () {
         // Set the hidden input values with the selected month and year
         $("#month").val(selectedMonth);
         $("#year").val(selectedYear);
+        const loadingOverlay = $(".loading-spinner-overlay");
 
+        function showLoadingSpinner() {
+            loadingOverlay.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        showLoadingSpinner();
         // Now you can submit the form
         this.submit();
+        setTimeout(() => {
+            toastr.success("Email sent successfully!");
+        }, 2000);
     });
 });
 
@@ -513,7 +523,7 @@ $(document).ready(function () {
                 id: "year",
                 name: "year",
                 value: i,
-                text: i
+                text: i,
             })
         );
     }
@@ -526,8 +536,8 @@ $(document).ready(function () {
         $("#year_analytics").val(selectedYearAnalytics);
     });
 
-    const monthlyForm = $('#monthly-form');
-    const yearSelections = $('#yearDropdownAnalytics');
+    const monthlyForm = $("#monthly-form");
+    const yearSelections = $("#yearDropdownAnalytics");
 
     yearSelections.on("change", function () {
         monthlyForm.submit(function (e) {
@@ -559,59 +569,88 @@ $(document).ready(function () {
     function changeCanvasValues(response) {
         // Counterpart
         var counterpartPercentageJanuary = response.counterpartPaidCountJanuary;
-        var counterpartPercentageFebruary = response.counterpartPaidCountFebruary;
+        var counterpartPercentageFebruary =
+            response.counterpartPaidCountFebruary;
         var counterpartPercentageMarch = response.counterpartPaidCountMarch;
         var counterpartPercentageApril = response.counterpartPaidCountApril;
         var counterpartPercentageMay = response.counterpartPaidCountMay;
         var counterpartPercentageJune = response.counterpartPaidCountJune;
         var counterpartPercentageJuly = response.counterpartPaidCountJuly;
         var counterpartPercentageAugust = response.counterpartPaidCountAugust;
-        var counterpartPercentageSeptember = response.counterpartPaidCountSeptember;
+        var counterpartPercentageSeptember =
+            response.counterpartPaidCountSeptember;
         var counterpartPercentageOctober = response.counterpartPaidCountOctober;
-        var counterpartPercentageNovember = response.counterpartPaidCountNovember;
-        var counterpartPercentageDecember = response.counterpartPaidCountDecember;
+        var counterpartPercentageNovember =
+            response.counterpartPaidCountNovember;
+        var counterpartPercentageDecember =
+            response.counterpartPaidCountDecember;
 
         // MedicalShare
-        var medicalSharePercentageJanuary = response.medicalSharePaidCountJanuary;
-        var medicalSharePercentageFebruary = response.medicalSharePaidCountFebruary;
+        var medicalSharePercentageJanuary =
+            response.medicalSharePaidCountJanuary;
+        var medicalSharePercentageFebruary =
+            response.medicalSharePaidCountFebruary;
         var medicalSharePercentageMarch = response.medicalSharePaidCountMarch;
         var medicalSharePercentageApril = response.medicalSharePaidCountApril;
         var medicalSharePercentageMay = response.medicalSharePaidCountMay;
         var medicalSharePercentageJune = response.medicalSharePaidCountJune;
         var medicalSharePercentageJuly = response.medicalSharePaidCountJuly;
         var medicalSharePercentageAugust = response.medicalSharePaidCountAugust;
-        var medicalSharePercentageSeptember = response.medicalSharePaidCountSeptember;
-        var medicalSharePercentageOctober = response.medicalSharePaidCountOctober;
-        var medicalSharePercentageNovember = response.medicalSharePaidCountNovember;
-        var medicalSharePercentageDecember = response.medicalSharePaidCountDecember;
+        var medicalSharePercentageSeptember =
+            response.medicalSharePaidCountSeptember;
+        var medicalSharePercentageOctober =
+            response.medicalSharePaidCountOctober;
+        var medicalSharePercentageNovember =
+            response.medicalSharePaidCountNovember;
+        var medicalSharePercentageDecember =
+            response.medicalSharePaidCountDecember;
 
         // PersonalCashAdvance
-        var personalCashAdvancePercentageJanuary = response.personalCashAdvancePaidCountJanuary;
-        var personalCashAdvancePercentageFebruary = response.personalCashAdvancePaidCountFebruary;
-        var personalCashAdvancePercentageMarch = response.personalCashAdvancePaidCountMarch;
-        var personalCashAdvancePercentageApril =response.personalCashAdvancePaidCountApril;
-        var personalCashAdvancePercentageMay = response.personalCashAdvancePaidCountMay;
-        var personalCashAdvancePercentageJune = response.personalCashAdvancePaidCountJune;
-        var personalCashAdvancePercentageJuly = response.personalCashAdvancePaidCountJuly;
-        var personalCashAdvancePercentageAugust = response.personalCashAdvancePaidCountAugust;
-        var personalCashAdvancePercentageSeptember = response.personalCashAdvancePaidCountSeptember;
-        var personalCashAdvancePercentageOctober = response.personalCashAdvancePaidCountOctober;
-        var personalCashAdvancePercentageNovember = response.personalCashAdvancePaidCountNovember;
-        var personalCashAdvancePercentageDecember = response.personalCashAdvancePaidCountDecember;
+        var personalCashAdvancePercentageJanuary =
+            response.personalCashAdvancePaidCountJanuary;
+        var personalCashAdvancePercentageFebruary =
+            response.personalCashAdvancePaidCountFebruary;
+        var personalCashAdvancePercentageMarch =
+            response.personalCashAdvancePaidCountMarch;
+        var personalCashAdvancePercentageApril =
+            response.personalCashAdvancePaidCountApril;
+        var personalCashAdvancePercentageMay =
+            response.personalCashAdvancePaidCountMay;
+        var personalCashAdvancePercentageJune =
+            response.personalCashAdvancePaidCountJune;
+        var personalCashAdvancePercentageJuly =
+            response.personalCashAdvancePaidCountJuly;
+        var personalCashAdvancePercentageAugust =
+            response.personalCashAdvancePaidCountAugust;
+        var personalCashAdvancePercentageSeptember =
+            response.personalCashAdvancePaidCountSeptember;
+        var personalCashAdvancePercentageOctober =
+            response.personalCashAdvancePaidCountOctober;
+        var personalCashAdvancePercentageNovember =
+            response.personalCashAdvancePaidCountNovember;
+        var personalCashAdvancePercentageDecember =
+            response.personalCashAdvancePaidCountDecember;
 
         // GraduationFee
-        var graduationFeePercentageJanuary = response.graduationFeePaidCountJanuary;
-        var graduationFeePercentageFebruary = response.graduationFeePaidCountFebruary;
+        var graduationFeePercentageJanuary =
+            response.graduationFeePaidCountJanuary;
+        var graduationFeePercentageFebruary =
+            response.graduationFeePaidCountFebruary;
         var graduationFeePercentageMarch = response.graduationFeePaidCountMarch;
         var graduationFeePercentageApril = response.graduationFeePaidCountApril;
         var graduationFeePercentageMay = response.graduationFeePaidCountMay;
         var graduationFeePercentageJune = response.graduationFeePaidCountJune;
         var graduationFeePercentageJuly = response.graduationFeePaidCountJuly;
-        var graduationFeePercentageAugust = response.graduationFeePaidCountAugust;
-        var graduationFeePercentageSeptember = response.graduationFeePaidCountSeptember;
-        var graduationFeePercentageOctober = response.graduationFeePaidCountOctober;
-        var graduationFeePercentageNovember = response.graduationFeePaidCountNovember;
-        var graduationFeePercentageDecember = response.graduationFeePaidCountDecember;
+        var graduationFeePercentageAugust =
+            response.graduationFeePaidCountAugust;
+        var graduationFeePercentageSeptember =
+            response.graduationFeePaidCountSeptember;
+        var graduationFeePercentageOctober =
+            response.graduationFeePaidCountOctober;
+        var graduationFeePercentageNovember =
+            response.graduationFeePaidCountNovember;
+        var graduationFeePercentageDecember =
+            response.graduationFeePaidCountDecember;
 
         // Define your chart data and options
         const barChartData = {
@@ -761,7 +800,6 @@ $(document).ready(function () {
             options: barChartOptions,
         });
     }
-
 });
 
 $(document).ready(function () {
@@ -853,6 +891,46 @@ $(document).ready(function () {
         $("#edit-personal-ca-form").attr(
             "action",
             editUrl.replace("personal_ca_id", id)
+        );
+        editModal.modal("show");
+    });
+});
+
+$(document).ready(function () {
+    $(".edit-student-medical-share-button").click(function () {
+        const editModal = $("#edit-student-medical-share-modal");
+        // const amountDue = $(this).data("total-cost");
+        // const amountPaid = $(this).data("amount-paid");
+        // const date = $(this).data("date");
+        // const id = $(this).data("id");
+        // const editUrl = $(this).data("edit-url");
+
+        // editModal.find("#edit_amount_due").val(amountDue);
+        // editModal.find("#edit_amount_paid").val(amountPaid);
+        // editModal.find("#edit_date").val(date);
+        // $("#edit-medical-share-form").attr(
+        //     "action",
+        //     editUrl.replace("medical_share_id", id)
+        // );
+        editModal.modal("show");
+    });
+});
+
+$(document).ready(function () {
+    $(".edit-student-graduation-fee-button").click(function () {
+        const editModal = $("#edit-student-graduation-fee-modal");
+        const amountDue = $(this).data("amount-due");
+        const amountPaid = $(this).data("amount-paid");
+        const date = $(this).data("date");
+        const id = $(this).data("id");
+        const editUrl = $(this).data("edit-url");
+
+        editModal.find("#edit_amount_due_gf").val(amountDue);
+        editModal.find("#edit_amount_paid_gf").val(amountPaid);
+        editModal.find("#edit_date_gf").val(date);
+        $("#edit-graduation-fee-form").attr(
+            "action",
+            editUrl.replace("graduation_fee_id", id)
         );
         editModal.modal("show");
     });
@@ -963,14 +1041,6 @@ $(document).ready(function () {
     });
 });
 
-// Medical Share Edit
-$(document).ready(function () {
-    $(".edit-student-medical-share-button").click(function () {
-        const editModalMedical = $("#edit-student-medical-share-modal");
-        editModalMedical.modal("show");
-    });
-});
-
 $(document).ready(function () {
     $(".view-all").click(function () {
         const viewModalDash = $("#dashboard-modal");
@@ -1030,7 +1100,6 @@ $(document).ready(function () {
         $("#dashboard-modal").modal("show");
     }
 
-
     function updateModalContentWhenAllBatch(response) {
         // Update the modal content with data from the response
         $("#counterpartPaidStudentsCount").text(
@@ -1069,7 +1138,6 @@ $(document).ready(function () {
         $("#graduationFeeNotFullyPaidStudentsCount").text(
             response.graduationFeeNotFullyPaidStudentsCount
         );
-
     }
 
     function showLoadingSpinner() {
@@ -1087,7 +1155,9 @@ $(document).ready(function () {
     batchYearSelect.on("change", function () {
         selectedBatchYearElement.show();
         const selectedYear = batchYearSelect.val();
-        selectedBatchYearElement.text("Batch " + selectedYear + " total number of students: ");
+        selectedBatchYearElement.text(
+            "Batch " + selectedYear + " total number of students: "
+        );
 
         if (selectedYear in totalByYear) {
             totalStudentsPerYearElement.text(totalByYear[selectedYear]);
@@ -1110,7 +1180,7 @@ $(document).ready(function () {
                     },
                     error: function (error) {
                         hideLoadingSpinner();
-                    }
+                    },
                 });
                 return;
             }

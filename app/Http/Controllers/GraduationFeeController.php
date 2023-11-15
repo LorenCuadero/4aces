@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GraduationFee;
 use App\Http\Controllers\Controller;
+use App\Mail\SendGraduationFeeTransInfo;
+use App\Models\GraduationFee;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class GraduationFeeController extends Controller
 {
@@ -62,20 +64,53 @@ class GraduationFeeController extends Controller
 
     public function storeGraduationFee(Request $request, $id)
     {
-            $validatedData = $request->validate([
-                'amount_due' => ['required', 'numeric'],
-                'amount_paid' => ['required', 'numeric'],
-                'date' => ['required', 'date'],
-            ]);
+        $validatedData = $request->validate([
+            'amount_due' => ['required', 'numeric'],
+            'amount_paid' => ['required', 'numeric'],
+            'date' => ['required', 'date'],
+        ]);
 
-            $graduation_fee = new GraduationFee();
-            $graduation_fee->amount_due = $validatedData['amount_due'];
-            $graduation_fee->amount_paid = $validatedData['amount_paid'];
-            $graduation_fee->date = $validatedData['date'];
-            $graduation_fee->student_id = $id;
+        $student = Student::find($id);
+        $student_email = $student->email;
+        $student_name = $student->first_name . ' ' . $student->last_name;
 
-            $graduation_fee->save();
+        $graduation_fee = new GraduationFee();
+        $graduation_fee->amount_due = $validatedData['amount_due'];
+        $graduation_fee->amount_paid = $validatedData['amount_paid'];
+        $graduation_fee->date = $validatedData['date'];
+        $graduation_fee->student_id = $id;
 
-            return back()->with('success', 'graduation_fee record added!', compact('graduation_fee'));
+        $graduation_fee->save();
+
+        Mail::to($student_email)->send(new SendGraduationFeeTransInfo($student_name, $graduation_fee->amount_due, $graduation_fee->amount_paid, $graduation_fee->date));
+
+        return back()->with('success', 'graduation_fee record added!', compact('graduation_fee'));
+    }
+
+    public function updateGraduationFee(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'amount_due' => ['required', 'numeric'],
+            'amount_paid' => ['required', 'numeric'],
+            'date' => ['required', 'date'],
+        ]);
+
+        $graduationFee = GraduationFee::find($id);
+        $studentId = $graduationFee->student_id;
+        $studentEmail = $graduationFee->student->email;
+        $studentName = $graduationFee->student->first_name . " " . $graduationFee->student->last_name;
+
+        $graduationFee->amount_due = $validatedData['amount_due'];
+        $graduationFee->amount_paid = $validatedData['amount_paid'];
+        $graduationFee->date = $validatedData['date'];
+        $graduationFee->student_id = $studentId;
+
+        $graduationFee->save();
+
+        // Send email notification to the student
+        Mail::to($studentEmail)->send(new SendGraduationFeeTransInfo($studentName, $graduationFee->amount_due, $graduationFee->amount_paid, $graduationFee->date));
+
+        // Return success message only if no duplicate was found
+        return back()->with('success', 'graduationFee record updated!', compact('graduationFee'));
     }
 }

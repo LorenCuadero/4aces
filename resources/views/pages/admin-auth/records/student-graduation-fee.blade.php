@@ -45,8 +45,14 @@
                                             <td>{{ $graduation_fee_record->amount_paid }}</td>
                                             <td>{{ $graduation_fee_record->date }}</td>
                                             <td>
-                                                <a href="#"
-                                                    id="grade-button" class="btn btn-sm">
+                                                <a href="#" id="edit-gf" data-id="{{ $graduation_fee_record->id }}"
+                                                    data-edit-url="{{ route('admin.updateGraduationFee', ['id' => 'graduation_fee_id']) }}"
+                                                    data-purpose="{{ $graduation_fee_record->purpose }}"
+                                                    data-amount-due="{{ $graduation_fee_record->amount_due }}"
+                                                    data-amount-paid="{{ $graduation_fee_record->amount_paid }}"
+                                                    data-date="{{ $graduation_fee_record->date }}"
+                                                    class="btn btn-sm edit-student-graduation-fee-button"
+                                                    style="background-color: #1f3c88; color: #ffff; width:50%; border-radius: 20px; margin: 2px">
                                                     Edit
                                                 </a>
                                             </td>
@@ -68,4 +74,5 @@
         </div>
     </section>
     @include('modals.admin.mdl-student-gf-add')
+    @include('modals.admin.mdl-student-graduation-fee-edit')
 @endsection

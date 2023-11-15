@@ -92,11 +92,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/', [AdminController::class, 'sendEmail'])->name('admin.sendEmail');
     });
 
-    Route::prefix('/email')->group(function () {
-        Route::get('/', [AdminController::class, 'email'])->name('admin.email');
-        Route::post('/', [AdminController::class, 'sendEmail'])->name('admin.sendEmail');
-    });
-
     Route::prefix('/closing-of-accounts-letter')->group(function () {
         Route::get('/', [AdminController::class, 'coa'])->name('admin.coa');
         Route::post('/', [AdminController::class, 'sendCoa'])->name('admin.sendCoa');
@@ -130,6 +125,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [GraduationFeeController::class, 'graduationFees'])->name('admin.graduationFees');
         Route::get('/{id}', [GraduationFeeController::class, 'studentGraduationFeeRecords'])->name('admin.studentGraduationFeeRecords');
         Route::post('/{id}', [GraduationFeeController::class, 'storeGraduationFee'])->name('admin.storeGraduationFee');
+        Route::put('/{id}', [GraduationFeeController::class, 'updateGraduationFee'])->name('admin.updateGraduationFee');
     });
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

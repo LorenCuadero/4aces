@@ -9,20 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendPersonalCATransInfo extends Mailable
+class SendGraduationFeeTransInfo extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $student_name;
-    public $purpose;
     public $amount_due;
     public $amount_paid;
     public $date;
 
-    public function __construct($student_name, $purpose, $amount_due, $amount_paid, $date)
+    public function __construct($student_name, $amount_due, $amount_paid, $date)
     {
         $this->student_name = $student_name;
-        $this->purpose = $purpose;
         $this->amount_due = $amount_due;
         $this->amount_paid = $amount_paid;
         $this->date = $date;
@@ -34,7 +32,7 @@ class SendPersonalCATransInfo extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'PNPHI: Personal Cash Advance Transaction Information',
+            subject: 'PNPHI: Graduation Fee Transaction Information',
         );
     }
 
@@ -44,7 +42,7 @@ class SendPersonalCATransInfo extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'personal-ca',
+            view: 'graduation-fee',
         );
     }
 
