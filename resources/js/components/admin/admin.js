@@ -10,27 +10,82 @@ $(document).ready(function () {
     }
 
     $("#email-form").submit(function (e) {
-        e.preventDefault(); // Prevent the form from submitting
-
+        e.preventDefault();
         const selectedMonth = $("#monthDropdown option:selected").val();
         const selectedYear = $(".yearDropdown option:selected").val();
 
-        // Set the hidden input values with the selected month and year
         $("#month").val(selectedMonth);
         $("#year").val(selectedYear);
-        const loadingOverlay = $(".loading-spinner-overlay");
+
+        var loadingOverlay1 = $(".loading-spinner-overlay");
+        let successNotificationShown = false;
 
         function showLoadingSpinner() {
-            loadingOverlay.show();
+            loadingOverlay1.show();
             $("body").css("overflow", "hidden");
         }
 
+        function hideLoadingSpinner() {
+            loadingOverlay1.hide();
+            $("body").css("overflow", "auto");
+        }
+
         showLoadingSpinner();
-        // Now you can submit the form
-        this.submit();
-        setTimeout(() => {
-            toastr.success("Email sent successfully!");
-        }, 2000);
+
+        $.ajax({
+            url: $(this).attr("action"),
+            type: $(this).attr("method"),
+            data: $(this).serialize(),
+
+            success: function (response) {
+                toastr.success("Email sent successfully!");
+                location.reload();
+            },
+            error: function (error) {
+                hideLoadingSpinner();
+
+                toastr.error(
+                    "An error occurred while sending email, please try again."
+                );
+            },
+        });
+    });
+
+    $("#customized-email-form").submit(function (e) {
+        e.preventDefault();
+
+        var loadingOverlay1 = $(".loading-spinner-overlay");
+        let successNotificationShown = false;
+
+        function showLoadingSpinner() {
+            loadingOverlay1.show();
+            $("body").css("overflow", "hidden");
+        }
+
+        function hideLoadingSpinner() {
+            loadingOverlay1.hide();
+            $("body").css("overflow", "auto");
+        }
+
+        showLoadingSpinner();
+
+        $.ajax({
+            url: $(this).attr("action"),
+            type: $(this).attr("method"),
+            data: $(this).serialize(),
+
+            success: function (response) {
+                toastr.success("Email sent successfully!");
+                location.reload();
+            },
+            error: function (error) {
+                hideLoadingSpinner();
+
+                toastr.error(
+                    "An error occurred while sending email, please try again."
+                );
+            },
+        });
     });
 });
 
@@ -47,6 +102,8 @@ $(document).ready(function () {
 
         $("#selectedBatchYear").val(selectedYear);
         const sendButton = $("#sendButton");
+
+        $("#batch_year_selected").val(selectedYear);
 
         if (selectedYear === "Year") {
             sendButton.removeAttr("required");
@@ -829,22 +886,41 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $(".sendButton").click(function (event) {
-        event.preventDefault();
+    $("#send-coa-email-form").submit(function (e) {
+        e.preventDefault();
 
-        const form = $("#send-coa-email-form");
-        const loadingOverlay = $(".loading-spinner-overlay");
+        var loadingOverlay1 = $(".loading-spinner-overlay");
+        let successNotificationShown = false;
 
         function showLoadingSpinner() {
-            loadingOverlay.show();
+            loadingOverlay1.show();
             $("body").css("overflow", "hidden");
         }
-        showLoadingSpinner();
-        setTimeout(function () {
+
+        function hideLoadingSpinner() {
+            loadingOverlay1.hide();
             $("body").css("overflow", "auto");
-            form.submit();
-            toastr.success("Email sent successfully!");
-        }, 5000);
+        }
+
+        showLoadingSpinner();
+
+        $.ajax({
+            url: $(this).attr("action"),
+            type: $(this).attr("method"),
+            data: $(this).serialize(),
+
+            success: function (response) {
+                toastr.success("Email sent successfully!");
+                location.reload();
+            },
+            error: function (error) {
+                hideLoadingSpinner();
+
+                toastr.error(
+                    "An error occurred while sending email, please try again."
+                );
+            },
+        });
     });
 });
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Mail\SendClosingOfAccountsEmail;
+use App\Mail\SendCustomizedEmail;
 use App\Mail\SendEmailPayable;
 use App\Models\Counterpart;
 use App\Models\GraduationFee;
@@ -1156,7 +1157,6 @@ class AdminController extends Controller
     {
         $batchYear = $request->input('batch_year');
 
-
         // Counterpart
         $sqlCP = "
         SELECT DISTINCT counterparts.student_id
@@ -1426,7 +1426,7 @@ class AdminController extends Controller
             }
         }
 
-        return view('pages.admin-auth.email.index', [
+        return view('pages.admin-auth.email.soa.index', [
             'students' => $students,
             'batchYears' => $batchYears,
         ]);
@@ -1485,7 +1485,7 @@ class AdminController extends Controller
             }
         }
 
-        return view('pages.admin-auth.coa.index', [
+        return view('pages.admin-auth.email.coa.index', [
             'students' => $students,
             'batchYears' => $batchYears,
         ]);
@@ -1531,6 +1531,54 @@ class AdminController extends Controller
             );
         }
 
+        return redirect()->back()->with('success', 'Emails sent successfully');
+    }
+
+    public function customizedEmail()
+    {
+        $students = Student::all();
+
+        $batchYears = [];
+
+        foreach ($students as $student) {
+            if (!in_array($student->batch_year, $batchYears)) {
+                $batchYears[] = $student->batch_year;
+            }
+        }
+
+        return view('pages.admin-auth.email.customize.index', [
+            'students' => $students,
+            'batchYears' => $batchYears,
+        ]);
+    }
+
+    public function sendCustomized(Request $request)
+    {
+        $selectedBatchYear = $request->batch_year_selected;
+        $students = Student::where('batch_year', $selectedBatchYear)->get();
+
+        foreach ($students as $student) {
+            $student_name = $student->first_name . ' ' . $student->last_name;
+            $subject = $request->subject;
+            $greeetings = $request->greet;
+            $intro = $request->intro;
+            $body = $request->body;
+            $conclusion = $request->conclusion;
+            $attachment = $request->file('attachment');
+
+            Mail::to($student->email)->send(
+                new SendCustomizedEmail(
+                    $student_name,
+                    $subject,
+                    $greeetings,
+                    $intro,
+                    $body,
+                    $conclusion,
+                    $attachment
+                )
+            );
+        }
+        
         return redirect()->back()->with('success', 'Emails sent successfully');
     }
 }

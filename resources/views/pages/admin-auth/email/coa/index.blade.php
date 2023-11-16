@@ -10,8 +10,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <p class="card-title mb-3 mb-md-0"
-                                        style="color:#1f3c88; padding-left:0%; font-size: 22px"><b>Closing of Accounts
-                                            Letter (Email)</b></p>
+                                        style="color:#1f3c88; padding-left:0%; font-size: 22px"><b>Email Generator: Closing of Accounts
+                                            Letter</b></p>
                                 </div>
                             </div>
                         </div>

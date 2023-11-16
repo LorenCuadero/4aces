@@ -105,6 +105,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/{id}', [CounterpartController::class, 'deleteCounterpart'])->name('admin.deleteCounterpart');
     });
 
+    Route::prefix('/customize-email')->group(function () {
+        Route::get('/', [AdminController::class, 'customizedEmail'])->name('admin.customizedEmail');
+        Route::post('/', [AdminController::class, 'sendCustomized'])->name('admin.sendCustomized');
+    });
+
     Route::prefix('/medical-share-records')->group(function () {
         Route::get('/', [MedicalShareController::class, 'medicalShare'])->name('admin.medicalShare');
         Route::get('/{id}', [MedicalShareController::class, 'studentMedicalShareRecords'])->name('admin.studentMedicalShareRecords');

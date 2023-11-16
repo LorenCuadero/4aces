@@ -10,7 +10,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <p class="card-title mb-3 mb-md-0"
-                                        style="color:#1f3c88; padding-left:0%; font-size: 22px"><b>Statement of Account Email Genarator</b>
+                                        style="color:#1f3c88; padding-left:0%; font-size: 22px"><b>Email Genarator: Statement of Account</b>
                                     </p>
                                 </div>
                             </div>
