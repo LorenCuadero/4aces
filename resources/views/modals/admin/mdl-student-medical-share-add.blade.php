@@ -1,4 +1,4 @@
-<div class="modal fade" id="add-student-counterpart-modal" tabindex="-1" role="dialog"
+<div class="modal fade" id="add-student-medical-share-modal" tabindex="-1" role="dialog"
     aria-labelledby="add-student-modal-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

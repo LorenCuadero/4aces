@@ -167,6 +167,8 @@ class AdminController extends Controller
 
         // Calculate the percentage for each category per month
         // January
+        $year = intval(date('Y'));
+
         $medicalSharePaidCountJanuary = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 1)
             ->whereYear('date', $year)
@@ -178,6 +180,7 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidJanuary = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 1)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -186,6 +189,7 @@ class AdminController extends Controller
 
         $graduationFeePaidCountJanuary = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 1)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -194,6 +198,7 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountJanuary = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 1)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -203,6 +208,7 @@ class AdminController extends Controller
         // February
         $medicalSharePaidCountFebruary = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -211,6 +217,7 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidFebruary = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -219,6 +226,7 @@ class AdminController extends Controller
 
         $graduationFeePaidCountFebruary = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -227,6 +235,7 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountFebruary = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -236,6 +245,7 @@ class AdminController extends Controller
         // March
         $medicalSharePaidCountMarch = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -244,6 +254,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidMarch = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -252,6 +264,8 @@ class AdminController extends Controller
 
         $graduationFeePaidCountMarch = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -260,6 +274,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountMarch = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -269,6 +285,8 @@ class AdminController extends Controller
         // April
         $medicalSharePaidCountApril = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -277,6 +295,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidApril = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -285,6 +305,8 @@ class AdminController extends Controller
 
         $graduationFeePaidCountApril = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -293,6 +315,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountApril = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -302,6 +326,8 @@ class AdminController extends Controller
         // May
         $medicalSharePaidCountMay = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -310,6 +336,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidMay = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -318,6 +346,8 @@ class AdminController extends Controller
 
         $graduationFeePaidCountMay = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -326,6 +356,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountMay = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -335,6 +367,8 @@ class AdminController extends Controller
         // June
         $medicalSharePaidCountJune = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -343,6 +377,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidJune = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -351,6 +387,8 @@ class AdminController extends Controller
 
         $graduationFeePaidCountJune = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -359,6 +397,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountJune = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -368,6 +408,8 @@ class AdminController extends Controller
         // July
         $medicalSharePaidCountJuly = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -376,6 +418,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidJuly = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -385,6 +429,8 @@ class AdminController extends Controller
         $graduationFeePaidCountJuly = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
             ->select('student_id')
+            ->whereYear('date', $year)
+
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidJuly = $graduationFeePaidCountJuly->count();
@@ -392,6 +438,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountJuly = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -401,6 +449,8 @@ class AdminController extends Controller
         // August
         $medicalSharePaidCountAugust = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 8)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -409,6 +459,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidAugust = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 8)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -425,6 +477,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountAugust = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 8)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -434,6 +488,8 @@ class AdminController extends Controller
         // September
         $medicalSharePaidCountSeptember = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -442,6 +498,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidSeptember = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -450,6 +508,8 @@ class AdminController extends Controller
 
         $graduationFeePaidCountSeptember = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -458,6 +518,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountSeptember = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -467,6 +529,7 @@ class AdminController extends Controller
         // October
         $medicalSharePaidCountOctober = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -475,6 +538,7 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidOctober = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -483,6 +547,7 @@ class AdminController extends Controller
 
         $graduationFeePaidCountOctober = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -491,6 +556,7 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountOctober = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -500,6 +566,7 @@ class AdminController extends Controller
         // November
         $medicalSharePaidCountNovember = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -508,6 +575,7 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidNovember = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -516,6 +584,7 @@ class AdminController extends Controller
 
         $graduationFeePaidCountNovember = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -524,6 +593,7 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountNovember = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -533,6 +603,7 @@ class AdminController extends Controller
         // December
         $medicalSharePaidCountDecember = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -541,6 +612,7 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidDecember = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -549,6 +621,7 @@ class AdminController extends Controller
 
         $graduationFeePaidCountDecember = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -557,6 +630,7 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountDecember = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -1097,7 +1171,7 @@ class AdminController extends Controller
         $uniqueStudentsPersonalCashAdvancePaidDecember = $personalCashAdvancePaidCountDecember->count();
         $personalCashAdvancePaidCountDecember = ($uniqueStudentsPersonalCashAdvancePaidDecember / $totalNumberOfStudents) * 100;
 
-        return view('pages.admin-auth.dashboard.index', [
+        return response()->json([
             // Medical
             'medicalSharePaidCountJanuary' => $medicalSharePaidCountJanuary,
             'medicalSharePaidCountFebruary' => $medicalSharePaidCountFebruary,
@@ -1558,27 +1632,74 @@ class AdminController extends Controller
         $students = Student::where('batch_year', $selectedBatchYear)->get();
 
         foreach ($students as $student) {
-            $student_name = $student->first_name . ' ' . $student->last_name;
             $subject = $request->subject;
-            $greeetings = $request->greet;
-            $intro = $request->intro;
-            $body = $request->body;
-            $conclusion = $request->conclusion;
+            $salutation = $this->getSalutation($request->salutation, $request->otherSalutation);
+            $message_content = $request->message;
+            $conclusion_salutation = $this->getConclusionSalutation($request->conclusion_salutation, $request->otherConclusionSalutation);
+            $sender = $request->sender;
             $attachment = $request->file('attachment');
 
             Mail::to($student->email)->send(
                 new SendCustomizedEmail(
-                    $student_name,
                     $subject,
-                    $greeetings,
-                    $intro,
-                    $body,
-                    $conclusion,
+                    $salutation,
+                    $selectedBatchYear,
+                    $message_content,
+                    $conclusion_salutation,
+                    $sender,
                     $attachment
                 )
             );
         }
-        
+
         return redirect()->back()->with('success', 'Emails sent successfully');
+    }
+
+    private function getSalutation($selectedSalutation, $otherSalutation)
+    {
+        switch ($selectedSalutation) {
+            case '0':
+                return 'Hi';
+            case '1':
+                return 'Hello';
+            case '2':
+                return 'Dear';
+            case '3':
+                return $otherSalutation;
+            default:
+                return null;
+        }
+    }
+
+    private function getConclusionSalutation($selectedConclusion, $otherConclusion)
+    {
+        switch ($selectedConclusion) {
+            case '0':
+                return 'Sincerely';
+            case '1':
+                return 'Yours truly';
+            case '2':
+                return 'Yours sincerely';
+            case '3':
+                return 'Regards';
+            case '4':
+                return 'Kind regards';
+            case '5':
+                return 'Warm regards';
+            case '6':
+                return 'Respectfully';
+            case '7':
+                return 'Best wishes';
+            case '8':
+                return 'Yours';
+            case '9':
+                return 'Very truly yours';
+            case '10':
+                return 'Best regards';
+            case '11':
+                return $otherConclusion;
+            default:
+                return null;
+        }
     }
 }

@@ -7,13 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Customized Email</title>
 </head>
+
 <body>
-    <p>{{ $greetings }}</p>
-    <p>{{ $intro }}</p>
-    <p>{{ $body }}</p>
-    <p>{{ $conclusion }}</p>
+    <p>{{ $salutation }} Batch {{ $selectedBatchYear }},</p>
+    <p>{{ $message_content }}</p>
+    <p>{{ $conclusion_salutation }}, <br>
+        {{ $sender }}</p>
     @if ($attachment !== null)
-       <span>{{ $attachment }}</span>
+        <span>{{ $attachment }}</span>
     @endif
 </body>
+
 </html>

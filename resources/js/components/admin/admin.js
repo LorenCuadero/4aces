@@ -54,6 +54,9 @@ $(document).ready(function () {
     $("#customized-email-form").submit(function (e) {
         e.preventDefault();
 
+        var submitButton = $("#submitButton");
+        submitButton.prop("disabled", true);
+
         var loadingOverlay1 = $(".loading-spinner-overlay");
         let successNotificationShown = false;
 
@@ -65,6 +68,11 @@ $(document).ready(function () {
         function hideLoadingSpinner() {
             loadingOverlay1.hide();
             $("body").css("overflow", "auto");
+        }
+
+        if (!validateCustomizedEmailForm()) {
+            submitButton.prop("disabled", false); // Re-enable the button
+            return;
         }
 
         showLoadingSpinner();
@@ -80,10 +88,11 @@ $(document).ready(function () {
             },
             error: function (error) {
                 hideLoadingSpinner();
-
-                toastr.error(
-                    "An error occurred while sending email, please try again."
-                );
+                console.log(error);
+                toastr.error("An error occurred while sending email, please try again.");
+            },
+            complete: function () {
+                submitButton.prop("disabled", false); // Re-enable the button after completion
             },
         });
     });
@@ -585,42 +594,52 @@ $(document).ready(function () {
         );
     }
 
-    $("#yearDropdownAnalytics").change(function () {
-        const selectedYearAnalytics = $(
-            "#yearDropdownAnalytics option:selected"
-        ).text();
+    var successNotificationShown = false;
 
-        $("#year_analytics").val(selectedYearAnalytics);
-    });
+    function showLoadingSpinner() {
+        var loadingOverlay11 = $(".loading-spinner-overlay");
+        loadingOverlay11.show();
+        $("body").css("overflow", "hidden");
+    }
 
-    const monthlyForm = $("#monthly-form");
-    const yearSelections = $("#yearDropdownAnalytics");
+    function hideLoadingSpinner() {
+        var loadingOverlay11 = $(".loading-spinner-overlay");
+        loadingOverlay11.hide();
+        $("body").css("overflow", "auto");
+    }
 
-    yearSelections.on("change", function () {
-        monthlyForm.submit(function (e) {
-            e.preventDefault();
+    function submitMonthlyForm() {
+        showLoadingSpinner();
 
-            showLoadingSpinner();
+        $.ajax({
+            url: $("#monthly-form").attr("action"),
+            type: $("#monthly-form").attr("method"),
+            data: $("#monthly-form").serialize(),
 
-            $.ajax({
-                url: $(this).attr("action"),
-                type: $(this).attr("method"),
-                data: $(this).serialize(),
+            success: function (response) {
+                if (!successNotificationShown) {
+                    successNotificationShown = true;
+                }
 
-                success: function (response) {
-                    if (!successNotificationShown) {
-                        successNotificationShown = true;
-                    }
-
-                    changeCanvasValues(response);
-
-                    loadingOverlay.reload();
-                },
-                error: function (error) {
-                    hideLoadingSpinner();
-                },
-            });
+                // Assuming changeCanvasValues is defined somewhere
+                changeCanvasValues(response);
+                hideLoadingSpinner();
+            },
+            error: function (error) {
+                hideLoadingSpinner();
+            },
         });
+    }
+
+    // Change event for the year dropdown
+    $("#yearDropdownAnalytics").change(function () {
+        var selectedYear = $(this).val();
+
+        $("#year_analytics").val(selectedYear);
+        $("#hiddenYearInput").val(selectedYear);
+
+        // Call the form submission function
+        submitMonthlyForm();
     });
 
     function changeCanvasValues(response) {
@@ -1263,6 +1282,25 @@ $(document).ready(function () {
         }
     });
 
+    $("#batch_year").change(function () {
+        var selectedOption = $(this).val();
+        if (selectedOption === "") {
+            // If "All Batch Year" is selected, show the total number of all students
+            var totalNumberOfStudents = $("#all-student-number").val();
+            $("#TotalNumberOfAllStudents").text("Total number of all students: " + totalNumberOfStudents);
+        } else {
+            // Otherwise, clear the total number of students
+            $("#TotalNumberOfAllStudents").empty();
+        }
+    });
+
+    if ($("#batch_year").val() === "") {
+        var totalNumberOfStudents = $("#all-student-number").val();
+        $("#TotalNumberOfAllStudents").text("Total number of all students: " + totalNumberOfStudents);
+    } else {
+        $("#TotalNumberOfAllStudents").empty();
+    }
+
     formYear.submit(function (e) {
         e.preventDefault();
 
@@ -1305,3 +1343,153 @@ $(document).ready(function () {
 //             .appendTo("#example1_wrapper .col-md-6:eq(0)");
 //     });
 // });
+
+$(document).ready(function () {
+    $('#salutation').change(function () {
+        var otherSalutationInput = $('#otherSalutation');
+        otherSalutationInput.toggle(this.value == '3');
+    });
+
+    $('#conclusion_salutation').change(function () {
+        var otherSalutationInput = $('#otherConclusionSalutation');
+        otherSalutationInput.toggle(this.value == '11');
+    });
+});
+$(document).ready(function () {
+    $('#previewLink').click(function () {
+        // Remove existing error messages
+        $('.error-message').remove();
+
+        // Validate the form
+        if (!validateCustomizedEmailForm()) {
+            return;
+        }
+
+        // Map the selected values to their corresponding text content
+        var salutationText = getSalutationText($('#salutation').val());
+        var conclusionSalutationText = getConclusionSalutationText($('#conclusion_salutation').val());
+
+        // Set content in the modal
+        $('#previewSubject').text($('#subject').val());
+        $('#previewSalutation').text(salutationText + ' Batch ' + $('#batch_year_selected').val());
+        $('#previewMessage').text($('#message').val());
+        $('#previewConclusionSalutation').text(conclusionSalutationText);
+        $('#previewSender').text($('#sender').val());
+        $('#previewAttachment').text($('#attachment').val());
+
+        // Show the modal
+        $('#previewModal').modal('show');
+    });
+
+    // Function to get the text content for salutation based on the selected value
+    function getSalutationText(selectedValue) {
+        switch (selectedValue) {
+            case '0':
+                return 'Hi';
+            case '1':
+                return 'Hello';
+            case '2':
+                return 'Dear';
+            case '3':
+                return $('#otherSalutation').val(); // Assuming 'otherSalutation' is the ID of the input field
+            default:
+                return '';
+        }
+    }
+
+    // Function to get the text content for conclusion salutation based on the selected value
+    function getConclusionSalutationText(selectedValue) {
+        switch (selectedValue) {
+            case '0':
+                return 'Sincerely';
+            case '1':
+                return 'Yours truly';
+            case '2':
+                return 'Yours Sincerely';
+            case '3':
+                return 'Regards';
+            case '4':
+                return 'Kind Regards';
+            case '5':
+                return 'Warm regards';
+            case '6':
+                return 'Respectfully';
+            case '7':
+                return 'Best wishes';
+            case '8':
+                return 'Yours';
+            case '9':
+                return 'Very truly yours';
+            case '10':
+                return 'Best regards';
+            case '11':
+                return $('#otherConclusionSalutation').val();
+            default:
+                return '';
+        }
+    }
+});
+function validateCustomizedEmailForm() {
+    var isValid = true;
+    $(".error-message").remove();
+
+    // Validate 'To' field
+    if ($('#batch_year_selected').val() === '') {
+        displayError($('#batch_year_selected'), 'Please select a batch year.');
+        isValid = false;
+    }
+
+    // Validate 'Subject' field
+    if ($('#subject').val().trim() === '') {
+        displayError($('#subject'), 'Please enter a subject.');
+        isValid = false;
+    }
+
+    // Validate 'Message' field
+    if ($('#message').val().trim() === '') {
+        displayError($('#message'), 'Please enter a message.');
+        isValid = false;
+    }
+
+    // Validate 'Conclusion' field
+    if ($('#conclusion_salutation').val() === '3' && $('#otherConclusionSalutation').val().trim() === '') {
+        displayError($('#otherConclusionSalutation'), 'Please enter a conclusion salutation.');
+        isValid = false;
+    }
+
+    // Validate 'Sender' field
+    if ($('#sender').val().trim() === '') {
+        displayError($('#sender'), 'Please enter the sender.');
+        isValid = false;
+    }
+
+    // Validate 'Salutation' field
+    if ($("#salutation").val() == '3') {
+        var otherSalutation = $("#otherSalutation").val().trim() === '';
+        if (otherSalutation) {
+            displayError($("#otherSalutation"), 'Please enter the other salutation.');
+            isValid = false;
+        }
+    }
+
+    // Check if conclusion is "Other" and validate the input
+    if ($("#conclusion_salutation").val() == '11') {
+        var otherConclusionSalutation = $("#otherConclusionSalutation").val().trim() === '';
+        if (otherConclusionSalutation) {
+            displayError($("#otherConclusionSalutation"), 'Please enter the other conclusion salutation.');
+            isValid = false;
+        }
+    }
+
+    // Validate 'Attachment' field (if needed)
+    // You can customize this validation based on your requirements
+
+    return isValid;
+}
+
+// Function to display an error message below an input field
+// Function to display an error message below an input field
+function displayError(element, message) {
+    var errorElement = $('<div class="error-message" style="color: red; font-size: 12px;">' + message + '</div>');
+    element.parent().append(errorElement);
+}

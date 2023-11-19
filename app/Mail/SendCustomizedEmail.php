@@ -16,23 +16,22 @@ class SendCustomizedEmail extends Mailable
      * Create a new message instance.
      */
 
-    public $student_name;
     public $subject;
-    public $greetings;
-    public $intro;
-    public $body;
-    public $conclusion;
-
+    public $salutation;
+    public $selectedBatchYear;
+    public $message_content;
+    public $conclusion_salutation;
+    public $sender;
     public $attachment;
 
-    public function __construct($student_name, $subject, $greetings, $intro, $body, $conclusion, $attachment)
+    public function __construct($subject, $salutation, $selectedBatchYear, $message_content, $conclusion_salutation, $sender, $attachment)
     {
-        $this->student_name = $student_name;
         $this->subject = $subject;
-        $this->greetings = $greetings;
-        $this->intro = $intro;
-        $this->body = $body;
-        $this->conclusion = $conclusion;
+        $this->salutation = $salutation;
+        $this->selectedBatchYear = $selectedBatchYear;
+        $this->message_content = $message_content;
+        $this->conclusion_salutation = $conclusion_salutation;
+        $this->sender = $sender;
         $this->attachment = $attachment;
     }
 

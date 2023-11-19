@@ -82,9 +82,22 @@
                             <div class="card-header border-0" style="background-color: #ffff;">
                                 <div class="d-flex justify-content-between">
                                     <h3 class="card-title">Monthly Acquisition</h3>
-                                    <form id="monthly-form" action="{{ route('admin.perYearViewMonthlyAcquisition') }}" method="POST">
-                                        <input type="hidden" id="year_analytics"> <select id="yearDropdownAnalytics"
-                                            class="form-control" style="width: 150px;"></select>
+                                    <form id="monthly-form" action="{{ route('admin.perYearViewMonthlyAcquisition') }}"
+                                        method="POST">
+                                        @csrf
+                                        <div class="form-group">
+                                            <div class="row d-flex justify-content-between align-items-center">
+                                                <div class="col-md-4">
+                                                    <p for="written-warning" class="mb-0 float-right">Year:</p>
+                                                </div>
+                                                <div class="col-md-5 mr-2 pr-5">
+                                                    <input type="hidden" id="year_analytics">
+                                                    <input type="hidden" name="year" id="hiddenYearInput">
+                                                    <select id="yearDropdownAnalytics" class="form-control p-2 mr-5"
+                                                        style="width: 100px;"></select>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -208,5 +221,6 @@
             </div>
         </div>
     </section>
+    @include('assets.asst-loading-spinner')
     @include('modals.admin.mdl-view-all-dashboard')
 @endsection

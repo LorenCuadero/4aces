@@ -16,13 +16,14 @@
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-hover text-center">
                                             <div class="row">
+                                                <input type="hidden" id="all-student-number"
+                                                    value="{{ $totalNumberOfStudents }}">
                                                 <div class="col-md-6" style="text-align: left">
-                                                    <p class="p-2" style="margin-bottom: 0%"><b>Total number of
-                                                            students:</b>
-                                                        {{ $totalNumberOfStudents }}</p>
-                                                    <p class="pl-2 pt-0"><b><span
+                                                    <p class="p-2 mb-0"><b><span
+                                                                id="TotalNumberOfAllStudents"></span><span
                                                                 id="selected-batch-year"></span></b><span
-                                                            id="total-students-per-year"></span></p>
+                                                            id="total-students-per-year"></span></b>
+                                                    </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <form id="get_totals_by_batch_year_form" class=""
@@ -36,7 +37,8 @@
                                                             <div class="col-md-7">
                                                                 <select class="form-control" name="batch_year"
                                                                     id="batch_year">
-                                                                    <a id="allBatch" href="{{ route('admin.allBatchTotalCount') }}">
+                                                                    <a id="allBatch"
+                                                                        href="{{ route('admin.allBatchTotalCount') }}">
                                                                         <option value="">All
                                                                             Batch Year</option>
                                                                     </a>
@@ -71,7 +73,8 @@
                                                         {{ $counterpartNotFullyPaidStudentsCount }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="text-align:left">Total No of Students with Fully Paid Medical
+                                                    <td style="text-align:left">Total No of Students with Fully Paid
+                                                        Medical
                                                         Share</td>
                                                     <td id="medicalSharePaidStudentsCount">
                                                         {{ $medicalSharePaidStudentsCount }}</td>
@@ -89,7 +92,8 @@
                                                         {{ $medicalShareNotFullyPaidStudentsCount }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="text-align:left">Total No of Students with Fully Paid Personal
+                                                    <td style="text-align:left">Total No of Students with Fully Paid
+                                                        Personal
                                                         Cash Advance</td>
                                                     <td id="personalCashAdvancePaidStudentsCount">
                                                         {{ $personalCashAdvancePaidStudentsCount }}</td>
@@ -135,6 +139,7 @@
             </div>
             <div class="modal-footer">
             </div>
+            @include('assets.asst-loading-spinner')
         </div>
     </div>
 </div>
