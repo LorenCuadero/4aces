@@ -224,6 +224,13 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $("#addStudentMedicalShareRecordBtn").click(function (event) {
+        $("#add-student-medical-share-modal").modal("show");
+    });
+});
+
+
+$(document).ready(function () {
     $("#addStudentGraduationFeeRecordRecordBtn").click(function (event) {
         $("#add-student-graduation-fee-modal").modal("show");
     });

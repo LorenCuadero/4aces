@@ -13,7 +13,7 @@
                         <br>
                         <div class="d-flex flex-wrap align-items-center ml-auto">
                             <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0">
-                                <div class="nav-item btn btn-sm" id="addStudentPersonalCARecordBtn"
+                                <div class="nav-item btn btn-sm" id="addStudentMedicalShareRecordBtn"
                                     style="display: flex; align-items:center; background-color:#1f3c88; margin-right:2px;"
                                     data-target="add-student-grd-modal" data-toggle="modal">
                                     <a class="nav-link align-items-center"
