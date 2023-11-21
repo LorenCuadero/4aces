@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -17,6 +18,7 @@ class AuthController extends Controller
         // Validate the email
         $request->validate([
             'email' => 'required|email',
+            'password' => 'required',
         ]);
 
         // Check if the email exists in the database
@@ -24,7 +26,13 @@ class AuthController extends Controller
 
         if (!$user) {
             // Email not found, show an error message
-            return redirect()->back()->with('error', 'Email not found.');
+            return redirect()->back()->with('email-not-found', 'Email not found.');
+        }
+
+        // Email found, validate the password
+        if (!Hash::check($request->input('password'), $user->password)) {
+            // Incorrect password, show an error message
+            return redirect()->back()->with('incorrect-password', 'Incorrect password.');
         }
 
         // Generate a random OTP
@@ -40,7 +48,7 @@ class AuthController extends Controller
         Mail::to($user->email)->send(new SendOTPMail($otp, $user->email));
 
         // Pass both email and OTP to the OTP verification view
-        return view('otp_verification', compact('otp', 'user_email'));
+        return view('otp_verification', compact('user_email'));
     }
 
     public function loginPage()
@@ -56,12 +64,6 @@ class AuthController extends Controller
 
         return redirect('/');
     }
-
-    // public function verifyAccount()
-    // {
-
-    //     return view('otp_verification');
-    // }
 
     public function verifyOTP(Request $request)
     {

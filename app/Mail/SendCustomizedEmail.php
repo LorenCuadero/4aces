@@ -4,17 +4,12 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Markdown;
 use Illuminate\Queue\SerializesModels;
 
 class SendCustomizedEmail extends Mailable
 {
     use Queueable, SerializesModels;
-
-    /**
-     * Create a new message instance.
-     */
 
     public $subject;
     public $salutation;
@@ -22,9 +17,12 @@ class SendCustomizedEmail extends Mailable
     public $message_content;
     public $conclusion_salutation;
     public $sender;
-    public $attachment;
+    public $student_id;
+    public $attachmentPath;
+    public $realFileName;
+    public $fileType;
 
-    public function __construct($subject, $salutation, $selectedBatchYear, $message_content, $conclusion_salutation, $sender, $attachment)
+    public function __construct($subject, $salutation, $selectedBatchYear, $message_content, $conclusion_salutation, $sender, $student_id, $attachmentPath, $realFileName, $fileType)
     {
         $this->subject = $subject;
         $this->salutation = $salutation;
@@ -32,36 +30,29 @@ class SendCustomizedEmail extends Mailable
         $this->message_content = $message_content;
         $this->conclusion_salutation = $conclusion_salutation;
         $this->sender = $sender;
-        $this->attachment = $attachment;
+        $this->student_id = $student_id;
+        $this->attachmentPath = $attachmentPath;
+        $this->realFileName = $realFileName;
+        $this->fileType = $fileType;
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
+    public function build()
     {
-        return new Envelope(
-            subject: $this->subject,
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'send-customized-email',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        $markdown = new Markdown(view(), config('mail.markdown'));
+    
+        $message = $this
+            ->subject($this->subject)
+            ->markdown('send-customized-email');
+    
+        if ($this->attachmentPath && $this->realFileName && $this->fileType) {
+            $attachmentPath = storage_path('app/public/' . $this->attachmentPath);
+    
+            $message->attach($attachmentPath, [
+                'as' => $this->realFileName,
+                'mime' => $this->fileType,
+            ]);
+        }
+    
+        return $message;
     }
 }

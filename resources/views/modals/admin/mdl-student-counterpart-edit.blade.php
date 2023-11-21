@@ -16,7 +16,7 @@
                     <input type="hidden" name="counterpart_id">
                     <div class="form-group">
                         <label for="course_code">Month</label>
-                        <select name="month" id="edit-month" class="form-control" readonly>
+                        <select name="month" id="edit-month" class="form-control" disabled>
                             <option value="1">January</option>
                             <option value="2">February</option>
                             <option value="3">March</option>
@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label for="amount_due">Year</label>
-                        <select id="edit-year" name="year" class="form-control yearDropdown" readonly></select>
+                        <select id="edit-year" name="year" class="form-control yearDropdown" disabled></select>
                     </div>
                     <div class="form-group">
                         <label for="amount_due">Amount Due</label>

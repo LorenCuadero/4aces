@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Enter Email') }}</div>
+                    <div class="card-header">Integrated Online Management System</div>
 
                     <div class="card-body">
                         <form id="login-form" method="POST" action="{{ route('login') }}">
@@ -16,15 +16,31 @@
                                     class="form-control @error('email') is-invalid @enderror" name="email"
                                     value="{{ old('email') }}" required autocomplete="email" autofocus>
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                @if (session('email-not-found'))
+                                    <p><span class="text-danger error-display">{{ session('email-not-found') }}</span></p>
+                                @endif
                             </div>
-
-                            <button id="btn-submit-login" type="submit" class="btn btn-primary">
-                                {{ __('Send OTP') }}
+                            <div class="form-group">
+                                <label for="password">{{ __('Password') }}</label>
+                                <div class="input-group">
+                                    <input id="password" type="password"
+                                        class="form-control @error('password') is-invalid @enderror" name="password"
+                                        required autocomplete="current-password">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn text-muted border" id="togglePassword"
+                                            inputmode="none">
+                                            <span class="far fa-eye"></span>
+                                        </button>
+                                    </div>
+                                    @if (session('incorrect-password'))
+                                        <p><span
+                                                class="text-danger error-display">{{ session('incorrect-password') }}</span>
+                                        </p>
+                                    @endif
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                Login
                             </button>
                         </form>
                         @include('assets.asst-loading-spinner')

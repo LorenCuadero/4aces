@@ -13,9 +13,6 @@
     <p>{{ $message_content }}</p>
     <p>{{ $conclusion_salutation }}, <br>
         {{ $sender }}</p>
-    @if ($attachment !== null)
-        <span>{{ $attachment }}</span>
-    @endif
 </body>
 
 </html>

@@ -77,10 +77,15 @@ $(document).ready(function () {
 
         showLoadingSpinner();
 
+        var formData = new FormData(this);
+        formData.append("attachment", $("#attachment")[0].files[0]);
+
         $.ajax({
             url: $(this).attr("action"),
             type: $(this).attr("method"),
-            data: $(this).serialize(),
+            data: formData,
+            processData: false, // Important! Prevent jQuery from processing the data
+            contentType: false, // Important! Specify content type as false for FormData
 
             success: function (response) {
                 toastr.success("Email sent successfully!");
@@ -89,7 +94,9 @@ $(document).ready(function () {
             error: function (error) {
                 hideLoadingSpinner();
                 console.log(error);
-                toastr.error("An error occurred while sending email, please try again.");
+                toastr.error(
+                    "An error occurred while sending email, please try again."
+                );
             },
             complete: function () {
                 submitButton.prop("disabled", false); // Re-enable the button after completion
@@ -228,7 +235,6 @@ $(document).ready(function () {
         $("#add-student-medical-share-modal").modal("show");
     });
 });
-
 
 $(document).ready(function () {
     $("#addStudentGraduationFeeRecordRecordBtn").click(function (event) {
@@ -575,12 +581,22 @@ $(document).ready(function () {
     };
 
     // Create the bar chart using the data and options
-    const barChartCanvas = $("#barChart")[0].getContext("2d");
-    new Chart(barChartCanvas, {
-        type: "bar",
-        data: barChartData,
-        options: barChartOptions,
-    });
+    const barChartCanvas = $("#barChart");
+
+    if (barChartCanvas.length > 0) {
+        const context = barChartCanvas[0].getContext("2d");
+
+        if (context) {
+            // Create or update the bar chart using the data and options
+            new Chart(context, {
+                type: "bar",
+                data: barChartData,
+                options: barChartOptions,
+            });
+        } else {
+        }
+    } else {
+    }
 });
 
 $(document).ready(function () {
@@ -875,20 +891,38 @@ $(document).ready(function () {
             },
         };
 
-        // Create the bar chart using the data and options
-        const barChartCanvas = $("#barChart")[0].getContext("2d");
-        new Chart(barChartCanvas, {
-            type: "bar",
-            data: barChartData,
-            options: barChartOptions,
-        });
+        let barChart;
+
+        const barChartCanvas = $("#barChart")[0];
+
+        if (barChartCanvas) {
+            const context = barChartCanvas.getContext("2d");
+
+            if (context) {
+                createOrUpdateBarChart(barChartData);
+            } else {
+            }
+        } else {
+        }
+
+        function createOrUpdateBarChart(data) {
+            if (barChart) {
+                barChart.data = data;
+                barChart.update();
+            } else {
+                barChart = new Chart(barChartCanvas, {
+                    type: "bar",
+                    data: data,
+                    options: barChartOptions,
+                });
+            }
+        }
     }
 });
 
 $(document).ready(function () {
     const currentDate = new Date();
 
-    // Define an array of month names
     const monthNames = [
         "January",
         "February",
@@ -1149,7 +1183,6 @@ $(document).ready(function () {
         viewModalDash.modal("show");
     });
 });
-
 $(document).ready(function () {
     const batchYearSelect = $("#batch_year");
     const selectedBatchYearElement = $("#selected-batch-year");
@@ -1294,7 +1327,9 @@ $(document).ready(function () {
         if (selectedOption === "") {
             // If "All Batch Year" is selected, show the total number of all students
             var totalNumberOfStudents = $("#all-student-number").val();
-            $("#TotalNumberOfAllStudents").text("Total number of all students: " + totalNumberOfStudents);
+            $("#TotalNumberOfAllStudents").text(
+                "Total number of all students: " + totalNumberOfStudents
+            );
         } else {
             // Otherwise, clear the total number of students
             $("#TotalNumberOfAllStudents").empty();
@@ -1303,7 +1338,9 @@ $(document).ready(function () {
 
     if ($("#batch_year").val() === "") {
         var totalNumberOfStudents = $("#all-student-number").val();
-        $("#TotalNumberOfAllStudents").text("Total number of all students: " + totalNumberOfStudents);
+        $("#TotalNumberOfAllStudents").text(
+            "Total number of all students: " + totalNumberOfStudents
+        );
     } else {
         $("#TotalNumberOfAllStudents").empty();
     }
@@ -1352,20 +1389,21 @@ $(document).ready(function () {
 // });
 
 $(document).ready(function () {
-    $('#salutation').change(function () {
-        var otherSalutationInput = $('#otherSalutation');
-        otherSalutationInput.toggle(this.value == '3');
+    $("#salutation").change(function () {
+        var otherSalutationInput = $("#otherSalutation");
+        otherSalutationInput.toggle(this.value == "3");
     });
 
-    $('#conclusion_salutation').change(function () {
-        var otherSalutationInput = $('#otherConclusionSalutation');
-        otherSalutationInput.toggle(this.value == '11');
+    $("#conclusion_salutation").change(function () {
+        var otherSalutationInput = $("#otherConclusionSalutation");
+        otherSalutationInput.toggle(this.value == "11");
     });
 });
+
 $(document).ready(function () {
-    $('#previewLink').click(function () {
+    $("#previewLink").click(function () {
         // Remove existing error messages
-        $('.error-message').remove();
+        $(".error-message").remove();
 
         // Validate the form
         if (!validateCustomizedEmailForm()) {
@@ -1373,66 +1411,82 @@ $(document).ready(function () {
         }
 
         // Map the selected values to their corresponding text content
-        var salutationText = getSalutationText($('#salutation').val());
-        var conclusionSalutationText = getConclusionSalutationText($('#conclusion_salutation').val());
+        var salutationText = getSalutationText($("#salutation").val());
+        var conclusionSalutationText = getConclusionSalutationText(
+            $("#conclusion_salutation").val()
+        );
 
         // Set content in the modal
-        $('#previewSubject').text($('#subject').val());
-        $('#previewSalutation').text(salutationText + ' Batch ' + $('#batch_year_selected').val());
-        $('#previewMessage').text($('#message').val());
-        $('#previewConclusionSalutation').text(conclusionSalutationText);
-        $('#previewSender').text($('#sender').val());
-        $('#previewAttachment').text($('#attachment').val());
+        $("#previewSubject").text($("#subject").val());
+        $("#previewSalutation").text(
+            salutationText + " Batch " + $("#batch_year_selected").val() + ","
+        );
+        $("#previewMessage").text($("#message").val());
+        $("#previewConclusionSalutation").text(conclusionSalutationText);
+        $("#previewSender").text($("#sender").val());
 
-        // Show the modal
-        $('#previewModal').modal('show');
+        var attachmentInput = $("#attachment")[0];
+        if (attachmentInput.files.length > 0) {
+            var attachmentName = attachmentInput.files[0].name;
+            var attachmentLink;
+            // var fileExtension = attachmentName.split(".").pop().toLowerCase();
+
+            // if (fileExtension) {
+            attachmentLink = '<p class="text-muted">' + attachmentName + "</p>";
+            // }
+            $("#previewAttachment").html("Attachment: " + attachmentLink);
+        } else {
+            $("#previewAttachment").empty();
+        }
+
+        $("#previewModal").modal("show");
     });
 
     // Function to get the text content for salutation based on the selected value
     function getSalutationText(selectedValue) {
         switch (selectedValue) {
-            case '0':
-                return 'Hi';
-            case '1':
-                return 'Hello';
-            case '2':
-                return 'Dear';
-            case '3':
-                return $('#otherSalutation').val(); // Assuming 'otherSalutation' is the ID of the input field
+            case "0":
+                return "Hi";
+            case "1":
+                return "Hello";
+            case "2":
+                return "Dear";
+            case "3":
+                return $("#otherSalutation").val(); // Assuming 'otherSalutation' is the ID of the input field
             default:
-                return '';
+                return "";
         }
     }
 
     // Function to get the text content for conclusion salutation based on the selected value
     function getConclusionSalutationText(selectedValue) {
         switch (selectedValue) {
-            case '0':
-                return 'Sincerely';
-            case '1':
-                return 'Yours truly';
-            case '2':
-                return 'Yours Sincerely';
-            case '3':
-                return 'Regards';
-            case '4':
-                return 'Kind Regards';
-            case '5':
-                return 'Warm regards';
-            case '6':
-                return 'Respectfully';
-            case '7':
-                return 'Best wishes';
-            case '8':
-                return 'Yours';
-            case '9':
-                return 'Very truly yours';
-            case '10':
-                return 'Best regards';
-            case '11':
-                return $('#otherConclusionSalutation').val();
+            case "0":
+                return "Sincerely";
+            case "1":
+                return "Yours truly";
+            case "2":
+                return "Yours Sincerely";
+            case "3":
+                return "Regards";
+            case "4":
+                return "Kind Regards";
+            case "5":
+                return "Warm regards";
+            case "6":
+                return "Respectfully";
+            case "7":
+                return "Best wishes";
+            case "8":
+                return "Yours";
+            case "9":
+                return "Very truly yours";
+            case "10":
+                return "Best regards";
+            case "11":
+                return $("#otherConclusionSalutation").val();
             default:
-                return '';
+                return "";
         }
     }
 });
@@ -1441,49 +1495,62 @@ function validateCustomizedEmailForm() {
     $(".error-message").remove();
 
     // Validate 'To' field
-    if ($('#batch_year_selected').val() === '') {
-        displayError($('#batch_year_selected'), 'Please select a batch year.');
+    if ($("#batch_year_selected").val() === "") {
+        displayError($("#batch_year_selected"), "Please select a batch year.");
         isValid = false;
     }
 
     // Validate 'Subject' field
-    if ($('#subject').val().trim() === '') {
-        displayError($('#subject'), 'Please enter a subject.');
+    if ($("#subject").val().trim() === "") {
+        displayError($("#subject"), "Please enter a subject.");
         isValid = false;
     }
 
     // Validate 'Message' field
-    if ($('#message').val().trim() === '') {
-        displayError($('#message'), 'Please enter a message.');
+    if ($("#message").val().trim() === "") {
+        displayError($("#message"), "Please enter a message.");
         isValid = false;
     }
 
     // Validate 'Conclusion' field
-    if ($('#conclusion_salutation').val() === '3' && $('#otherConclusionSalutation').val().trim() === '') {
-        displayError($('#otherConclusionSalutation'), 'Please enter a conclusion salutation.');
+    if (
+        $("#conclusion_salutation").val() === "3" &&
+        $("#otherConclusionSalutation").val().trim() === ""
+    ) {
+        displayError(
+            $("#otherConclusionSalutation"),
+            "Please enter a conclusion salutation."
+        );
         isValid = false;
     }
 
     // Validate 'Sender' field
-    if ($('#sender').val().trim() === '') {
-        displayError($('#sender'), 'Please enter the sender.');
+    if ($("#sender").val().trim() === "") {
+        displayError($("#sender"), "Please enter the sender.");
         isValid = false;
     }
 
     // Validate 'Salutation' field
-    if ($("#salutation").val() == '3') {
-        var otherSalutation = $("#otherSalutation").val().trim() === '';
+    if ($("#salutation").val() == "3") {
+        var otherSalutation = $("#otherSalutation").val().trim() === "";
         if (otherSalutation) {
-            displayError($("#otherSalutation"), 'Please enter the other salutation.');
+            displayError(
+                $("#otherSalutation"),
+                "Please enter the other salutation."
+            );
             isValid = false;
         }
     }
 
     // Check if conclusion is "Other" and validate the input
-    if ($("#conclusion_salutation").val() == '11') {
-        var otherConclusionSalutation = $("#otherConclusionSalutation").val().trim() === '';
+    if ($("#conclusion_salutation").val() == "11") {
+        var otherConclusionSalutation =
+            $("#otherConclusionSalutation").val().trim() === "";
         if (otherConclusionSalutation) {
-            displayError($("#otherConclusionSalutation"), 'Please enter the other conclusion salutation.');
+            displayError(
+                $("#otherConclusionSalutation"),
+                "Please enter the other conclusion salutation."
+            );
             isValid = false;
         }
     }
@@ -1495,8 +1562,11 @@ function validateCustomizedEmailForm() {
 }
 
 // Function to display an error message below an input field
-// Function to display an error message below an input field
 function displayError(element, message) {
-    var errorElement = $('<div class="error-message" style="color: red; font-size: 12px;">' + message + '</div>');
+    var errorElement = $(
+        '<div class="error-message" style="color: red; font-size: 12px;">' +
+            message +
+            "</div>"
+    );
     element.parent().append(errorElement);
 }

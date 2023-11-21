@@ -11,9 +11,11 @@ use App\Models\GraduationFee;
 use App\Models\MedicalShare;
 use App\Models\PersonalCashAdvance;
 use App\Models\Student;
+use App\Services\UploadFileService;
 use dateTime;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
@@ -1630,7 +1632,7 @@ class AdminController extends Controller
     {
         $selectedBatchYear = $request->batch_year_selected;
         $students = Student::where('batch_year', $selectedBatchYear)->get();
-
+    
         foreach ($students as $student) {
             $subject = $request->subject;
             $salutation = $this->getSalutation($request->salutation, $request->otherSalutation);
@@ -1638,7 +1640,30 @@ class AdminController extends Controller
             $conclusion_salutation = $this->getConclusionSalutation($request->conclusion_salutation, $request->otherConclusionSalutation);
             $sender = $request->sender;
             $attachment = $request->file('attachment');
-
+            $student_id = $student->id;
+    
+            $response = null;
+    
+            if (request()->hasFile('attachment')) {
+                $response = UploadFileService::storeFileStorage($student->id, [$attachment]);
+    
+                if (!$response['success']) {
+                    return redirect()->back()->with('error', 'File upload failed');
+                }
+            }
+    
+            // Check if $response is not null and has 'data' key
+            if ($response && isset($response['data'])) {
+                $attachmentPath = $response['data'][0];
+                $realFileName = $attachment->getClientOriginalName();
+                $fileType = $attachment->getClientMimeType();
+            } else {
+                // Handle the case where there is no attachment
+                $attachmentPath = null;
+                $realFileName = null;
+                $fileType = null;
+            }
+    
             Mail::to($student->email)->send(
                 new SendCustomizedEmail(
                     $subject,
@@ -1647,13 +1672,17 @@ class AdminController extends Controller
                     $message_content,
                     $conclusion_salutation,
                     $sender,
-                    $attachment
+                    $student_id,
+                    $attachmentPath,
+                    $realFileName,
+                    $fileType
                 )
             );
         }
-
+    
         return redirect()->back()->with('success', 'Emails sent successfully');
     }
+    
 
     private function getSalutation($selectedSalutation, $otherSalutation)
     {
