@@ -559,6 +559,11 @@ $(document).ready(function () {
     $("#login-form").submit(function (e) {
         showLoadingSpinner();
     });
+
+    const log_out_submit = $("#log-out-submit");
+    log_out_submit.click(function (e) {
+        showLoadingSpinner();
+    });
 });
 
 $(document).ready(function () {

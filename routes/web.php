@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CounterpartController;
@@ -9,7 +10,6 @@ use App\Http\Controllers\MedicalShareController;
 use App\Http\Controllers\PersonalCashAdvanceController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentParentController;
-use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,7 +33,7 @@ Route::prefix('/login')->group(function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-
+    Route::get('/', [AuthController::class, 'authorizedRedirect']);
     Route::get('/pn-portal', [StudentParentController::class, 'indexStudent'])->name('payable.index');
     Route::get('/dashboard', [AdminController::class, 'indexAdmin'])->name('dashboard.index');
     Route::get('/accounts', [RegisterController::class, 'accounts'])->name('admin.accounts');
@@ -114,7 +114,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [MedicalShareController::class, 'medicalShare'])->name('admin.medicalShare');
         Route::get('/{id}', [MedicalShareController::class, 'studentMedicalShareRecords'])->name('admin.studentMedicalShareRecords');
         Route::post('/{id}', [MedicalShareController::class, 'storeMedicalShare'])->name('admin.storeMedicalShare');
-        Route::put('/{id}', [MedicalShareController::class,'updateMedicalShare'])->name('admin.updateMedicalShare');
+        Route::put('/{id}', [MedicalShareController::class, 'updateMedicalShare'])->name('admin.updateMedicalShare');
     });
 
     Route::prefix('/personal-cash-advance-records')->group(function () {
@@ -124,7 +124,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/{id}', [PersonalCashAdvanceController::class, 'updatePersonalCA'])->name('admin.updatePersonalCA');
         Route::delete('/{id}', [PersonalCashAdvanceController::class, 'deletePersonalCA'])->name('admin.deletePersonalCA');
     });
-
 
     Route::prefix('/graduation-fees-records')->group(function () {
         Route::get('/', [GraduationFeeController::class, 'graduationFees'])->name('admin.graduationFees');

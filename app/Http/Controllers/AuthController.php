@@ -100,4 +100,14 @@ class AuthController extends Controller
         }
     }
 
+    public function authorizedRedirect()
+    {
+        if (Auth::user()->role == '0') {
+            return redirect()->route('payable.index');
+        } elseif (Auth::user()->role == '1') {
+            return redirect()->route('students.index');
+        } else {
+            return redirect()->route('dashboard.index');
+        }
+    }
 }

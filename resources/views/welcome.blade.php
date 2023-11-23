@@ -32,12 +32,12 @@
                                             <span class="far fa-eye"></span>
                                         </button>
                                     </div>
-                                    @if (session('incorrect-password'))
-                                        <p><span
-                                                class="text-danger error-display">{{ session('incorrect-password') }}</span>
-                                        </p>
-                                    @endif
+
                                 </div>
+                                @if (session('incorrect-password'))
+                                    <p><span class="text-danger error-display">{{ session('incorrect-password') }}</span>
+                                    </p>
+                                @endif
                             </div>
                             <button type="submit" class="btn btn-primary">
                                 Login
