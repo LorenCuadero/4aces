@@ -42,45 +42,45 @@
                                         <th style="background-color: #fff; color:#1f3c88;" class="vertical-text"></th>
                                     </tr>
                                 </thead>
-                                    @forelse ($student_counterpart_records as $counterpart)
-                                        <tr class="table-row align-middle">
-                                            <td>{{ $months[$counterpart->month] }}</td>
-                                            <td>{{ $counterpart->year }}</td>
-                                            <td>{{ $counterpart->amount_due }}</td>
-                                            <td>{{ $counterpart->amount_paid }}</td>
-                                            <td>{{ $counterpart->date }}</td>
-                                            <td style="text-align: center;">
-                                                <div style="display: flex; flex-direction: column; align-items: center;">
-                                                    <a href="#" id="edit" data-id="{{ $counterpart->id }}"
-                                                        data-month="{{ $counterpart->month }}"
-                                                        data-edit-url="{{ route('admin.updateCounterpart', ['id' => 'counterpart_id']) }}"
-                                                        data-year="{{ $counterpart->year }}"
-                                                        data-amount-due="{{ $counterpart->amount_due }}"
-                                                        data-amount-paid="{{ $counterpart->amount_paid }}"
-                                                        data-date="{{ $counterpart->date }}"
-                                                        class="btn btn-sm edit-student-counterpart-button"
-                                                        style="background-color: #1f3c88; color: #ffff; width:50%; border-radius: 20px; margin: 2px">
-                                                        Edit
-                                                    </a>
-                                                    <a href="#" data-id="{{ $counterpart->id }}"
-                                                        data-delete-url="{{ route('admin.deleteCounterpart', ['id' => 'counterpart_id']) }}"
-                                                        class="btn btn-sm delete-counterpart"
-                                                        style="background-color: #dd3e3e; color: #ffff; width:50%; border-radius: 20px; margin: 2px;">
-                                                        Delete
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    @endforelse
+                                @forelse ($student_counterpart_records as $counterpart)
+                                    <tr class="table-row align-middle">
+                                        <td>{{ $months[$counterpart->month] }}</td>
+                                        <td>{{ $counterpart->year }}</td>
+                                        <td>{{ $counterpart->amount_due }}</td>
+                                        <td>{{ $counterpart->amount_paid }}</td>
+                                        <td>{{ $counterpart->date }}</td>
+                                        <td style="text-align: center;">
+                                            <div style="display: flex; flex-direction: column; align-items: center;">
+                                                <a href="#" id="edit" data-id="{{ $counterpart->id }}"
+                                                    data-month="{{ $counterpart->month }}"
+                                                    data-edit-url="{{ route('admin.updateCounterpart', ['id' => 'counterpart_id']) }}"
+                                                    data-year="{{ $counterpart->year }}"
+                                                    data-amount-due="{{ $counterpart->amount_due }}"
+                                                    data-amount-paid="{{ $counterpart->amount_paid }}"
+                                                    data-date="{{ $counterpart->date }}"
+                                                    class="btn btn-sm edit-student-counterpart-button"
+                                                    style="background-color: #1f3c88; color: #ffff; width:50%; border-radius: 20px; margin: 2px">
+                                                    Edit
+                                                </a>
+                                                <a href="#" data-id="{{ $counterpart->id }}"
+                                                    data-delete-url="{{ route('admin.deleteCounterpart', ['id' => 'counterpart_id']) }}"
+                                                    class="btn btn-sm delete-counterpart"
+                                                    style="background-color: #dd3e3e; color: #ffff; width:50%; border-radius: 20px; margin: 2px;">
+                                                    Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                @endforelse
                                 </tbody>
                             </table>
                         </div>

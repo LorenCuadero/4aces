@@ -11,6 +11,7 @@ use App\Http\Controllers\PersonalCashAdvanceController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentParentController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FinancialReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -130,6 +131,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{id}', [GraduationFeeController::class, 'studentGraduationFeeRecords'])->name('admin.studentGraduationFeeRecords');
         Route::post('/{id}', [GraduationFeeController::class, 'storeGraduationFee'])->name('admin.storeGraduationFee');
         Route::put('/{id}', [GraduationFeeController::class, 'updateGraduationFee'])->name('admin.updateGraduationFee');
+    });
+
+    Route::prefix('/financial-reports')->group(function () {
+        Route::get('/', [FinancialReportController::class, 'index'])->name('admin.financialReports');
+        Route::post('/', [FinancialReportController::class, 'viewFinancialReportByDateFromAndTo'])->name('admin.viewFinancialReportByDateFromAndTo');
     });
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
