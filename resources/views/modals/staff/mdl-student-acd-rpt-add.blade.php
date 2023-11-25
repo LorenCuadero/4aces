@@ -19,26 +19,33 @@
                     </div>
                     <div class="form-group">
                         <label for="first_sem_1st_year">1st Sem - 1st Year Grade</label>
-                        <input type="number" name="first_sem_1st_year" id="first_sem_1st_year" class="form-control">
+                        <input type="number" step="0.01" name="first_sem_1st_year" id="first_sem_1st_year"
+                            class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="second_sem_1st_year">2nd Sem - 1st Year Grade</label>
-                        <input type="number" name="second_sem_1st_year" id="second_sem_1st_year" class="form-control">
+                        <input type="number" step="0.01" name="second_sem_1st_year" id="second_sem_1st_year"
+                            class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="first_sem_2nd_year">1st Sem - 2nd Year Grade</label>
-                        <input type="number" name="first_sem_2nd_year" id="first_sem_2nd_year" class="form-control">
+                        <input type="number" step="0.01" name="first_sem_2nd_year" id="first_sem_2nd_year"
+                            class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="second_sem_2nd_year">2nd Sem - 2nd Year Grade</label>
-                        <input type="number" name="second_sem_2nd_year" id="second_sem_2nd_year" class="form-control">
+                        <input type="number" step="0.01" name="second_sem_2nd_year" id="second_sem_2nd_year"
+                            class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="gpa">GPA</label>
-                        <input type="number" placeholder="GPA will automatically be calculated" name="gpa" id="gpa" class="form-control" readonly>
+                        <input type="number" step="0.01" placeholder="GPA will automatically be calculated"
+                            name="gpa" id="gpa" class="form-control" readonly>
                     </div>
                     <button type="submit" class="btn btn-primary">Add Grade</button>
-                    <a href="#" onclick="window.location.href = '{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id]) }}'; return false;" style="text-decoration: none; color: #fff;">
+                    <a href="#"
+                        onclick="window.location.href = '{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id]) }}'; return false;"
+                        style="text-decoration: none; color: #fff;">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
                     </a>
                 </form>

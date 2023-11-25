@@ -16,7 +16,7 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.financialReports') }}" class="nav-link">
                         <i class="nav-icon fa fa-file-text"></i>
-                        <p>Financial Reports</p>
+                        <p>Reports</p>
                     </a>
                 </li>
                 <li class="nav-item dropdown">

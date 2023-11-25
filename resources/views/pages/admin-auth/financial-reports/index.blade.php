@@ -1,3 +1,5 @@
+<div id="error-message" style="color: red; display: none;">
+</div>
 @extends('layouts.admin.app')
 @section('content')
     <section class="content">
@@ -8,59 +10,91 @@
                         <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
                             style="background-color: #ffff; color: #1f3c88">
                             <p class="card-title mb-3 mb-md-0" style="color:#1f3c88; padding-left:0%; font-size: 22px">
-                                <b>Financial Reports</b>
+                                <b>Reports</b>
                             </p>
                             <div class="d-flex flex-wrap align-items-center ml-auto">
                                 <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0"
-                                    style="display: flex; align-items: center;" id="date-form" action="{{ route('admin.viewFinancialReportByDateFromAndTo') }}" method="POST">
+                                    style="display: flex; align-items: center;" id="date-form"
+                                    action="{{ route('admin.viewFinancialReportByDateFromAndTo') }}" method="POST">
+                                    @csrf
                                     <div class="nav-item btn btn-sm p-0" style="display: flex; align-items:center;">
                                         <input type="date" class="form-control rounded p-2" id="date-from"
-                                            name="date-from">
+                                            name="dateFrom">
                                     </div>
-                                    <div class="nav-item btn btn-sm p-0 m-3" style="display: flex; align-items:center;">
+                                    <div class="nav-item btn btn-sm p-0 m-2" style="display: flex; align-items:center;">
                                         <p class="mb-0">to</p>
                                     </div>
                                     <div class="nav-item btn btn-sm p-0" style="display: flex; align-items:center;">
                                         <input type="date" id="date-to" class="form-control rounded p-2"
-                                            name="date-to">
+                                            name="dateTo">
                                     </div>
+                                    <button type="submit" id="filter-submit" class="btn btn-primary ml-2">Filter</button>
+                                    <a href="{{ route('admin.financialReports') }}" class="btn btn-primary ml-2">Reset
+                                        Filter</a>
                                 </form>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="example2" class="table table-bordered table-hover text-center">
-                                    <thead>
-                                        <tr>
-                                            <th style="background-color: #ffff; color: #1f3c88">Income</th>
-                                            <th style="background-color: #ffff; color: #1f3c88">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-body">
-                                        <tr>
-                                            <td>Parent's Counterpart</td>
-                                            <td>{{ $counterpartTotal }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Medical Share</td>
-                                            <td>{{ $medicalShareTotal }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Graduation Fees</td>
-                                            <td>{{ $graduationFeeTotal }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Personal Cash Advance</td>
-                                            <td>{{ $personalCashAdvanceTotal }}</td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th style="background-color: #ffff; color: #1f3c88">Total Income</th>
-                                            <th style="background-color: #ffff; color: #1f3c88">{{ $total }}</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                                <div class="m-2 mb-4">
+                                    <h5>Financial Statement</h5>
+                                    @if (isset($dateFrom) && isset($dateTo))
+                                        <span>{{ $dateFrom }}</span> - <span>{{ $dateTo }}</span>
+                                    @endif
+                                    @if (isset($startFromDate) && isset($endToDate))
+                                        <span>{{ $startFromDate }}</span> - <span>{{ $endToDate }}</span>
+                                    @endif
+                                </div>
+                                <div class="table-responsive">
+                                    <div class="custom-table-container">
+                                        <table id="example2" class="table table-bordered table-hover text-center rounded"
+                                            style="width: 60%;">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-left"
+                                                        style="background-color: #ffff; color: #1f3c88; width: 50%;">Income
+                                                    </th>
+                                                    <th style="background-color: #ffff; color: #1f3c88; width: 50%;">Total
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-body">
+                                                <tr>
+                                                    <td style="width: 50%;">Parent's Counterpart</td>
+                                                    <td id="counterTotal" style="width: 50%;">₱
+                                                        {{ number_format($counterpartTotal, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 50%;">Medical Share</td>
+                                                    <td id="medicalTotal" style="width: 50%;">₱
+                                                        {{ number_format($medicalShareTotal, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 50%;">Graduation Fees</td>
+                                                    <td id="graduationTotal" style="width: 50%;">₱
+                                                        {{ number_format($graduationFeeTotal, 2) }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 50%;">Personal Cash Advance</td>
+                                                    <td id="personalCashTotal" style="width: 50%;">₱
+                                                        {{ number_format($personalCashAdvanceTotal, 2) }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th class="text-left"
+                                                        style="background-color: #ffff; color: #1f3c88; width: 50%;">Total
+                                                        Income</th>
+                                                    <th style="background-color: #ffff; color: #1f3c88; width: 50%;"
+                                                        id="totalFinance">₱
+                                                        {{ number_format($total, 2) }}</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary ml-2">Export Data</button>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -50,3 +50,8 @@ input[type="date"]::-ms-clear {
 .b-gray-color {
     background-color: #f4f4f4;
 }
+
+.custom-table-container {
+    display: flex;
+    justify-content: center;
+}

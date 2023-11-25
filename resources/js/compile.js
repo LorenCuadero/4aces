@@ -432,7 +432,7 @@ $(document).ready(function () {
                 // Hide the loading spinner when there's an error
                 hideLoadingSpinner();
                 toastr.error(
-                    "An error occurred while submitting the form. The combination of the month and year already exists, please try again."
+                    "An error occurred while submitting the form, please try again."
                 );
             },
         });

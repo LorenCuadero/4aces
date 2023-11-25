@@ -1490,6 +1490,7 @@ $(document).ready(function () {
         }
     }
 });
+
 function validateCustomizedEmailForm() {
     var isValid = true;
     $(".error-message").remove();
@@ -1565,8 +1566,87 @@ function validateCustomizedEmailForm() {
 function displayError(element, message) {
     var errorElement = $(
         '<div class="error-message" style="color: red; font-size: 12px;">' +
-            message +
-            "</div>"
+        message +
+        "</div>"
     );
     element.parent().append(errorElement);
 }
+
+$(document).ready(function () {
+    const date_form = $("#date-form");
+    const date_from_input = $("#date-from");
+    const date_to_input = $("#date-to");
+    const filter_button = $("#filter-submit");
+
+    const date_from_error = $('<div class="error-message" style="color: red;"></div>').insertAfter(date_from_input);
+    const date_to_error = $('<div class="error-message" style="color: red;"></div>').insertAfter(date_to_input);
+
+    filter_button.click(function () {
+        let isValid = true;
+
+        if (date_from_input.val() == null) {
+            date_from_error.text("Please select a From date.").show();
+            isValid = false;
+        } else {
+            date_from_error.hide();
+        }
+
+        if (date_to_input.val() == null) {
+            date_to_error.text("Please select a To date.").show();
+            isValid = false;
+        } else {
+            date_to_error.hide();
+        }
+
+        if (isValid) {
+            date_form.submit(function (e) {
+                e.preventDefault
+                var loadingOverlay1 = $(".loading-spinner-overlay");
+                let successNotificationShown = false;
+
+                function showLoadingSpinner() {
+                    loadingOverlay1.show();
+                    $("body").css("overflow", "hidden");
+                }
+
+                function hideLoadingSpinner() {
+                    loadingOverlay1.hide();
+                    $("body").css("overflow", "auto");
+                }
+
+                if (!validateCustomizedEmailForm()) {
+                    submitButton.prop("disabled", false); // Re-enable the button
+                    return;
+                }
+
+                showLoadingSpinner();
+
+                var formData = new FormData(this);
+                formData.append("attachment", $("#attachment")[0].files[0]);
+
+                $.ajax({
+                    url: $(this).attr("action"),
+                    type: $(this).attr("method"),
+                    data: formData,
+                    processData: false, // Important! Prevent jQuery from processing the data
+                    contentType: false, // Important! Specify content type as false for FormData
+
+                    success: function (response) {
+                        toastr.success("Success");
+                    },
+                    error: function (error) {
+                        hideLoadingSpinner();
+                        console.log(error);
+                        toastr.error(
+                            "An error occurred, please try again."
+                        );
+                    },
+                    complete: function () {
+                        submitButton.prop("disabled", false);
+                    },
+                });
+
+            });
+        }
+    });
+});
