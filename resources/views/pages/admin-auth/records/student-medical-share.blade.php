@@ -56,7 +56,16 @@
                                             <td>{{ $medical_share_record->amount_paid }}</td>
                                             <td>{{ $medical_share_record->date }}</td>
                                             <td>
-                                                <button type="submit" class="edit-student-medical-share-button"></button>
+                                                <a href="#" 
+                                                id="editStudentMedicalShareRecordBtn"
+                                                data-toggle="modal"
+                                                data-target="#edit-student-medical-share-modal"
+                                                data-medical-share-id="{{ $medical_share_record->id }}"
+                                                data-medical-concern="{{ $medical_share_record->medical_concern }}"
+                                                data-total-cost="{{ $medical_share_record->total_cost }}"
+                                                data-amount-paid="{{ $medical_share_record->amount_paid }}"
+                                                data-date="{{ $medical_share_record->date }}">Edit</a>
+                                             
                                             </td>
                                         </tr>
                                     @empty

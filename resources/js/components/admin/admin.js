@@ -237,6 +237,41 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $("#editStudentMedicalShareRecordBtn").click(function (event) {
+        const editStudentMedicalShare = $(this).data("medical-share-id");
+        const medical_concern = $(this).data("medical-concern");
+        const total_cost = $(this).data("total-cost");
+        const amount_paid = $(this).data("amount-paid");
+        const date_paid = $(this).data("date");
+
+        $("#medical_id").val(editStudentMedicalShare);
+        $("#medical_concern_ms_edit").val(medical_concern);
+        $("#total_cost_ms_edit").val(total_cost);
+        $("#amount_paid_ms_edit").val(amount_paid);
+        $("#date_paid_ms_edit").val(date_paid);
+        $("#add-student-medical-share-modal").modal("hide");
+    });
+});
+
+// $(document).ready(function () {
+//     $("#edit-student-medical-share-modal").on("show.bs.modal", function (event) {
+//         const button = $(event.relatedTarget);
+//         const editStudentMedicalShare = button.data("medical-share-id");
+//         const medical_concern = button.data("medical-concern");
+//         const total_cost = button.data("total-cost");
+//         const amount_paid = button.data("amount-paid");
+//         const date_paid = button.data("date");
+
+//         $("#medical_id").val(editStudentMedicalShare);
+//         $("#medical_concern").val(medical_concern);
+//         $("#total-cost").val(total_cost);
+//         const share15 = (parseFloat(total_cost) * 0.15).toFixed(2);
+//         $("#amount_paid").val(amount_paid);
+//         $("#date").val(date_paid);
+//     });
+// });
+
+$(document).ready(function () {
     $("#addStudentGraduationFeeRecordRecordBtn").click(function (event) {
         $("#add-student-graduation-fee-modal").modal("show");
     });
@@ -1033,26 +1068,6 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $(".edit-student-medical-share-button").click(function () {
-        const editModal = $("#edit-student-medical-share-modal");
-        // const amountDue = $(this).data("total-cost");
-        // const amountPaid = $(this).data("amount-paid");
-        // const date = $(this).data("date");
-        // const id = $(this).data("id");
-        // const editUrl = $(this).data("edit-url");
-
-        // editModal.find("#edit_amount_due").val(amountDue);
-        // editModal.find("#edit_amount_paid").val(amountPaid);
-        // editModal.find("#edit_date").val(date);
-        // $("#edit-medical-share-form").attr(
-        //     "action",
-        //     editUrl.replace("medical_share_id", id)
-        // );
-        editModal.modal("show");
-    });
-});
-
-$(document).ready(function () {
     $(".edit-student-graduation-fee-button").click(function () {
         const editModal = $("#edit-student-graduation-fee-modal");
         const amountDue = $(this).data("amount-due");
@@ -1566,8 +1581,8 @@ function validateCustomizedEmailForm() {
 function displayError(element, message) {
     var errorElement = $(
         '<div class="error-message" style="color: red; font-size: 12px;">' +
-        message +
-        "</div>"
+            message +
+            "</div>"
     );
     element.parent().append(errorElement);
 }
@@ -1578,8 +1593,12 @@ $(document).ready(function () {
     const date_to_input = $("#date-to");
     const filter_button = $("#filter-submit");
 
-    const date_from_error = $('<div class="error-message" style="color: red;"></div>').insertAfter(date_from_input);
-    const date_to_error = $('<div class="error-message" style="color: red;"></div>').insertAfter(date_to_input);
+    const date_from_error = $(
+        '<div class="error-message" style="color: red;"></div>'
+    ).insertAfter(date_from_input);
+    const date_to_error = $(
+        '<div class="error-message" style="color: red;"></div>'
+    ).insertAfter(date_to_input);
 
     filter_button.click(function () {
         let isValid = true;
@@ -1600,7 +1619,7 @@ $(document).ready(function () {
 
         if (isValid) {
             date_form.submit(function (e) {
-                e.preventDefault
+                e.preventDefault;
                 var loadingOverlay1 = $(".loading-spinner-overlay");
                 let successNotificationShown = false;
 
@@ -1637,15 +1656,12 @@ $(document).ready(function () {
                     error: function (error) {
                         hideLoadingSpinner();
                         console.log(error);
-                        toastr.error(
-                            "An error occurred, please try again."
-                        );
+                        toastr.error("An error occurred, please try again.");
                     },
                     complete: function () {
                         submitButton.prop("disabled", false);
                     },
                 });
-
             });
         }
     });

@@ -1,5 +1,5 @@
 <div class="modal fade" id="edit-student-medical-share-modal" tabindex="-1" role="dialog"
-    aria-labelledby="edit-student-modal-label" aria-hidden="true">
+    aria-labelledby="add-student-modal-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,39 +9,40 @@
                 </button>
             </div>
             <div class="modal-body" style="text-align: left">
-                <form id="edit-medical-share-form" method="POST"
-                    action="{{ route('admin.updateMedicalShare', ['id' => 'medical_share_id']) }}">
+                <form id="new-form-medical" method="POST"
+                    action="{{ route('admin.storeMedicalShare', ['id' => $student->id]) }}">
                     @csrf
-                    @method('PUT')
-                    <input type="hidden" name="student_id">
+                    <input type="hidden" name="student_id" value="{{ $student->id }}">
+                    <input type="hidden" name="medical_id" id="medical_id">
                     <div class="form-group">
-                        <label for="amount_due">Medical Concern</label>
-                        <input type="number" name="medical_concern" id="edit_medical_concern" class="form-control">
+                        <label for="course_code">Medical Concern</label>
+                        <input type="text" class="form-control" id="medical_concern_ms_edit" name="medical_concern">
                     </div>
                     <div class="form-group">
                         <label for="amount_due">Total Medical Expense</label>
-                        <input type="number" name="amount_due" id="edit_total_cost_medical" class="form-control">
+                        <input type="text" name="amount_due" id="amount_due_ms_edit" class="form-control"
+                            inputmode="numeric">
                     </div>
                     <div class="form-group">
-                        <label for="amount_due">15% Medical Share</label>
-                        <input type="number" name="amount_due" id="edit_amount_due_medical" class="form-control" readonly>
+                        <label for="amount_paid">15% Share</label>
+                        <input type="text" class="form-control"
+                            placeholder="15% share will automatically be calculated" readonly>
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">Amount Paid</label>
-                        <input type="number" name="amount_paid" id="edit_amount_paid_medical" class="form-control">
+                        <input type="text" name="amount_paid" id="amount_paid_ms_edit" class="form-control"
+                            inputmode="numeric">
                     </div>
-
                     <div class="form-group">
                         <label for="date">Date</label>
-                        <input type="date" name="date" class="form-control" id="edit_date_medical" rows="3"
+                        <input type="date" name="date" class="form-control" id="date_ms_edit" rows="3"
                             placeholder="" required />
                     </div>
                     <div class="form-group" style="float: right;">
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
-                            Cancel
-                        </button>
-                    </div>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                        <a href="#" style="text-decoration: none; color: #fff;">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                        </a>
                 </form>
                 @include('assets.asst-loading-spinner')
             </div>
