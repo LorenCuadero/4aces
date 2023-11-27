@@ -119,9 +119,7 @@ class CounterpartController extends Controller
             ->first();
 
         if ($existingCounterpart) {
-            // A record with the same month, year, and student_id already exists.
-            // Return an error response.
-            return response()->json(['error' => 'Duplicate counterpart record found'], 422);
+            return back()->with('error', 'Counterpart record failed to add!');
         }
 
         // If no duplicate is found, create and save the counterpart record.
