@@ -32,6 +32,12 @@
                         <li><a class="dropdown-item" href="{{ route('admin.graduationFees') }}">Graduation Fees</a></li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.closingOfAccounts') }}" class="nav-link">
+                        <i class="nav-icon fas fa-briefcase"></i>
+                        <p>COA</p>
+                    </a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="report-dropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -44,11 +50,18 @@
                         <li><a class="dropdown-item" href="{{ route('admin.customizedEmail') }}">Customize</a></li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.accounts') }}" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="report-dropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="nav-icon fas fa-briefcase"></i>
                         <p>Accounts</p>
                     </a>
+                    <ul class="dropdown-menu" aria-labelledby="report-dropdown">
+                        <li><a class="dropdown-item" href="{{ route('admin.admin-accounts') }}">Admin</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.staff-accounts') }}">Staff</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.student-accounts') }}">Students</a></li>
+                    </ul>
+                </li>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">

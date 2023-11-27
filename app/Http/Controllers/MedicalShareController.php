@@ -8,6 +8,7 @@ use App\Models\MedicalShare;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\SendDeletionNotification;
 
 class MedicalShareController extends Controller
 {
@@ -118,4 +119,26 @@ class MedicalShareController extends Controller
         return back()->with('success', 'medicalShare record updated!', compact('medicalShare'));
     }
 
+    public function deleteMedicalShare($id)
+    {
+        $medicalShare = MedicalShare::find($id);
+
+        if (!$medicalShare) {
+            return back()->with('error', 'personal cash advance record not found.');
+        }
+
+        // Store student information before deletion
+        $studentName = $medicalShare->student->first_name . ' ' . $medicalShare->student->last_name;
+        $studentEmail = $medicalShare->student->email;
+        $amountDue = $medicalShare->total_cost * 0.15;
+        $amountPaid = $medicalShare->amount_paid;
+        $date = $medicalShare->date;
+
+        // Mail::to($studentEmail)->send(new SendDeletionNotification($studentName, $amountDue, $amountPaid, $date));
+
+        $medicalShare->delete();
+
+        // Return success message
+        return back()->with('success', 'personal cash advance record deleted successfully.');
+    }
 }

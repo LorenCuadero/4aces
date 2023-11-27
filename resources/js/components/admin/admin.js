@@ -89,7 +89,9 @@ $(document).ready(function () {
 
             success: function (response) {
                 toastr.success("Email sent successfully!");
-                location.reload();
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
             },
             error: function (error) {
                 hideLoadingSpinner();
@@ -243,13 +245,15 @@ $(document).ready(function () {
         const total_cost = $(this).data("total-cost");
         const amount_paid = $(this).data("amount-paid");
         const date_paid = $(this).data("date");
+        const med_share = $(this).data("med-share-percent");
 
         $("#medical_id").val(editStudentMedicalShare);
         $("#medical_concern_ms_edit").val(medical_concern);
-        $("#total_cost_ms_edit").val(total_cost);
+        $("#amount_due_ms_edit").val(total_cost);
+        $("#percent_share").val(med_share)
         $("#amount_paid_ms_edit").val(amount_paid);
         $("#date_paid_ms_edit").val(date_paid);
-        $("#add-student-medical-share-modal").modal("hide");
+        console.log(med_share);
     });
 });
 
@@ -667,7 +671,7 @@ $(document).ready(function () {
     }
 
     function submitMonthlyForm() {
-        showLoadingSpinner();
+        // showLoadingSpinner();
 
         $.ajax({
             url: $("#monthly-form").attr("action"),
@@ -684,7 +688,7 @@ $(document).ready(function () {
                 hideLoadingSpinner();
             },
             error: function (error) {
-                hideLoadingSpinner();
+                // hideLoadingSpinner();
             },
         });
     }
@@ -1118,6 +1122,21 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $(".delete-medical-share").click(function () {
+        const deleteId = $(this).data("id");
+        const deleteModal = $("#delete-medical-share-confirmation-modal");
+        const deletionUrl = $(this).data("delete-url");
+
+        $("#deletion-confirmed-form-medical").attr(
+            "action",
+            deletionUrl.replace("medical_share_id", deleteId)
+        );
+
+        deleteModal.modal("show");
+    });
+});
+
+$(document).ready(function () {
     $("#deletion-confirmed-form").submit(function (e) {
         e.preventDefault(); // Prevent the default form submission
 
@@ -1319,7 +1338,7 @@ $(document).ready(function () {
             $("#total-students-per-year").hide();
 
             if (allBatch) {
-                showLoadingSpinner();
+                // showLoadingSpinner();
                 $.ajax({
                     url: "/allBatchTotalCount",
                     type: "GET",
@@ -1363,7 +1382,7 @@ $(document).ready(function () {
     formYear.submit(function (e) {
         e.preventDefault();
 
-        showLoadingSpinner();
+        // showLoadingSpinner();
 
         $.ajax({
             url: $(this).attr("action"),
@@ -1581,8 +1600,8 @@ function validateCustomizedEmailForm() {
 function displayError(element, message) {
     var errorElement = $(
         '<div class="error-message" style="color: red; font-size: 12px;">' +
-            message +
-            "</div>"
+        message +
+        "</div>"
     );
     element.parent().append(errorElement);
 }
@@ -1664,5 +1683,26 @@ $(document).ready(function () {
                 });
             });
         }
+    });
+});
+
+$(document).ready(function () {
+    $('.printButton').click(function () {
+        // const filters = $(".filters");
+        // const buttons = $(".buttons");
+
+        // filters.hide();
+        // buttons.hide();
+
+        window.print();
+    });
+});
+
+$(document).ready(function () {
+    $('.printButtonOnModal').click(function () {
+        const dashboardModal = $('#dashboard-modal');
+        dashboardModal.modal('show');
+        $('#dashboard-modal .modal-dialog').toggleClass('modal-lg');
+        window.print();
     });
 });

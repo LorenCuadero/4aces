@@ -42,6 +42,12 @@
                             <button type="submit" class="btn btn-primary">
                                 Login
                             </button>
+
+                            <p class="mb-1">
+
+                            </p>
+
+                            <a href="{{ url('forgot-password') }}">Forgot Password?</a>
                         </form>
                         @include('assets.asst-loading-spinner')
                     </div>

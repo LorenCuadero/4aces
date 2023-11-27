@@ -484,6 +484,36 @@ $(document).ready(function () {
             },
         });
     });
+
+    $("#edit-form-medical").submit(function (e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Show the loading spinner when the form is submitted
+        showLoadingSpinner();
+
+        // Perform an AJAX form submission
+        $.ajax({
+            url: $(this).attr("action"), // Use the form's action attribute as the URL
+            type: $(this).attr("method"), // Use the form's method attribute as the HTTP method
+            data: $(this).serialize(), // Serialize the form data
+
+            success: function (response) {
+                // Display a success Toastr notification if it hasn't been shown already
+                if (!successNotificationShown) {
+                    location.reload();
+                    toastr.success("Successfully updated!");
+                    successNotificationShown = true; // Set the flag to true
+                }
+            },
+            error: function (error) {
+                // Hide the loading spinner when there's an error
+                hideLoadingSpinner();
+                toastr.error(
+                    "An error occurred while updating the record, please try again."
+                );
+            },
+        });
+    });
 });
 
 $(document).ready(function () {

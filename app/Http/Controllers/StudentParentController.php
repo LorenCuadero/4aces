@@ -23,6 +23,13 @@ class StudentParentController extends Controller
         $totalMedical = 0;
         $totalPersonalCashAdvance = 0;
         $totalGraduationFee = 0;
+        $totalPayables = 0;
+        $totalIncome = 0;
+        $total = 0;
+        $unpaidCounterpartRecords = [];
+        $unpaidPersonalCARecords = [];
+        $unpaidMedicalRecords = [];
+        $unpaidGraduationFeeRecords = [];
 
         if ($user->role == 0) {
             // Retrieve the student's name and their payable amounts using the relationship

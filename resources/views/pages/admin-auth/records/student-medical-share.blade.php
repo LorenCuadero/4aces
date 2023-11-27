@@ -7,7 +7,7 @@
                     <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
                         style="color:#1f3c88; background-color:#fff">
                         <h1 class="card-title mb-3 mb-md-0">
-                            <b>Medical Share Record of:</b>
+                            <b>Personal Record of:</b>
                             {{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
                         </h1>
                         <br>
@@ -20,7 +20,7 @@
                                         style="color:#ffffff;height: 100%; display: flex;">Add</a>
                                 </div>
                                 <div class="nav-item btn btn-sm" id="back" style="display: flex; align-items:center;">
-                                    <a href="{{ route('admin.personalCA') }}" class="nav-link align-items-center"
+                                    <a href="{{ route('admin.medicalShare') }}" class="nav-link align-items-center"
                                         style="color:#fff;">Back</a>
                                 </div>
                             </form>
@@ -33,14 +33,11 @@
                                 <thead>
                                     <tr>
                                         <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Medical
-                                            Concern
-                                        </th>
+                                            Concern</th>
                                         <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Total
-                                            Medical Expense
-                                        </th>
+                                            Medical Expense</th>
                                         <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">15% Medical
                                             Share</th>
-                                        </th>
                                         <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Amount Paid
                                         </th>
                                         <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Date</th>
@@ -56,18 +53,28 @@
                                             <td>{{ $medical_share_record->amount_paid }}</td>
                                             <td>{{ $medical_share_record->date }}</td>
                                             <td>
-                                                <a href="#" 
-                                                id="editStudentMedicalShareRecordBtn"
-                                                data-toggle="modal"
-                                                data-target="#edit-student-medical-share-modal"
-                                                data-medical-share-id="{{ $medical_share_record->id }}"
-                                                data-medical-concern="{{ $medical_share_record->medical_concern }}"
-                                                data-total-cost="{{ $medical_share_record->total_cost }}"
-                                                data-amount-paid="{{ $medical_share_record->amount_paid }}"
-                                                data-date="{{ $medical_share_record->date }}">Edit</a>
-                                             
+                                                <a href="#" id="editStudentMedicalShareRecordBtn" data-toggle="modal"
+                                                    data-target="#edit-student-medical-share-modal"
+                                                    data-medical-share-id="{{ $medical_share_record->id }}"
+                                                    data-medical-concern="{{ $medical_share_record->medical_concern }}"
+                                                    data-total-cost="{{ $medical_share_record->total_cost }}"
+                                                    data-amount-paid="{{ $medical_share_record->amount_paid }}"
+                                                    data-med-share-percent="{{ $medical_share_record->total_cost * 0.15 }}"
+                                                    data-date="{{ $medical_share_record->date }}" class="btn btn-sm"
+                                                    style="background-color: #1f3c88; color: #ffff; width:50%; border-radius: 20px; margin: 2px">
+                                                    Edit
+                                                </a>
+                                                <a href="#" data-id="{{ $medical_share_record->id }}"
+                                                    data-delete-url="{{ route('admin.deleteMedicalShare', ['id' => 'medical_share_id']) }}"
+                                                    class="btn btn-sm delete-medical-share"
+                                                    style="background-color: #dd3e3e; color: #ffff; width:50%; border-radius: 20px; margin: 2px;">
+                                                    Delete
+                                                </a>
+                                                @include('modals.admin.mdl-student-medical-share-edit')
                                             </td>
                                         </tr>
+                                        @include('modals.admin.mdl-delete-medical-share-confirmation')
+
                                     @empty
                                         <tr>
                                             <td></td>
@@ -85,7 +92,6 @@
                 </div>
             </div>
         </div>
+        @include('modals.admin.mdl-student-medical-share-add')
     </section>
-    @include('modals.admin.mdl-student-medical-share-add')
-    @include('modals.admin.mdl-student-medical-share-edit')
 @endsection

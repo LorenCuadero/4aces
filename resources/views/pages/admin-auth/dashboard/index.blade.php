@@ -1,14 +1,13 @@
 @extends('layouts.admin.app')
-
 @section('content')
     <section class="content">
         <div class="container-fluid">
             <div class="dashboard">
-                <h2 class="text-left" style="color: #1f3c88;">Dashboard</h2>
-                <p class="text-left" style="color: #1f3c88;">As of <span id="currentMonthYear"></span></p>
+                <h2 class="text-left text-dash" style="color: #1f3c88;">Dashboard</h2>
+                <p class="text-left text-dash" style="color: #1f3c88;">As of <span id="currentMonthYear"></span></p>
                 <div class="row">
                     <div class="col-lg-9">
-                        <div class="row">
+                        <div class="row text-dash">
                             <div class="col-12 col-sm-10 col-md-4">
                                 <div class="info-box">
                                     <span class="info-box-icon elevation-1"><i class="fas fa-cog"
@@ -43,7 +42,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row text-dash">
                             <div class="col-12 col-sm-10 col-md-4">
                                 <div class="info-box">
                                     <span class="info-box-icon elevation-1"><i class="fas fa-cog"
@@ -78,7 +77,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card">
+                        <div class="card text-dash">
                             <div class="card-header border-0" style="background-color: #ffff;">
                                 <div class="d-flex justify-content-between">
                                     <h3 class="card-title">Monthly Acquisition</h3>
@@ -88,7 +87,6 @@
                                         <div class="form-group">
                                             <div class="row d-flex justify-content-between align-items-center">
                                                 <div class="col-md-4">
-                                                    <p for="written-warning" class="mb-0 float-right">Year:</p>
                                                 </div>
                                                 <div class="col-md-5 mr-2 pr-5">
                                                     <input type="hidden" id="year_analytics">
@@ -162,7 +160,7 @@
                     <div class="col-lg-3 align-items-center align-middle text-left" style="padding-left: 5vh">
                         <div class="col-md-14">
                             <div class="table-responsive">
-                                <h4 style="color: #1f3c88;">Summary Reports</h4>
+                                <h4 style="color: #1f3c88;" class="h4-text">Summary Reports</h4>
                                 {{-- <p>Percentage of accumulated amount</p> --}}
                                 <table class="table table-bordered table-hover align-middle">
                                     <tbody id="table-body">

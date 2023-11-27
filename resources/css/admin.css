@@ -43,8 +43,7 @@ input[type="date"]::-ms-clear {
 }
 
 .custom-modal-width {
-    max-width: 1000px;
-    width: 50%;
+    max-width: 1300px;
 }
 
 .b-gray-color {

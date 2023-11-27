@@ -7,12 +7,12 @@
                 <div class="card">
                     <div class="card-header">{{ __('One Time Password') }}</div>
                     <div class="card-body">
-                        <form id="verify_otp" method="POST" action="{{ route('verify_otp') }}">
+                        <form id="recover-by-otp" method="POST" action="{{ route('recover-submit') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label for="">Please enter OTP</label>
-                                <input type="hidden" id="email" name="email" value="{{ $user_email }}">
-                                <input type="number" id="otp" name="otp" class="form-control"
+                                <label for="">Please enter valid OTP to recover</label>
+                                <input type="hidden" id="email_recover" name="email" value="{{ $user_email }}">
+                                <input type="number" id="otp_recover" name="otp" class="form-control"
                                     placeholder="Enter token here">
                                 @if ($errors->any())
                                     <p><span class="text-danger error-display"> {{ $errors->first() }}</span>

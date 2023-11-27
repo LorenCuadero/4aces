@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentParentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FinancialReportController;
+use App\Http\Controllers\ClosingOfAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +33,17 @@ Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify_o
 Route::prefix('/login')->group(function () {
     Route::get('/', [AuthController::class, 'loginPage'])->name('login');
     Route::post('/', [AuthController::class, 'login'])->name('login');
+});
+
+Route::prefix('/forgot-password')->group(function () {
+    Route::get('/', [AuthController::class, 'forgotPassword']);
+    Route::post('/', [AuthController::class, 'postRecover'])->name('recover');
+});
+
+Route::prefix('/reset-password')->group(function () {
+    Route::post('/', [AuthController::class, 'recoverOTP'])->name('recover-submit');
+    Route::put('/', [AuthController::class, 'submitReset'])->name('submit-reset');
+
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -116,6 +129,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{id}', [MedicalShareController::class, 'studentMedicalShareRecords'])->name('admin.studentMedicalShareRecords');
         Route::post('/{id}', [MedicalShareController::class, 'storeMedicalShare'])->name('admin.storeMedicalShare');
         Route::put('/{id}', [MedicalShareController::class, 'updateMedicalShare'])->name('admin.updateMedicalShare');
+        Route::delete('/{id}', [MedicalShareController::class, 'deleteMedicalShare'])->name('admin.deleteMedicalShare');
     });
 
     Route::prefix('/personal-cash-advance-records')->group(function () {
@@ -136,6 +150,22 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('/financial-reports')->group(function () {
         Route::get('/', [FinancialReportController::class, 'index'])->name('admin.financialReports');
         Route::post('/', [FinancialReportController::class, 'viewFinancialReportByDateFromAndTo'])->name('admin.viewFinancialReportByDateFromAndTo');
+    });
+
+    Route::prefix('/closing-of-accounts')->group(function () {
+        Route::get('/', [ClosingOfAccountController::class, 'index'])->name('admin.closingOfAccounts');
+    });
+
+    Route::prefix('/admin-accounts')->group(function () {
+        Route::get('/', [AccountController::class, 'indexAdminAccounts'])->name('admin.admin-accounts');
+    });
+
+    Route::prefix('/student-accounts')->group(function () {
+        Route::get('/', [AccountController::class, 'indexStudentsAccounts'])->name('admin.student-accounts');
+    });
+
+    Route::prefix('/staff-accounts')->group(function () {
+        Route::get('/', [AccountController::class, 'indexStaffAccounts'])->name('admin.staff-accounts');
     });
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

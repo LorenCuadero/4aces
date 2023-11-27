@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use App\Mail\ForgotPasswordMail;
 
 class AuthController extends Controller
 {
@@ -76,6 +78,8 @@ class AuthController extends Controller
         // Get the user by their email
         $user = User::where('email', $request->input('email'))->first();
 
+        $user_email = $user->email;
+
         if (!$user) {
             // User not found, you may want to handle this differently
             return redirect()->route('login')->with('error', 'User not found.');
@@ -94,9 +98,12 @@ class AuthController extends Controller
             } else {
                 return redirect()->route('dashboard.index');
             }
-        } else {
-            // OTP is incorrect, show an error message
-            return redirect()->back()->with('error', 'OTP is incorrect.');
+        } else if (strlen($request->input('otp')) > 6) {
+            return view('otp_verification', compact('user_email'))
+                ->withErrors(['error' => 'OTP is incorrect.']);
+        } else if ($request->input('otp') != $user->otp) {
+            return view('otp_verification', compact('user_email'))
+                ->withErrors(['error' => 'OTP is incorrect.']);
         }
     }
 
@@ -110,4 +117,86 @@ class AuthController extends Controller
             return redirect()->route('dashboard.index');
         }
     }
+
+
+    public function forgotPassword()
+    {
+        return view('layouts.auth.forgot');
+    }
+
+    public function postRecover(Request $request)
+    {
+
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('email', $request->input('email'))->first();
+
+        if (!$user) {
+            return redirect()->back()->with('email-not-found', 'Email not found.');
+        }
+
+        // Generate a random OTP
+        $otp = rand(100000, 999999);
+
+        // Store the OTP in the user's record (you may use a different storage method)
+        $user->otp = $otp;
+        $user_email = $user->email;
+        $user->save();
+
+        Mail::to($user->email)->send(new SendOTPMail($otp, $user->email));
+
+        // Pass both email and OTP to the OTP verification view for recovery
+        return view('recover-by-otp', compact('user_email'));
+    }
+
+    public function recoverOTP(Request $request)
+    {
+        // Validate the submitted OTP and email
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required|numeric|min:100000|max:999999',
+        ]);
+
+        // Get the user by their email
+        $user = User::where('email', $request->input('email'))->first();
+        $user_email = $user->email;
+
+        if (!$user) {
+            // User not found, you may want to handle this differently
+            return redirect()->route('login')->with('error', 'User not found.');
+        }
+        // dd($request->input('otp'));
+        // Check if the submitted OTP matches the one stored in the user's record
+        if ($request->input('otp') == $user->otp) {
+
+            // dd($user->email);
+            return view('layouts.auth.reset', compact('user_email'));
+        }
+    }
+
+    public function submitReset(Request $request)
+    {
+        // dd($request->input('password'));
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:8|confirmed',
+            'cpassword' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::where('email', $request->input('email'))->first();
+
+        if ($user) {
+            // Update the user's password
+            $user->password = Hash::make($request->input('password'));
+            $user->save();
+
+            return redirect()->route('login')->with('success', 'Password changed successfully.');
+        } else {
+            dd($request->input('email'));
+            return redirect()->route('login')->with('error', 'Email not found.');
+        }
+    }
+
 }
