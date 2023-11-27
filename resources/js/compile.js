@@ -412,7 +412,7 @@ $(document).ready(function () {
         e.preventDefault(); // Prevent the default form submission
 
         // Show the loading spinner when the form is submitted
-        showLoadingSpinner();
+        // showLoadingSpinner();
 
         // Perform an AJAX form submission
         $.ajax({

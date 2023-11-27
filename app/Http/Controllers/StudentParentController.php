@@ -131,7 +131,9 @@ class StudentParentController extends Controller
 
         if ($user->role == 0) {
             // Retrieve the student's name based on the email using the relationship
+            
             $student = $user->student;
+            dd($student);
             $userName = $student->first_name;
             $userFname = $student->first_name;
             $userMname = $student->middle_name;
