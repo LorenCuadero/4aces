@@ -55,7 +55,7 @@ class AuthController extends Controller
 
     public function loginPage()
     {
-        return view('welcome');
+        return view('pages.welcome');
     }
 
     public function logout(Request $request)
