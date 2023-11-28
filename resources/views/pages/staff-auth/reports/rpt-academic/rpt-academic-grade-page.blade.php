@@ -29,28 +29,23 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <input type="hidden" value="{{ $student->id }}">
-                            <table class="table table-bordered table-hover">
+                            <table class="table table-bordered table-hover data-table text-center">
                                 <thead>
                                     <tr>
                                         <th class="vertical-text">Course Code</th>
-                                        <th class="vertical-text">1st Sem - 1st Year</th>
-                                        <th class="vertical-text">2nd Sem - 1st Year</th>
-                                        <th class="vertical-text">1st Sem - 2nd Year</th>
-                                        <th class="vertical-text">2nd Sem - 2nd Year</th>
-                                        <th class="vertical-text">GWA</th>
+                                        <th class="vertical-text">Year and Semester</th>
+                                        <th class="vertical-text">Midterm Grade</th>
+                                        <th class="vertical-text">Final Grade</th>
                                         <th class="vertical-text">Action</th>
                                     </tr>
                                 </thead>
-
                                 <tbody class="table-body">
                                     @forelse ($academics as $academic)
                                         <tr class="table-row">
                                             <td>{{ $academic->course_code }}</td>
-                                            <td>{{ $academic->first_sem_1st_year }}</td>
-                                            <td>{{ $academic->second_sem_1st_year }}</td>
-                                            <td>{{ $academic->first_sem_2nd_year }}</td>
-                                            <td>{{ $academic->second_sem_2nd_year }}</td>
-                                            <td>{{ $academic->gpa }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                             <td>
                                                 <a href="#" class="edit-grade-btn btn btn-sm"
                                                     data-academic-id="{{ $academic->id }}"
@@ -59,13 +54,17 @@
                                                     data-academic-second_sem_1st_year="{{ $academic->second_sem_1st_year }}"
                                                     data-academic-first_sem_2nd_year="{{ $academic->first_sem_2nd_year }}"
                                                     data-academic-second_sem_2nd_year="{{ $academic->second_sem_2nd_year }}"
-                                                    data-academic-gpa="{{ $academic->gpa }}">EDIT</a>
-
+                                                    data-academic-gpa="{{ $academic->gpa }}">EDIT
+                                                </a>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="11" class="text-center">No records found.</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                     @endforelse
                                 </tbody>

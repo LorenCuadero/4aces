@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'admin',
                 'email' => 'lorenfe.cuadero@student.passerellesnumeriques.org',
+                'password' => bcrypt('Adminpassword'),
                 'email_verified_at' => now(),
                 'role' => '2',
                 'remember_token' => Str::random(10),
@@ -29,6 +30,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'staff',
                 'email' => '21103903@usc.edu.ph',
+                'password' => bcrypt('Staffpassword'),
                 'email_verified_at' => now(),
                 'role' => '1',
                 'remember_token' => Str::random(10),
@@ -38,6 +40,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'student',
                 'email' => 'lorencuadero8@gmail.com',
+                'password' => bcrypt('Studentpassword'),
                 'email_verified_at' => now(),
                 'role' => '0',
                 'remember_token' => Str::random(10),

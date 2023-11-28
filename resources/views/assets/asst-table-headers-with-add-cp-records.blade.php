@@ -6,7 +6,7 @@
             <div class="nav-item btn btn-sm p-0" id="selectToAddStudentCounterpart"
                 style="display: flex; align-items:center;">
                 <a href="#" class="nav-link align-items-center btn"
-                    style="color:#ffffff; background-color:#1f3c88">Student Lists</a>
+                    style="color:#ffffff; background-color:#1f3c88">Add Student</a>
             </div>
         </form>
     </div>

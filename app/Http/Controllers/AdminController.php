@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Mail\SendClosingOfAccountsEmail;
+use App\Mail\SendCustomizedEmail;
 use App\Mail\SendEmailPayable;
 use App\Models\Counterpart;
 use App\Models\GraduationFee;
 use App\Models\MedicalShare;
 use App\Models\PersonalCashAdvance;
 use App\Models\Student;
+use App\Services\UploadFileService;
 use dateTime;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
@@ -58,36 +61,35 @@ class AdminController extends Controller
         $counterpartPaidStudentsCount = Counterpart::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('counterparts')
-                ->whereColumn('amount_paid', '=', 'amount_due')
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) >= SUM(amount_due)');
         })->distinct()->count('student_id');
 
         // MedicalShare
         $medicalSharePaidStudentsCount = MedicalShare::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('medical_shares')
-                ->whereColumn('amount_paid', '=', \DB::raw('total_cost * 0.15'))
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) >= SUM(total_cost * 0.15)');
         })->distinct()->count('student_id');
 
         // Personal Cash Advance
         $personalCashAdvancePaidStudentsCount = PersonalCashAdvance::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('personal_cash_advances')
-                ->whereColumn('amount_paid', '=', 'amount_due')
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) >= SUM(amount_due)');
         })->distinct()->count('student_id');
 
         // Graduation Fee
         $graduationFeePaidStudentsCount = GraduationFee::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('graduation_fees')
-                ->whereColumn('amount_paid', '=', 'amount_due')
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) >= SUM(amount_due)');
         })->distinct()->count('student_id');
 
-        // Calculate the total number of students that are not fully paid in counterparts
-        // Counterpart
+        // Counterpart Not Fully Paid Students
         $counterpartNotFullyPaidStudentsCount = Counterpart::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('counterparts')
@@ -99,28 +101,27 @@ class AdminController extends Controller
         $medicalShareNotFullyPaidStudentsCount = MedicalShare::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('medical_shares')
-                ->whereColumn('amount_paid', '<', \DB::raw('total_cost * 0.15'))
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) < SUM(total_cost * 0.15)');
         })->distinct()->count('student_id');
 
         // Personal Cash Advance Not Fully Paid Students
         $personalCashAdvanceNotFullyPaidStudentsCount = PersonalCashAdvance::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('personal_cash_advances')
-                ->whereColumn('amount_paid', '<', 'amount_due')
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) < SUM(amount_due)');
         })->distinct()->count('student_id');
 
         // Graduation Fee Not Fully Paid Students
         $graduationFeeNotFullyPaidStudentsCount = GraduationFee::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('graduation_fees')
-                ->whereColumn('amount_paid', '<', 'amount_due')
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) < SUM(amount_due)');
         })->distinct()->count('student_id');
 
-        // Calculate the total number of students that are unpaid in:
-        // Counterparts
+        // Counterpart Unpaid Students
         $counterpartUnpaidStudentsCount = Counterpart::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('counterparts')
@@ -128,7 +129,7 @@ class AdminController extends Controller
                 ->groupBy('student_id');
         })->distinct()->count('student_id');
 
-        // MedicalShare
+        // MedicalShare Unpaid Students
         $medicalShareUnpaidStudentsCount = MedicalShare::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('medical_shares')
@@ -136,7 +137,7 @@ class AdminController extends Controller
                 ->groupBy('student_id');
         })->distinct()->count('student_id');
 
-        // Personal Cash Advance
+        // Personal Cash Advance Unpaid Students
         $personalCashAdvancetUnpaidStudentsCount = PersonalCashAdvance::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('personal_cash_advances')
@@ -144,7 +145,7 @@ class AdminController extends Controller
                 ->groupBy('student_id');
         })->distinct()->count('student_id');
 
-        // Graduation Fee
+        // Graduation Fee Unpaid Students
         $graduationFeeUnpaidStudentsCount = GraduationFee::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('graduation_fees')
@@ -166,6 +167,8 @@ class AdminController extends Controller
 
         // Calculate the percentage for each category per month
         // January
+        $year = intval(date('Y'));
+
         $medicalSharePaidCountJanuary = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 1)
             ->whereYear('date', $year)
@@ -177,6 +180,7 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidJanuary = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 1)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -185,6 +189,7 @@ class AdminController extends Controller
 
         $graduationFeePaidCountJanuary = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 1)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -193,6 +198,7 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountJanuary = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 1)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -202,6 +208,7 @@ class AdminController extends Controller
         // February
         $medicalSharePaidCountFebruary = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -210,6 +217,7 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidFebruary = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -218,6 +226,7 @@ class AdminController extends Controller
 
         $graduationFeePaidCountFebruary = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -226,6 +235,7 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountFebruary = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -235,6 +245,7 @@ class AdminController extends Controller
         // March
         $medicalSharePaidCountMarch = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -243,6 +254,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidMarch = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -251,6 +264,8 @@ class AdminController extends Controller
 
         $graduationFeePaidCountMarch = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -259,6 +274,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountMarch = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -268,6 +285,8 @@ class AdminController extends Controller
         // April
         $medicalSharePaidCountApril = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -276,6 +295,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidApril = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -284,6 +305,8 @@ class AdminController extends Controller
 
         $graduationFeePaidCountApril = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -292,6 +315,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountApril = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -301,6 +326,8 @@ class AdminController extends Controller
         // May
         $medicalSharePaidCountMay = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -309,6 +336,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidMay = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -317,6 +346,8 @@ class AdminController extends Controller
 
         $graduationFeePaidCountMay = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -325,6 +356,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountMay = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -334,6 +367,8 @@ class AdminController extends Controller
         // June
         $medicalSharePaidCountJune = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -342,6 +377,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidJune = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -350,6 +387,8 @@ class AdminController extends Controller
 
         $graduationFeePaidCountJune = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -358,6 +397,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountJune = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -367,6 +408,8 @@ class AdminController extends Controller
         // July
         $medicalSharePaidCountJuly = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -375,6 +418,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidJuly = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -384,6 +429,8 @@ class AdminController extends Controller
         $graduationFeePaidCountJuly = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
             ->select('student_id')
+            ->whereYear('date', $year)
+
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidJuly = $graduationFeePaidCountJuly->count();
@@ -391,6 +438,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountJuly = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -400,6 +449,8 @@ class AdminController extends Controller
         // August
         $medicalSharePaidCountAugust = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 8)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -408,6 +459,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidAugust = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 8)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -424,6 +477,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountAugust = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 8)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -433,6 +488,8 @@ class AdminController extends Controller
         // September
         $medicalSharePaidCountSeptember = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -441,6 +498,8 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidSeptember = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -449,6 +508,8 @@ class AdminController extends Controller
 
         $graduationFeePaidCountSeptember = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -457,6 +518,8 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountSeptember = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
+            ->whereYear('date', $year)
+
             ->select('student_id')
             ->distinct()
             ->get();
@@ -466,6 +529,7 @@ class AdminController extends Controller
         // October
         $medicalSharePaidCountOctober = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -474,6 +538,7 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidOctober = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -482,6 +547,7 @@ class AdminController extends Controller
 
         $graduationFeePaidCountOctober = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -490,6 +556,7 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountOctober = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -499,6 +566,7 @@ class AdminController extends Controller
         // November
         $medicalSharePaidCountNovember = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -507,6 +575,7 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidNovember = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -515,6 +584,7 @@ class AdminController extends Controller
 
         $graduationFeePaidCountNovember = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -523,6 +593,7 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountNovember = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -532,6 +603,7 @@ class AdminController extends Controller
         // December
         $medicalSharePaidCountDecember = MedicalShare::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -540,6 +612,7 @@ class AdminController extends Controller
 
         $studentsWithCounterpartPaidDecember = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -548,6 +621,7 @@ class AdminController extends Controller
 
         $graduationFeePaidCountDecember = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -556,6 +630,7 @@ class AdminController extends Controller
 
         $personalCashAdvancePaidCountDecember = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
+            ->whereYear('date', $year)
             ->select('student_id')
             ->distinct()
             ->get();
@@ -1096,7 +1171,7 @@ class AdminController extends Controller
         $uniqueStudentsPersonalCashAdvancePaidDecember = $personalCashAdvancePaidCountDecember->count();
         $personalCashAdvancePaidCountDecember = ($uniqueStudentsPersonalCashAdvancePaidDecember / $totalNumberOfStudents) * 100;
 
-        return view('pages.admin-auth.dashboard.index', [
+        return response()->json([
             // Medical
             'medicalSharePaidCountJanuary' => $medicalSharePaidCountJanuary,
             'medicalSharePaidCountFebruary' => $medicalSharePaidCountFebruary,
@@ -1156,130 +1231,105 @@ class AdminController extends Controller
     {
         $batchYear = $request->input('batch_year');
 
-
         // Counterpart
-        $sqlCP = "
-        SELECT DISTINCT counterparts.student_id
-        FROM counterparts
-        INNER JOIN students ON counterparts.student_id = students.id
-        WHERE counterparts.amount_paid = counterparts.amount_due
-        AND students.batch_year = :batch_year
-        ";
-        $totalPaidCounterpartDB = DB::select($sqlCP, ['batch_year' => $batchYear]);
-        $totalPaidCounterpart = count($totalPaidCounterpartDB);
+        $totalPaidCounterpart = Counterpart::select('student_id')
+            ->selectRaw('SUM(amount_due) - SUM(amount_paid) as balance')
+            ->join('students', 'counterparts.student_id', '=', 'students.id')
+            ->where('students.batch_year', '=', $batchYear)
+            ->groupBy('counterparts.student_id')
+            ->havingRaw('SUM(amount_paid) >= SUM(amount_due)')
+            ->count();
 
-        $sqlNFP = "
-        SELECT DISTINCT counterparts.student_id
-        FROM counterparts
-        INNER JOIN students ON counterparts.student_id = students.id
-        WHERE counterparts.amount_paid < counterparts.amount_due
-        AND students.batch_year = :batch_year
-        ";
-        $totalNotFullyPaidCounterpartDB = DB::select($sqlNFP, ['batch_year' => $batchYear]);
-        $totalNotFullyPaidCounterpart = count($totalNotFullyPaidCounterpartDB);
+        $totalNotFullyPaidCounterpart = Counterpart::select('student_id')
+            ->selectRaw('SUM(amount_due) - SUM(amount_paid) as balance')
+            ->join('students', 'counterparts.student_id', '=', 'students.id')
+            ->where('students.batch_year', '=', $batchYear)
+            ->groupBy('counterparts.student_id')
+            ->havingRaw('SUM(amount_paid) < SUM(amount_due)')
+            ->count();
 
-        $sqlUP = "
-        SELECT DISTINCT counterparts.student_id
-        FROM counterparts
-        INNER JOIN students ON counterparts.student_id = students.id
-        WHERE counterparts.amount_paid = 0
-        AND students.batch_year = :batch_year
-        ";
-        $totalUnpaidCounterpartDB = DB::select($sqlUP, ['batch_year' => $batchYear]);
-        $totalUnpaidCounterpart = count($totalUnpaidCounterpartDB);
+        $totalUnpaidCounterpart = Counterpart::select('student_id')
+            ->selectRaw('SUM(amount_due) - SUM(amount_paid) as balance')
+            ->join('students', 'counterparts.student_id', '=', 'students.id')
+            ->where('students.batch_year', '=', $batchYear)
+            ->groupBy('counterparts.student_id')
+            ->havingRaw('SUM(amount_paid) = 0')
+            ->count();
 
         // Medical Share
-        $sqlMDP = "
-        SELECT DISTINCT medical_shares.student_id
-        FROM medical_shares
-        INNER JOIN students ON medical_shares.student_id = students.id
-        WHERE medical_shares.amount_paid = medical_shares.total_cost * 0.15
-        AND students.batch_year = :batch_year
-        ";
-        $totalPaidMedicalShareDB = DB::select($sqlMDP, ['batch_year' => $batchYear]);
-        $totalPaidMedicalShare = count($totalPaidMedicalShareDB);
+        $totalPaidMedicalShare = MedicalShare::select('student_id')
+            ->selectRaw('SUM(total_cost) * 0.15 - SUM(amount_paid) as balance')
+            ->join('students', 'medical_shares.student_id', '=', 'students.id')
+            ->where('students.batch_year', '=', $batchYear)
+            ->groupBy('medical_shares.student_id')
+            ->havingRaw('SUM(total_cost) * 0.15 >= SUM(amount_paid)')
+            ->count();
 
-        $sqlMNFP = "
-        SELECT DISTINCT medical_shares.student_id
-        FROM medical_shares
-        INNER JOIN students ON medical_shares.student_id = students.id
-        WHERE medical_shares.amount_paid < medical_shares.total_cost * 0.15
-        AND students.batch_year = :batch_year
-        ";
-        $totalNotFullyPaidMedicalShareDB = DB::select($sqlMNFP, ['batch_year' => $batchYear]);
-        $totalNotFullyPaidMedicalShare = count($totalNotFullyPaidMedicalShareDB);
+        $totalNotFullyPaidMedicalShare = MedicalShare::select('student_id')
+            ->selectRaw('SUM(total_cost) * 0.15 - SUM(amount_paid) as balance')
+            ->join('students', 'medical_shares.student_id', '=', 'students.id')
+            ->where('students.batch_year', '=', $batchYear)
+            ->groupBy('medical_shares.student_id')
+            ->havingRaw('SUM(total_cost) * 0.15 > SUM(amount_paid)')
+            ->count();
 
-        $sqlMUP = "
-        SELECT DISTINCT medical_shares.student_id
-        FROM medical_shares
-        INNER JOIN students ON medical_shares.student_id = students.id
-        WHERE medical_shares.amount_paid < medical_shares.total_cost * 0.15
-        AND students.batch_year = :batch_year
-        ";
-        $totalUnpaidMedicalShareDB = DB::select($sqlMUP, ['batch_year' => $batchYear]);
-        $totalUnpaidMedicalShare = count($totalUnpaidMedicalShareDB);
+        $totalUnpaidMedicalShare = MedicalShare::select('student_id')
+            ->selectRaw('SUM(total_cost) * 0.15 - SUM(amount_paid) as balance')
+            ->join('students', 'medical_shares.student_id', '=', 'students.id')
+            ->where('students.batch_year', '=', $batchYear)
+            ->groupBy('medical_shares.student_id')
+            ->havingRaw('SUM(amount_paid) = 0')
+            ->count();
 
         // Personal Cash Advances
-        $sqlPCP = "
-        SELECT DISTINCT personal_cash_advances.student_id
-        FROM personal_cash_advances
-        INNER JOIN students ON personal_cash_advances.student_id = students.id
-        WHERE personal_cash_advances.amount_paid = personal_cash_advances.amount_due
-        AND students.batch_year = :batch_year
-        ";
-        $totalPaidPersonalCashAdvanceDB = DB::select($sqlPCP, ['batch_year' => $batchYear]);
-        $totalPaidPersonalCashAdvance = count($totalPaidPersonalCashAdvanceDB);
+        $totalPaidPersonalCashAdvance = PersonalCashAdvance::select('student_id')
+            ->selectRaw('SUM(amount_due) - SUM(amount_paid) as balance')
+            ->join('students', 'personal_cash_advances.student_id', '=', 'students.id')
+            ->where('students.batch_year', '=', $batchYear)
+            ->groupBy('personal_cash_advances.student_id')
+            ->havingRaw('SUM(amount_paid) >= SUM(amount_due)')
+            ->count();
 
-        $sqlPCNTP = "
-        SELECT DISTINCT personal_cash_advances.student_id
-        FROM personal_cash_advances
-        INNER JOIN students ON personal_cash_advances.student_id = students.id
-        WHERE personal_cash_advances.amount_paid < personal_cash_advances.amount_due
-        AND students.batch_year = :batch_year
-        ";
-        $totalNotFullyPaidPersonalCashAdvanceDB = DB::select($sqlPCNTP, ['batch_year' => $batchYear]);
-        $totalNotFullyPaidPersonalCashAdvance = count($totalNotFullyPaidPersonalCashAdvanceDB);
+        $totalNotFullyPaidPersonalCashAdvance = PersonalCashAdvance::select('student_id')
+            ->selectRaw('SUM(amount_due) - SUM(amount_paid) as balance')
+            ->join('students', 'personal_cash_advances.student_id', '=', 'students.id')
+            ->where('students.batch_year', '=', $batchYear)
+            ->groupBy('personal_cash_advances.student_id')
+            ->havingRaw('SUM(amount_paid) < SUM(amount_due)')
+            ->count();
 
-        $sqlPCUP = "
-        SELECT DISTINCT personal_cash_advances.student_id
-        FROM personal_cash_advances
-        INNER JOIN students ON personal_cash_advances.student_id = students.id
-        WHERE personal_cash_advances.amount_paid = 0
-        AND students.batch_year = :batch_year
-        ";
-        $totalUnpaidPersonalCashAdvanceDB = DB::select($sqlPCUP, ['batch_year' => $batchYear]);
-        $totalUnpaidPersonalCashAdvance = count($totalUnpaidPersonalCashAdvanceDB);
+        $totalUnpaidPersonalCashAdvance = PersonalCashAdvance::select('student_id')
+            ->selectRaw('SUM(amount_due) - SUM(amount_paid) as balance')
+            ->join('students', 'personal_cash_advances.student_id', '=', 'students.id')
+            ->where('students.batch_year', '=', $batchYear)
+            ->groupBy('personal_cash_advances.student_id')
+            ->havingRaw('SUM(amount_paid) = 0')
+            ->count();
 
         // Graduation Fees
-        $sqlGFP = "
-        SELECT DISTINCT graduation_fees.student_id
-        FROM graduation_fees
-        INNER JOIN students ON graduation_fees.student_id = students.id
-        WHERE graduation_fees.amount_paid = graduation_fees.amount_due
-        AND students.batch_year = :batch_year
-        ";
-        $totalPaidGraduationFeesDB = DB::select($sqlGFP, ['batch_year' => $batchYear]);
-        $totalPaidGraduationFees = count($totalPaidGraduationFeesDB);
+        $totalPaidGraduationFees = GraduationFee::select('student_id')
+            ->selectRaw('SUM(amount_due) - SUM(amount_paid) as balance')
+            ->join('students', 'graduation_fees.student_id', '=', 'students.id')
+            ->where('students.batch_year', '=', $batchYear)
+            ->groupBy('graduation_fees.student_id')
+            ->havingRaw('SUM(amount_paid) >= SUM(amount_due)')
+            ->count();
 
-        $sqlGFP = "
-        SELECT DISTINCT graduation_fees.student_id
-        FROM graduation_fees
-        INNER JOIN students ON graduation_fees.student_id = students.id
-        WHERE graduation_fees.amount_paid < graduation_fees.amount_due
-        AND students.batch_year = :batch_year
-        ";
-        $totalNotFullyPaidGraduationFeesDB = DB::select($sqlGFP, ['batch_year' => $batchYear]);
-        $totalNotFullyPaidGraduationFees = count($totalNotFullyPaidGraduationFeesDB);
+        $totalNotFullyPaidGraduationFees = GraduationFee::select('student_id')
+            ->selectRaw('SUM(amount_due) - SUM(amount_paid) as balance')
+            ->join('students', 'graduation_fees.student_id', '=', 'students.id')
+            ->where('students.batch_year', '=', $batchYear)
+            ->groupBy('graduation_fees.student_id')
+            ->havingRaw('SUM(amount_paid) < SUM(amount_due)')
+            ->count();
 
-        $sqlGFFP = "
-        SELECT DISTINCT graduation_fees.student_id
-        FROM graduation_fees
-        INNER JOIN students ON graduation_fees.student_id = students.id
-        WHERE graduation_fees.amount_paid = 0
-        AND students.batch_year = :batch_year
-        ";
-        $totalUnpaidGraduationFeesDB = DB::select($sqlGFFP, ['batch_year' => $batchYear]);
-        $totalUnpaidGraduationFees = count($totalUnpaidGraduationFeesDB);
+        $totalUnpaidGraduationFees = GraduationFee::select('student_id')
+            ->selectRaw('SUM(amount_due) - SUM(amount_paid) as balance')
+            ->join('students', 'graduation_fees.student_id', '=', 'students.id')
+            ->where('students.batch_year', '=', $batchYear)
+            ->groupBy('graduation_fees.student_id')
+            ->havingRaw('SUM(amount_paid) = 0')
+            ->count();
 
         return response()->json([
             'totalPaidCounterpart' => $totalPaidCounterpart,
@@ -1304,36 +1354,35 @@ class AdminController extends Controller
         $counterpartPaidStudentsCount = Counterpart::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('counterparts')
-                ->whereColumn('amount_paid', '=', 'amount_due')
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) >= SUM(amount_due)');
         })->distinct()->count('student_id');
 
         // MedicalShare
         $medicalSharePaidStudentsCount = MedicalShare::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('medical_shares')
-                ->whereColumn('amount_paid', '=', \DB::raw('total_cost * 0.15'))
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) >= SUM(total_cost * 0.15)');
         })->distinct()->count('student_id');
 
         // Personal Cash Advance
         $personalCashAdvancePaidStudentsCount = PersonalCashAdvance::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('personal_cash_advances')
-                ->whereColumn('amount_paid', '=', 'amount_due')
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) >= SUM(amount_due)');
         })->distinct()->count('student_id');
 
         // Graduation Fee
         $graduationFeePaidStudentsCount = GraduationFee::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('graduation_fees')
-                ->whereColumn('amount_paid', '=', 'amount_due')
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) >= SUM(amount_due)');
         })->distinct()->count('student_id');
 
-        // Calculate the total number of students that are not fully paid in counterparts
-        // Counterpart
+        // Counterpart Not Fully Paid Students
         $counterpartNotFullyPaidStudentsCount = Counterpart::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('counterparts')
@@ -1345,28 +1394,27 @@ class AdminController extends Controller
         $medicalShareNotFullyPaidStudentsCount = MedicalShare::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('medical_shares')
-                ->whereColumn('amount_paid', '<', \DB::raw('total_cost * 0.15'))
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) < SUM(total_cost * 0.15)');
         })->distinct()->count('student_id');
 
         // Personal Cash Advance Not Fully Paid Students
         $personalCashAdvanceNotFullyPaidStudentsCount = PersonalCashAdvance::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('personal_cash_advances')
-                ->whereColumn('amount_paid', '<', 'amount_due')
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) < SUM(amount_due)');
         })->distinct()->count('student_id');
 
         // Graduation Fee Not Fully Paid Students
         $graduationFeeNotFullyPaidStudentsCount = GraduationFee::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('graduation_fees')
-                ->whereColumn('amount_paid', '<', 'amount_due')
-                ->groupBy('student_id');
+                ->groupBy('student_id')
+                ->havingRaw('SUM(amount_paid) < SUM(amount_due)');
         })->distinct()->count('student_id');
 
-        // Calculate the total number of students that are unpaid in:
-        // Counterparts
+        // Counterpart Unpaid Students
         $counterpartUnpaidStudentsCount = Counterpart::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('counterparts')
@@ -1374,7 +1422,7 @@ class AdminController extends Controller
                 ->groupBy('student_id');
         })->distinct()->count('student_id');
 
-        // MedicalShare
+        // MedicalShare Unpaid Students
         $medicalShareUnpaidStudentsCount = MedicalShare::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('medical_shares')
@@ -1382,7 +1430,7 @@ class AdminController extends Controller
                 ->groupBy('student_id');
         })->distinct()->count('student_id');
 
-        // Personal Cash Advance
+        // Personal Cash Advance Unpaid Students
         $personalCashAdvancetUnpaidStudentsCount = PersonalCashAdvance::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('personal_cash_advances')
@@ -1390,7 +1438,7 @@ class AdminController extends Controller
                 ->groupBy('student_id');
         })->distinct()->count('student_id');
 
-        // Graduation Fee
+        // Graduation Fee Unpaid Students
         $graduationFeeUnpaidStudentsCount = GraduationFee::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('graduation_fees')
@@ -1426,7 +1474,7 @@ class AdminController extends Controller
             }
         }
 
-        return view('pages.admin-auth.email.index', [
+        return view('pages.admin-auth.email.soa.index', [
             'students' => $students,
             'batchYears' => $batchYears,
         ]);
@@ -1485,7 +1533,7 @@ class AdminController extends Controller
             }
         }
 
-        return view('pages.admin-auth.coa.index', [
+        return view('pages.admin-auth.email.coa.index', [
             'students' => $students,
             'batchYears' => $batchYears,
         ]);
@@ -1532,5 +1580,127 @@ class AdminController extends Controller
         }
 
         return redirect()->back()->with('success', 'Emails sent successfully');
+    }
+
+    public function customizedEmail()
+    {
+        $students = Student::all();
+
+        $batchYears = [];
+
+        foreach ($students as $student) {
+            if (!in_array($student->batch_year, $batchYears)) {
+                $batchYears[] = $student->batch_year;
+            }
+        }
+
+        return view('pages.admin-auth.email.customize.index', [
+            'students' => $students,
+            'batchYears' => $batchYears,
+        ]);
+    }
+
+    public function sendCustomized(Request $request)
+    {
+        $selectedBatchYear = $request->batch_year_selected;
+        $students = Student::where('batch_year', $selectedBatchYear)->get();
+
+        foreach ($students as $student) {
+            $subject = $request->subject;
+            $salutation = $this->getSalutation($request->salutation, $request->otherSalutation);
+            $message_content = $request->message;
+            $conclusion_salutation = $this->getConclusionSalutation($request->conclusion_salutation, $request->otherConclusionSalutation);
+            $sender = $request->sender;
+            $attachment = $request->file('attachment');
+            $student_id = $student->id;
+
+            $response = null;
+
+            if (request()->hasFile('attachment')) {
+                $response = UploadFileService::storeFileStorage($student->id, [$attachment]);
+
+                if (!$response['success']) {
+                    return redirect()->back()->with('error', 'File upload failed');
+                }
+            }
+
+            // Check if $response is not null and has 'data' key
+            if ($response && isset($response['data'])) {
+                $attachmentPath = $response['data'][0];
+                $realFileName = $attachment->getClientOriginalName();
+                $fileType = $attachment->getClientMimeType();
+            } else {
+                // Handle the case where there is no attachment
+                $attachmentPath = null;
+                $realFileName = null;
+                $fileType = null;
+            }
+
+            Mail::to($student->email)->send(
+                new SendCustomizedEmail(
+                    $subject,
+                    $salutation,
+                    $selectedBatchYear,
+                    $message_content,
+                    $conclusion_salutation,
+                    $sender,
+                    $student_id,
+                    $attachmentPath,
+                    $realFileName,
+                    $fileType
+                )
+            );
+        }
+
+        return redirect()->back()->with('success', 'Emails sent successfully');
+    }
+
+
+    private function getSalutation($selectedSalutation, $otherSalutation)
+    {
+        switch ($selectedSalutation) {
+            case '0':
+                return 'Hi';
+            case '1':
+                return 'Hello';
+            case '2':
+                return 'Dear';
+            case '3':
+                return $otherSalutation;
+            default:
+                return null;
+        }
+    }
+
+    private function getConclusionSalutation($selectedConclusion, $otherConclusion)
+    {
+        switch ($selectedConclusion) {
+            case '0':
+                return 'Sincerely';
+            case '1':
+                return 'Yours truly';
+            case '2':
+                return 'Yours sincerely';
+            case '3':
+                return 'Regards';
+            case '4':
+                return 'Kind regards';
+            case '5':
+                return 'Warm regards';
+            case '6':
+                return 'Respectfully';
+            case '7':
+                return 'Best wishes';
+            case '8':
+                return 'Yours';
+            case '9':
+                return 'Very truly yours';
+            case '10':
+                return 'Best regards';
+            case '11':
+                return $otherConclusion;
+            default:
+                return null;
+        }
     }
 }

@@ -44,9 +44,29 @@ input[type="date"]::-ms-clear {
 
 .custom-modal-width {
     max-width: 1000px;
-    width: 50%;
 }
 
 .b-gray-color {
-    background-color: #d2d4d5;
+    background-color: #f4f4f4;
+}
+
+.custom-table-container {
+    display: flex;
+    justify-content: center;
+}
+
+.custom-modal-width-on-modal {
+        max-width: 800px;
+}
+
+.view-all-modal {
+     overflow-x: hidden;
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px; /* Adjust the max-width as needed */
+    display: inline-block;
 }

@@ -8,15 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-    @if (View::hasSection('has-vue'))
-        <script>
-            window.defaultLocale = "{{ config('app.locale') }}";
-            window.fallbackLocale = "{{ config('app.fallback_locale') }}";
-            window.languageResourceVersion = "{{ rspr::vers('app/public/lang/language-resource.json', true, true) }}";
-        </script>
-        <script src="{{ rspr::vers('js/vue-component.js') }}"></script>
-    @endif
+    <title>{{ config('app.name', 'IOMS') }}</title>
 
     @vite(['resources/css/compile.css', 'resources/js/compile.js'])
     @stack('css')
@@ -29,7 +21,7 @@
         @include('layouts.admin.aside')
         @include('modals.mdl-logout-confirmation')
         @include('assets.asst-loading-spinner')
-
+        @include('modals.mdl-change-pass-confirmation')
         <div class="content-wrapper text-center p-3">
             @yield('content')
         </div>
@@ -37,5 +29,4 @@
     </div>
     @stack('js')
 </body>
-
 </html>

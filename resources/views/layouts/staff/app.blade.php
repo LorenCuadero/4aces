@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'IOMS') }}</title>
 
     @vite(['resources/css/compile.css', 'resources/js/compile.js'])
     </head>
@@ -19,7 +19,7 @@
         @include('layouts.staff.header')
         @include('layouts.staff.aside')
         @include('modals.mdl-logout-confirmation')
-
+        @include('modals.mdl-change-pass-confirmation')
         <div class="content-wrapper text-center p-3">
             @yield('content')
         </div>

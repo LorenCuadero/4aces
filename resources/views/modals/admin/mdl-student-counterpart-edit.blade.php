@@ -10,30 +10,19 @@
             </div>
             <div class="modal-body" style="text-align: left">
                 <form id="edit-counterpart-form" method="POST"
-                action="{{ route('admin.updateCounterpart', ['id' => 'counterpart_id']) }}">
-                @csrf
+                    action="{{ route('admin.updateCounterpart', ['id' => 'counterpart_id']) }}">
+                    @csrf
                     @method('PUT')
                     <input type="hidden" name="counterpart_id">
                     <div class="form-group">
                         <label for="course_code">Month</label>
-                        <select name="month" id="edit-month" class="form-control" readonly>
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                        </select>
+                        <input type="text" name="month_display" id="edit-month-display" class="form-control"
+                            readonly>
+                        <input type="hidden" name="month" id="edit-month-hidden">
                     </div>
                     <div class="form-group">
                         <label for="amount_due">Year</label>
-                        <select id="edit-year" name="year" class="form-control yearDropdown" readonly></select>
+                        <input type="text" id="edit-year" name="year" class="form-control yearDropdown" readonly>
                     </div>
                     <div class="form-group">
                         <label for="amount_due">Amount Due</label>
@@ -52,7 +41,7 @@
                     <div class="form-group" style="float: right;">
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                         <a href="#"
-                            onclick="window.location.href = '{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id]) }}'; return false;"
+                            onclick="window.location.href = '{{ route('admin.studentPageCounterpartRecords', ['id' => $student->id]) }}'; return false;"
                             style="text-decoration: none; color: #fff;">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
                         </a>
