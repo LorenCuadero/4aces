@@ -2,6 +2,14 @@
 @section('content')
     <section class="content">
         <div class="row">
+            <span>
+                @if (session('success'))
+                    <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+                @endif
+                @if (session('error'))
+                    <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
+                @endif
+            </span>
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
@@ -10,7 +18,7 @@
                             <b>Parents Counterpart Record of:</b>
                             {{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
                         </h1>
-                       <br>
+                        <br>
                         <div class="d-flex flex-wrap align-items-center ml-auto">
                             <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0">
                                 <div class="nav-item btn btn-sm" id="addStudentCounterpartRecordBtn"

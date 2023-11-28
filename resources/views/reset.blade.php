@@ -12,21 +12,29 @@
                                 <label for="">Reset password</label>
                                 <input type="hidden" id="email_recover" name="email" value="{{ $user_email }}">
                                 <div class="input-group mb-3">
-                                    <input type="password" class="form-control" placeholder="Password" name="password"
-                                        required>
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-lock"></span>
+                                    <div class="input-group">
+                                        <input id="password_onreset" type="password"
+                                            class="form-control @error('password') is-invalid @enderror" name="password"
+                                            required autocomplete="current-password">
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn text-muted border" id="togglePasswordOnReset"
+                                                inputmode="none">
+                                                <span class="far fa-eye"></span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="input-group mb-3">
-                                <input type="password" class="form-control" placeholder="Confirm Password" name="cpassword"
-                                    required>
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-lock"></span>
+                                <div class="input-group">
+                                    <input id="cpassword" type="password"
+                                        class="form-control @error('password') is-invalid @enderror" name="cpassword"
+                                        required autocomplete="current-password">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn text-muted border" id="toggleCPassword"
+                                            inputmode="none">
+                                            <span class="far fa-eye"></span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

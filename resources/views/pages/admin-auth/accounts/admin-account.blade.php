@@ -3,26 +3,25 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12" id="table">
+                <div class="col-12">
                     <div class="card">
-                        <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
-                            style="background-color: #ffff; color: #1f3c88">
-                            <p class="card-title mb-3 mb-md-0" style="color:#1f3c88; padding-left:0%; font-size: 22px">
-                                <b>Admin Accounts</b>
-                            </p>
-                            <div class="d-flex flex-wrap align-items-center ml-auto">
-                                <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0"
-                                    style="display: flex; align-items: center;">
-                                    <div class="nav-item btn btn-sm p-0" style="display: flex; align-items:center;">
-                                        <a href="#" class="nav-link align-items-center btn"
-                                            style="color:#ffffff; background-color:#1f3c88">Add</a>
+                        <div class="card-header p-3 pt-4 pb-4" style="background-color: #ffff; color: #1f3c88;">
+                            <h1 class="card-title"><b>Admin Accounts</b></h1>
+                            <div class="card-tools">
+                                <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0">
+                                    <div class="nav-item btn btn-sm"
+                                        style="display: flex; align-items:center; height: 38px; background-color: #1f3c88; color:#fff;"
+                                        data-target="add-student-grd-modal" data-toggle="modal">
+                                        <a class="nav-link align-items-center"
+                                            href="{{ route('admin.createAdminAccount') }}"
+                                            style="text-decoration: none; color:#fff">Add</a>
                                     </div>
                                 </form>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="example2" class="table table-bordered table-hover data-table text-center">
+                        <div class="card-body table-responsive p-0">
+                            <div class="p-2">
+                                <table class="table table-hover text-nowrap data-table text-center">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -33,7 +32,6 @@
                                             <th>OTP</th>
                                             <th>Status</th>
                                             <th>Action</th>
-
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -42,17 +40,19 @@
                                                 <td>{{ $user->id }}</td>
                                                 <td>{{ $user->name }}</td>
                                                 <td>{{ $user->email }}</td>
-                                                <td>{{ $user->password }}</td>
+                                                <td class="truncate">{{ $user->password }}</td>
                                                 <td>{{ $user->email_verified_at }}</td>
                                                 <td>{{ $user->otp }}</td>
                                                 <td>
                                                     @if ($user->email_verified_at != null)
-                                                        <span class="badge badge-success">Active</span>
+                                                        <span class="btn badge-success rounded">Active</span>
                                                     @else
-                                                        <span class="badge badge-warning">Inactive</span>
+                                                        <span class="btn badge-warning rounded">Inactive</span>
                                                     @endif
                                                 </td>
-                                                <td></td>
+                                                <td>
+                                                    <a href="#" class="btn btn-primary">Edit</a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -84,7 +84,7 @@ class GraduationFeeController extends Controller
 
         Mail::to($student_email)->send(new SendGraduationFeeTransInfo($student_name, $graduation_fee->amount_due, $graduation_fee->amount_paid, $graduation_fee->date));
 
-        return back()->with('success', 'graduation_fee record added!', compact('graduation_fee'));
+        return back()->with('success', 'Graduation fee record added and email sent successfully!', compact('graduation_fee'));
     }
 
     public function updateGraduationFee(Request $request, $id)
@@ -111,6 +111,6 @@ class GraduationFeeController extends Controller
         Mail::to($studentEmail)->send(new SendGraduationFeeTransInfo($studentName, $graduationFee->amount_due, $graduationFee->amount_paid, $graduationFee->date));
 
         // Return success message only if no duplicate was found
-        return back()->with('success', 'graduationFee record updated!', compact('graduationFee'));
+        return back()->with('success', 'Graduation fee record updated and email sent successfully!', compact('graduationFee'));
     }
 }

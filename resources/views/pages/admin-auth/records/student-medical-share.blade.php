@@ -2,6 +2,14 @@
 @section('content')
     <section class="content">
         <div class="row">
+            <span>
+                @if (session('success'))
+                    <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+                @endif
+                @if (session('error'))
+                    <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
+                @endif
+            </span>
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
@@ -53,14 +61,14 @@
                                             <td>{{ $medical_share_record->amount_paid }}</td>
                                             <td>{{ $medical_share_record->date }}</td>
                                             <td>
-                                                <a href="#" id="editStudentMedicalShareRecordBtn" data-toggle="modal"
+                                                <a href="#" data-toggle="modal"
                                                     data-target="#edit-student-medical-share-modal"
                                                     data-medical-share-id="{{ $medical_share_record->id }}"
                                                     data-medical-concern="{{ $medical_share_record->medical_concern }}"
                                                     data-total-cost="{{ $medical_share_record->total_cost }}"
                                                     data-amount-paid="{{ $medical_share_record->amount_paid }}"
                                                     data-med-share-percent="{{ $medical_share_record->total_cost * 0.15 }}"
-                                                    data-date="{{ $medical_share_record->date }}" class="btn btn-sm"
+                                                    data-date="{{ $medical_share_record->date }}" class="btn btn-sm editStudentMedicalShareRecordBtn"
                                                     style="background-color: #1f3c88; color: #ffff; width:50%; border-radius: 20px; margin: 2px">
                                                     Edit
                                                 </a>

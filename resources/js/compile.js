@@ -407,113 +407,6 @@ $(document).ready(function () {
         loadingOverlay.hide();
         $("body").css("overflow", "auto");
     }
-
-    $("#new-form").submit(function (e) {
-        e.preventDefault(); // Prevent the default form submission
-
-        // Show the loading spinner when the form is submitted
-        // showLoadingSpinner();
-
-        // Perform an AJAX form submission
-        $.ajax({
-            url: $(this).attr("action"), // Use the form's action attribute as the URL
-            type: $(this).attr("method"), // Use the form's method attribute as the HTTP method
-            data: $(this).serialize(), // Serialize the form data
-
-            success: function (response) {
-                // Display a success Toastr notification if it hasn't been shown already
-                if (!successNotificationShown) {
-                    location.reload();
-                    toastr.success("Successfully added!");
-                    successNotificationShown = true; // Set the flag to true
-                }
-            },
-            error: function (error) {
-                // Hide the loading spinner when there's an error
-                hideLoadingSpinner();
-                toastr.error(
-                    "An error occurred while submitting the form, please try again."
-                );
-            },
-        });
-    });
-});
-
-$(document).ready(function () {
-    const loadingOverlay = $(".loading-spinner-overlay");
-    let successNotificationShown = false; // Flag to track whether the success notification has been shown
-
-    // Function to show the loading spinner
-    function showLoadingSpinner() {
-        loadingOverlay.show();
-        $("body").css("overflow", "hidden");
-    }
-
-    // Function to hide the loading spinner
-    function hideLoadingSpinner() {
-        loadingOverlay.hide();
-        $("body").css("overflow", "auto");
-    }
-
-    $("#new-form-medical").submit(function (e) {
-        e.preventDefault(); // Prevent the default form submission
-
-        // Show the loading spinner when the form is submitted
-        showLoadingSpinner();
-
-        // Perform an AJAX form submission
-        $.ajax({
-            url: $(this).attr("action"), // Use the form's action attribute as the URL
-            type: $(this).attr("method"), // Use the form's method attribute as the HTTP method
-            data: $(this).serialize(), // Serialize the form data
-
-            success: function (response) {
-                // Display a success Toastr notification if it hasn't been shown already
-                if (!successNotificationShown) {
-                    location.reload();
-                    toastr.success("Successfully added!");
-                    successNotificationShown = true; // Set the flag to true
-                }
-            },
-            error: function (error) {
-                // Hide the loading spinner when there's an error
-                hideLoadingSpinner();
-                toastr.error(
-                    "An error occurred while submitting the form, please try again."
-                );
-            },
-        });
-    });
-
-    $("#edit-form-medical").submit(function (e) {
-        e.preventDefault(); // Prevent the default form submission
-
-        // Show the loading spinner when the form is submitted
-        showLoadingSpinner();
-
-        // Perform an AJAX form submission
-        $.ajax({
-            url: $(this).attr("action"), // Use the form's action attribute as the URL
-            type: $(this).attr("method"), // Use the form's method attribute as the HTTP method
-            data: $(this).serialize(), // Serialize the form data
-
-            success: function (response) {
-                // Display a success Toastr notification if it hasn't been shown already
-                if (!successNotificationShown) {
-                    location.reload();
-                    toastr.success("Successfully updated!");
-                    successNotificationShown = true; // Set the flag to true
-                }
-            },
-            error: function (error) {
-                // Hide the loading spinner when there's an error
-                hideLoadingSpinner();
-                toastr.error(
-                    "An error occurred while updating the record, please try again."
-                );
-            },
-        });
-    });
 });
 
 $(document).ready(function () {
@@ -582,9 +475,9 @@ $(document).ready(function () {
         $("body").css("overflow", "auto");
     }
 
-    $("#verify_otp").submit(function (e) {
-        showLoadingSpinner();
-    });
+    // $("#verify_otp").submit(function (e) {
+    //     // showLoadingSpinner();
+    // });
 
     $("#login-form").submit(function (e) {
         showLoadingSpinner();
@@ -664,6 +557,12 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $(".change-pass").on("click", function (e) {
+        $("#changePassModal").modal("show");
+    });
+});
+
+$(document).ready(function () {
     if ($(".data-table tbody tr").length > 0) {
         $(".data-table").DataTable({
             paging: true,
@@ -725,88 +624,6 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function () {
-    const loadingOverlay = $(".loading-spinner-overlay");
-    let successNotificationShown = false;
-
-    function showLoadingSpinner() {
-        loadingOverlay.show();
-        $("body").css("overflow", "hidden");
-    }
-
-    function hideLoadingSpinner() {
-        loadingOverlay.hide();
-        $("body").css("overflow", "auto");
-    }
-
-    $("#edit-graduation-fee-form").submit(function (e) {
-        e.preventDefault();
-
-        showLoadingSpinner();
-
-        $.ajax({
-            url: $(this).attr("action"),
-            type: $(this).attr("method"),
-            data: $(this).serialize(),
-
-            success: function (response) {
-                if (!successNotificationShown) {
-                    location.reload();
-                    toastr.success("Successfully updated!");
-                    successNotificationShown = true;
-                }
-            },
-            error: function (error) {
-                hideLoadingSpinner();
-                toastr.error(
-                    "An error occurred while submitting the form. Please try again."
-                );
-            },
-        });
-    });
-});
-
-$(document).ready(function () {
-    const loadingOverlay = $(".loading-spinner-overlay");
-    let successNotificationShown = false;
-
-    function showLoadingSpinner() {
-        loadingOverlay.show();
-        $("body").css("overflow", "hidden");
-    }
-
-    function hideLoadingSpinner() {
-        loadingOverlay.hide();
-        $("body").css("overflow", "auto");
-    }
-
-    $("#edit-counterpart-form").submit(function (e) {
-        e.preventDefault();
-
-        showLoadingSpinner();
-
-        $.ajax({
-            url: $(this).attr("action"),
-            type: $(this).attr("method"),
-            data: $(this).serialize(),
-
-            success: function (response) {
-                if (!successNotificationShown) {
-                    location.reload();
-                    toastr.success("Successfully updated!");
-                    successNotificationShown = true;
-                }
-            },
-            error: function (error) {
-                hideLoadingSpinner();
-                toastr.error(
-                    "An error occurred while submitting the form. Please try again."
-                );
-            },
-        });
-    });
-});
-
 // LOGIN
 
 $(document).ready(function () {
@@ -822,4 +639,47 @@ $(document).ready(function () {
             toggleButton.html('<span class="far fa-eye"></span>');
         }
     });
+
+    $("#togglePasswordOnConfirm").click(function () {
+        const passwordInputCurrent = $("#current_password");
+        const toggleButtonThis = $(this);
+
+        if (passwordInputCurrent.attr("type") === "password") {
+            passwordInputCurrent.attr("type", "text");
+            toggleButtonThis.html('<span class="far fa-eye-slash"></span>');
+        } else {
+            passwordInputCurrent.attr("type", "password");
+            toggleButtonThis.html('<span class="far fa-eye"></span>');
+        }
+    });
+
+    $("#togglePasswordOnReset").click(function () {
+        togglePasswordVisibility("password_onreset", "togglePasswordOnReset");
+    });
+
+    $("#toggleCPassword").click(function () {
+        togglePasswordVisibility("cpassword", "toggleCPassword");
+    });
+
+    function togglePasswordVisibility(inputId, toggleButtonId) {
+        const passwordInput = $("#" + inputId);
+        const toggleButton = $("#" + toggleButtonId);
+
+        if (passwordInput.attr("type") === "password") {
+            passwordInput.attr("type", "text");
+            toggleButton.html('<span class="far fa-eye-slash"></span>');
+        } else {
+            passwordInput.attr("type", "password");
+            toggleButton.html('<span class="far fa-eye"></span>');
+        }
+    }
+});
+$(document).ready(function () {
+    setTimeout(() => {
+        $(".success-display").fadeOut();
+    }, 5000);
+
+    setTimeout(() => {
+        $(".error-display").fadeOut();
+    }, 5000);
 });

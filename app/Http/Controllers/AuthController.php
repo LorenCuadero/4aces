@@ -121,7 +121,7 @@ class AuthController extends Controller
 
     public function forgotPassword()
     {
-        return view('layouts.auth.forgot');
+        return view('forgot');
     }
 
     public function postRecover(Request $request)
@@ -167,36 +167,67 @@ class AuthController extends Controller
             // User not found, you may want to handle this differently
             return redirect()->route('login')->with('error', 'User not found.');
         }
-        // dd($request->input('otp'));
         // Check if the submitted OTP matches the one stored in the user's record
         if ($request->input('otp') == $user->otp) {
 
-            // dd($user->email);
-            return view('layouts.auth.reset', compact('user_email'));
+            return view('reset', compact('user_email'));
+        } else if ($request->input('otp') != $user->otp) {
+            return redirect()->back();
         }
     }
 
     public function submitReset(Request $request)
     {
-        // dd($request->input('password'));
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string|min:8|confirmed',
-            'cpassword' => 'required|string|min:8|confirmed',
-        ]);
-
         $user = User::where('email', $request->input('email'))->first();
-
         if ($user) {
-            // Update the user's password
             $user->password = Hash::make($request->input('password'));
             $user->save();
-
             return redirect()->route('login')->with('success', 'Password changed successfully.');
         } else {
-            dd($request->input('email'));
-            return redirect()->route('login')->with('error', 'Email not found.');
+            return redirect()->back()->with('error', 'Email not found.');
         }
     }
 
+    public function confirm_changes(Request $request)
+    {
+        $user = User::where('email', $request->input('email'))->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Email not found.');
+        }
+
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
+
+        // Check if the 'keep_logged_in' checkbox is checked
+        if ($request->has('keep_logged_in')) {
+            Auth::login($user);
+
+            // Redirect to the intended dashboard based on the user's role
+            if ($user->role == '0') {
+                return redirect()->route('payable.index');
+            } elseif ($user->role == '1') {
+                return redirect()->route('students.index');
+            } else {
+                return redirect()->route('dashboard.index');
+            }
+        }
+
+        return redirect()->route('login')->with('success', 'Password changed successfully.');
+    }
+
+    public function validate_from_current_pass(Request $request)
+    {
+        $user = User::where('email', $request->input('email'))->first();
+        $user_email = $user->email;
+        if (!$user) {
+            return redirect()->back()->with('email-not-found', 'Email not found.');
+        }
+
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            return redirect()->back()->with('incorrect-password', 'Incorrect password.');
+        }
+
+        return view('reset-pass-auth', compact('user_email'));
+    }
 }

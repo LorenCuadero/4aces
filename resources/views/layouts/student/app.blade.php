@@ -20,6 +20,7 @@
         @include('layouts.student.header')
         @include('layouts.student.aside')
         @include('modals.mdl-logout-confirmation')
+        @include('modals.mdl-change-pass-confirmation')
         @include('assets.asst-loading-spinner')
         <div class="content-wrapper text-center p-3">
             @yield('content')

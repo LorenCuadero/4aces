@@ -9,6 +9,8 @@ use App\Models\Counterpart;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class CounterpartController extends Controller
 {
@@ -119,7 +121,7 @@ class CounterpartController extends Controller
             ->first();
 
         if ($existingCounterpart) {
-            return back()->with('error', 'Counterpart record failed to add!');
+            return back()->with('error', 'Counterpart record failed to add, combination of month and year already exists!');
         }
 
         // If no duplicate is found, create and save the counterpart record.
@@ -137,7 +139,7 @@ class CounterpartController extends Controller
         Mail::to($student->email)->send(new SendReceiptOrPaymentInfo($student_name, $counterpart->month, $counterpart->year, $counterpart->amount_due, $counterpart->amount_paid, $counterpart->date));
 
         // Return success message only if no duplicate was found
-        return back()->with('success', 'Counterpart record added!', compact('counterpart'));
+        return redirect()->route('admin.studentPageCounterpartRecords', ['id' => $id])->with('success', 'Counterpart record added and email sent successfully!', compact('counterpart'));
     }
 
     public function updateCounterpart(Request $request, $id)
@@ -174,7 +176,7 @@ class CounterpartController extends Controller
         Mail::to($studentEmail)->send(new SendReceiptOrPaymentInfo($studentName, $counterpart->month, $counterpart->year, $counterpart->amount_due, $counterpart->amount_paid, $counterpart->date));
 
         // Return success message only if no duplicate was found
-        return back()->with('success', 'Counterpart record updated!', compact('counterpart'));
+        return redirect()->route('admin.studentPageCounterpartRecords', ['id' => $counterpart->student_id])->with('success', 'Counterpart record updated and email sent successfully!', compact('counterpart'));
     }
 
     public function deleteCounterpart($id)
@@ -200,6 +202,6 @@ class CounterpartController extends Controller
         $counterpart->delete();
 
         // Return success message
-        return back()->with('success', 'Counterpart record deleted successfully.');
+        return back()->with('success', 'Counterpart record deleted and email sent successfully!');
     }
 }

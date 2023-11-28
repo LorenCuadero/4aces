@@ -86,7 +86,7 @@ class MedicalShareController extends Controller
 
         Mail::to($student_email)->send(new SendMedicalShareTransInfo($student_name, $medical_share->medical_concern, $medical_share->total_cost, $percent_share, $medical_share->amount_paid, $medical_share->date));
 
-        return back()->with('success', 'medical_share record added!', compact('medical_share'));
+        return back()->with('success', 'Medical share record added and email sent successfully!', compact('medical_share'));
     }
 
     public function updateMedicalShare(Request $request, $id)
@@ -116,7 +116,7 @@ class MedicalShareController extends Controller
         Mail::to($studentEmail)->send(new SendMedicalShareTransInfo($studentName, $medicalShare->medical_concern, $medicalShare->total_cost, $percent_share, $medicalShare->amount_paid, $medicalShare->date));
 
         // Return success message only if no duplicate was found
-        return back()->with('success', 'medicalShare record updated!', compact('medicalShare'));
+        return back()->with('success', 'Medical share record updated and email sent successfully!', compact('medicalShare'));
     }
 
     public function deleteMedicalShare($id)
@@ -139,6 +139,6 @@ class MedicalShareController extends Controller
         $medicalShare->delete();
 
         // Return success message
-        return back()->with('success', 'personal cash advance record deleted successfully.');
+        return back()->with('success', 'Medical share record deleted and email sent successfully!.');
     }
 }

@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">{{ __('One Time Password') }}</div>
                     <div class="card-body">
-                        <form id="recover-by-otp" method="POST" action="{{ route('recover-submit') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('recover-submit') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="">Please enter valid OTP to recover</label>

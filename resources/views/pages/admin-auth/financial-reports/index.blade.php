@@ -40,10 +40,12 @@
                                     <div class="m-2 mb-4">
                                         <h5>Financial Statement</h5>
                                         @if (isset($dateFrom) && isset($dateTo))
-                                            <span>{{ $dateFrom }}</span> - <span>{{ $dateTo }}</span>
+                                            <span id="dates-from-text-when-set">{{ $dateFrom }}</span> - <span
+                                                id="dates-to-text-when-set">{{ $dateTo }}</span>
                                         @endif
                                         @if (isset($startFromDate) && isset($endToDate))
-                                            <span>{{ $startFromDate }}</span> - <span>{{ $endToDate }}</span>
+                                            <span id="dates-started">{{ $startFromDate }}</span> - <span
+                                                id="date-current">{{ $endToDate }}</span>
                                         @endif
                                     </div>
                                     <div class="table-responsive">
@@ -98,9 +100,8 @@
                                                 </tfoot>
                                             </table>
                                         </div>
-                                        <span class="buttons"><button type="submit" class="btn btn-primary ml-2">Export
-                                                Data</button>
-                                            <button type="button" class="btn btn-default printButton"><i
+                                        <span class="buttons">
+                                            <button type="button" class="btn btn-default printButtonOnFinancial"><i
                                                     class="fas fa-print"></i> Print</button></span>
                                     </div>
                                 </div>

@@ -10,8 +10,9 @@
                         <div class="row text-dash">
                             <div class="col-12 col-sm-10 col-md-4">
                                 <div class="info-box">
-                                    <span class="info-box-icon elevation-1"><i class="fas fa-cog"
-                                            style="color: #1f3c88"></i></span>
+                                    <span class="info-box-icon elevation-1"><img
+                                            src="https://cdn-icons-png.flaticon.com/512/2694/2694245.png" alt=""
+                                            style="width: 50px"></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Counterpart</span>
                                         <span class="info-box-number">
@@ -22,8 +23,9 @@
                             </div>
                             <div class="col-12 col-sm-10 col-md-4">
                                 <div class="info-box mb-3">
-                                    <span class="info-box-icon elevation-1"><i class="fas fa-thumbs-up"
-                                            style="color: #1f3c88"></i></span>
+                                    <span class="info-box-icon elevation-1"><img
+                                            src="https://cdn4.iconfinder.com/data/icons/usa-dollar-1/512/xxx039-512.png"
+                                            alt="" style="width: 50px"></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Medical Share</span>
                                         <span class="info-box-number">{{ $medicalShareTotal }}</span>
@@ -33,8 +35,9 @@
                             <div class="clearfix hidden-md-up"></div>
                             <div class="col-12 col-sm-10 col-md-4">
                                 <div class="info-box mb-3">
-                                    <span class="info-box-icon elevation-1"><i class="fas fa-shopping-cart"
-                                            style="color: #1f3c88"></i></span>
+                                    <span class="info-box-icon elevation-1"><img
+                                            src="https://cdn-icons-png.flaticon.com/512/1571/1571079.png" alt=""
+                                            style="width:50px"></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Total Received</span>
                                         <span class="info-box-number">{{ $receivedTotal }}</span>
@@ -45,8 +48,9 @@
                         <div class="row text-dash">
                             <div class="col-12 col-sm-10 col-md-4">
                                 <div class="info-box">
-                                    <span class="info-box-icon elevation-1"><i class="fas fa-cog"
-                                            style="color: #1f3c88"></i></span>
+                                    <span class="info-box-icon elevation-1"><img
+                                            src="https://assets-global.website-files.com/63a08ec60612e3d0564bb798/64d52b0065178c3d78519aa1_healthcare-underpayments.png"
+                                            alt="" style="width: 50px"></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Personal Cash Advance</span>
                                         <span class="info-box-number">
@@ -57,8 +61,9 @@
                             </div>
                             <div class="col-12 col-sm-10 col-md-4">
                                 <div class="info-box mb-3">
-                                    <span class="info-box-icon elevation-1"><i class="fas fa-thumbs-up"
-                                            style="color: #1f3c88"></i></span>
+                                    <span class="info-box-icon elevation-1"><img
+                                            src="https://static.vecteezy.com/system/resources/previews/004/666/584/non_2x/student-loan-color-icon-credit-to-pay-for-university-education-tuition-fee-college-scolarship-graduation-hat-coin-stack-budget-investment-academic-achievement-isolated-illustration-vector.jpg"
+                                            alt="" style="width: 50px"></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Graduation Fees</span>
                                         <span class="info-box-number">{{ $graduationFeeTotal }}</span>
@@ -68,8 +73,9 @@
                             <div class="clearfix hidden-md-up"></div>
                             <div class="col-12 col-sm-10 col-md-4">
                                 <div class="info-box mb-3">
-                                    <span class="info-box-icon elevation-1"><i class="fas fa-shopping-cart"
-                                            style="color: #1f3c88"></i></span>
+                                    <span class="info-box-icon elevation-1"><img
+                                            src="https://assets-global.website-files.com/63a08ec60612e3d0564bb798/64d52b0065178c3d78519aa1_healthcare-underpayments.png"
+                                            alt="" style="width: 50px"></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Total Receivable</span>
                                         <span class="info-box-number">{{ $receivableTotal }}</span>
