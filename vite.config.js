@@ -17,9 +17,6 @@ const viteConfig = {
         host: '0.0.0.0',
         port: process.env.VITE_SERVE_PORT,
     },
-    build: {
-        outDir: 'public',
-    },
 };
 
 if (process.env.VITE_LOCAL_IP) {
