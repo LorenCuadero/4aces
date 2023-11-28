@@ -71,6 +71,8 @@ class StudentController extends Controller
         // Create a new user instance associated with the student's email
         $user = new User();
         $user->email = $validatedData['email'];
+        $user->name = $validatedData['first_name'] . ' ' . $validatedData['last_name'];
+        $user->password = bcrypt('def@ultPn$tud3ntPa$$w0rdF0rP0rt@l');
         $user->save();
         session()->flash('success', 'Student added successfully.');
         

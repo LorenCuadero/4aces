@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendDeletionNotificationPCA;
 use App\Mail\SendPersonalCATransInfo;
-use App\Mail\SendReceiptOrPaymentInfo;
 use App\Models\PersonalCashAdvance;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -87,7 +87,7 @@ class PersonalCashAdvanceController extends Controller
 
         Mail::to($student_email)->send(new SendPersonalCATransInfo($student_name, $personal_ca->purpose, $personal_ca->amount_due, $personal_ca->amount_paid, $personal_ca->date));
 
-        return back()->with('success', 'personal_ca record added!', compact('personal_ca'));
+        return back()->with('success', 'Personal cash advance record added and email sent successfully!', compact('personal_ca'));
     }
 
     public function updatePersonalCA(Request $request, $id)
@@ -116,7 +116,32 @@ class PersonalCashAdvanceController extends Controller
         Mail::to($studentEmail)->send(new SendPersonalCATransInfo($studentName, $personal_cash_advance->purpose, $personal_cash_advance->amount_due, $personal_cash_advance->amount_paid, $personal_cash_advance->date));
 
         // Return success message only if no duplicate was found
-        return back()->with('success', 'personal_cash_advance record updated!', compact('personal_cash_advance'));
+        return back()->with('success', 'Personal cash advance record updated and email sent successfully!', compact('personal_cash_advance'));
+    }
+
+    public function deletePersonalCA($id)
+    {
+        $personalCA = PersonalCashAdvance::find($id);
+
+        if (!$personalCA) {
+            return back()->with('error', 'Personal cash advance record not found.');
+        }
+
+        // Store student information before deletion
+        $studentName = $personalCA->student->first_name . ' ' . $personalCA->student->last_name;
+        $studentEmail = $personalCA->student->email;
+        $month = $personalCA->month;
+        $year = $personalCA->year;
+        $amountDue = $personalCA->amount_due;
+        $amountPaid = $personalCA->amount_paid;
+        $date = $personalCA->date;
+
+        Mail::to($studentEmail)->send(new SendDeletionNotificationPCA($studentName, $amountDue, $amountPaid, $date));
+
+        $personalCA->delete();
+
+        // Return success message
+        return back()->with('success', 'Personal cash advance record deleted and emeil sent successfully.');
     }
 }
 

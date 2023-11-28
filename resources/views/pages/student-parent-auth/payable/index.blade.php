@@ -68,7 +68,8 @@
                                             </div>
                                             <div class="right-column" style="padding: 2%;">
                                                 <div class="right-content" style="border: none">
-                                                    <p>₱ {{ number_format($record->amount_due, 2) }}</p>
+                                                    <p>₱ {{ number_format($record->amount_due - $record->amount_paid, 2) }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -120,7 +121,8 @@
                                             </div>
                                             <div class="right-column" style="padding: 2%;">
                                                 <div class="right-content" style="border: none">
-                                                    <p>₱ {{ number_format($record->total_cost * 0.15, 2) }}</p>
+                                                    <p>₱ {{ number_format($record->total_cost * 0.15 - $record->amount_paid, 2) }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -129,7 +131,7 @@
                                 @else
                                     <div class="flex-container align-middle"
                                         style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
-                                        <p>No unpaid counterpart records found.</p>
+                                        <p>No unpaid medical share records found.</p>
                                     </div>
                                 @endif
                             </div>
@@ -175,7 +177,8 @@
                                             </div>
                                             <div class="right-column" style="padding: 2%;">
                                                 <div class="right-content" style="border: none">
-                                                    <p>₱ {{ number_format($record->amount_due, 2) }}</p>
+                                                    <p>₱ {{ number_format($record->amount_due - $record->amount_paid, 2) }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -184,7 +187,7 @@
                                 @else
                                     <div class="flex-container align-middle"
                                         style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
-                                        <p>No unpaid counterpart records found.</p>
+                                        <p>No unpaid personal cash advance records found.</p>
                                     </div>
                                 @endif
                             </div>
@@ -230,7 +233,8 @@
                                             </div>
                                             <div class="right-column" style="padding: 2%;">
                                                 <div class="right-content" style="border: none">
-                                                    <p>₱ {{ number_format($record->amount_due, 2) }}</p>
+                                                    <p>₱ {{ number_format($record->amount_due - $record->amount_paid, 2) }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -239,7 +243,7 @@
                                 @else
                                     <div class="flex-container align-middle"
                                         style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
-                                        <p>No unpaid counterpart records found.</p>
+                                        <p>No unpaid graduation fee records found.</p>
                                     </div>
                                 @endif
                             </div>

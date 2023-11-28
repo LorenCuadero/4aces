@@ -13,48 +13,64 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.financialReports') }}" class="nav-link">
+                        <i class="nav-icon fa fa-file-text"></i>
+                        <p>Reports</p>
+                    </a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="report-dropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="nav-icon fas fa-briefcase"></i><p>Records</p>
+                        <i class="nav-icon fas fa-briefcase"></i>
+                        <p>Records</p>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="report-dropdown">
-                        <li><a class="dropdown-item" href="{{ route('admin.counterpartRecords')}}">Counterpart</a></li>
-                        <li><a class="dropdown-item" href="{{ route('admin.medicalShare')}}">Medical</a></li>
-                        <li><a class="dropdown-item" href="{{ route('admin.personalCA')}}">Personal CA</a></li>
-                        <li><a class="dropdown-item" href="{{ route('admin.graduationFees')}}">Graduation Fees</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.counterpartRecords') }}">Counterpart</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.medicalShare') }}">Medical</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.personalCA') }}">Personal CA</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.graduationFees') }}">Graduation Fees</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.email') }}"
-                        class="nav-link">
-                        <i class="fas fa-user-tie nav-icon"></i>
-                        <p>Email</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.coa') }}"
-                        class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
+                    <a href="{{ route('admin.closingOfAccounts') }}" class="nav-link">
+                        <i class="nav-icon fas fa-briefcase"></i>
                         <p>COA</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.accounts') }}" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="report-dropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="nav-icon fas fa-briefcase"></i>
+                        <p>Email</p>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="report-dropdown">
+                        <li><a class="dropdown-item" href="{{ route('admin.email') }}">SOA</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.coa') }}">COA</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.customizedEmail') }}">Customize</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="report-dropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="nav-icon fas fa-briefcase"></i>
                         <p>Accounts</p>
                     </a>
+                    <ul class="dropdown-menu" aria-labelledby="report-dropdown">
+                        <li><a class="dropdown-item" href="{{ route('admin.admin-accounts') }}">Admin</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.staff-accounts') }}">Staff</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.student-accounts') }}">Students</a></li>
+                    </ul>
+                </li>
                 </li>
                 <li class="nav-item">
-                    <a href="#"
-                        class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>Logs</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#"
-                        class="nav-link logout-link">
+                    <a href="#" class="nav-link logout-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>Logout</p>
                     </a>

@@ -1,4 +1,4 @@
-<div class="modal fade" id="add-student-counterpart-modal" tabindex="-1" role="dialog"
+<div class="modal fade" id="add-student-medical-share-modal" tabindex="-1" role="dialog"
     aria-labelledby="add-student-modal-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group">
                         <label for="amount_due">Total Medical Expense</label>
-                        <input type="text" name="amount_due" id="amount_due" class="form-control"
+                        <input type="number" name="amount_due" id="amount_due" class="form-control"
                             inputmode="numeric">
                     </div>
                     <div class="form-group">
@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">Amount Paid</label>
-                        <input type="text" name="amount_paid" id="amount_paid" class="form-control"
+                        <input type="number" name="amount_paid" id="amount_paid" class="form-control"
                             inputmode="numeric">
                     </div>
                     <div class="form-group">

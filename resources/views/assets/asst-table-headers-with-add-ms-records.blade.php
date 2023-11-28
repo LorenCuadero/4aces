@@ -6,7 +6,7 @@
             <div class="nav-item btn btn-sm p-0" id="selectToAddStudentMedicalShare"
                 style="display: flex; align-items:center;">
                 <a href="#" class="nav-link align-items-center btn"
-                    style="background-color:#1f3c88; color:#fff;">Students List</a>
+                    style="background-color:#1f3c88; color:#fff;">Add Student</a>
             </div>
         </form>
     </div>

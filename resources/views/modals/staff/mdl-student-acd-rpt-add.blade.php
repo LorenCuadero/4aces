@@ -18,27 +18,29 @@
                         <input type="text" name="course_code" id="course_code" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label for="first_sem_1st_year">1st Sem - 1st Year Grade</label>
-                        <input type="number" name="first_sem_1st_year" id="first_sem_1st_year" class="form-control">
+                        <label for="year_and_sem">Year and Semester</label>
+                        <select name="salutation" id="salutation" class="form-control mr-1">
+                            <option value="0">First Semester - 1st Year</option>
+                            <option value="1">Second Semester - 1st Year</option>
+                            <option value="2">First Semester - 2nd Year</option>
+                            <option value="3">Second Semester - 2nd Year</option>
+                            <option value="4">First Semester - 3rd Year</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="second_sem_1st_year">2nd Sem - 1st Year Grade</label>
-                        <input type="number" name="second_sem_1st_year" id="second_sem_1st_year" class="form-control">
+                        <label for="grade">Midterm Grade</label>
+                        <input type="number" step="0.01" name="midterm_grade" id="midterm_grade"
+                            class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="first_sem_2nd_year">1st Sem - 2nd Year Grade</label>
-                        <input type="number" name="first_sem_2nd_year" id="first_sem_2nd_year" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="second_sem_2nd_year">2nd Sem - 2nd Year Grade</label>
-                        <input type="number" name="second_sem_2nd_year" id="second_sem_2nd_year" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="gpa">GPA</label>
-                        <input type="number" placeholder="GPA will automatically be calculated" name="gpa" id="gpa" class="form-control" readonly>
+                        <label for="grade">Final Grade</label>
+                        <input type="number" step="0.01" name="final_grade" id="final_grade"
+                            class="form-control">
                     </div>
                     <button type="submit" class="btn btn-primary">Add Grade</button>
-                    <a href="#" onclick="window.location.href = '{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id]) }}'; return false;" style="text-decoration: none; color: #fff;">
+                    <a href="#"
+                        onclick="window.location.href = '{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id]) }}'; return false;"
+                        style="text-decoration: none; color: #fff;">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
                     </a>
                 </form>

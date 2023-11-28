@@ -26,9 +26,10 @@
                 </li>
                 <!-- Menu Footer-->
                 <li class="user-footer d-flex justify-content-center" style="border-radius: 5px">
-                    <a href="#" class="btn btn-default btn-flat logout-link" style="border-radius: 5px">
+                    <a href="#" class="btn btn-default btn-flat logout-link mr-2" style="border-radius: 5px">
                         Logout
                     </a>
+                    <a href="#" class="btn btn-default btn-flat change-pass" style="border-radius: 5px">Change Password</a>
                 </li>
             </ul>
         </li>

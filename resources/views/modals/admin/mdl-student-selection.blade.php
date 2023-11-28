@@ -37,7 +37,7 @@
                                                                     data-student-id="{{ $student->id }}"
                                                                     data-student-fname="{{ $student->first_name }}"
                                                                     data-student-lname="{{ $student->last_name }}"
-                                                                    class="select-student-link-counterpart">Select</a>
+                                                                    class="select-student-link-counterpart">Add</a>
                                                             </td>
                                                         </tr>
                                                     @empty

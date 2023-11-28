@@ -12,7 +12,7 @@
                 Are you sure you want to logout?
             </div>
             <div class="modal-footer">
-                <a href="{{ route('logout') }}" class="btn btn-primary">Logout</a>
+                <a href="{{ route('logout') }}" class="btn btn-primary log-out-submit">Logout</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>

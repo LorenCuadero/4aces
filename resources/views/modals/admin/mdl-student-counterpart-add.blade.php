@@ -42,7 +42,6 @@
                         <label for="amount_paid">Amount Paid</label>
                         <input type="number" name="amount_paid" id="amount_paid" class="form-control">
                     </div>
-
                     <div class="form-group">
                         <label for="date">Date</label>
                         <input type="date" name="date" class="form-control" id="date" rows="3"
@@ -50,10 +49,7 @@
                     </div>
                     <div class="form-group" style="float: right;">
                         <button type="submit" class="btn btn-primary">Add</button>
-                        <a href="#"
-                            onclick="window.location.href = '{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id]) }}'; return false;"
-                            style="text-decoration: none; color: #fff;">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
                         </a>
                     </div>
                 </form>

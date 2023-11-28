@@ -11,12 +11,20 @@
 <body>
     <p>Transaction Information</p>
     <p>Hello {{ $student_name }},</p>
-    <p>Here's an update regarding your graduation fee for {{ $month }}:</p>
+    <p>Here's an update regarding your medical share:</p>
     <table>
         <tbody>
             <tr>
-                <td style="width: 30%">Amount Due:</td>
-                <td class="amount"><b>{{ $amount_due }} PHP</b></td>
+                <td style="width: 30%">Medical Concern:</td>
+                <td class="amount"><b>{{ $medical_concern }}</b></td>
+            </tr>
+            <tr>
+                <td style="width: 30%">Total Medical Expense:</td>
+                <td class="amount"><b>{{ $total_cost }} PHP</b></td>
+            </tr>
+            <tr>
+                <td style="width: 30%">Amount Due (15% Medical Share):</td>
+                <td class="amount"><b>{{ $percent_share_as_amount_due }} PHP</b></td>
             </tr>
             <tr>
                 <td style="width: 30%">Amount Paid:</td>
@@ -24,7 +32,7 @@
             </tr>
             <tr>
                 <td style="width: 30%">Date:</td>
-                <td class="amount"><b>  {{ $date }}</b></td>
+                <td class="amount"><b> {{ $date }}</b></td>
             </tr>
         </tbody>
     </table>
