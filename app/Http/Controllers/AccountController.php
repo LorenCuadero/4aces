@@ -7,6 +7,7 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendAdminNotification;
+use Illuminate\Support\Facades\Validator;
 
 class AccountController extends Controller
 {
@@ -53,31 +54,74 @@ class AccountController extends Controller
 
     public function storeAdminAccount(Request $request)
     {
+        // Validation rules
+        $rules = [
+            'first_name' => 'required|string',
+            'middle_name' => 'nullable|string',
+            'last_name' => 'required|string',
+            'department' => 'nullable|string',
+            'gender' => 'nullable|string',
+            'address' => 'nullable|string',
+            'civil_status' => 'nullable|string',
+            'contact_number' => 'nullable|string',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+        ];
+
+        // Custom validation messages
+        $messages = [
+            'password.min' => 'The password must be at least 6 characters.',
+        ];
+
+        // Validate the request
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        // If validation fails, redirect back with errors
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', 'Failed to save account. Please try again.')->withInput();
+        }
+
+        // Validation passed, proceed with creating the admin account
+
+
         $admin_account = new User();
-        $admin_account->name = request()->input('first_name') . '' . request()->input('last_name');
+        $admin_account->name = request()->input('first_name') . ' ' . request()->input('last_name');
         $admin_account->email = request()->input('email');
         $admin_account->password = bcrypt(request()->input('password'));
         $admin_account->role = 2;
-        $admin_account->save();
+        $admin_account->email_verified_at = now();
 
-        $admin = new Admin();
-        $admin->first_name = request()->input('first_name') ;
-        $admin->middle_name = request()->input('middle_name') ;
-        $admin->last_name = request()->input('last_name') ;
-        $admin->email = request()->input('email') ;
-        $admin->password = bcrypt(request()->input('password')) ;
-        $admin->contact_number = request()->input('contact_number') ;
-        $admin->department = request()->input('department') ;
-        $admin->address = request()->input('address') ;
-        $admin->gender = request()->input('gender') ;
-        $admin->civil_status = request()->input('civil_status') ;
-        $admin->save();
+        // Try to save the user, and handle success/failure
+        if ($admin_account->save()) {
+            // User saved successfully
 
-        $admin_name = request()->input('first_name'). ''. request()->input('last_name');
+            $admin = new Admin();
+            $admin->first_name = request()->input('first_name');
+            $admin->middle_name = request()->input('middle_name');
+            $admin->last_name = request()->input('last_name');
+            $admin->email = request()->input('email');
+            $admin->password = bcrypt(request()->input('password'));
+            $admin->contact_number = request()->input('contact_number');
+            $admin->department = request()->input('department');
+            $admin->address = request()->input('address');
+            $admin->gender = request()->input('gender');
+            $admin->civil_status = request()->input('civil_status');
 
-        Mail::to($admin->email)->send(new SendAdminNotification($admin_name, $admin->email, $admin->password));
+            // Try to save the admin, and handle success/failure
+            if ($admin->save()) {
+                // Admin saved successfully
+                $admin_name = request()->input('first_name') . ' ' . request()->input('last_name');
 
-        return redirect()->back()->with('success', 'New admin added successfully!');
+                Mail::to($admin->email)->send(new SendAdminNotification($admin_name, $admin->email, $admin->password));
+
+                return redirect()->back()->with('success', 'New admin added successfully!');
+            } else {
+                $admin_account->delete();
+                return redirect()->back()->with('error', 'Failed to save admin. Please try again.')->withInput();
+            }
+        } else {
+            return redirect()->back()->with('error', 'Failed to save user. Please try again.')->withInput();
+        }
     }
 
     public function storeStudentAccount(Request $request)

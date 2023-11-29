@@ -1,4 +1,6 @@
 @extends('layouts.admin.app')
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 @section('content')
     <section class="content">
         <div class="container-fluid">
@@ -44,14 +46,20 @@
                                                 <td>{{ $user->email_verified_at }}</td>
                                                 <td>{{ $user->otp }}</td>
                                                 <td>
-                                                    @if ($user->email_verified_at != null)
+                                                    @if ($user->otp != null)
                                                         <span class="btn badge-success rounded">Active</span>
                                                     @else
                                                         <span class="btn badge-warning rounded">Inactive</span>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="#" class="btn btn-primary">Edit</a>
+                                                    <a href="#" class="btn btn-primary edit-admin-account-button"
+                                                        data-user-id="{{ $user->id }}"
+                                                        data-user-name="{{ $user->name }}"
+                                                        data-user-email="{{ $user->email }}"
+                                                        data-user-password="{{ $user->password }}"
+                                                        data-user-email-verified-at="{{ $user->email_verified_at }}"
+                                                        data-user-otp="{{ $user->otp }}">Edit</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -64,4 +72,67 @@
             </div>
         </div>
     </section>
+    @include('modals.admin.accounts.mdl-admin-account-edit')
+
+    <script>
+        $(document).ready(function() {
+            // Handle click event on "Edit" button
+            $('.edit-admin-account-button').on('click', function() {
+                // Get the data attributes from the clicked button
+                var userId = $(this).data('user-id');
+                var name = $(this).data('user-name');
+                var email = $(this).data('user-email');
+                var password = $(this).data('user-password');
+                var emailVerifiedAt = $(this).data('user-email-verified-at');
+                var otp = $(this).data('user-otp');
+
+                // Populate the modal fields with the data
+                $('#edit-admin-account-form input[name="counterpart_id"]').val(userId);
+                $('#edit-admin-account-form input[name="admin_first_name"]').val(name);
+                $('#edit-admin-account-form input[name="user_email"]').val(email);
+                $('#edit-admin-account-form input[name="user_password"]').val(password);
+                $('#edit-admin-account-form input[name="admin_email_verified_at"]').val(emailVerifiedAt);
+                $('#edit-admin-account-form input[name="user_otp"]').val(otp);
+
+                // Trigger modal opening
+                $('#edit-admin-account-modal').modal('show');
+            });
+        });
+
+        $('.edit-admin-account-button').on('click', function() {
+            // Get the data attributes from the clicked button
+            var userId = $(this).data('user-id');
+            var name = $(this).data('user-name');
+            var email = $(this).data('user-email');
+
+            // Populate the modal fields with the data
+            $('#edit-admin-account-form input[name="counterpart_id"]').val(userId);
+            $('#edit-admin-account-form input[name="admin_first_name"]').val(name);
+            $('#edit-admin-account-form input[name="user_email"]').val(email);
+
+            // Trigger modal opening
+            $('#edit-admin-account-modal').modal('show');
+        });
+
+        // Handle click event on "Edit Password" button
+        $('.edit-password-button').on('click', function() {
+            var userId = $(this).data('user-id');
+
+            // Populate the password modal with user ID
+            $('#edit-password-form input[name="counterpart_id"]').val(userId);
+
+            // Trigger password modal opening
+            $('#edit-admin-account-modal').modal('hide');
+            setTimeout(() => {
+                $('#edit-password-modal').modal('show');
+            }, 2000);
+        });
+
+        // $('.close-pass').on('click', function() {
+        //     $('#edit-password-modal').modal('hide');
+        //     setTimeout(() => {
+        //         $('#edit-admin-account-modal').modal('show');
+        //     });
+        // });
+    </script>
 @endsection

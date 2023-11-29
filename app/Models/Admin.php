@@ -14,7 +14,6 @@ class Admin extends Model
         'middle_name',
         'last_name',
         'department',
-        'age',
         'gender',
         'address',
         'civil_status',

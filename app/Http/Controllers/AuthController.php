@@ -72,7 +72,12 @@ class AuthController extends Controller
         // Validate the submitted OTP and email
         $request->validate([
             'email' => 'required|email',
-            'otp' => 'required|numeric|min:100000|max:999999',
+            'otp1' => 'required|numeric',
+            'otp2' => 'required|numeric',
+            'otp3' => 'required|numeric',
+            'otp4' =>'required|numeric',
+            'otp5' =>'required|numeric',
+            'otp6' =>'required|numeric',
         ]);
 
         // Get the user by their email
@@ -80,13 +85,16 @@ class AuthController extends Controller
 
         $user_email = $user->email;
 
+        $otp = $request->input('otp1') . $request->input('otp2') . $request->input('otp3') . $request->input('otp4') . $request->input('otp5') . $request->input('otp6');
+
         if (!$user) {
+            dd('User not found');
             // User not found, you may want to handle this differently
             return redirect()->route('login')->with('error', 'User not found.');
         }
 
         // Check if the submitted OTP matches the one stored in the user's record
-        if ($request->input('otp') == $user->otp) {
+        if ($otp == $user->otp) {
             // Log the user in
             Auth::login($user);
 

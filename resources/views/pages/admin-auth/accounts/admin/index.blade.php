@@ -2,6 +2,14 @@
 @section('content')
     <section class="content">
         <h1 class="card-title mb-3 mb-md-0" style="color:#1f3c88;"><b>Admin Account Information: Add Form</b></h1>
+        <span>
+            @if (session('success'))
+                <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+            @endif
+            @if (session('error'))
+                <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
+            @endif
+        </span>
         <br>
         <div class="card">
             <div class="card-body" style="background-color: none; border: none;">
@@ -10,18 +18,14 @@
                     {{ $errors->first('msg') }}
                 @endif
 
-                <form id="add-admin-form" enctype="multipart/form-data" method="POST" action="{{ route('admin.storeAdminAccount') }}">
+                <form id="add-admin-form" enctype="multipart/form-data" method="POST"
+                    action="{{ route('admin.storeAdminAccount') }}">
                     @csrf
-                    @if (session('success'))
-                        <script>
-                            toastr.success('{{ session('success') }}');
-                        </script>
-                    @endif
                     <div class="row" style="text-align: left;">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="first_name">First Name</label>
-                                <input type="text" class="form-control" id="first_name_admin" name="admin_name"
+                                <input type="text" class="form-control" id="first_name_admin" name="first_name"
                                     required />
                             </div>
                             <div class="form-group">
@@ -49,12 +53,13 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="address">Address</label>
-                                <textarea name="address" class="form-control" id="address_admin" rows="3" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="parent_name">Gender</label>
-                                <input type="text" class="form-control" id="gender_admin" name="gender" required />
+                                <label for="gender">Gender</label>
+                                <div>
+                                    <select name="gender" id="gender_admin" class="form-control d-inline">
+                                        <option value="0">Female</option>
+                                        <option value="1">Male</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="birthdate">Department</label>
@@ -71,9 +76,13 @@
                                     <option value="4">Divorced</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <textarea name="address" class="form-control" id="address_admin" rows="3" required></textarea>
+                            </div>
                             <div class="form-group" style="float: right;">
                                 <button type="submit" class="btn btn-primary mr-2">Add</button>
-                              <a href="{{ route('admin.admin-accounts') }}" class="btn btn-default">Back</a>
+                                <a href="{{ route('admin.admin-accounts') }}" class="btn btn-default">Back</a>
                             </div>
                         </div>
                     </div>
