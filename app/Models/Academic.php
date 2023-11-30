@@ -6,20 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Student;
 
-class Academic extends Model {
+class Academic extends Model
+{
     use HasFactory;
 
     protected $fillable = [
         'course_code',
-        'first_sem_1st_year',
-        'second_sem_1st_year',
-        'first_sem_2nd_year',
-        'second_sem_2nd_year',
-        'gpa',
         'student_id',
+        'year_and_sem',
+        'midterm_grade',
+        'final_grade',
+        'gpa',
     ];
 
-    public function student() {
-        return $this->belongsTo( Student::class );
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
     }
 }

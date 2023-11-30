@@ -17,6 +17,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use App\Services\StoreLogsService;
 
 class AdminController extends Controller
 {
@@ -1482,6 +1483,14 @@ class AdminController extends Controller
 
     public function sendEmail(Request $request)
     {
+        if ($request->selectedBatchYear == null) {
+            return redirect()->back()->with('error', 'Please select a batch year');
+        } else if ($request->month == null) {
+            return redirect()->back()->with('error', 'Please select a month');
+        } else if ($request->year == null) {
+            return redirect()->back()->with('error', 'Please select a year');
+        }
+
         $students = Student::where('batch_year', $request->selectedBatchYear)->get();
         $month = $request->month;
         $year = $request->year;
@@ -1516,6 +1525,10 @@ class AdminController extends Controller
 
             $total = $counterpartBalance + $medicalShareBalance;
             Mail::to($student->email)->send(new SendEmailPayable($student_name, $month, $year, $counterpartBalance, $medicalShareBalance, $total));
+
+            // Log the action
+            $action = "Sent";
+            StoreLogsService::storeLogs(auth()->user()->id, $action, "SOA Email", null, null, $request->selectedBatchYear);
         }
 
         return redirect()->back()->with('success', 'Emails sent successfully');
@@ -1541,6 +1554,12 @@ class AdminController extends Controller
 
     public function sendCOA(Request $request)
     {
+        if ($request->selectedBatchYear == null) {
+            return redirect()->back()->with('error', 'Please select a batch year');
+        } else if ($request->graduation_date == null) {
+            return redirect()->back()->with('error', 'Please select a graduation date');
+        }
+
         $selectedBatchYear = $request->selectedBatchYear;
         $graduation_date_value = $request->graduation_date;
         $datetime = new dateTime($graduation_date_value);
@@ -1577,6 +1596,9 @@ class AdminController extends Controller
                     $graduationFeeBalance
                 )
             );
+
+            $action = "Sent";
+            StoreLogsService::storeLogs(auth()->user()->id, $action, "COA Email", null, null, $request->selectedBatchYear);
         }
 
         return redirect()->back()->with('success', 'Emails sent successfully');
@@ -1602,6 +1624,20 @@ class AdminController extends Controller
 
     public function sendCustomized(Request $request)
     {
+        if ($request->batch_year_selected == null) {
+            return redirect()->back()->with('error', 'Please select a batch year');
+        } else if ($request->subject == null) {
+            return redirect()->back()->with('error', 'Please select a subject');
+        } else if ($request->salutation == null) {
+            return redirect()->back()->with('error', 'Please select a salutation');
+        } else if ($request->message == null) {
+            return redirect()->back()->with('error', 'Please enter a message');
+        } else if ($request->conclusion_salutation == null) {
+            return redirect()->back()->with('error', 'Please select a conclusion salutation');
+        } else if ($request->sender == null) {
+            return redirect()->back()->with('error', 'Please enter a sender name');
+        }
+
         $selectedBatchYear = $request->batch_year_selected;
         $students = Student::where('batch_year', $selectedBatchYear)->get();
 
@@ -1614,26 +1650,19 @@ class AdminController extends Controller
             $attachment = $request->file('attachment');
             $student_id = $student->id;
 
-            $response = null;
+            $attachmentPath = null;
+            $realFileName = null;
+            $fileType = null;
 
-            if (request()->hasFile('attachment')) {
-                $response = UploadFileService::storeFileStorage($student->id, [$attachment]);
+            if ($attachment) {
+                if ($attachment->isValid()) {
+                    $attachmentPath = $attachment->storeAs("attachments/{$student_id}", $attachment->getClientOriginalName(), 'public');
 
-                if (!$response['success']) {
-                    return redirect()->back()->with('error', 'File upload failed');
+                    $realFileName = $attachment->getClientOriginalName();
+                    $fileType = $attachment->getClientMimeType();
+                } else {
+                    return redirect()->back()->with('error', 'Invalid file');
                 }
-            }
-
-            // Check if $response is not null and has 'data' key
-            if ($response && isset($response['data'])) {
-                $attachmentPath = $response['data'][0];
-                $realFileName = $attachment->getClientOriginalName();
-                $fileType = $attachment->getClientMimeType();
-            } else {
-                // Handle the case where there is no attachment
-                $attachmentPath = null;
-                $realFileName = null;
-                $fileType = null;
             }
 
             Mail::to($student->email)->send(
@@ -1650,6 +1679,9 @@ class AdminController extends Controller
                     $fileType
                 )
             );
+
+            $action = "Sent";
+            StoreLogsService::storeLogs(auth()->user()->id, $action, "Customized Email", null, null, $selectedBatchYear);
         }
 
         return redirect()->back()->with('success', 'Emails sent successfully');

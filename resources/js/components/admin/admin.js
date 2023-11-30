@@ -9,102 +9,46 @@ $(document).ready(function () {
         );
     }
 
-    $("#email-form").submit(function (e) {
-        e.preventDefault();
-        const selectedMonth = $("#monthDropdown option:selected").val();
-        const selectedYear = $(".yearDropdown option:selected").val();
+    // SOA Email Form Validation
+    const selectedMonth = $("#monthDropdown option:selected").val();
+    const selectedYear = $(".yearDropdown option:selected").val();
 
-        $("#month").val(selectedMonth);
-        $("#year").val(selectedYear);
+    $("#month").val(selectedMonth);
+    $("#year").val(selectedYear);
 
-        var loadingOverlay1 = $(".loading-spinner-overlay");
-        let successNotificationShown = false;
+    // $("#customized-email-form").submit(function (e) {
+    //     e.preventDefault();
 
-        function showLoadingSpinner() {
-            loadingOverlay1.show();
-            $("body").css("overflow", "hidden");
-        }
+    //     var submitButton = $("#submitButton");
+    //     submitButton.prop("disabled", true);
 
-        function hideLoadingSpinner() {
-            loadingOverlay1.hide();
-            $("body").css("overflow", "auto");
-        }
+    //     if (!validateCustomizedEmailForm()) {
+    //         submitButton.prop("disabled", false); // Re-enable the button
+    //         return;
+    //     }
 
-        showLoadingSpinner();
+    //     var formData = new FormData(this);
+    //     formData.append("attachment", $("#attachment")[0].files[0]);
 
-        $.ajax({
-            url: $(this).attr("action"),
-            type: $(this).attr("method"),
-            data: $(this).serialize(),
+    //     $.ajax({
+    //         url: $(this).attr("action"),
+    //         type: $(this).attr("method"),
+    //         data: formData,
+    //         processData: false, // Important! Prevent jQuery from processing the data
+    //         contentType: false, // Important! Specify content type as false for FormData
 
-            success: function (response) {
-                toastr.success("Email sent successfully!");
-                location.reload();
-            },
-            error: function (error) {
-                hideLoadingSpinner();
-
-                toastr.error(
-                    "An error occurred while sending email, please try again."
-                );
-            },
-        });
-    });
-
-    $("#customized-email-form").submit(function (e) {
-        e.preventDefault();
-
-        var submitButton = $("#submitButton");
-        submitButton.prop("disabled", true);
-
-        var loadingOverlay1 = $(".loading-spinner-overlay");
-        let successNotificationShown = false;
-
-        function showLoadingSpinner() {
-            loadingOverlay1.show();
-            $("body").css("overflow", "hidden");
-        }
-
-        function hideLoadingSpinner() {
-            loadingOverlay1.hide();
-            $("body").css("overflow", "auto");
-        }
-
-        if (!validateCustomizedEmailForm()) {
-            submitButton.prop("disabled", false); // Re-enable the button
-            return;
-        }
-
-        showLoadingSpinner();
-
-        var formData = new FormData(this);
-        formData.append("attachment", $("#attachment")[0].files[0]);
-
-        $.ajax({
-            url: $(this).attr("action"),
-            type: $(this).attr("method"),
-            data: formData,
-            processData: false, // Important! Prevent jQuery from processing the data
-            contentType: false, // Important! Specify content type as false for FormData
-
-            success: function (response) {
-                toastr.success("Email sent successfully!");
-                setTimeout(() => {
-                    location.reload();
-                }, 2000);
-            },
-            error: function (error) {
-                hideLoadingSpinner();
-                console.log(error);
-                toastr.error(
-                    "An error occurred while sending email, please try again."
-                );
-            },
-            complete: function () {
-                submitButton.prop("disabled", false); // Re-enable the button after completion
-            },
-        });
-    });
+    //         success: function (response) {
+    //             setTimeout(() => {
+    //                 location.reload();
+    //             }, 1000);
+    //         },
+    //         error: function (error) {
+    //         },
+    //         complete: function () {
+    //             submitButton.prop("disabled", false); // Re-enable the button after completion
+    //         },
+    //     });
+    // });
 });
 
 const loadingOverlay = $(".loading-spinner-overlay");
@@ -284,26 +228,8 @@ $(document).ready(function () {
     // Handle the click event on the "View" button
     $(".view-button-counterpart").on("click", function () {
         const studentId = $(this).data("student-id");
-
-        // Construct the URL for the route
         const finalUrl = `/counterpart-records/${studentId}`;
-
-        const loadingOverlay = $(".loading-spinner-overlay");
-        let successNotificationShown = false; // Flag to track whether the success notification has been shown
-
-        // Function to show the loading spinner
-        function showLoadingSpinner() {
-            loadingOverlay.show();
-            $("body").css("overflow", "hidden");
-        }
-
-        showLoadingSpinner();
-
-        // Use setTimeout to delay the redirection
-        setTimeout(function () {
-            // Redirect to the intended page
-            window.location.href = finalUrl;
-        }, 100); // Replace 1000 with the desired delay in milliseconds
+        window.location.href = finalUrl;
     });
 });
 
@@ -311,47 +237,15 @@ $(document).ready(function () {
     $(".view-button-graduation-fee").on("click", function () {
         const studentId = $(this).data("student-id");
         const finalUrl = `/graduation-fees-records/${studentId}`;
-
-        const loadingOverlay = $(".loading-spinner-overlay");
-        let successNotificationShown = false; // Flag to track whether the success notification has been shown
-
-        function showLoadingSpinner() {
-            loadingOverlay.show();
-            $("body").css("overflow", "hidden");
-        }
-
-        showLoadingSpinner();
-
-        setTimeout(function () {
-            window.location.href = finalUrl;
-        }, 100);
+        window.location.href = finalUrl;
     });
 });
 
 $(document).ready(function () {
-    // Handle the click event on the "View" button
     $(".view-button-personal-ca").on("click", function () {
         const studentId = $(this).data("student-id");
-
-        // Construct the URL for the route
         const finalUrl = `/personal-cash-advance-records/${studentId}`;
-
-        const loadingOverlay = $(".loading-spinner-overlay");
-        let successNotificationShown = false; // Flag to track whether the success notification has been shown
-
-        // Function to show the loading spinner
-        function showLoadingSpinner() {
-            loadingOverlay.show();
-            $("body").css("overflow", "hidden");
-        }
-
-        showLoadingSpinner();
-
-        // Use setTimeout to delay the redirection
-        setTimeout(function () {
-            // Redirect to the intended page
-            window.location.href = finalUrl;
-        }, 100); // Replace 1000 with the desired delay in milliseconds
+        window.location.href = finalUrl;
     });
 });
 
@@ -984,45 +878,6 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $("#send-coa-email-form").submit(function (e) {
-        e.preventDefault();
-
-        var loadingOverlay1 = $(".loading-spinner-overlay");
-        let successNotificationShown = false;
-
-        function showLoadingSpinner() {
-            loadingOverlay1.show();
-            $("body").css("overflow", "hidden");
-        }
-
-        function hideLoadingSpinner() {
-            loadingOverlay1.hide();
-            $("body").css("overflow", "auto");
-        }
-
-        showLoadingSpinner();
-
-        $.ajax({
-            url: $(this).attr("action"),
-            type: $(this).attr("method"),
-            data: $(this).serialize(),
-
-            success: function (response) {
-                toastr.success("Email sent successfully!");
-                location.reload();
-            },
-            error: function (error) {
-                hideLoadingSpinner();
-
-                toastr.error(
-                    "An error occurred while sending email, please try again."
-                );
-            },
-        });
-    });
-});
-
-$(document).ready(function () {
     const monthNames = [
         "January", "February", "March", "April",
         "May", "June", "July", "August",
@@ -1150,26 +1005,8 @@ $(document).ready(function () {
     // Handle the click event on the "View" button
     $(".view-button-medical").on("click", function () {
         const studentId = $(this).data("student-id");
-
-        // Construct the URL for the route
         const finalUrl = `/medical-share-records/${studentId}`;
-
-        const loadingOverlay = $(".loading-spinner-overlay");
-        let successNotificationShown = false; // Flag to track whether the success notification has been shown
-
-        // Function to show the loading spinner
-        function showLoadingSpinner() {
-            loadingOverlay.show();
-            $("body").css("overflow", "hidden");
-        }
-
-        showLoadingSpinner();
-
-        // Use setTimeout to delay the redirection
-        setTimeout(function () {
-            // Redirect to the intended page
-            window.location.href = finalUrl;
-        }, 100); // Replace 1000 with the desired delay in milliseconds
+        window.location.href = finalUrl;
     });
 });
 
@@ -1409,7 +1246,9 @@ $(document).ready(function () {
         printWindow.document.close();
 
         // Trigger the print function on the new window or tab
-        printWindow.print();
+        setTimeout(() => {
+            printWindow.print();
+        }, 1000);
     });
 
     $(".printButtonOnFinancial").click(function () {
@@ -1448,7 +1287,9 @@ $(document).ready(function () {
         printWindowOnFinancialReports.document.close();
 
         // Trigger the print function on the new window or tab
-        printWindowOnFinancialReports.print();
+        setTimeout(() => {
+            printWindowOnFinancialReports.print();
+        }, 1000);
     });
 
     $(".printButtonOnCOA").click(function () {
@@ -1480,7 +1321,42 @@ $(document).ready(function () {
         printWindowOnCOA.document.close();
 
         // Trigger the print function on the new window or tab
-        printWindowOnCOA.print();
+        setTimeout(() => {
+            printWindowOnCOA.print();
+        }, 1000);
+    });
+
+    $(".printButtonOnLogs").click(function () {
+        const currentDateOnLogs = new Date();
+        const formattedDateOnLogs = currentDateOnLogs.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+        const printWindowOnLogs = window.open('', '_blank');
+        printWindowOnLogs.document.write('<html><head><title>Activity Logs</title>');
+        printWindowOnLogs.document.write('<style>');
+        printWindowOnLogs.document.write('* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }');
+        printWindowOnLogs.document.write('table { border-collapse: collapse; width: 80%; margin: 20px auto; }');
+        printWindowOnLogs.document.write('table, th, td { border: 1px solid black; padding: 10px; }');
+        printWindowOnLogs.document.write('.centered { text-align: center; }');
+        printWindowOnLogs.document.write('.logo { width: 150px; height: 50px; margin: 0 auto; }');
+        printWindowOnLogs.document.write('</style></head><body>');
+
+        // Header with logo and title
+        printWindowOnLogs.document.write('<br><div class="centered">' +
+            '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
+            '</div>');
+        printWindowOnLogs.document.write('<br><h4 class="centered">Activity Logs Records<h4>');
+        printWindowOnLogs.document.write('<p class="centered">' + 'as of ' + formattedDateOnLogs + '</p><br>');
+
+        // Display the table content
+        printWindowOnLogs.document.write('<table class="table table-bordered table-hover text-center">' +
+            $('#logs-table').html() + '</table>');
+
+        printWindowOnLogs.document.write('</body></html>');
+        printWindowOnLogs.document.close();
+
+        setTimeout(() => {
+            printWindowOnLogs.print();
+        }, 1000);
     });
 });
 

@@ -28,10 +28,10 @@
                                 <thead>
                                     <tr>
                                         <th>Course</th>
-                                        <th>First Sem 1st Year</th>
-                                        <th>Second Sem 1st Year</th>
-                                        <th>Fisrt Sem 2nd Year</th>
-                                        <th>Second Sem 2nd Year</th>
+                                        <th>Year and Semester</th>
+                                        <th>Midterm Grade</th>
+                                        <th>Final Grade</th>
+                                        <th>GPA</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -39,10 +39,39 @@
                                         @forelse ($gradeReports as $gradeReport)
                                             <tr class="table-row">
                                                 <td>{{ $gradeReport->course_code }}</td>
-                                                <td>{{ $gradeReport->first_sem_1st_year }}</td>
-                                                <td>{{ $gradeReport->second_sem_1st_year }}</td>
-                                                <td>{{ $gradeReport->first_sem_2nd_year }}</td>
-                                                <td>{{ $gradeReport->second_sem_2nd_year }}</td>
+                                                <td>
+                                                    @if (isset($gradeReport->year_and_sem))
+                                                        @if ($gradeReport->year_and_sem == 0)
+                                                            1st year - First Semester
+                                                        @endif
+                                                        @if ($gradeReport->year_and_sem == 1)
+                                                            1st year - Second Semester
+                                                        @endif
+                                                        @if ($gradeReport->year_and_sem == 2)
+                                                            2nd year - First Semester
+                                                        @endif
+                                                        @if ($gradeReport->year_and_sem == 3)
+                                                            2nd year - Second Semester
+                                                        @endif
+                                                        @if ($gradeReport->course_code == 4)
+                                                            3RD year - First Semester
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (isset($gradeReport->midterm_grade))
+                                                        {{ $gradeReport->midterm_grade }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (isset($gradeReport->final_grade))
+                                                        {{ $gradeReport->final_grade }}
+                                                    @endif
+                                                <td>
+                                                    @if (isset($gradeReport->gpa))
+                                                        {{ $gradeReport->gpa }}
+                                                    @endif
+                                                </td>
                                             </tr>
                                         @empty
                                             <tr>

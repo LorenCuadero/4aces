@@ -8,6 +8,7 @@ use App\Models\GraduationFee;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Services\StoreLogsService;
 
 class GraduationFeeController extends Controller
 {
@@ -65,14 +66,15 @@ class GraduationFeeController extends Controller
     public function storeGraduationFee(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'amount_due' => ['required', 'numeric'],
-            'amount_paid' => ['required', 'numeric'],
+            'amount_due' => ['required'],
+            'amount_paid' => ['required'],
             'date' => ['required', 'date'],
         ]);
 
         $student = Student::find($id);
         $student_email = $student->email;
         $student_name = $student->first_name . ' ' . $student->last_name;
+        $student_batch_year = $student->batch_year;
 
         $graduation_fee = new GraduationFee();
         $graduation_fee->amount_due = $validatedData['amount_due'];
@@ -82,6 +84,10 @@ class GraduationFeeController extends Controller
 
         $graduation_fee->save();
 
+        // Log the action
+        $action = "Added";
+        StoreLogsService::storeLogs(auth()->user()->id, $action, "Graduation Fee", $graduation_fee->student_id, null, $student_batch_year);
+
         Mail::to($student_email)->send(new SendGraduationFeeTransInfo($student_name, $graduation_fee->amount_due, $graduation_fee->amount_paid, $graduation_fee->date));
 
         return back()->with('success', 'Graduation fee record added and email sent successfully!', compact('graduation_fee'));
@@ -90,8 +96,8 @@ class GraduationFeeController extends Controller
     public function updateGraduationFee(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'amount_due' => ['required', 'numeric'],
-            'amount_paid' => ['required', 'numeric'],
+            'amount_due' => ['required'],
+            'amount_paid' => ['required'],
             'date' => ['required', 'date'],
         ]);
 
@@ -106,6 +112,10 @@ class GraduationFeeController extends Controller
         $graduationFee->student_id = $studentId;
 
         $graduationFee->save();
+
+        // Log the action
+        $action = "Updated";
+        StoreLogsService::storeLogs(auth()->user()->id, $action, "Graduation Fee", $studentId, null, $graduationFee->student->batch_year);
 
         // Send email notification to the student
         Mail::to($studentEmail)->send(new SendGraduationFeeTransInfo($studentName, $graduationFee->amount_due, $graduationFee->amount_paid, $graduationFee->date));

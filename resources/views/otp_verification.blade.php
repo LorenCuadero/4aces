@@ -10,16 +10,18 @@
                         <form id="verify_otp" method="POST" action="{{ route('verify_otp') }}">
                             @csrf
                             <div class="form-group">
-                                <p>To enhance your online security, we've sent a one-time password (OTP) to the email
+                                <p>To enhance your online security, we have sent a one-time password (OTP) to the email
                                     address you provided. Please enter the OTP below for verification.</p>
                                 <input type="hidden" id="email" name="email" value="{{ $user_email }}">
 
-                                <div class="otp-container">
+                                <div class="otp-container row justify-content-center">
                                     <!-- Use individual input fields for each digit of the OTP -->
                                     @for ($i = 1; $i <= 6; $i++)
-                                        <input type="number" id="otp{{ $i }}" name="otp{{ $i }}"
-                                            class="form-control otp-input" placeholder="0" min="0" max="9"
-                                            maxlength="1" required>
+                                        <div class="col-2">
+                                            <input type="number" id="otp{{ $i }}" name="otp{{ $i }}"
+                                                class="form-control otp-input" placeholder="0" min="0" max="9"
+                                                maxlength="1" required>
+                                        </div>
                                     @endfor
                                 </div>
 
@@ -27,9 +29,9 @@
                                     <p><span class="text-danger error-display"> {{ $errors->first() }}</span></p>
                                 @endif
                             </div>
-                            <div class="float-right">
+                            <div class="text-center mt-3">
                                 <button type="submit" class="btn btn-primary">Verify</button>
-                                <a href="{{ route('login') }}" class="btn btn-secondary">Cancel</a>
+                                <a href="{{ route('login') }}" class="btn btn-default">Cancel</a>
                             </div>
                         </form>
                         @include('assets.asst-loading-spinner')
@@ -43,13 +45,11 @@
         .otp-container {
             display: flex;
             justify-content: space-between;
-            width: 60%;
             /* Adjust the width as needed */
-            margin: auto;
         }
 
         .otp-input {
-            width: 4em;
+            width: 100%;
             /* Adjust the width of each input field */
         }
     </style>

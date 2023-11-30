@@ -19,8 +19,7 @@
                     </div>
                     <div class="form-group">
                         <label for="amount_due">Total Medical Expense</label>
-                        <input type="number" name="amount_due" id="amount_due" class="form-control"
-                            inputmode="numeric">
+                        <input type="number" name="amount_due" id="amount_due" class="form-control"  step="any">
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">15% Share</label>
@@ -29,8 +28,7 @@
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">Amount Paid</label>
-                        <input type="number" name="amount_paid" id="amount_paid" class="form-control"
-                            inputmode="numeric">
+                        <input type="number" name="amount_paid" id="amount_paid" class="form-control"  step="any">
                     </div>
                     <div class="form-group">
                         <label for="date">Date</label>
@@ -42,7 +40,7 @@
                         <a href="#"
                             onclick="window.location.href = '{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id]) }}'; return false;"
                             style="text-decoration: none; color: #fff;">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
                         </a>
                 </form>
                 @include('assets.asst-loading-spinner')

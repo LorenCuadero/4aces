@@ -3,6 +3,12 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                @if (session('success'))
+                    <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+                @endif
+                @if (session('error'))
+                    <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
+                @endif
                 <div class="col-12" id="table">
                     <div class="card">
                         <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
@@ -10,7 +16,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <p class="card-title mb-3 mb-md-0"
-                                        style="color:#1f3c88; padding-left:0%; font-size: 22px"><b>Email Genarator: Statement of Account</b>
+                                        style="color:#1f3c88; padding-left:0%; font-size: 22px"><b>Email Genarator:
+                                            Statement of Account</b>
                                     </p>
                                 </div>
                             </div>

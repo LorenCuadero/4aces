@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('graduation_fees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained();
-            $table->integer('amount_due');
-            $table->integer('amount_paid');
+            $table->decimal('amount_due', 10, 2);
+            $table->decimal('amount_paid', 10, 2);
             $table->date('date');
             $table->timestamps();
         });

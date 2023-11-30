@@ -23,6 +23,16 @@
         @include('modals.mdl-change-pass-confirmation')
         @include('assets.asst-loading-spinner')
         <div class="content-wrapper text-center p-3">
+            <span>
+                @if (session('incorrect-password'))
+                    <p style="text-align: left;"><span class="text-danger error-display ml-2" style="text-align: left;">[
+                            {{ session('incorrect-password') }} ]</span></p>
+                @endif
+                @if (session('email-not-found'))
+                    <p style="text-align: left;"><span class="text-danger error-display ml-2"
+                            style="text-align: left;">[ {{ session('email-not-found') }} ]</span></p>
+                @endif
+            </span>
             @yield('content')
         </div>
         @include('layouts.student.footer')

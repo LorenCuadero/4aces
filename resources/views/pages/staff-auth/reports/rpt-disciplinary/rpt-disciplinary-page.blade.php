@@ -3,9 +3,21 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <span>
+                    @if (session('success'))
+                        <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+                    @endif
+                    @if (session('error'))
+                        <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
+                    @endif
+                    @if (session('info'))
+                        <p><span class="text-info error-display ml-2">[ {{ session('info') }} ]</span></p>
+                    @endif
+                </span>
                 <div class="col-12" id="table">
                     <div class="card">
-                        <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
+                        <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
+                            style="background-color: #fff; color:#1f3c88">
                             <p class="card-title mb-3 mb-md-0" style="color:#1f3c88; padding-left:0%; font-size: 22px">
                                 <b>Disciplinary Reports</b>
                             </p>
@@ -23,11 +35,12 @@
                                             style="color:#fff;height: 100%; display: flex; align-items: center;">Reset
                                             Table</a>
                                     </div> --}}
-                                    <div class="nav-item btn btn-sm" id="selectToAdd" data-target="#student-selection-modal"
-                                        data-toggle="modal"
+                                    <div class="nav-item btn btn-sm p-2" id="selectToAdd"
+                                        data-target="#student-selection-modal" data-toggle="modal"
                                         style="display: flex; align-items:center; height: 38px; margin-left: 4px;">
                                         <a href="#" class="nav-link align-items-center"
-                                            style="color:#fff;height: 100%; display: flex; align-items: center;">Add</a>
+                                            style="color:#fff;height: 100%; display: flex; align-items: center;"><i
+                                                class="fas fa-user-plus mr-1" style="font-size: 17px"></i> Add Student</a>
                                     </div>
                                 </form>
                             </div>
@@ -37,11 +50,15 @@
                                 <table id="example2" class="table table-bordered table-hover data-table text-center">
                                     <thead>
                                         <tr>
-                                            <th class="vertical-text">Student</th>
-                                            <th class="vertical-text">Formal Verbal Warning</th>
-                                            <th class="vertical-text">Written Warning</th>
-                                            <th class="vertical-text">Probationary</th>
-                                            <th class="vertical-text"></th>
+                                            <th style="background-color: #fff; color:#1f3c88" class="vertical-text">Student
+                                            </th>
+                                            <th style="background-color: #fff; color:#1f3c88" class="vertical-text">Formal
+                                                Verbal Warning</th>
+                                            <th style="background-color: #fff; color:#1f3c88" class="vertical-text">Written
+                                                Warning</th>
+                                            <th style="background-color: #fff; color:#1f3c88" class="vertical-text">
+                                                Probationary</th>
+                                            <th style="background-color: #fff; color:#1f3c88" class="vertical-text"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-body">
@@ -77,7 +94,8 @@
                                                 </td>
                                                 <td>
                                                     <a href="#" id="edit-dcpl-btn" class="btn btn-sm"
-                                                        data-toggle="modal" data-target="#edit-student-dcpl-modal"
+                                                        style="width:70%;" data-toggle="modal"
+                                                        data-target="#edit-student-dcpl-modal"
                                                         data-student-id="{{ $studentsWithRecord->id }}"
                                                         data-student-fname="{{ $studentsWithRecord->student->first_name }}"
                                                         data-student-lname="{{ $studentsWithRecord->student->last_name }}"
@@ -89,7 +107,8 @@
                                                         data-provisionary-warning-date="{{ $studentsWithRecord->provisionary_date }}"
                                                         data-provisionary-warning-desc="{{ $studentsWithRecord->provisionary_description }}"
                                                         data-student-route="{{ route('rpt.dcpl.index') }}">
-                                                        VIEW | EDIT
+                                                        <i class="far fa-edit" style="font-size: 17px"></i>
+                                                        View | Edit
                                                     </a>
                                                 </td>
                                             </tr>

@@ -7,7 +7,10 @@ use App\Models\Academic;
 use App\Models\Disciplinary;
 use App\Models\Student;
 use App\Models\User;
+use App\Services\StoreLogsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendStudentNotification;
 
 class StudentController extends Controller
 {
@@ -50,10 +53,11 @@ class StudentController extends Controller
         // Validate the request data
         $validatedData = $request->validate([
             'first_name' => 'required',
-            'middle_name' => 'required',
+            'middle_name' => 'nullable',
+            'second_name' => 'nullable',
+            'suffix' => 'nullable',
             'last_name' => 'required',
-            'email' => 'required|email|unique:students,email',
-            'phone' => 'required',
+            'phone' => 'nullable',
             'birthdate' => 'required|date',
             'address' => 'required',
             'parent_name' => 'required',
@@ -61,25 +65,46 @@ class StudentController extends Controller
             'batch_year' => 'required',
             'joined' => 'required|date',
         ]);
-    
-        // Create a new student instance with the validated data
+
+        $specialCharacters = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '{', '}', '[', ']', '|', ';', ':', '"', "'", '<', '>', ',', '.', '?', '/'];
+
+        if (
+            strpbrk($request->input('first_name'), implode('', $specialCharacters)) !== false ||
+            strpbrk($request->input('last_name'), implode('', $specialCharacters)) !== false ||
+            strpbrk($request->input('middle_name'), implode('', $specialCharacters)) !== false ||
+            strpbrk($request->input('parent_name'), implode('', $specialCharacters)) !== false ||
+            strpbrk($request->input('second_name'), implode('', $specialCharacters)) !== false
+        ) {
+            return redirect()->back()->with('error', 'Name should not contain special characters');
+        }
+
+        if (request()->input('second_name') == null) {
+            $validatedData['email'] = strtolower($validatedData['first_name'] . '.' . $validatedData['last_name'] . '@student.passerellesnumeriques.org');
+        } else if (request()->input('second_name') != null) {
+            $validatedData['email'] = strtolower($validatedData['first_name'] . '_' . $validatedData['second_name'] . '.' . $validatedData['last_name'] . '@student.passerellesnumeriques.org');
+        }
+
         $student = new Student($validatedData);
-    
-        // Save the student to the database
         $student->save();
-    
+
         // Create a new user instance associated with the student's email
         $user = new User();
         $user->email = $validatedData['email'];
         $user->name = $validatedData['first_name'] . ' ' . $validatedData['last_name'];
-        $user->password = bcrypt('def@ultPn$tud3ntPa$$w0rdF0rP0rt@l');
+        $user->password = bcrypt('d3f@ultP@$$w0rd');
         $user->save();
+        $defaultPassUnHashed = 'd3f@ultP@$$w0rd';
         session()->flash('success', 'Student added successfully.');
-        
+
+        $action = "Added";
+        StoreLogsService::storeLogs(auth()->user()->id, $action, "Student", $student->id, null, $validatedData['batch_year']);
+
+        Mail::to($user->email)->send(new SendStudentNotification($user->name, $user->email, $defaultPassUnHashed));
+
         // Redirect to the students index page with a success message
-        return redirect()->route('students.index')->with('success', 'New student added successfully!');
+        return redirect()->back()->with('success', 'New student added successfully!');
     }
-    
+
 
     public function updateStudent(Request $request, $id)
     {
@@ -131,11 +156,36 @@ class StudentController extends Controller
             // Retrieve all academic records for the student
             $academics = Academic::where('student_id', $student->id)->get();
 
-            // Calculate the total GPA for the student
-            $totalGPA = $academics->sum('gpa');
+            $first_sem_fisrt_year_gpa = 0;
+            $second_sem_first_year_gpa = 0;
+            $first_sem_second_year_gpa = 0;
+            $second_sem_second_year_gpa = 0;
+            $first_sem_third_year_gpa = 0;
+
+            foreach ($academics as $academic) {
+                switch ($academic->year_and_sem) {
+                    case 0:
+                        $first_sem_fisrt_year_gpa += ($academic->midterm_grade + $academic->final_grade) / 2;
+                        break;
+                    case 1:
+                        $second_sem_first_year_gpa += ($academic->midterm_grade + $academic->final_grade) / 2;
+                        break;
+                    case 2:
+                        $first_sem_second_year_gpa += ($academic->midterm_grade + $academic->final_grade) / 2;
+                        break;
+                    case 3:
+                        $second_sem_second_year_gpa += ($academic->midterm_grade + $academic->final_grade) / 2;
+                        break;
+                    case 4:
+                        $first_sem_third_year_gpa += ($academic->midterm_grade + $academic->final_grade) / 2;
+                        break;
+                }
+            }
+
+            $total_gpa_per_semester = $first_sem_fisrt_year_gpa + $second_sem_first_year_gpa + $first_sem_second_year_gpa + $second_sem_second_year_gpa + $first_sem_third_year_gpa;
 
             // Assign the total GPA to the student model
-            $student->totalGPA = $totalGPA;
+            $student->gwa = round($total_gpa_per_semester, 2);
         }
 
         return view('pages.staff-auth.reports.rpt-academic.rpt-academic-page', [
@@ -143,6 +193,7 @@ class StudentController extends Controller
             'batchYears' => $batchYears,
         ]);
     }
+
 
     public function getStudentAcademicReport($id)
     {
@@ -165,64 +216,80 @@ class StudentController extends Controller
 
     public function addStudentGradeReport(Request $request, $id)
     {
+        if ($request->input('course_code') == null) {
+            return back()->with('error', 'Please enter a course code');
+        }  elseif ($request->input('midterm_grade') > 4 || $request->input('midterm_grade') < 0) {
+            return back()->with('error', 'Please enter a valid midterm grade');
+        } elseif ($request->input('final_grade') > 4 || $request->input('final_grade') < 0) {
+            return back()->with('error', 'Please enter a valid final grade');
+        } elseif ($request->input('year_and_sem') == null && $request->input('midterm_grade') != null) {
+            return back()->with('error', 'Please select a year and semester');
+        }
+
+        // Validate the input data
         $validatedData = $request->validate([
             'course_code' => 'required|string',
-            'first_sem_1st_year' => 'nullable|numeric|between:0,4',
-            'second_sem_1st_year' => 'nullable|numeric|between:0,4',
-            'first_sem_2nd_year' => 'nullable|numeric|between:0,4',
-            'second_sem_2nd_year' => 'nullable|numeric|between:0,4',
-            'gpa' => 'nullable|numeric|between:0,4',
             'student_id' => 'required|exists:students,id',
+            'year_and_sem' => 'nullable|numeric|between:0,4',
+            'midterm_grade' => 'nullable|numeric|between:0,5',  // Updated validation for midterm_grade
+            'final_grade' => 'nullable|numeric|between:0,5',    // Updated validation for final_grade
+            'gpa' => 'nullable|numeric|between:0,5',
         ]);
 
-        // Calculate the GPA as the sum of the two semesters in each year
-        $gpa = ($validatedData['first_sem_1st_year'] + $validatedData['second_sem_1st_year'] + $validatedData['first_sem_2nd_year'] + $validatedData['second_sem_2nd_year']) / 4;
+        $validatedData['gpa'] = $validatedData['midterm_grade'] + $validatedData['final_grade'] / 2;
 
-        // Find the academic record for the student and course code
         $academic = Academic::where('student_id', $validatedData['student_id'])
             ->where('course_code', $validatedData['course_code'])
             ->first();
 
         if ($academic) {
-            // Academic record already exists, display an error message
             return redirect()->back()->with('error', 'An academic record for this course already exists.');
-        } else {
-            // Create a new academic record with the calculated GPA
-            Academic::create(array_merge($validatedData, ['gpa' => $gpa]));
-            return redirect()->back()->with('success', 'Academic record added successfully!');
         }
+
+        // Create a new academic record
+        Academic::create($validatedData);
+
+        return redirect()->back()->with('success', 'Academic record added successfully!');
     }
 
-    public function updateStudentGradeReport(Request $request, $studentId)
+
+    public function updateStudentGradeReport(Request $request, $id)
     {
-        // Validate the form data
-        $validatedData = $request->validate([
+        $request->validate([
             'course_code' => 'required|string',
-            'first_sem_1st_year' => 'nullable|numeric|between:0,4',
-            'second_sem_1st_year' => 'nullable|numeric|between:0,4',
-            'first_sem_2nd_year' => 'nullable|numeric|between:0,4',
-            'second_sem_2nd_year' => 'nullable|numeric|between:0,4',
-            'gpa' => 'nullable|numeric|between:0,4',
+            'year_and_sem' => 'nullable',
+            'midterm' => 'nullable|numeric',
+            'final' => 'nullable|numeric',
         ]);
 
-        $gpa = ($validatedData['first_sem_1st_year'] + $validatedData['second_sem_1st_year'] + $validatedData['first_sem_2nd_year'] + $validatedData['second_sem_2nd_year']) / 4;
+        if ($request->input('course_code') == null) {
+            return back()->with('error', 'Please enter a course code');
+        } elseif ($request->input('year_and_sem') == null && $request->input('midterm') != null) {
+            return back()->with('error', 'Please select a year and semester');
+        } elseif ($request->input('midterm') > 4 || $request->input('midterm') < 0) {
+            return back()->with('error', 'Please enter a valid midterm grade');
+        } elseif ($request->input('final') > 4 || $request->input('final') < 0) {
+            return back()->with('error', 'Please enter a valid final grade');
+        }
 
-        // Find the academic record by student ID and course code
-        $academic = Academic::where('student_id', $studentId)
-            ->where('course_code', $validatedData['course_code'])
-            ->first();
+        $academicId = $request->input('academic_id');
+
+        $academic = Academic::find($academicId);
 
         if (!$academic) {
             return back()->with('error', 'Academic record not found.');
         }
 
-        // Update the academic record with the validated data
-        $academic->update(array_merge($validatedData, ['gpa' => $gpa]));
+        $academic->course_code = $request->input('course_code');
+        $academic->year_and_sem = $request->input('year_and_sem');
+        $academic->midterm_grade = $request->input('midterm');
+        $academic->final_grade = $request->input('final');
+        $academic->gpa = $request->input('midterm') + $request->input('final') / 2;
+
+        $academic->save();
 
         return redirect()->back()->with('success', 'Academic record updated successfully.');
     }
-
-    // Disciplinary Reports Controllers
 
     public function indexStudsList(Request $request)
     {

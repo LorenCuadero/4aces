@@ -22,4 +22,14 @@ class Staff extends Model
         'email',
         'password'
     ];
+
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function log()
+    {
+        return $this->hasMany(Log::class);
+    }
 }

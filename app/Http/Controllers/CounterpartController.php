@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use App\Services\StoreLogsService;
 
 class CounterpartController extends Controller
 {
@@ -105,41 +106,43 @@ class CounterpartController extends Controller
         $validatedData = $request->validate([
             'month' => 'required|string',
             'year' => 'required|integer',
-            'amount_due' => 'required|integer',
-            'amount_paid' => 'required|integer',
+            'amount_due' => 'required',
+            'amount_paid' => 'required',
             'date' => 'required',
         ]);
 
+        // Find the student by ID
         $student = Student::find($id);
-        $student_email = $student->email;
-        $student_name = $student->first_name . ' ' . $student->last_name;
 
         // Check for duplicates
-        $existingCounterpart = Counterpart::where('month', $validatedData['month'])
+        if ($student->counterpart()->where('month', $validatedData['month'])
             ->where('year', $validatedData['year'])
-            ->where('student_id', $id)
-            ->first();
-
-        if ($existingCounterpart) {
+            ->exists()
+        ) {
             return back()->with('error', 'Counterpart record failed to add, combination of month and year already exists!');
         }
 
-        // If no duplicate is found, create and save the counterpart record.
-        $counterpart = new Counterpart();
-        $counterpart->month = $validatedData['month'];
-        $counterpart->year = $validatedData['year'];
-        $counterpart->amount_due = $validatedData['amount_due'];
-        $counterpart->amount_paid = $validatedData['amount_paid'];
-        $counterpart->date = $validatedData['date'];
-        $counterpart->student_id = $id;
+        $counterpart = $student->counterpart()->create($validatedData);
 
-        $counterpart->save();
+        // Log the action
+        $action = "Added";
+        StoreLogsService::storeLogs(auth()->user()->id, $action, "Counterpart", $counterpart->student_id, null, $student->batch_year);
 
         // Send email notification to the student
-        Mail::to($student->email)->send(new SendReceiptOrPaymentInfo($student_name, $counterpart->month, $counterpart->year, $counterpart->amount_due, $counterpart->amount_paid, $counterpart->date));
+        Mail::to($student->email)->send(
+            new SendReceiptOrPaymentInfo(
+                $student->full_name,
+                $counterpart->month,
+                $counterpart->year,
+                $counterpart->amount_due,
+                $counterpart->amount_paid,
+                $counterpart->date
+            )
+        );
 
-        // Return success message only if no duplicate was found
-        return redirect()->route('admin.studentPageCounterpartRecords', ['id' => $id])->with('success', 'Counterpart record added and email sent successfully!', compact('counterpart'));
+        // Return success message
+        return redirect()->route('admin.studentPageCounterpartRecords', ['id' => $id])
+            ->with('success', 'Counterpart record added and email sent successfully!', compact('counterpart'));
     }
 
     public function updateCounterpart(Request $request, $id)
@@ -147,8 +150,8 @@ class CounterpartController extends Controller
         $validatedData = $request->validate([
             'month' => 'required|string',
             'year' => 'required|integer',
-            'amount_due' => 'required|integer',
-            'amount_paid' => 'required|integer',
+            'amount_due' => 'required',
+            'amount_paid' => 'required',
             'date' => 'required',
         ]);
 
@@ -156,6 +159,7 @@ class CounterpartController extends Controller
         $studentId = $counterpart->student_id;
         $studentEmail = $counterpart->student->email;
         $studentName = $counterpart->student->first_name . " " . $counterpart->student->last_name;
+        $studentBatchYear = $counterpart->student->batch_year;
 
         // Check for duplicates
         $existingCounterpart = Counterpart::where('month', $validatedData['month'])
@@ -171,6 +175,13 @@ class CounterpartController extends Controller
         $counterpart->student_id = $studentId;
 
         $counterpart->save();
+
+        $numericMonth = $validatedData['month'];
+        $monthName = date('F', mktime(0, 0, 0, $numericMonth, 1));
+
+        // Log the action
+        $action = "Updated";
+        StoreLogsService::storeLogs(auth()->user()->id, $action, "Counterpart",$studentId, null, $studentBatchYear);
 
         // Send email notification to the student
         Mail::to($studentEmail)->send(new SendReceiptOrPaymentInfo($studentName, $counterpart->month, $counterpart->year, $counterpart->amount_due, $counterpart->amount_paid, $counterpart->date));
@@ -191,11 +202,17 @@ class CounterpartController extends Controller
         // Store student information before deletion
         $studentName = $counterpart->student->first_name . ' ' . $counterpart->student->last_name;
         $studentEmail = $counterpart->student->email;
+        $studentId = $counterpart->student->id;
         $month = $counterpart->month;
         $year = $counterpart->year;
         $amountDue = $counterpart->amount_due;
         $amountPaid = $counterpart->amount_paid;
         $date = $counterpart->date;
+        $studentBatchYear = $counterpart->student->batch_year;
+
+        // Log the action
+        $action = "Deleted";
+        StoreLogsService::storeLogs(auth()->user()->id, $action, "Counterpart", $studentId, null, $studentBatchYear);
 
         Mail::to($studentEmail)->send(new SendDeletionNotification($studentName, $month, $year, $amountDue, $amountPaid, $date));
 

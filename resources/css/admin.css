@@ -4,8 +4,8 @@
 }
 
 .selections {
-    height: 39px;
-    border-radius: 20px;
+    height: 35px;
+    border-radius: 5px;
     border: 1px solid #ced4da;
     width: 100px;
     font-size: 14px;

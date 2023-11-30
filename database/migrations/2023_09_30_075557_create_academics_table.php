@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained();
             $table->string('course_code');
-            $table->decimal('first_sem_1st_year', 5, 2)->nullable();
-            $table->decimal('second_sem_1st_year', 5, 2)->nullable();
-            $table->decimal('first_sem_2nd_year', 5, 2)->nullable();
-            $table->decimal('second_sem_2nd_year', 5, 2)->nullable();
-            $table->decimal('gpa', 5, 2)->nullable();
+            $table->integer('year_and_sem')->nullable();
+            $table->decimal('midterm_grade', 10, 2)->nullable();
+            $table->decimal('final_grade', 10, 2)->nullable();
+            $table->decimal('gpa', 10, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

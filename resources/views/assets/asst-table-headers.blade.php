@@ -1,4 +1,5 @@
-<div class="card-header d-flex flex-wrap align-items-center justify-content-between">
+<div class="card-header d-flex flex-wrap align-items-center justify-content-between"
+    style="background-color: #fff; color:#1f3c88">
     <p class="card-title mb-3 mb-md-0" style="color:#1f3c88; padding-left:0%; font-size: 22px"><b>Academic Reports</b>
     </p>
     <div class="d-flex flex-wrap align-items-center ml-auto">
@@ -7,7 +8,7 @@
                 {{-- <input class="form-control mr-sm-1 searchInput" type="search" placeholder="Search record here"
                     aria-label="Search" style="height: 100%; width: 200px;"> --}}
             </div>
-            <div class="nav-item dropdown show btn btn-sm batch-year-dropdown"
+            {{-- <div class="nav-item dropdown show btn btn-sm batch-year-dropdown"
                 style="display: flex; align-items:center; height: 38px;">
                 <a class="nav-link dropdown-toggle align-items-center" data-toggle="dropdown" href="#"
                     role="button" aria-haspopup="true" aria-expanded="true"
@@ -19,8 +20,8 @@
                         <a class="dropdown-item" href="#" data-widget="iframe-close">{{ $year }}</a>
                     @endforeach
                 </div>
-            </div>
-            <div class="nav-item dropdown show btn btn-sm sort-by-user-id"
+            </div> --}}
+            <div class="nav-item dropdown show btn btn-sm sort-by-user-id rounded"
                 style="display: flex; align-items:center; height: 38px; margin-left: 4px;">
                 <a class="nav-link dropdown-toggle align-items-center" data-toggle="dropdown" href="#"
                     role="button" aria-haspopup="true" aria-expanded="true"
@@ -33,12 +34,12 @@
                         Order</a>
                 </div>
             </div>
-            <div class="nav-item dropdown show btn btn-sm reset-filter-btn"
+            {{-- <div class="nav-item dropdown show btn btn-sm reset-filter-btn"
                 style="display: flex; align-items:center; height: 38px; margin-left: 4px;">
                 <a class="nav-link align-items-center"
                     style="color:#fff;height: 100%; display: flex; align-items: center;">Reset Year
                     Filter</a>
-            </div>
+            </div> --}}
         </form>
     </div>
 </div>

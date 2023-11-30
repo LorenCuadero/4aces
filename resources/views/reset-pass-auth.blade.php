@@ -35,7 +35,7 @@
                                 <label class="form-check-label" for="keep_logged_in">Keep me logged in</label>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <a href="{{ route('login') }}" class="btn btn-secondary">Cancel</a>
+                            <a href="{{ route('login') }}" class="btn btn-default">Cancel</a>
                         </form>
                         @include('assets.asst-loading-spinner')
                     </div>

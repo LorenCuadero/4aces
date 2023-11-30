@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Disciplinary;
+use App\Services\StoreLogsService;
 use Illuminate\Http\Request;
 use App\Models\Student;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendDisciplinaryNotification;
 
 class DisciplinaryController extends Controller
 {
@@ -28,6 +31,23 @@ class DisciplinaryController extends Controller
 
     public function store(Request $request)
     {
+
+        if ($request->input('student_id_dcpl') == null) {
+            return redirect()->back()->with('error', 'Please select a student');
+        } elseif ($request->input('verbal_warning_date') == null && $request->input('verbal_warning_description') != null) {
+            return redirect()->back()->with('error', 'Please select a verbal warning date');
+        } elseif ($request->input('written_warning_date') == null && $request->input('written_warning_description') != null) {
+            return redirect()->back()->with('error', 'Please select a written warning date');
+        } elseif ($request->input('provisionary_date') == null && $request->input('provisionary_description') != null) {
+            return redirect()->back()->with('error', 'Please select a probationary warning date');
+        } elseif ($request->input('verbal_warning_date') != null && $request->input('verbal_warning_description') == null) {
+            return redirect()->back()->with('error', 'Please enter a verbal warning description');
+        } elseif ($request->input('written_warning_date') != null && $request->input('written_warning_description') == null) {
+            return redirect()->back()->with('error', 'Please enter a written warning description');
+        } elseif ($request->input('provisionary_date') != null && $request->input('provisionary_description') == null) {
+            return redirect()->back()->with('error', 'Please enter a probationary warning description');
+        }
+
         $data = $request->validate([
             'verbal_warning_description' => 'nullable|string',
             'verbal_warning_date' => 'nullable|date',
@@ -35,14 +55,19 @@ class DisciplinaryController extends Controller
             'written_warning_date' => 'nullable|date',
             'provisionary_description' => 'nullable|string',
             'provisionary_date' => 'nullable|date',
-            'student_id' => 'required|exists:students,id',
+            'student_id_dcpl' => 'required|exists:students,id',
         ]);
 
         $disciplinary = new Disciplinary($data);
 
-// Associate the disciplinary record with the student
-        $student = Student::find($data['student_id']);
+        // Associate the disciplinary record with the student
+        $student = Student::find($data['student_id_dcpl']);
         $student->disciplinary()->save($disciplinary);
+
+        $action = 'Added';
+        StoreLogsService::storeLogs(auth()->user()->id, $action, 'Disciplinary', $data['student_id_dcpl'], null, $student->batch_year);
+
+        Mail::to($student->email)->send(new SendDisciplinaryNotification($student->first_name, $data['verbal_warning_description'], $data['written_warning_description'], $data['provisionary_description'], $data['verbal_warning_date'], $data['written_warning_date'], $data['provisionary_date']));
 
         return redirect()->route('rpt.dcpl.index')->with('success', 'Disciplinary record created.');
     }
@@ -61,9 +86,23 @@ class DisciplinaryController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Find the existing disciplinary record by its ID
         $existingRecord = Disciplinary::findOrFail($id);
 
+        if ($request->input('verbal_warning_date') == null && $request->input('verbal_warning_description') != null) {
+            return redirect()->back()->with('error', 'Please select a verbal warning date');
+        } elseif ($request->input('written_warning_date') == null && $request->input('written_warning_description') != null) {
+            return redirect()->back()->with('error', 'Please select a written warning date');
+        } elseif ($request->input('provisionary_date') == null && $request->input('provisionary_description') != null) {
+            return redirect()->back()->with('error', 'Please select a probationary warning date');
+        } elseif ($request->input('verbal_warning_date') != null && $request->input('verbal_warning_description') == null) {
+            return redirect()->back()->with('error', 'Please enter a verbal warning description');
+        } elseif ($request->input('written_warning_date') != null && $request->input('written_warning_description') == null) {
+            return redirect()->back()->with('error', 'Please enter a written warning description');
+        } elseif ($request->input('provisionary_date') != null && $request->input('provisionary_description') == null) {
+            return redirect()->back()->with('error', 'Please enter a probationary warning description');
+        }
+
+        // Validate the request data
         $data = $request->validate([
             'verbal_warning_description' => 'nullable|string',
             'verbal_warning_date' => 'nullable|date',
@@ -74,17 +113,16 @@ class DisciplinaryController extends Controller
             'student_id' => 'required|exists:students,id',
         ]);
 
-        // Apply the validated data to the existing record
         $existingRecord->fill($data);
-
         $existingRecord->save();
 
-        return redirect()->route('rpt.dcpl.index')->with('success', 'Disciplinary record updated.');
-    }
+        $student = Student::find($data['student_id']);
 
-    public function destroy(Disciplinary $disciplinary)
-    {
-        $disciplinary->delete();
-        return redirect()->route('disciplinary.index')->with('success', 'Disciplinary record deleted.');
+        $action = 'Updated';
+        StoreLogsService::storeLogs(auth()->user()->id, $action, 'Disciplinary', $data['student_id'], null, $student->batch_year);
+
+        Mail::to($student->email)->send(new SendDisciplinaryNotification($student->first_name, $data['verbal_warning_description'], $data['written_warning_description'], $data['provisionary_description'], $data['verbal_warning_date'], $data['written_warning_date'], $data['provisionary_date']));
+
+        return redirect()->route('rpt.dcpl.index')->with('success', 'Disciplinary record updated.');
     }
 }

@@ -16,13 +16,14 @@
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <form>
-                                            <table id="selection" class="table table-bordered table-hover data-table text-center">
-                                                <thead>
+                                            <table id="selection"
+                                                class="table table-bordered table-hover data-table text-center">
+                                                <thead style="background-color: #ffff; color:#1f3c88;">
                                                     <tr>
-                                                        <th class="vertical-text">User Id</th>
-                                                        <th class="vertical-text">Name</th>
-                                                        <th class="vertical-text">Batch Year</th>
-                                                        <th class="vertical-text"></th>
+                                                        <th style="background-color: #ffff; color:#1f3c88;">User Id</th>
+                                                        <th style="background-color: #ffff; color:#1f3c88;">Name</th>
+                                                        <th style="background-color: #ffff; color:#1f3c88;">Batch Year
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-body1">
@@ -32,17 +33,9 @@
                                                             <td>{{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
                                                             </td>
                                                             <td>Batch {{ $student->batch_year }}</td>
-                                                            <td> <a id="selectToAddDisciplinary"
-                                                                    href="{{ route('admin.studentPageCounterpartRecords', ['id' => $student->id]) }}"
-                                                                    data-student-id="{{ $student->id }}"
-                                                                    data-student-fname="{{ $student->first_name }}"
-                                                                    data-student-lname="{{ $student->last_name }}"
-                                                                    class="select-student-link-counterpart">Add</a>
-                                                            </td>
                                                         </tr>
                                                     @empty
                                                         <tr>
-                                                            <td></td>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>

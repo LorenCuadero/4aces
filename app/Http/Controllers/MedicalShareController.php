@@ -8,7 +8,8 @@ use App\Models\MedicalShare;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\SendDeletionNotification;
+use App\Mail\SendDeletionNotificationMS;
+use App\Services\StoreLogsService;
 
 class MedicalShareController extends Controller
 {
@@ -81,8 +82,14 @@ class MedicalShareController extends Controller
         $medical_share->save();
 
         $student = Student::find($id);
+        $studentId = $student->id;
         $student_email = $student->email;
         $student_name = $student->first_name . ' ' . $student->last_name;
+        $student_batch_year = $student->batch_year;
+
+        // Log the action
+        $action = "Added";
+        StoreLogsService::storeLogs(auth()->user()->id, $action, "Medical Share", $studentId, null, $student_batch_year);
 
         Mail::to($student_email)->send(new SendMedicalShareTransInfo($student_name, $medical_share->medical_concern, $medical_share->total_cost, $percent_share, $medical_share->amount_paid, $medical_share->date));
 
@@ -98,11 +105,11 @@ class MedicalShareController extends Controller
             'date' => ['required', 'date'],
         ]);
 
-        $medicalShare = MedicalShare::find($id);
+        $medicalShare = MedicalShare::find(request()->input('medical_id'));
         $studentId = $medicalShare->student_id;
         $studentEmail = $medicalShare->student->email;
         $studentName = $medicalShare->student->first_name . " " . $medicalShare->student->last_name;
-
+        $studentBatchYear = $medicalShare->student->batch_year;
         $medicalShare->medical_concern = $validatedData['medical_concern'];
         $medicalShare->total_cost = $validatedData['amount_due'];
         $percent_share = $validatedData['amount_due'] * 0.15;
@@ -111,6 +118,10 @@ class MedicalShareController extends Controller
         $medicalShare->student_id = $studentId;
 
         $medicalShare->save();
+
+        // Log the action
+        $action = "Updated";
+        StoreLogsService::storeLogs(auth()->user()->id, $action, "Medical Share", $studentId, null, $studentBatchYear);
 
         // Send email notification to the student
         Mail::to($studentEmail)->send(new SendMedicalShareTransInfo($studentName, $medicalShare->medical_concern, $medicalShare->total_cost, $percent_share, $medicalShare->amount_paid, $medicalShare->date));
@@ -130,11 +141,16 @@ class MedicalShareController extends Controller
         // Store student information before deletion
         $studentName = $medicalShare->student->first_name . ' ' . $medicalShare->student->last_name;
         $studentEmail = $medicalShare->student->email;
+        $studentId = $medicalShare->student->id;
         $amountDue = $medicalShare->total_cost * 0.15;
         $amountPaid = $medicalShare->amount_paid;
         $date = $medicalShare->date;
 
-        // Mail::to($studentEmail)->send(new SendDeletionNotification($studentName, $amountDue, $amountPaid, $date));
+        // Log the action
+        $action = "Deleted";
+        StoreLogsService::storeLogs(auth()->user()->id, $action, "Medical Share", $studentId, null, $medicalShare->student->batch_year);
+
+        Mail::to($studentEmail)->send(new SendDeletionNotificationMS($studentName, $amountDue, $amountPaid, $date));
 
         $medicalShare->delete();
 

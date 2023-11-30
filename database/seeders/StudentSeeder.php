@@ -11,13 +11,13 @@ class StudentSeeder extends Seeder
     public function run()
     {
         DB::table('students')->delete();
-        
+
         $students = [
             [
                 'first_name' => 'John',
                 'middle_name' => 'Doe',
                 'last_name' => 'Smith',
-                'email' => 'johndoe@example.com',
+                'email' => 'lorencuadero8@gmail.com',
                 'phone' => '123456789',
                 'birthdate' => Carbon::now()->subYears(20)->format('Y-m-d'),
                 'address' => '123 Main St., Anytown USA',
@@ -53,7 +53,7 @@ class StudentSeeder extends Seeder
                 'joined' => Carbon::now()->subMonths(6)->format('Y-m-d'),
             ]
         ];
-        
+
         foreach ($students as $student) {
             DB::table('students')->insert([
                 'first_name' => $student['first_name'],

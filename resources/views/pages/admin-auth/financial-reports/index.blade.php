@@ -3,6 +3,11 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <span>
+                    @if (session('error'))
+                        <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
+                    @endif
+                </span>
                 <div class="col-12" id="table">
                     <div class="card">
                         <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
@@ -17,20 +22,25 @@
                                     @csrf
                                     <div class="nav-item btn btn-sm p-0" style="display: flex; align-items:center;">
                                         <input type="date" class="form-control rounded p-2 filters" id="date-from"
-                                            name="dateFrom">
+                                            name="dateFrom" required>
                                     </div>
                                     <div class="nav-item btn btn-sm p-0 m-2" style="display: flex; align-items:center;">
                                         <p class="mb-0 text-to filters">to</p>
                                     </div>
                                     <div class="nav-item btn btn-sm p-0" style="display: flex; align-items:center;">
                                         <input type="date" id="date-to" class="form-control rounded p-2 filters"
-                                            name="dateTo">
+                                            name="dateTo" required>
                                     </div>
-                                    <button type="submit" id="filter-submit"
-                                        class="btn btn-primary ml-2 filters">Filter</button>
-                                    <a href="{{ route('admin.financialReports') }}"
-                                        class="btn btn-primary ml-2 reset-filter filters">Reset
-                                        Filter</a>
+                                    <button type="submit" id="filter-submit" class="btn ml-1 filters"
+                                        style="background-color: #1f3c88; color:#ffff" title="Filter"><i
+                                            class='fas fa-filter' style='font-size:20px; color:#ffff'></i> Filter </button>
+                                    <a href="{{ route('admin.financialReports') }}" class="btn reset-filter filters ml-1"
+                                        style="background-color: #1f3c88; color:#ffffff" title="Reset Filter"><i
+                                            class="fa fa-refresh" style="font-size:20px; color:#ffffff"></i> Reset</a>
+                                    <span class="buttons">
+                                        <button type="button" class="btn btn-default printButtonOnFinancial ml-1"
+                                            style="background-color: #1f3c88; color: #ffff;" title="Print"><i
+                                                class="fas fa-print" style="color: #ffffff"></i> Print</button></span>
                                 </form>
                             </div>
                         </div>
@@ -57,7 +67,7 @@
                                                     <tr>
                                                         <th class="text-left"
                                                             style="background-color: #ffff; color: #1f3c88; width: 50%;">
-                                                            Income
+                                                            Contribution Revenue
                                                         </th>
                                                         <th style="background-color: #ffff; color: #1f3c88; width: 50%;">
                                                             Total
@@ -91,8 +101,7 @@
                                                     <tr>
                                                         <th class="text-left"
                                                             style="background-color: #ffff; color: #1f3c88; width: 50%;">
-                                                            Total
-                                                            Income</th>
+                                                            Total</th>
                                                         <th style="background-color: #ffff; color: #1f3c88; width: 50%;"
                                                             id="totalFinance">₱
                                                             {{ number_format($total, 2) }}</th>
@@ -100,9 +109,6 @@
                                                 </tfoot>
                                             </table>
                                         </div>
-                                        <span class="buttons">
-                                            <button type="button" class="btn btn-default printButtonOnFinancial"><i
-                                                    class="fas fa-print"></i> Print</button></span>
                                     </div>
                                 </div>
                             </div>

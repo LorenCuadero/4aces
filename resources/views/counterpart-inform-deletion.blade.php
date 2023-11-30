@@ -11,7 +11,7 @@
 <body>
     <p>Transaction Information of Record Deletion</p>
     <p>Hello {{ $student_name }},</p>
-    <p>Here's the data deleted regarding your counterpart for {{ $month }} {{ $year }}:</p>
+    <p>Previous record is deleted on your counterpart for th {{ $month }} {{ $year }}:</p>
     <table>
         <tbody>
             <tr>

@@ -15,11 +15,11 @@
                     <input type="hidden" name="student_id" value="{{ $student->id }}">
                     <div class="form-group">
                         <label for="amount_due">Amount Due</label>
-                        <input type="number" name="amount_due" id="amount_due" class="form-control">
+                        <input type="number" name="amount_due" id="amount_due" class="form-control" step="any">
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">Amount Paid</label>
-                        <input type="number" name="amount_paid" id="amount_paid" class="form-control">
+                        <input type="number" name="amount_paid" id="amount_paid" class="form-control" step="any">
                     </div>
 
                     <div class="form-group">
@@ -29,9 +29,7 @@
                     </div>
                     <div class="form-group" style="float: right;">
                         <button type="submit" class="btn btn-primary">Add</button>
-                        <a href="#"
-                            onclick="window.location.href = '{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id]) }}'; return false;"
-                            style="text-decoration: none; color: #fff;">
+                        <a href="{{ route('admin.graduationFees') }}"></a>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
                         </a>
                     </div>

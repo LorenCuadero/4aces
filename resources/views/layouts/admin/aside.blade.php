@@ -22,7 +22,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="report-dropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="nav-icon fas fa-briefcase"></i>
+                        <i class="nav-icon fa-solid fa-folder"></i>
                         <p>Records</p>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="report-dropdown">
@@ -41,7 +41,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="report-dropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="nav-icon fas fa-briefcase"></i>
+                        <i class="nav-icon fa-solid fa-envelope"></i>
                         <p>Email</p>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="report-dropdown">
@@ -53,7 +53,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="report-dropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="nav-icon fas fa-briefcase"></i>
+                        <i class="nav-icon 	fas fa-users"></i>
                         <p>Accounts</p>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="report-dropdown">
@@ -64,14 +64,14 @@
                 </li>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
+                    <a href="{{ route('admin.logs') }}" class="nav-link">
+                        <i class="nav-icon fa-solid fa-clock-rotate-left"></i>
                         <p>Logs</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link logout-link">
-                        <i class="nav-icon fas fa-users"></i>
+                        <i class="nav-icon fa-solid fa-right-from-bracket"></i>
                         <p>Logout</p>
                     </a>
                 </li>
