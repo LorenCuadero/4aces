@@ -51,6 +51,8 @@ class AuthController extends Controller
 
         // Pass both email and OTP to the OTP verification view
         return view('otp_verification', compact('user_email'));
+
+        $credentials = $request->only('email', 'password');
     }
 
     public function loginPage()
@@ -89,6 +91,13 @@ class AuthController extends Controller
         if ($request->input('otp') == $user->otp) {
             // Log the user in
             Auth::login($user);
+
+            if (!$user->email_verified_at) {
+                // Update the email_verified_at column to the current timestamp
+                $user->forceFill([
+                    'email_verified_at' => now(),
+                ])->save();
+            }   
 
             // Redirect to the intended dashboard based on the user's role
             if ($user->role == '0') {

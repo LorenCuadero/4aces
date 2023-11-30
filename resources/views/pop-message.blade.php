@@ -1,4 +1,4 @@
-{{-- @if(!@empty(session('success')))
+@if(!@empty(session('success')))
     <div class="alert alert-success" role="alert">
         {{ session('success') }}
     </div>
@@ -44,4 +44,4 @@
     <div class="alert alert-light" role="alert">
         {{ session('light') }}
     </div>
-@endif --}}
+@endif

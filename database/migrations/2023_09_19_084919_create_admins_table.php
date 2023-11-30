@@ -16,15 +16,19 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('middle_name');
             $table->string('last_name');
-            $table->string('department');
-            $table->string('age');
-            $table->string('gender');
+            $table->string('department')->default('Administrative');
+            $table->string('birthdate');
+            $table->string('gender')->default('Male');
             $table->string('address');
             $table->string('civil_status');
-            $table->string('contact_number');
+            $table->string('contact_number')->nullable();
             $table->string('email');
             $table->string('password');
+
+            $table->unsignedBigInteger('user_id');
+
             $table->timestamps();
+
         });
     }
 

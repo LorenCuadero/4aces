@@ -8,6 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illmuniate\Support\Facades\Request;
+use App\Models\Admin;
+
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -53,22 +56,17 @@ class User extends Authenticatable
         return $this->hasOne(Student::class, 'id');
     }
 
-    // static function getEmailForPasswordReset($email){
-    //     return self::where('email', $email)->first();
-    // }
 
-    // static function getRememberToken($remember_token){
-    //     return self::where('remember_token', '=', $remember_token)->first();
-    //     // dd($remember_token);
-    // }
-
-    // public function getRememberTokenName()
-    // {
-    //     return 'remember_token';
-    // }
-
-    // public function getEmailForPasswordReset()
-    // {
-    //     return 'remember_token';
-    // }
+    public function admins()
+    {
+        return $this->hasMany(Admin::class);
+    }
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+    public function staffs()
+    {
+        return $this->hasMany(Staff::class);
+    }
 }

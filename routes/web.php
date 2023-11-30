@@ -166,6 +166,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/{id}', [AccountController::class, 'updateAdminAccount'])->name('admin.updateAdminAccount');
         Route::delete('/{id}', [AccountController::class, 'deleteAdminAccount'])->name('admin.deleteAdminAccount');
         Route::post('/', [AccountController::class, 'storeAdminAccount'])->name('admin.storeAdminAccount');
+
+        Route::get('/edit/{id}', [AccountController::class, 'updateAdminAccount'])->name('admin.updateAdminAccount');
+        Route::get('/delete/{id}', [AccountController::class, 'deleteAdminAccount'])->name('admin.deleteAdminAccount');
     });
 
     Route::prefix('/student-accounts')->group(function () {

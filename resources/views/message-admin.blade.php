@@ -9,7 +9,7 @@
 <body>
     <p>Hello {{ $admin_name }},</p>
     <p>You are now added as an administrator to your account. For the credentials, use your own email and your password
-        is: <b>{{ $admin_password }}.</b>
+        is: <b>p@$$word</b>
         Please enter use this credential to login initially. If logged in, kindly change password for your safety.</p>
     <p>Thank you,<br>Passerelles Numeriques
         Philippines</p>
