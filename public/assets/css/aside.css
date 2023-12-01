@@ -1,5 +1,6 @@
 .elevation-4 {
     background-color: #1f3c88;
+    color: #ffff;
 }
 
 main.py-4 {
@@ -8,6 +9,10 @@ main.py-4 {
     /* use flexbox to center content */
     justify-content: center;
     align-items: center;
+}
+
+.sidebar {
+    color: #ffffff;
 }
 
 /* styles for the content inside the container */

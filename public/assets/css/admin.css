@@ -57,6 +57,7 @@ input[type="date"]::-ms-clear {
 
 .custom-modal-width-on-modal {
         max-width: 800px;
+        width: 100%;
 }
 
 .view-all-modal {

@@ -11,7 +11,7 @@
 <body>
     <p>Transaction Information of Record Deletion</p>
     <p>Hello {{ $student_name }},</p>
-    <p>Here's the data deleted regarding your medical share:</p>
+    <p>Previous record is deleted on your medical share:</p>
     <table>
         <tbody>
             <tr>

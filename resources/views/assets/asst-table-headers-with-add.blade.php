@@ -27,7 +27,7 @@
                     style="color:#fff;height: 100%; display: flex; align-items: center;"><i class="fas fa-user-plus mr-1" style="font-size: 17px"></i> Add Student</a>
             </div>
             <div class="nav-item dropdown show btn btn-sm sort-by-user-id rounded"
-                style="display: flex; align-items:center; height: 38px; margin-left: 4px;">
+                style="display: flex; align-items:center; height: 38px; margin-left: 4px; background-color:#1f3c88">
                 <a class="nav-link dropdown-toggle align-items-center" data-toggle="dropdown" href="#"
                     role="button" aria-haspopup="true" aria-expanded="true"
                     style="color:#fff;height: 100%; display: flex; align-items: center;">Order

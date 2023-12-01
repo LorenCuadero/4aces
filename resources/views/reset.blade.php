@@ -1,4 +1,5 @@
 @extends('layouts.app')
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 @section('content')
     <div class="container">
@@ -55,9 +56,9 @@
     </div>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Password toggle
-            $('#togglePasswordOnReset').on('click', function () {
+            $('#togglePasswordOnReset').on('click', function() {
                 const passwordInput = $('#password_onreset');
                 const eyeIcon = $('#eyeIconPassword');
 
@@ -71,7 +72,7 @@
             });
 
             // Confirm Password toggle
-            $('#toggleCPassword').on('click', function () {
+            $('#toggleCPassword').on('click', function() {
                 const cPasswordInput = $('#cpassword');
                 const eyeIconCPassword = $('#eyeIconCPassword');
 

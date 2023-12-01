@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Mail\SendOTPMail;
+use App\Mail\SendRecoverOTPMail;
 use App\Models\User;
 use App\Services\StoreLogsService;
 use Illuminate\Http\Request;
@@ -150,7 +151,7 @@ class AuthController extends Controller
         $user_email = $user->email;
         $user->save();
 
-        Mail::to($user->email)->send(new SendOTPMail($otp, $user->email));
+        Mail::to($user->email)->send(new SendRecoverOTPMail($otp, $user->email));
 
         // Pass both email and OTP to the OTP verification view for recovery
         return view('recover-by-otp', compact('user_email'));

@@ -14,8 +14,7 @@
     <p>
         We would like to take this opportunity to remind you of your outstanding Parents' Counterpart Balances as of
         {{ $month }}, {{ $year }}. We understand that your families may be facing financial difficulties,
-        but we would like to remind you
-        that
+        but we would like to remind you that
         your Scholarship Contract states that your parents/guardians agreed to support your counterpart with P500 per
         month.
     </p>

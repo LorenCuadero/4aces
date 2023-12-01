@@ -31,11 +31,13 @@
                                 </div>
                             </div>
                             <div class="form-check mb-3">
-                                <input type="checkbox" class="form-check-input" id="keep_logged_in" name="keep_logged_in" value="1">
+                                <input type="checkbox" class="form-check-input" id="keep_logged_in" name="keep_logged_in"
+                                    value="1">
                                 <label class="form-check-label" for="keep_logged_in">Keep me logged in</label>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <a href="{{ route('login') }}" class="btn btn-default">Cancel</a>
+                            <a href="javascript:void(0);" onclick="window.history.back();"
+                                class="btn btn-default">Cancel</a>
                         </form>
                         @include('assets.asst-loading-spinner')
                     </div>
