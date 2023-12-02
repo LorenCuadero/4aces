@@ -36,11 +36,11 @@
                     </div>
                     <div class="form-group">
                         <label for="amount_due">Amount Due</label>
-                        <input type="number" name="amount_due" id="amount_due" class="form-control">
+                        <input type="number" name="amount_due" id="amount_due" class="form-control" step="any">
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">Amount Paid</label>
-                        <input type="number" name="amount_paid" id="amount_paid" class="form-control">
+                        <input type="number" name="amount_paid" id="amount_paid" class="form-control" step="any">
                     </div>
                     <div class="form-group">
                         <label for="date">Date</label>
@@ -49,11 +49,10 @@
                     </div>
                     <div class="form-group" style="float: right;">
                         <button type="submit" class="btn btn-primary">Add</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
                         </a>
                     </div>
                 </form>
-                @include('assets.asst-loading-spinner')
             </div>
         </div>
     </div>

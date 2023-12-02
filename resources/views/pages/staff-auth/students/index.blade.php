@@ -11,11 +11,16 @@
                                 <table id="example2" class="table table-bordered table-hover data-table text-center">
                                     <thead>
                                         <tr>
-                                            <th class="vertical-text">User Id</th>
-                                            <th class="vertical-text">Name</th>
-                                            <th class="vertical-text">Batch Year</th>
-                                            <th class="vertical-text">Joined</th>
-                                            <th class="vertical-text">Action</th>
+                                            <th style="background-color: #fff; color:#1f3c88" class="vertical-text">User Id
+                                            </th>
+                                            <th style="background-color: #fff; color:#1f3c88" class="vertical-text">Name
+                                            </th>
+                                            <th style="background-color: #fff; color:#1f3c88" class="vertical-text">Batch
+                                                Year</th>
+                                            <th style="background-color: #fff; color:#1f3c88" class="vertical-text">Joined
+                                            </th>
+                                            <th style="background-color: #fff; color:#1f3c88" class="vertical-text">Action
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-body">
@@ -28,7 +33,7 @@
                                                 <td>{{ $student->joined }}</td>
                                                 <td>
                                                     <a href="{{ route('students-info.getStudentInfo', ['id' => $student->id]) }}"
-                                                        id="edt-btn-students" class="btn btn-sm"
+                                                        id="edt-btn-students" class="btn btn-sm" style="background-color:#1f3c88; color:#fff; width:50%;"
                                                         data-student-id="{{ $student->id }}"
                                                         data-student-first-name="{{ $student->first_name }}"
                                                         data-student-middle-name="{{ $student->middle_name }}"
@@ -42,22 +47,23 @@
                                                         data-student-batch-year="{{ $student->batch_year }}"
                                                         data-student-date-joined="{{ $student->date_joined }}"
                                                         data-student-url="{{ route('students-info.getStudentInfo', ['id' => $student->id]) }}">
-                                                        EDIT
+                                                        <i class="far fa-edit" style="font-size: 17px"></i>
+                                                        Edit
                                                     </a>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="11" class="text-center">No records found.</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="11" class="text-center">No records found.</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </section>
 @endsection

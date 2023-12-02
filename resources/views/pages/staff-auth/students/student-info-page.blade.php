@@ -1,9 +1,21 @@
 @extends('layouts.staff.app')
 @section('content')
     <section class="content">
+        <span>
+            @if (session('success'))
+                <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+            @endif
+            @if (session('error'))
+                <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
+            @endif
+            @if (session('info'))
+                <p><span class="text-info error-display ml-2">[ {{ session('info') }} ]</span></p>
+            @endif
+        </span>
         <h1 class="card-title mb-3 mb-md-0" style="color:#1f3c88;"><b>Student Information: Edit Form</b></h1>
         <br>
         <div class="card">
+
             <div class="card-body" style="background-color: none; border: none;">
                 <form id="edit-student-info-form" enctype="multipart/form-data" method="POST"
                     action="{{ route('students-info.updateStudent', ['id' => $student->id]) }}">
@@ -73,7 +85,7 @@
                                 <a href="{{ route('students-info.index') }}"
                                     onclick="window.location.href = '{{ route('students.index') }}'; return false;"
                                     style="text-decoration: none; color: #fff;">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">
                                         Back
                                     </button></a>
                             </div>

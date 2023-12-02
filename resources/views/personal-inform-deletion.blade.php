@@ -11,7 +11,7 @@
 <body>
     <p>Transaction Information of Record Deletion</p>
     <p>Hello {{ $student_name }},</p>
-    <p>Here's the data deleted regarding your personal cash advance:</p>
+    <p>Previous record is deleted on your personal cash advance:</p>
     <table>
         <tbody>
             <tr>

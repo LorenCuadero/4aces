@@ -11,6 +11,7 @@ use App\Models\Counterpart;
 use App\Models\MedicalShare;
 use App\Models\PersonalCashAdvance;
 use App\Models\GraduationFee;
+use App\Models\Log;
 
 class Student extends Model
 {
@@ -20,6 +21,8 @@ class Student extends Model
         'first_name',
         'last_name',
         'middle_name',
+        'second_name',
+        'suffix',
         'email',
         'phone',
         'birthdate',
@@ -66,5 +69,10 @@ class Student extends Model
     public function graduationFee()
     {
         return $this->hasMany(GraduationFee::class);
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(Log::class);
     }
 }

@@ -25,11 +25,18 @@
                     </p>
                 </li>
                 <!-- Menu Footer-->
-                <li class="user-footer d-flex justify-content-center" style="border-radius: 5px">
-                    <a href="#" class="btn btn-default btn-flat logout-link mr-2" style="border-radius: 5px">
-                        Logout
-                    </a>
-                    <a href="#" class="btn btn-default btn-flat change-pass" style="border-radius: 5px">Change Password</a>
+                <li class="user-footer text-center" style="border-radius: 5px; display: inline-block; width: 100%;">
+                    <div class="mb-2">
+                        <a href="#" class="btn btn-default btn-flat change-pass"
+                            style="border-radius: 5px; width: 100%;"><i class="fa-solid fa-lock"></i> Change
+                            Password</a>
+                    </div>
+                    <div>
+                        <a href="#" class="btn btn-default btn-flat logout-link"
+                            style="border-radius: 5px; width: 100%;"><i class="fa-solid fa-right-from-bracket"></i>
+                            Logout
+                        </a>
+                    </div>
                 </li>
             </ul>
         </li>

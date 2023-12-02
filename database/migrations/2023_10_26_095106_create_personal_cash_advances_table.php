@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained();
             $table->string('purpose');
-            $table->integer('amount_due');
-            $table->integer('amount_paid');
+            $table->decimal('amount_due', 10, 2);
+            $table->decimal('amount_paid', 10, 2); 
             $table->date('date');
             $table->timestamps();
         });

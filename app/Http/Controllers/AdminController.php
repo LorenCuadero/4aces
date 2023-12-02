@@ -17,6 +17,8 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use App\Services\StoreLogsService;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -25,6 +27,9 @@ class AdminController extends Controller
      */
     public function indexAdmin()
     {
+        if (Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
         // Calculate the total amount due from each table
         $medicalShareTotal = MedicalShare::sum('total_cost') * 0.15;
         $counterpartTotal = Counterpart::sum('amount_due');
@@ -721,6 +726,7 @@ class AdminController extends Controller
         ]);
     }
 
+
     public function perYearViewMonthlyAcquisition(Request $request)
     {
         $year = $request->input('year');
@@ -1229,6 +1235,9 @@ class AdminController extends Controller
 
     public function getTotals(Request $request)
     {
+        if (Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You are not authorized to access this page');
+        }
         $batchYear = $request->input('batch_year');
 
         // Counterpart
@@ -1464,6 +1473,11 @@ class AdminController extends Controller
 
     public function email()
     {
+        if (Auth::user()->role != '2') {
+            return response()->json([
+                'error' => 'You are not authorized to access this page.'
+            ]);
+        }
         $students = Student::all();
 
         $batchYears = [];
@@ -1482,6 +1496,17 @@ class AdminController extends Controller
 
     public function sendEmail(Request $request)
     {
+        if (Auth::user()->role != '2') {
+            return redirect()->back()->with('error-email', 'You are not authorized to access this page.');
+        }
+        if ($request->selectedBatchYear == null) {
+            return redirect()->back()->with('error-mail', 'Please select a batch year');
+        } else if ($request->month == null) {
+            return redirect()->back()->with('error-mail', 'Please select a month');
+        } else if ($request->year == null) {
+            return redirect()->back()->with('error-mail', 'Please select a year');
+        }
+
         $students = Student::where('batch_year', $request->selectedBatchYear)->get();
         $month = $request->month;
         $year = $request->year;
@@ -1516,13 +1541,20 @@ class AdminController extends Controller
 
             $total = $counterpartBalance + $medicalShareBalance;
             Mail::to($student->email)->send(new SendEmailPayable($student_name, $month, $year, $counterpartBalance, $medicalShareBalance, $total));
+
+            // Log the action
+            $action = "Sent";
+            StoreLogsService::storeLogs(auth()->user()->id, $action, "SOA Email", null, null, $request->selectedBatchYear);
         }
 
-        return redirect()->back()->with('success', 'Emails sent successfully');
+        return redirect()->back()->with('success-soa-email', 'Emails sent successfully');
     }
 
     public function coa()
     {
+        if (Auth::user()->role != '2') {
+            return redirect()->back()->with('error-email', 'You are not authorized to access this page.');
+        }
         $students = Student::all();
 
         $batchYears = [];
@@ -1541,6 +1573,16 @@ class AdminController extends Controller
 
     public function sendCOA(Request $request)
     {
+        if (Auth::user()->role != '2') {
+            return redirect()->back()->with('error-coa', 'You are not authorized to access this page.');
+        }
+
+        if ($request->selectedBatchYear == null) {
+            return redirect()->back()->with('error-coa', 'Please select a batch year');
+        } else if ($request->graduation_date == null) {
+            return redirect()->back()->with('error-coa', 'Please select a graduation date');
+        }
+
         $selectedBatchYear = $request->selectedBatchYear;
         $graduation_date_value = $request->graduation_date;
         $datetime = new dateTime($graduation_date_value);
@@ -1577,13 +1619,20 @@ class AdminController extends Controller
                     $graduationFeeBalance
                 )
             );
+
+            $action = "Sent";
+            StoreLogsService::storeLogs(auth()->user()->id, $action, "COA Email", null, null, $request->selectedBatchYear);
         }
 
-        return redirect()->back()->with('success', 'Emails sent successfully');
+        return redirect()->back()->with('success-coa', 'Emails sent successfully');
     }
 
     public function customizedEmail()
     {
+        if (Auth::user()->role != '2') {
+            return redirect()->back()->with('error-email', 'You are not authorized to access this page.');
+        }
+
         $students = Student::all();
 
         $batchYears = [];
@@ -1602,6 +1651,24 @@ class AdminController extends Controller
 
     public function sendCustomized(Request $request)
     {
+        if (Auth::user()->role != '2') {
+            return redirect()->back()->with('error-customized', 'You are not authorized to access this page.');
+        }
+
+        if ($request->batch_year_selected == null) {
+            return redirect()->back()->with('error-customized', 'Please select a batch year');
+        } else if ($request->subject == null) {
+            return redirect()->back()->with('error-customized', 'Please select a subject');
+        } else if ($request->salutation == null) {
+            return redirect()->back()->with('error-customized', 'Please select a salutation');
+        } else if ($request->message == null) {
+            return redirect()->back()->with('error', 'Please enter a message');
+        } else if ($request->conclusion_salutation == null) {
+            return redirect()->back()->with('error-customized', 'Please select a conclusion salutation');
+        } else if ($request->sender == null) {
+            return redirect()->back()->with('error', 'Please enter a sender name');
+        }
+
         $selectedBatchYear = $request->batch_year_selected;
         $students = Student::where('batch_year', $selectedBatchYear)->get();
 
@@ -1614,26 +1681,19 @@ class AdminController extends Controller
             $attachment = $request->file('attachment');
             $student_id = $student->id;
 
-            $response = null;
+            $attachmentPath = null;
+            $realFileName = null;
+            $fileType = null;
 
-            if (request()->hasFile('attachment')) {
-                $response = UploadFileService::storeFileStorage($student->id, [$attachment]);
+            if ($attachment) {
+                if ($attachment->isValid()) {
+                    $attachmentPath = $attachment->storeAs("attachments/{$student_id}", $attachment->getClientOriginalName(), 'public');
 
-                if (!$response['success']) {
-                    return redirect()->back()->with('error', 'File upload failed');
+                    $realFileName = $attachment->getClientOriginalName();
+                    $fileType = $attachment->getClientMimeType();
+                } else {
+                    return redirect()->back()->with('error', 'Invalid file');
                 }
-            }
-
-            // Check if $response is not null and has 'data' key
-            if ($response && isset($response['data'])) {
-                $attachmentPath = $response['data'][0];
-                $realFileName = $attachment->getClientOriginalName();
-                $fileType = $attachment->getClientMimeType();
-            } else {
-                // Handle the case where there is no attachment
-                $attachmentPath = null;
-                $realFileName = null;
-                $fileType = null;
             }
 
             Mail::to($student->email)->send(
@@ -1650,9 +1710,12 @@ class AdminController extends Controller
                     $fileType
                 )
             );
+
+            $action = "Sent";
+            StoreLogsService::storeLogs(auth()->user()->id, $action, "Customized Email", null, null, $selectedBatchYear);
         }
 
-        return redirect()->back()->with('success', 'Emails sent successfully');
+        return redirect()->back()->with('success-customized', 'Emails sent successfully');
     }
 
 

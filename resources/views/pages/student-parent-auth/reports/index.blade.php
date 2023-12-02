@@ -27,38 +27,43 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Course</th>
-                                        <th>First Sem 1st Year</th>
-                                        <th>Second Sem 1st Year</th>
-                                        <th>Fisrt Sem 2nd Year</th>
-                                        <th>Second Sem 2nd Year</th>
+                                        <th>First Semester - 1st Year</th>
+                                        <th>Second Semester - 1st Year</th>
+                                        <th>First Semester - 2nd Year</th>
+                                        <th>Second Semester - 2nd Year</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @isset($gradeReports)
-                                        @forelse ($gradeReports as $gradeReport)
-                                            <tr class="table-row">
-                                                <td>{{ $gradeReport->course_code }}</td>
-                                                <td>{{ $gradeReport->first_sem_1st_year }}</td>
-                                                <td>{{ $gradeReport->second_sem_1st_year }}</td>
-                                                <td>{{ $gradeReport->first_sem_2nd_year }}</td>
-                                                <td>{{ $gradeReport->second_sem_2nd_year }}</td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="5" class="text-center">No records found.</td>
-                                            </tr>
-                                        @endforelse
+                                        <tr class="table-row">
+                                            @for ($i = 0; $i < 4; $i++)
+                                                <td>
+                                                    @php
+                                                        // Find the GPA for the current semester
+                                                        $semesterGPA = $gradeReports->where('year_and_sem', $i)->sum('gpa');
+                                                        // Calculate the average GPA for the current semester
+                                                        $averageGPA = $semesterGPA > 0 ? $semesterGPA / $gradeReports->where('year_and_sem', $i)->count() : 0;
+                                                    @endphp
+
+                                                    {{ number_format($averageGPA, 2) }}
+                                                </td>
+                                            @endfor
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td colspan="4" class="text-center">No records found.</td>
+                                        </tr>
                                     @endisset
                                 </tbody>
                             </table>
                         </div>
+
                         <hr>
                         <p class="text-disp" style="font-size: 12px"><i>Note:</i> This record presents only the general
                             point average per semester and your general weighted average. For further details, please open
                             your <a href="https://ismis.usc.edu.ph/Account/Login?ReturnUrl=%2F"
                                 style="text-decoration: #1f3c88" title="USC-ISMIS Link">ISMIS</a> account.</p>
-                        <p class="text-disp"><b>General Weighted Average:</b> {{ $totalGPA }}</p>
+                        <p class="text-disp"><b>General Weighted Average:</b> {{ number_format($totalGPA, 2) }}</p>
                         <hr>
                     </div>
                     <!-- Reports Tab Content -->

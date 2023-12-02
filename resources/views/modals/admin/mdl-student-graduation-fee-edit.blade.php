@@ -16,7 +16,7 @@
                     <input type="hidden" name="student_id">
                     <div class="form-group">
                         <label for="amount_due">Amount Due</label>
-                        <input type="number" name="amount_due" id="edit_amount_due_gf" class="form-control">
+                        <input type="number" name="amount_due" id="edit_amount_due_gf" class="form-control" step="any">
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">Amount Paid</label>
@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group" style="float: right;">
                         <button type="submit" class="btn btn-primary">Save Changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">
                             Cancel
                         </button>
                     </div>

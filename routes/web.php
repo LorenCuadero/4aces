@@ -13,6 +13,7 @@ use App\Http\Controllers\StudentParentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FinancialReportController;
 use App\Http\Controllers\ClosingOfAccountController;
+use App\Http\Controllers\LogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +36,7 @@ Route::prefix('/login')->group(function () {
 });
 
 Route::prefix('/forgot-password')->group(function () {
-    Route::get('/', [AuthController::class, 'forgotPassword']);
+    Route::get('/', [AuthController::class, 'forgotPassword'])->name('forgot_password');
     Route::post('/', [AuthController::class, 'postRecover'])->name('recover');
 });
 
@@ -44,9 +45,10 @@ Route::prefix('/reset-password')->group(function () {
 });
 
 Route::prefix('/submit-reset')->group(function () {
-    Route::get('/', [AuthController::class, 'submitReset'])->name('submit-reset');
-    Route::post('/', [AuthController::class, 'confirm_changes'])->name('confirm-changes');
+    Route::post('/confirm', [AuthController::class, 'confirm_changes'])->name('confirm-changes');
 });
+
+Route::post('/submit', [AuthController::class, 'submitReset'])->name('user-submit-reset');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [AuthController::class, 'authorizedRedirect']);
@@ -182,6 +184,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/{id}', [AccountController::class, 'updateStaffAccount'])->name('admin.updateStaffAccount');
         Route::delete('/{id}', [AccountController::class, 'deleteStaffAccount'])->name('admin.deleteStaffAccount');
         Route::post('/', [AccountController::class, 'storeStaffAccount'])->name('admin.storeStaffAccount');
+    });
+
+    Route::prefix('/logs')->group(function () {
+        Route::get('/', [LogController::class, 'index'])->name('admin.logs');
     });
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

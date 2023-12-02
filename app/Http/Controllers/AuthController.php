@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Mail\SendOTPMail;
+use App\Mail\SendRecoverOTPMail;
 use App\Models\User;
+use App\Services\StoreLogsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -17,39 +19,35 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        // Validate the email
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $email = $request->input('email');
 
-        // Check if the email exists in the database
+        if ($request->input('email') == null && $request->input('password') == null) {
+            return redirect()->back()->with('error-all-required', 'Email and password are required');
+        } else if ($request->input('email') != null && $request->input('password') == null) {
+            return redirect()->back()->withInput(compact('email'))->with('error-password-required', 'Password is required');
+        } else if ($request->input('email') == null && $request->input('password') != null) {
+            return redirect()->back()->with('error-email-required', 'Email is required');
+        }
+
         $user = User::where('email', $request->input('email'))->first();
 
         if (!$user) {
-            // Email not found, show an error message
-            return redirect()->back()->with('email-not-found', 'Email not found.');
+            return redirect()->back()->withInput(compact('email'))->with('error-email-no-found', 'Email not found.');
         }
 
-        // Email found, validate the password
         if (!Hash::check($request->input('password'), $user->password)) {
-            // Incorrect password, show an error message
-            return redirect()->back()->with('incorrect-password', 'Incorrect password.');
+            return redirect()->back()->withInput(compact('email'))->with('error-incorrect-password', 'Incorrect password.');
         }
 
-        // Generate a random OTP
         $otp = rand(100000, 999999);
 
-        // Store the OTP in the user's record (you may use a different storage method)
         $user->otp = $otp;
         $user_email = $user->email;
 
         $user->save();
 
-        // Send the OTP to the user's email
         Mail::to($user->email)->send(new SendOTPMail($otp, $user->email));
 
-        // Pass both email and OTP to the OTP verification view
         return view('otp_verification', compact('user_email'));
     }
 
@@ -72,7 +70,12 @@ class AuthController extends Controller
         // Validate the submitted OTP and email
         $request->validate([
             'email' => 'required|email',
-            'otp' => 'required|numeric|min:100000|max:999999',
+            'otp1' => 'required|numeric',
+            'otp2' => 'required|numeric',
+            'otp3' => 'required|numeric',
+            'otp4' => 'required|numeric',
+            'otp5' => 'required|numeric',
+            'otp6' => 'required|numeric',
         ]);
 
         // Get the user by their email
@@ -80,13 +83,16 @@ class AuthController extends Controller
 
         $user_email = $user->email;
 
+        $otp = $request->input('otp1') . $request->input('otp2') . $request->input('otp3') . $request->input('otp4') . $request->input('otp5') . $request->input('otp6');
+
         if (!$user) {
+            dd('User not found');
             // User not found, you may want to handle this differently
             return redirect()->route('login')->with('error', 'User not found.');
         }
 
         // Check if the submitted OTP matches the one stored in the user's record
-        if ($request->input('otp') == $user->otp) {
+        if ($otp == $user->otp) {
             // Log the user in
             Auth::login($user);
 
@@ -127,14 +133,14 @@ class AuthController extends Controller
     public function postRecover(Request $request)
     {
 
-        $request->validate([
-            'email' => 'required|email',
-        ]);
+        if ($request->input('email') == null) {
+            return redirect()->back()->with('error-email-required', 'Email is required');
+        }
 
         $user = User::where('email', $request->input('email'))->first();
 
         if (!$user) {
-            return redirect()->back()->with('email-not-found', 'Email not found.');
+            return redirect()->back()->with('email-not-found', 'The provided email is not associated with our system. Please enter a valid email linked to your account.');
         }
 
         // Generate a random OTP
@@ -145,7 +151,7 @@ class AuthController extends Controller
         $user_email = $user->email;
         $user->save();
 
-        Mail::to($user->email)->send(new SendOTPMail($otp, $user->email));
+        Mail::to($user->email)->send(new SendRecoverOTPMail($otp, $user->email));
 
         // Pass both email and OTP to the OTP verification view for recovery
         return view('recover-by-otp', compact('user_email'));
@@ -153,25 +159,26 @@ class AuthController extends Controller
 
     public function recoverOTP(Request $request)
     {
-        // Validate the submitted OTP and email
-        $request->validate([
-            'email' => 'required|email',
-            'otp' => 'required|numeric|min:100000|max:999999',
-        ]);
+        if ($request->input('otp1') == null || $request->input('otp2') == null || $request->input('otp3') == null  || $request->input('otp4') == null || $request->input('otp5') == null || $request->input('otp6') == null) {
+            return redirect()->back()->with('error-otp-required', 'OTP is required, please complete all fields');
+        }
 
-        // Get the user by their email
+        $otp = $request->input('otp1') . $request->input('otp2') . $request->input('otp3') . $request->input('otp4') . $request->input('otp5') . $request->input('otp6');
+
+        if ($otp == null) {
+            return redirect()->back()->with('error', 'OTP not found.');
+        }
+
         $user = User::where('email', $request->input('email'))->first();
         $user_email = $user->email;
 
         if (!$user) {
-            // User not found, you may want to handle this differently
-            return redirect()->route('login')->with('error', 'User not found.');
+            return redirect()->route('login')->with('error', 'User not found, please try again.');
         }
-        // Check if the submitted OTP matches the one stored in the user's record
-        if ($request->input('otp') == $user->otp) {
 
-            return view('reset', compact('user_email'));
-        } else if ($request->input('otp') != $user->otp) {
+        if ($otp == $user->otp) {
+            return view('reset', compact('user_email'))->with('success', 'Password reset was successful!');
+        } else if ($otp != $user->otp) {
             return redirect()->back();
         }
     }
@@ -179,12 +186,33 @@ class AuthController extends Controller
     public function submitReset(Request $request)
     {
         $user = User::where('email', $request->input('email'))->first();
+        $user_email = $request->input('email');
+
+        $error = null; // Initialize the variable
+
+        if ($request->input('password') != $request->input('cpassword')) {
+            $error = 'Passwords do not match.';
+        } else if ($request->input('password') == null) {
+            $error = 'Password cannot be empty.';
+        } else if (strlen($request->input('password')) < 8) {
+            $error = 'Password must be at least 8 characters.';
+        } else if ($request->input('cpassword') == null) {
+            $error = 'Confirm password cannot be empty.';
+        }
+
+        if ($error) {
+            return view('reset', compact('error', 'user_email'));
+        }
+
         if ($user) {
             $user->password = Hash::make($request->input('password'));
             $user->save();
+
+            $action = "Changed password";
+            StoreLogsService::storeLogs($user->id, $action, "Account", null, null, null);
             return redirect()->route('login')->with('success', 'Password changed successfully.');
         } else {
-            return redirect()->back()->with('error', 'Email not found.');
+            return view('reset', compact('error', 'user_email'));
         }
     }
 
@@ -196,14 +224,22 @@ class AuthController extends Controller
             return redirect()->back()->with('error', 'Email not found.');
         }
 
+        if ($request->input('password') != $request->input('cpassword')) {
+            $error = 'Passwords do not match.';
+        } else if ($request->input('password') == null) {
+            $error = 'Password cannot be empty.';
+        } else if (strlen($request->input('password')) < 8) {
+            $error = 'Password must be at least 8 characters.';
+        } else if ($request->input('cpassword') == null) {
+            $error = 'Confirm password cannot be empty.';
+        }
+
         $user->password = Hash::make($request->input('password'));
         $user->save();
 
-        // Check if the 'keep_logged_in' checkbox is checked
         if ($request->has('keep_logged_in')) {
             Auth::login($user);
 
-            // Redirect to the intended dashboard based on the user's role
             if ($user->role == '0') {
                 return redirect()->route('payable.index');
             } elseif ($user->role == '1') {
@@ -213,19 +249,24 @@ class AuthController extends Controller
             }
         }
 
-        return redirect()->route('login')->with('success', 'Password changed successfully.');
+        Auth::logout();
+        Session::invalidate();
+        Session::regenerate();
+
+        return redirect('/')->with('success-changed', 'Password changed successfully.');
     }
 
     public function validate_from_current_pass(Request $request)
     {
         $user = User::where('email', $request->input('email'))->first();
         $user_email = $user->email;
+
         if (!$user) {
-            return redirect()->back()->with('email-not-found', 'Email not found.');
+            return redirect()->back()->with('email-not-found', 'Email not found');
         }
 
         if (!Hash::check($request->input('current_password'), $user->password)) {
-            return redirect()->back()->with('incorrect-password', 'Incorrect password.');
+            return redirect()->back()->with('incorrect-password', 'Incorrect password');
         }
 
         return view('reset-pass-auth', compact('user_email'));

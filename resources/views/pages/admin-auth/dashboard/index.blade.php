@@ -16,7 +16,7 @@
                                     <div class="info-box-content">
                                         <span class="info-box-text">Counterpart</span>
                                         <span class="info-box-number">
-                                            {{ $counterpartTotal }}
+                                            {{ number_format($counterpartTotal, 2) }}
                                         </span>
                                     </div>
                                 </div>
@@ -28,7 +28,7 @@
                                             alt="" style="width: 50px"></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Medical Share</span>
-                                        <span class="info-box-number">{{ $medicalShareTotal }}</span>
+                                        <span class="info-box-number">{{ number_format($medicalShareTotal, 2) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -40,7 +40,7 @@
                                             style="width:50px"></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Total Received</span>
-                                        <span class="info-box-number">{{ $receivedTotal }}</span>
+                                        <span class="info-box-number">{{ number_format($receivedTotal, 2) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +54,7 @@
                                     <div class="info-box-content">
                                         <span class="info-box-text">Personal Cash Advance</span>
                                         <span class="info-box-number">
-                                            {{ $personalCashAdvanceTotal }}
+                                            {{ number_format($personalCashAdvanceTotal, 2) }}
                                         </span>
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                                             alt="" style="width: 50px"></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Graduation Fees</span>
-                                        <span class="info-box-number">{{ $graduationFeeTotal }}</span>
+                                        <span class="info-box-number">{{ number_format($graduationFeeTotal, 2) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                             alt="" style="width: 50px"></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Total Receivable</span>
-                                        <span class="info-box-number">{{ $receivableTotal }}</span>
+                                        <span class="info-box-number">{{ number_format($receivableTotal, 2) }}</span>
                                     </div>
                                 </div>
                             </div>

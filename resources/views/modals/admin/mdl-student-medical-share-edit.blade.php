@@ -39,7 +39,7 @@
                     <div class="form-group" style="float: right;">
                         <button type="submit" class="btn btn-primary">Save changes</button>
                         <a href="#" style="text-decoration: none; color: #fff;">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
                         </a>
                 </form>
                 @include('assets.asst-loading-spinner')

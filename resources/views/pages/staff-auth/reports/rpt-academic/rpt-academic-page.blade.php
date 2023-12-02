@@ -11,11 +11,11 @@
                                 <table id="example2" class="table table-bordered table-hover data-table text-center">
                                     <thead>
                                         <tr>
-                                            <th class="vertical-text">User Id</th>
-                                            <th class="vertical-text">Name</th>
-                                            <th class="vertical-text">Batch Year</th>
-                                            <th class="vertical-text">GWA</th>
-                                            <th class="vertical-text">Action</th>
+                                            <th style="background-color: #fff; color:#1f3c88"  class="vertical-text">User Id</th>
+                                            <th style="background-color: #fff; color:#1f3c88"  class="vertical-text">Name</th>
+                                            <th style="background-color: #fff; color:#1f3c88"  class="vertical-text">Batch Year</th>
+                                            <th style="background-color: #fff; color:#1f3c88"  class="vertical-text">GWA</th>
+                                            <th style="background-color: #fff; color:#1f3c88"  class="vertical-text">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-body">
@@ -25,10 +25,12 @@
                                                 <td>{{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
                                                 </td>
                                                 <td>Batch {{ $student->batch_year }}</td>
-                                                <td>{{ $student->totalGPA }}</td>
+                                                <td>{{ $student->gwa }}</td>
                                                 <td>
-                                                    <a href="{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id ]) }}" id="grade-button" class="btn btn-sm">
-                                                        GRADE
+                                                    <a href="{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id]) }}"
+                                                        class="btn btn-sm" id="grade-button"
+                                                        style="background-color: #1f3c88; color: #ffff; width:50%; border-radius: 20px; margin: 2px">
+                                                        <i class="fa-solid fa-book mr-1" style="17px"></i> Grade
                                                     </a>
                                                 </td>
                                             </tr>

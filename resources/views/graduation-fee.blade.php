@@ -11,7 +11,7 @@
 <body>
     <p>Transaction Information</p>
     <p>Hello {{ $student_name }},</p>
-    <p>Here's an update regarding your graduation fee/s:</p>
+    <p>Here's an update on your graduation fee/s:</p>
     <table>
         <tbody>
             <tr>

@@ -13,7 +13,7 @@
             </div>
             <div class="modal-footer">
                 <a href="{{ route('logout') }}" class="btn btn-primary log-out-submit">Logout</a>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
         @include('assets.asst-loading-spinner')

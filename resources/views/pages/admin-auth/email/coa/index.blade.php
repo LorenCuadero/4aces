@@ -3,14 +3,21 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                @if (session('success-coa'))
+                    <p><span class="text-success success-display ml-2">[ {{ session('success-coa') }} ]</span></p>
+                @endif
+                @if (session('error-coa'))
+                    <p><span class="text-danger error-display ml-2">[ {{ session('error-coa') }} ]</span></p>
+                @endif
                 <div class="col-12" id="table">
                     <div class="card">
                         <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
-                            style="color: #1f3c88; background-color:#ffffff">
+                        style="color: #1f3c88; background-color:#ffffff">
                             <div class="row">
                                 <div class="col-md-12">
                                     <p class="card-title mb-3 mb-md-0"
-                                        style="color:#1f3c88; padding-left:0%; font-size: 22px"><b>Email Generator: Closing of Accounts
+                                        style="color:#1f3c88; padding-left:0%; font-size: 22px"><b>Email Generator: Closing
+                                            of Accounts
                                             Letter</b></p>
                                 </div>
                             </div>
@@ -26,12 +33,12 @@
                                                 <div class="col-md-12 text-left align-middle" style="padding-left: 2%">
                                                     <div class="d-flex align-items-center justify-content">
                                                         <div class="d-flex align-items-center mr-0">
-                                                            <p style="margin: 2px 2px 0px"><b style="color:#1f3c88;">To
+                                                            <p class="mt-2"><b style="color:#1f3c88;">To
                                                                     Batch:
                                                                 </b>
                                                             </p> <span> </span>
                                                         </div>
-                                                        <div class="nav-item dropdown show btn btn-sm batch-year-dropdown selections1"
+                                                        <div class="nav-item dropdown show btn btn-sm batch-year-dropdown selections"
                                                             style="display: flex; align-items: center; background-color: #ffff; border: 1px solid #ced4da;">
                                                             <a class="nav-link dropdown-toggle align-items-center"
                                                                 data-toggle="dropdown" href="#" role="button"
@@ -50,10 +57,10 @@
                                                     </div>
                                                     <div class="d-flex align-items-center justify-content">
                                                         <div class="align-middle">
-                                                            <p style="margin: 2px 2px 0px"><b style="color:#1f3c88;">Set
+                                                            <p class="mt-2"><b style="color:#1f3c88;">Set
                                                                     Graduation Date: </b>
-                                                                <input class="selections1"
-                                                                    style="color:#495057; width: 120px; padding: 6px;     height: 25px;"
+                                                                <input class="selections"
+                                                                    style="color:#495057; width: 120px; padding: 6px;     height: 38px;"
                                                                     type="date" id="graduation_date"
                                                                     name="graduation_date">
                                                             </p>
@@ -61,13 +68,13 @@
                                                     </div>
                                                     <div class="d-flex align-items-center justify-content">
                                                         <div class="align-middle">
-                                                            <p style="margin: 2px 2px 0px"><b
+                                                            <p class="mt-1"><b
                                                                     style="color:#1f3c88;">Subject:</b> Statement of Account
                                                                 for
                                                                 Parents' Counterpart Balances for Graduating Alumni</p>
                                                         </div>
                                                     </div>
-                                                    <p style="margin-top: 4px"><b style="color:#1f3c88;">Message
+                                                    <p class="mt-1"><b style="color:#1f3c88;">Message
                                                             Preview:</b></p>
                                                 </div>
                                             </div>
@@ -96,7 +103,9 @@ Total Payable: 0.00 PHP
 Thank you so much!
                                             </textarea>
                                             <br>
-                                            <button class="btn btn-sm sendButton p-2" style="background-color: #1f3c88; color:#ffffff"  type="submit">Send</button>
+                                            <button class="btn btn-sm sendButton p-2"
+                                                style="background-color: #1f3c88; color:#ffffff"
+                                                type="submit">Send</button>
                                         </div>
                                     </div>
                                 </div>

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('middle_name');
             $table->string('last_name');
             $table->string('department');
-            $table->string('age');
             $table->string('gender');
             $table->string('address');
             $table->string('civil_status');

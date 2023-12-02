@@ -10,8 +10,8 @@
 
 <body>
     <p>Transaction Information of Record Deletion</p>
-    <p>Hello {{ $student_name }},</p>
-    <p>Here's the data deleted regarding your counterpart for {{ $month }} {{ $year }}:</p>
+    <p>Hello!{{ $student_name }},</p>
+    <p>Previous record is deleted on your counterpart for {{ $month }} {{ $year }}:</p>
     <table>
         <tbody>
             <tr>
@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td style="width: 30%">Date:</td>
-                <td class="amount"><b>  {{ $date }}</b></td>
+                <td class="amount"><b> {{ $date }}</b></td>
             </tr>
         </tbody>
     </table>

@@ -3,6 +3,14 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <span>
+                    @if (session('success-customized'))
+                        <p><span class="text-success success-display ml-2">[ {{ session('success-customized') }} ]</span></p>
+                    @endif
+                    @if (session('error-customized'))
+                        <p><span class="text-danger error-display ml-2">[ {{ session('error-customized') }} ]</span></p>
+                    @endif
+                </span>
                 <div class="col-12" id="table">
                     <div class="card">
                         <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
@@ -106,7 +114,7 @@
                                         </div>
                                         <div class="form-group row align-items-center mb-0">
                                             <p for="attachment" class="col-sm-2 control-p"><b
-                                                    style="color:#1f3c88;">Attachment/s:</b></p>
+                                                    style="color:#1f3c88;">Attachment:</b></p>
                                             <div class="col-sm-10">
                                                 <input name="attachment" id="attachment" type="file" accept="*">
                                             </div>
@@ -118,11 +126,9 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-10 offset-sm-2">
-                                                <button id="submitButton" class="btn btn-sm float-right p-2" style="background-color:#1f3c88; color:#ffffff" type="submit">Send</button>
-
-                                                {{-- <button class="btn btn-sm float-right mr-1 p-2"
-                                                    style="background-color:#1f3c88; color:#ffffff" type="submit">Save as
-                                                    template</button> --}}
+                                                <button class="btn btn-sm p-2"
+                                                    style="background-color:#1f3c88; color:#ffffff"
+                                                    type="submit"><b>Send</b></button>
                                             </div>
                                         </div>
                                     </form>
@@ -144,7 +150,7 @@
                         </button>
                     </div>
                     <div class="rounded" style="background-color: #e5e5e5">
-                        <div class="modal-body m-3 rounded"  style="background-color: #ffffff">
+                        <div class="modal-body m-3 rounded" style="background-color: #ffffff">
                             <div class="p-1">
                                 <p>Subject: <span id="previewSubject"></span></p>
                                 <p><span id="previewSalutation"></span> <span class="batchYearSelectedOnModal"></span></p>
@@ -156,7 +162,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
