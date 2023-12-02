@@ -80,11 +80,9 @@
                                         </span>
                                     </p>
                                 @endif
-                                @if (session('success'))
-                                    <p class="mt-1"><span class="text-success error-display">
-                                            {{ session('success') }}
-                                        </span>
-                                    </p>
+                                @if (session('success-changed'))
+                                    <p class="mt-1"><span
+                                            class="text-success error-display">{{ session('success-changed') }}</span></p>
                                 @endif
                             </div>
                             <div class="align-middle">

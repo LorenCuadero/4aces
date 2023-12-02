@@ -3,8 +3,8 @@
     <section class="content">
         <div class="row">
             <span>
-                @if (session('success'))
-                    <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+                @if (session('success-medical'))
+                    <p><span class="text-success success-display ml-2">[ {{ session('success-medical') }} ]</span></p>
                 @endif
                 @if (session('error'))
                     <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>

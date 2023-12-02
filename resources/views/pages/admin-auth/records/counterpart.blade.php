@@ -62,7 +62,8 @@
                                                 <td>
                                                     <button class="btn btn-sm view-button-counterpart"
                                                         style="background-color: #1f3c88; color: #ffff; width:70%; border-radius: 20px"
-                                                        data-student-id="{{ $student->id }}"><i class="far fa-address-card" style="font-size: 15px;"></i> View</button>
+                                                        data-student-id="{{ $student->id }}"><i class="far fa-address-card"
+                                                            style="font-size: 15px;"></i> View</button>
                                                 </td>
                                             </tr>
                                         @empty
@@ -87,6 +88,8 @@
     @include('modals.admin.mdl-student-counterpart-view')
     @include('modals.admin.mdl-student-selection')
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         $(document).ready(function() {
             // Capture the click event on table rows with class "table-row1"
@@ -101,6 +104,12 @@
 
                 // Redirect to the desired route
                 window.location.href = route;
+            });
+
+            // Handle the click event for the "Add Student" button
+            $("#selectToAddStudentCounterpart").click(function() {
+                const addModal = $("#student-selection-counterpart-modal");
+                addModal.modal('show');
             });
         });
     </script>

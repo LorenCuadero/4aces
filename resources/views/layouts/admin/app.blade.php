@@ -28,10 +28,15 @@
     <script src="https://cdn.jsdelivr.net/npm/admin-lte/plugins/toastr/toastr.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/js/all.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/js/all.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/admin-lte/plugins/chart.js/Chart.min.js"></script>
 </head>
-
+<style>
+    .custom-modal-width-on-modal {
+        max-width: 1000px;
+        width: 100%;
+}
+</style>
 <body class="hold-transition sidebar-mini layout-fixed" data-page="{{ Route::currentRouteName() }}">
     <div class="wrapper">
         @include('layouts.admin.loading')
@@ -41,6 +46,14 @@
         @include('assets.asst-loading-spinner')
         @include('modals.mdl-change-pass-confirmation')
         <div class="content-wrapper text-center p-3">
+            <span>
+                @if (session('success'))
+                    <p class="text-left"><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+                @endif
+                @if (session('error'))
+                    <p class="text-left"><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
+                @endif
+            </span>
             <span>
                 @if (session('incorrect-password'))
                     <p style="text-align: left;"><span class="text-danger error-display ml-2"

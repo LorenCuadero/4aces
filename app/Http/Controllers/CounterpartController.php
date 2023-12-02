@@ -142,7 +142,7 @@ class CounterpartController extends Controller
 
         // Return success message
         return redirect()->route('admin.studentPageCounterpartRecords', ['id' => $id])
-            ->with('success', 'Counterpart record added and email sent successfully!', compact('counterpart'));
+            ->with('success-counterpart', 'Counterpart record added and email sent successfully!', compact('counterpart'));
     }
 
     public function updateCounterpart(Request $request, $id)

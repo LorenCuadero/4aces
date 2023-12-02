@@ -21,7 +21,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="report-dropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; color:#fff">
                         <i class="nav-icon fa-solid fa-folder"></i>
                         <p  style="color:#fff">Records</p>
                     </a>
@@ -40,7 +40,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="report-dropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; color:#fff">
                         <i class="nav-icon fa-solid fa-envelope"></i>
                         <p  style="color:#fff">Email</p>
                     </a>
@@ -52,7 +52,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="report-dropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; color:#fff">
                         <i class="nav-icon 	fas fa-users"></i>
                         <p>Accounts</p>
                     </a>
@@ -66,13 +66,13 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.logs') }}" class="nav-link" style="text-decoration: none">
                         <i class="nav-icon fa-solid fa-clock-rotate-left" style="color:#fff"></i>
-                        <p>Logs</p>
+                        <p style="color: #fff">Logs</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link logout-link">
-                        <i class="nav-icon fa-solid fa-right-from-bracket"></i>
-                        <p>Logout</p>
+                    <a href="#" class="nav-link logout-link" style="text-decoration: none; color: #ffff">
+                        <i class="nav-icon fa-solid fa-right-from-bracket" style="color: #fff"></i>
+                        <p style="color: #fff">Logout</p>
                     </a>
                 </li>
             </ul>

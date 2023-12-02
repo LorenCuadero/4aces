@@ -4,8 +4,8 @@
     <section class="content">
         <div class="row">
             <span>
-                @if (session('success'))
-                    <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+                @if (session('success-counterpart'))
+                    <p><span class="text-success success-display ml-2">[ {{ session('success-counterpart') }} ]</span></p>
                 @endif
                 @if (session('error'))
                     <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>

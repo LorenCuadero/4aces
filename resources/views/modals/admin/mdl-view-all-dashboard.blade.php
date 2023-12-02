@@ -19,21 +19,14 @@
                                                 <input type="hidden" id="all-student-number"
                                                     value="{{ $totalNumberOfStudents }}">
                                                 <div class="col-md-6" style="text-align: left">
-                                                    <p class="mt-2 mb-0"><b><span
-                                                                id="TotalNumberOfAllStudents"></span><span
-                                                                id="selected-batch-year"></span></b><span
-                                                            id="total-students-per-year"></span></b>
-                                                    </p>
-                                                </div>
-                                                <div class="col-md-6">
                                                     <form id="get_totals_by_batch_year_form" class=""
                                                         action="{{ route('admin.getTotals') }}" method="POST">
                                                         @csrf
                                                         <input type="hidden" id="batch-year-form"
                                                             data-total-by-year="{{ json_encode($totalStudentsByBatchYear) }}">
-                                                        <div class="form-group row ">
-                                                            <label for="batch_year" class="col-md-5 col-form-label"
-                                                                style="text-align: right">Batch Year:</label>
+                                                        <div class="form-group row text-left">
+                                                            <label for="batch_year" class="col-md-3 col-form-label"
+                                                                style="text-align: left">Batch Year:</label>
                                                             <div class="col-md-7">
                                                                 <select class="form-control" name="batch_year"
                                                                     id="batch_year">
@@ -48,10 +41,39 @@
                                                                             {{ $batchYear }}</option>
                                                                     @endforeach
                                                                 </select>
+
                                                             </div>
                                                         </div>
                                                     </form>
                                                 </div>
+                                                <div class="col-md-6">
+                                                    <div class="row d-flex">
+                                                        <div class="col-md-8">
+                                                            <p class="mt-2 mb-0 text-right" style="12px">
+                                                                <b>
+                                                                    <span id="TotalNumberOfAllStudents"></span>
+                                                                    <span id="selected-batch-year"></span>
+                                                                    <span id="total-students-per-year"></span>
+                                                                    <span id="printButtonOnModalSpan"
+                                                                        class="float-right">
+                                                                </b>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <p class="mb-0 text-right ml-3" style="12px">
+                                                                <b>
+
+                                                                    <button type="button"
+                                                                        class="btn btn-default printButtonOnModal mr-1 float-right">
+                                                                        <i class="fas fa-print"></i> Print
+                                                                    </button>
+                                                                    </span>
+                                                                </b>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                             <tbody class="table-body1" style="font-size: 14px">
                                                 <tr>
@@ -140,14 +162,6 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center align-items-center">
-                <span id="printButtonOnModalSpan"> <button type="button"
-                        class="btn btn-default printButtonOnModal mr-1"><i class="fas fa-print"></i>
-                        Print</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">
-                        Back
-                    </button>
-
-                </span>
             </div>
             @include('assets.asst-loading-spinner')
         </div>

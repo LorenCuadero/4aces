@@ -15,19 +15,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte/plugins/toastr/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte/dist/css/adminlte.min.css">
+
     <link rel="stylesheet" href="{{ asset('assets/css/aside.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/staff.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/student.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">
+
     <script defer src="{{ asset('assets/js/compile.js') }}"></script>
     <script defer src="{{ asset('assets/js/components/admin/admin.js') }}"></script>
     <script defer src="{{ asset('assets/js/components/staff/cmpt-staff-table-header.js') }}"></script>
     <script defer src="{{ asset('assets/js/components/student/cmpt-student-reports.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte/dist/css/adminlte.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte/plugins/toastr/toastr.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
@@ -54,6 +55,11 @@
                 @if (session('email-not-found'))
                     <p style="text-align: left;"><span class="text-danger error-display ml-2"
                             style="text-align: left;">[ {{ session('email-not-found') }} ]</span></p> @endif
+                                            @if (session('success'))
+                    <p class="text-left"><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+                @endif
+                @if (session('error'))
+                    <p class="text-left"><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p> @endif
             </span>
             @yield('content')
         </div>

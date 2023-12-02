@@ -133,9 +133,9 @@ class AuthController extends Controller
     public function postRecover(Request $request)
     {
 
-        $request->validate([
-            'email' => 'required|email',
-        ]);
+        if ($request->input('email') == null) {
+            return redirect()->back()->with('error-email-required', 'Email is required');
+        }
 
         $user = User::where('email', $request->input('email'))->first();
 
@@ -159,6 +159,10 @@ class AuthController extends Controller
 
     public function recoverOTP(Request $request)
     {
+        if ($request->input('otp1') == null || $request->input('otp2') == null || $request->input('otp3') == null  || $request->input('otp4') == null || $request->input('otp5') == null || $request->input('otp6') == null) {
+            return redirect()->back()->with('error-otp-required', 'OTP is required, please complete all fields');
+        }
+
         $otp = $request->input('otp1') . $request->input('otp2') . $request->input('otp3') . $request->input('otp4') . $request->input('otp5') . $request->input('otp6');
 
         if ($otp == null) {
@@ -220,6 +224,16 @@ class AuthController extends Controller
             return redirect()->back()->with('error', 'Email not found.');
         }
 
+        if ($request->input('password') != $request->input('cpassword')) {
+            $error = 'Passwords do not match.';
+        } else if ($request->input('password') == null) {
+            $error = 'Password cannot be empty.';
+        } else if (strlen($request->input('password')) < 8) {
+            $error = 'Password must be at least 8 characters.';
+        } else if ($request->input('cpassword') == null) {
+            $error = 'Confirm password cannot be empty.';
+        }
+
         $user->password = Hash::make($request->input('password'));
         $user->save();
 
@@ -239,7 +253,7 @@ class AuthController extends Controller
         Session::invalidate();
         Session::regenerate();
 
-        return redirect('/')->with('success', 'Password changed successfully.');
+        return redirect('/')->with('success-changed', 'Password changed successfully.');
     }
 
     public function validate_from_current_pass(Request $request)

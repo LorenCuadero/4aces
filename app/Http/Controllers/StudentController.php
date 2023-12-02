@@ -11,11 +11,16 @@ use App\Services\StoreLogsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendStudentNotification;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
     public function index()
     {
+        if(Auth::user()->role != '1') {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
+
         $students = Student::all();
 
         $batchYears = [];
@@ -34,23 +39,37 @@ class StudentController extends Controller
 
     public function addStudentPage()
     {
-        return view('pages.staff-auth.students.student-info-page-add');
+        if(Auth::user()->role == '1') {
+             return view('pages.staff-auth.students.student-info-page-add');}
+        else {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
     }
 
     public function getStudent($id)
     {
+        if(Auth::user()->role != '1') {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
+
         $student = Student::find($id);
         return view('pages.staff-auth.students.index', compact('student'));
     }
 
     public function create()
     {
-        return view('students.create');
+        if(Auth::user()->role == '1')
+        {
+         return view('students.create');
+        } else {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
     }
 
     public function store(Request $request)
     {
         // Validate the request data
+                if(Auth::user()->role == '1') {
         $validatedData = $request->validate([
             'first_name' => 'required',
             'middle_name' => 'nullable',
@@ -102,12 +121,16 @@ class StudentController extends Controller
         Mail::to($user->email)->send(new SendStudentNotification($user->name, $user->email, $defaultPassUnHashed));
 
         // Redirect to the students index page with a success message
-        return redirect()->back()->with('success', 'New student added successfully!');
+        return redirect()->back()->with('success', 'New student added successfully!'); } else {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+
+        }
     }
 
 
     public function updateStudent(Request $request, $id)
     {
+        if(Auth::user()->role == '1') {
         $request->validate([
             'first_name' => 'required',
             'middle_name' => 'required',
@@ -139,12 +162,16 @@ class StudentController extends Controller
         session()->flash('success', 'Student added successfully.');
 
         return back()->with('success', 'Student updated!');
+    } else {
+        return redirect()->back()->with('error', 'You are not authorized to access this page.');
+    }
     }
 
     // Academic Reports Controllers
 
     public function indexAcdRpt()
     {
+        if(Auth::user()->role == '1') {
         $students = Student::all();
         $batchYears = [];
 
@@ -191,18 +218,25 @@ class StudentController extends Controller
         return view('pages.staff-auth.reports.rpt-academic.rpt-academic-page', [
             'students' => $students,
             'batchYears' => $batchYears,
-        ]);
+        ]);} else {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
     }
 
 
     public function getStudentAcademicReport($id)
     {
+        if(Auth::user()->role == '1') {
         $student = Student::find($id);
-        return view('pages.staff-auth.students.student-info-page', compact('student'));
+        return view('pages.staff-auth.students.student-info-page', compact('student'));} else {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+
+        }
     }
 
     public function getStudentGradeReport($id)
     {
+        if(Auth::user()->role == '1') {
         $student = Student::find($id);
 
         if (!$student) {
@@ -212,10 +246,14 @@ class StudentController extends Controller
         $academics = Academic::where('student_id', $student->id)->get();
 
         return view('pages.staff-auth.reports.rpt-academic.rpt-academic-grade-page', compact('student', 'academics'));
+        } else {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
     }
 
     public function addStudentGradeReport(Request $request, $id)
     {
+        if(Auth::user()->role == '1') {
         if ($request->input('course_code') == null) {
             return back()->with('error', 'Please enter a course code');
         }  elseif ($request->input('midterm_grade') > 4 || $request->input('midterm_grade') < 0) {
@@ -249,12 +287,15 @@ class StudentController extends Controller
         // Create a new academic record
         Academic::create($validatedData);
 
-        return redirect()->back()->with('success', 'Academic record added successfully!');
+        return redirect()->back()->with('success-added', 'Academic record added successfully!'); } else {
+        return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
     }
 
 
     public function updateStudentGradeReport(Request $request, $id)
     {
+        if(Auth::user()->role == '1') {
         $request->validate([
             'course_code' => 'required|string',
             'year_and_sem' => 'nullable',
@@ -288,11 +329,15 @@ class StudentController extends Controller
 
         $academic->save();
 
-        return redirect()->back()->with('success', 'Academic record updated successfully.');
+        return redirect()->back()->with('success', 'Academic record updated successfully.'); }
+        else {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
     }
 
     public function indexStudsList(Request $request)
     {
+        if(Auth::user()->role == '1') {
         // Retrieve all students
         $students = Student::whereDoesntHave('disciplinary')->get();
 
@@ -306,19 +351,29 @@ class StudentController extends Controller
         $selectedStudentRecords = $studentsWithDisciplinaryRecords->where('student_id', $selectedStudentId);
 
         return view('pages.staff-auth.reports.rpt-disciplinary.rpt-disciplinary-page', compact('students', 'selectedStudentId', 'selectedStudentRecords', 'studentsWithDisciplinaryRecords'));
+        } else {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
     }
 
     // Student Information Controllers
 
     public function indexStudent()
     {
-        $students = Student::all();
-        return view('pages.staff-auth.students.student-info-page', compact('students'));
+        if(Auth::user()->role == '1') {
+  $students = Student::all();
+        return view('pages.staff-auth.students.student-info-page', compact('students'));        } else {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
+
     }
 
     public function getStudentInfo($id)
     {
+        if(Auth::user()->role == '1') {
         $student = Student::find($id);
-        return view('pages.staff-auth.students.student-info-page', compact('student'));
+        return view('pages.staff-auth.students.student-info-page', compact('student'));} else {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
     }
 }

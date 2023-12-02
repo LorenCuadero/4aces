@@ -8,33 +8,33 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ route('payable.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-home"></i>
-                        <p>Payable</p>
+                    <a href="{{ route('payable.index') }}" style="text-decoration: none" class="nav-link">
+                        <i class="nav-icon fas fa-home" style="color: #ffff"></i>
+                        <p style="color:#ffff">Payable</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('student.payments.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-briefcase"></i>
-                        <p>Payment</p>
+                    <a href="{{ route('student.payments.index') }}" style="text-decoration: none" class="nav-link">
+                        <i class="nav-icon fas fa-briefcase" style="color: #ffff"></i>
+                        <p style="color:#ffff">Payment</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('student.reports.index') }}" class="nav-link">
-                        <i class="fas fa-user-tie nav-icon"></i>
-                        <p>Reports</p>
+                    <a href="{{ route('student.reports.index') }}" style="text-decoration: none" class="nav-link">
+                        <i class="fas fa-user-tie nav-icon" style="color: #ffff"></i>
+                        <p style="color:#ffff">Reports</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('student.profile.index') }}" class="nav-link">
-                        <i class="fas fa-user-tie nav-icon"></i>
-                        <p>Profile</p>
+                    <a href="{{ route('student.profile.index') }}" style="text-decoration: none" class="nav-link">
+                        <i class="fas fa-user-tie nav-icon" style="color: #ffff"></i>
+                        <p style="color:#ffff">Profile</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link logout-link">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>Logout</p>
+                    <a href="#" class="nav-link logout-link" tyle="text-decoration: none">
+                        <i class="nav-icon fas fa-users" style="color: #ffff"></i>
+                        <p style="color:#ffff">Logout</p>
                     </a>
                 </li>
             </ul>

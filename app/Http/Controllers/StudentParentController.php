@@ -14,63 +14,67 @@ class StudentParentController extends Controller
 {
     public function indexStudent()
     {
-        $user = Auth::user();
-        $userName = '';
-        $userFname = '';
-        $userMname = '';
-        $userLname = '';
-        $totalCounterpart = 0;
-        $totalMedical = 0;
-        $totalPersonalCashAdvance = 0;
-        $totalGraduationFee = 0;
-        $totalPayables = 0;
-        $totalIncome = 0;
-        $total = 0;
-        $unpaidCounterpartRecords = [];
-        $unpaidPersonalCARecords = [];
-        $unpaidMedicalRecords = [];
-        $unpaidGraduationFeeRecords = [];
+        if (Auth::user()->role == '0') {
+            $user = Auth::user();
+            $userName = '';
+            $userFname = '';
+            $userMname = '';
+            $userLname = '';
+            $totalCounterpart = 0;
+            $totalMedical = 0;
+            $totalPersonalCashAdvance = 0;
+            $totalGraduationFee = 0;
+            $totalPayables = 0;
+            $totalIncome = 0;
+            $total = 0;
+            $unpaidCounterpartRecords = [];
+            $unpaidPersonalCARecords = [];
+            $unpaidMedicalRecords = [];
+            $unpaidGraduationFeeRecords = [];
 
-        if ($user->role == 0) {
-            // Retrieve the student's name and their payable amounts using the relationship
-            $student = $user->student;
+            if ($user->role == 0) {
+                // Retrieve the student's name and their payable amounts using the relationship
+                $student = $user->student;
 
-            if ($student) {
-                $userName = $student->first_name;
-                $userFname = $student->first_name;
-                $userMname = $student->middle_name;
-                $userLname = $student->last_name;
+                if ($student) {
+                    $userName = $student->first_name;
+                    $userFname = $student->first_name;
+                    $userMname = $student->middle_name;
+                    $userLname = $student->last_name;
 
-                // Calculate the total payable for counterpart
-                $totalCounterpart = $student->counterpart
-                    ->sum('amount_due') - $student->counterpart->sum('amount_paid');
+                    // Calculate the total payable for counterpart
+                    $totalCounterpart = $student->counterpart
+                        ->sum('amount_due') - $student->counterpart->sum('amount_paid');
 
-                // Calculate the total payable for medical share
-                $totalMedical = ($student->medicalShare->sum('total_cost') * 0.15) - $student->medicalShare->sum('amount_paid');
+                    // Calculate the total payable for medical share
+                    $totalMedical = ($student->medicalShare->sum('total_cost') * 0.15) - $student->medicalShare->sum('amount_paid');
 
-                // Calculate the total payable for personal cash advance
-                $totalPersonalCashAdvance = $student->personalCashAdvance
-                    ->sum('amount_due') - $student->personalCashAdvance->sum('amount_paid');
+                    // Calculate the total payable for personal cash advance
+                    $totalPersonalCashAdvance = $student->personalCashAdvance
+                        ->sum('amount_due') - $student->personalCashAdvance->sum('amount_paid');
 
-                // Calculate the total payable for graduation fee
-                $totalGraduationFee = $student->graduationFee
-                    ->sum('amount_due') - $student->graduationFee->sum('amount_paid');
+                    // Calculate the total payable for graduation fee
+                    $totalGraduationFee = $student->graduationFee
+                        ->sum('amount_due') - $student->graduationFee->sum('amount_paid');
 
-                $totalPayables = $totalCounterpart + $totalMedical + $totalPersonalCashAdvance + $totalGraduationFee;
+                    $totalPayables = $totalCounterpart + $totalMedical + $totalPersonalCashAdvance + $totalGraduationFee;
 
-                $unpaidCounterpartRecords = $student->counterpart;
+                    $unpaidCounterpartRecords = $student->counterpart;
 
-                $unpaidMedicalRecords = $student->medicalShare;
+                    $unpaidMedicalRecords = $student->medicalShare;
 
-                $unpaidPersonalCARecords = $student->personalCashAdvance;
+                    $unpaidPersonalCARecords = $student->personalCashAdvance;
 
-                $unpaidGraduationFeeRecords = $student->graduationFee;
+                    $unpaidGraduationFeeRecords = $student->graduationFee;
+                }
+            } else {
+                $userName = $user->name;
             }
-        } else {
-            $userName = $user->name;
-        }
 
-        return view('pages.student-parent-auth.payable.index', compact('userName', 'userFname', 'userMname', 'userLname', 'totalCounterpart', 'totalMedical', 'totalPersonalCashAdvance', 'totalGraduationFee', 'totalPayables', 'unpaidCounterpartRecords', 'unpaidMedicalRecords', 'unpaidPersonalCARecords', 'unpaidGraduationFeeRecords'));
+            return view('pages.student-parent-auth.payable.index', compact('userName', 'userFname', 'userMname', 'userLname', 'totalCounterpart', 'totalMedical', 'totalPersonalCashAdvance', 'totalGraduationFee', 'totalPayables', 'unpaidCounterpartRecords', 'unpaidMedicalRecords', 'unpaidPersonalCARecords', 'unpaidGraduationFeeRecords'));
+        } else
+            return redirect()->back()->with('error', 'You are not authorized to access this page.'); {
+        }
     }
 
     public function indexReports()
@@ -103,7 +107,7 @@ class StudentParentController extends Controller
                 $userJoinedYear = $userJoined->year;
                 $userJoinedYearInt = (int) $userJoinedYear; // Convert to an integer
                 $userJoinedEffectiveYear = $userJoinedYearInt + 2;
-                $totalGPA = $gradeReports->sum('gpa');
+                $totalGPA = $gradeReports->sum('gpa') / 4 ;
             } else {
                 $userName = $user->name;
             }
@@ -126,97 +130,105 @@ class StudentParentController extends Controller
 
     public function indexPayment()
     {
-        $user = Auth::user();
-        $userName = '';
+        if (Auth::user()->role == '0') {
+            $user = Auth::user();
+            $userName = '';
 
-        if ($user->role == 0) {
-            // Retrieve the student's name based on the email using the relationship
+            if ($user->role == 0) {
+                // Retrieve the student's name based on the email using the relationship
 
-            $student = $user->student;
-            $userName = $student->first_name;
-            $userFname = $student->first_name;
-            $userMname = $student->middle_name;
-            $userLname = $student->last_name;
-
-            // Calculate the total payments for counterpart
-            $totalCounterpartPayment = $student->counterpart->sum('amount_paid');
-
-            // Calculate the total payments for medical share
-            $totalMedicalPayment = $student->medicalShare->sum('amount_paid');
-
-            // Calculate the total payments for personal cash advance
-            $totalPersonalCashAdvancePayment = $student->personalCashAdvance->sum('amount_paid');
-
-            // Calculate the total payments for graduation fee
-            $totalGraduationFeePayment = $student->graduationFee->sum('amount_paid');
-
-            $totalPayments = $totalCounterpartPayment + $totalMedicalPayment + $totalPersonalCashAdvancePayment + $totalGraduationFeePayment;
-
-            $paidCounterpartRecords = $student->counterpart;
-
-            $paidMedicalRecords = $student->medicalShare;
-
-            $paidPersonalCARecords = $student->personalCashAdvance;
-
-            $paidGraduationFeeRecords = $student->graduationFee;
-
-            if ($student) {
+                $student = $user->student;
                 $userName = $student->first_name;
-            }
-        } else {
-            $userName = $user->name;
-        }
+                $userFname = $student->first_name;
+                $userMname = $student->middle_name;
+                $userLname = $student->last_name;
 
-        return view('pages.student-parent-auth.payment.index',
-            compact(
-                'userName',
-                'userFname',
-                'userLname',
-                'userMname',
-                'totalCounterpartPayment',
-                'totalMedicalPayment',
-                'totalPersonalCashAdvancePayment',
-                'totalGraduationFeePayment',
-                'totalPayments',
-                'paidCounterpartRecords',
-                'paidMedicalRecords',
-                'paidPersonalCARecords',
-                'paidGraduationFeeRecords'
-            )
-        );
+                // Calculate the total payments for counterpart
+                $totalCounterpartPayment = $student->counterpart->sum('amount_paid');
+
+                // Calculate the total payments for medical share
+                $totalMedicalPayment = $student->medicalShare->sum('amount_paid');
+
+                // Calculate the total payments for personal cash advance
+                $totalPersonalCashAdvancePayment = $student->personalCashAdvance->sum('amount_paid');
+
+                // Calculate the total payments for graduation fee
+                $totalGraduationFeePayment = $student->graduationFee->sum('amount_paid');
+
+                $totalPayments = $totalCounterpartPayment + $totalMedicalPayment + $totalPersonalCashAdvancePayment + $totalGraduationFeePayment;
+
+                $paidCounterpartRecords = $student->counterpart;
+
+                $paidMedicalRecords = $student->medicalShare;
+
+                $paidPersonalCARecords = $student->personalCashAdvance;
+
+                $paidGraduationFeeRecords = $student->graduationFee;
+
+                if ($student) {
+                    $userName = $student->first_name;
+                }
+            } else {
+                $userName = $user->name;
+            }
+
+            return view(
+                'pages.student-parent-auth.payment.index',
+                compact(
+                    'userName',
+                    'userFname',
+                    'userLname',
+                    'userMname',
+                    'totalCounterpartPayment',
+                    'totalMedicalPayment',
+                    'totalPersonalCashAdvancePayment',
+                    'totalGraduationFeePayment',
+                    'totalPayments',
+                    'paidCounterpartRecords',
+                    'paidMedicalRecords',
+                    'paidPersonalCARecords',
+                    'paidGraduationFeeRecords'
+                )
+            );
+        } else {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
     }
 
     public function indexProfile()
     {
-        $user = Auth::user();
-        $userData = null;
+        if (Auth::user()->role == '0') {
+            $user = Auth::user();
+            $userData = null;
 
-        if ($user->role == 0) {
-            // Retrieve the student's information based on the email using the relationship
-            $student = $user->student;
+            if ($user->role == 0) {
+                // Retrieve the student's information based on the email using the relationship
+                $student = $user->student;
 
-            if ($student) {
-                // Create an array with the student's information
-                $userData = [
-                    'first_name' => $student->first_name,
-                    'last_name' => $student->last_name,
-                    'middle_name' => $student->middle_name,
-                    'email' => $student->email,
-                    'phone' => $student->phone,
-                    'birthdate' => $student->birthdate,
-                    'address' => $student->address,
-                    'parent_name' => $student->parent_name,
-                    'parent_contact' => $student->parent_contact,
-                    'batch_year' => $student->batch_year,
-                    'joined' => $student->joined,
-                    // Add any other fields you want to retrieve
-                ];
+                if ($student) {
+                    // Create an array with the student's information
+                    $userData = [
+                        'first_name' => $student->first_name,
+                        'last_name' => $student->last_name,
+                        'middle_name' => $student->middle_name,
+                        'email' => $student->email,
+                        'phone' => $student->phone,
+                        'birthdate' => $student->birthdate,
+                        'address' => $student->address,
+                        'parent_name' => $student->parent_name,
+                        'parent_contact' => $student->parent_contact,
+                        'batch_year' => $student->batch_year,
+                        'joined' => $student->joined,
+                        // Add any other fields you want to retrieve
+                    ];
+                }
+            } else {
+                $userData = $user->first_name;
             }
+
+            return view('pages.student-parent-auth.profile.index', compact('userData'));
         } else {
-            $userData = $user->first_name;
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
         }
-
-        return view('pages.student-parent-auth.profile.index', compact('userData'));
     }
-
 }

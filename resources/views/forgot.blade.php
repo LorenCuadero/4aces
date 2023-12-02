@@ -24,11 +24,16 @@
                                                 style="text-align: left;">{{ session('email-not-found') }} </span>
                                         </p>
                                     @endif
+                                    @if (session('error-email-required'))
+                                        <p><span class="text-danger ml-1"
+                                                style="text-align: left;">{{ session('error-email-required') }} </span>
+                                        </p>
+                                    @endif
                                 </div>
                                 {{-- <div class="col-md-3 text-right">
                                 </div> --}}
                                 <div class="col-md-2 d-flex" style="display: flex;">
-                                    <button type="submit" class="btn btn-default mr-3">Recover</button>
+                                    <button type="submit" class="btn btn-primary mr-3">Recover</button>
                                     <a href="{{ route('login') }}" class="btn btn-default">Cancel</a>
                                 </div>
                             </div>

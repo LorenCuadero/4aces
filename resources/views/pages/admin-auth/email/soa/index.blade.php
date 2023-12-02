@@ -3,11 +3,11 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                @if (session('success'))
-                    <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+                @if (session('success-email'))
+                    <p><span class="text-success success-display ml-2">[ {{ session('success-email') }} ]</span></p>
                 @endif
-                @if (session('error'))
-                    <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
+                @if (session('error-email'))
+                    <p><span class="text-danger error-display ml-2">[ {{ session('error-email') }} ]</span></p>
                 @endif
                 <div class="col-12" id="table">
                     <div class="card">

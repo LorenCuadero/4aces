@@ -34,6 +34,9 @@
                                 @if (session('error'))
                                     <p><span class="text-danger error-display">{{ session('error') }}</span></p>
                                 @endif
+                                @if (session('error-otp-required'))
+                                    <p><span class="text-danger error-display">{{ session('error-otp-required') }}</span></p>
+                                @endif
                             </div>
                             <div class="float-right"><button type="submit" class="btn btn-primary">Recover</button>
                                 <a href="{{ route('login') }}" class="btn btn-default">Cancel</a>

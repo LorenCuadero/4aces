@@ -56,6 +56,11 @@
                 @if (session('email-not-found'))
                     <p style="text-align: left;"><span class="text-danger error-display ml-2"
                             style="text-align: left;">[ {{ session('email-not-found') }} ]</span></p> @endif
+                                            @if (session('success'))
+                    <p class="text-left"><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+                @endif
+                @if (session('error'))
+                    <p class="text-left"><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p> @endif
             </span>
             @yield('content')
         </div>

@@ -4,11 +4,11 @@
         <div class="container-fluid">
             <div class="row">
                 <span>
-                    @if (session('success'))
-                        <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+                    @if (session('success-customized'))
+                        <p><span class="text-success success-display ml-2">[ {{ session('success-customized') }} ]</span></p>
                     @endif
-                    @if (session('error'))
-                        <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
+                    @if (session('error-customized'))
+                        <p><span class="text-danger error-display ml-2">[ {{ session('error-customized') }} ]</span></p>
                     @endif
                 </span>
                 <div class="col-12" id="table">
@@ -126,7 +126,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-10 offset-sm-2">
-                                                <button id="submitButton" class="btn btn-sm p-2"
+                                                <button class="btn btn-sm p-2"
                                                     style="background-color:#1f3c88; color:#ffffff"
                                                     type="submit"><b>Send</b></button>
                                             </div>

@@ -15,40 +15,6 @@ $(document).ready(function () {
 
     $("#month").val(selectedMonth);
     $("#year").val(selectedYear);
-
-    // $("#customized-email-form").submit(function (e) {
-    //     e.preventDefault();
-
-    //     var submitButton = $("#submitButton");
-    //     submitButton.prop("disabled", true);
-
-    //     if (!validateCustomizedEmailForm()) {
-    //         submitButton.prop("disabled", false); // Re-enable the button
-    //         return;
-    //     }
-
-    //     var formData = new FormData(this);
-    //     formData.append("attachment", $("#attachment")[0].files[0]);
-
-    //     $.ajax({
-    //         url: $(this).attr("action"),
-    //         type: $(this).attr("method"),
-    //         data: formData,
-    //         processData: false, // Important! Prevent jQuery from processing the data
-    //         contentType: false, // Important! Specify content type as false for FormData
-
-    //         success: function (response) {
-    //             setTimeout(() => {
-    //                 location.reload();
-    //             }, 1000);
-    //         },
-    //         error: function (error) {
-    //         },
-    //         complete: function () {
-    //             submitButton.prop("disabled", false); // Re-enable the button after completion
-    //         },
-    //     });
-    // });
 });
 
 const loadingOverlay = $(".loading-spinner-overlay");
@@ -879,9 +845,18 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     const monthNames = [
-        "January", "February", "March", "April",
-        "May", "June", "July", "August",
-        "September", "October", "November", "December"
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
     ];
 
     $(".edit-student-counterpart-button").click(function () {
@@ -1206,43 +1181,78 @@ $(document).ready(function () {
         });
     });
 
-    $('.printButtonOnModal').click(function () {
+    $(".printButtonOnModal").click(function () {
         // Get the content of the TotalNumberOfAllStudents div
         const totalStudentsDivContent = $("#TotalNumberOfAllStudents").html();
-        const selectedBatchYearElementOnPrint = $("#selected-batch-year").html();
-        const totalStudentsPerYearElementOnPrint = $("#total-students-per-year").html();
+        const selectedBatchYearElementOnPrint = $(
+            "#selected-batch-year"
+        ).html();
+        const totalStudentsPerYearElementOnPrint = $(
+            "#total-students-per-year"
+        ).html();
 
         // Get the current date
         const currentDate = new Date();
-        const formattedDate = currentDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        const formattedDate = currentDate.toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+        });
 
         // Open a new window or tab with the data in a table
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write('<html><head><title>Print Summary Report</title>');
-        printWindow.document.write('<style>');
-        printWindow.document.write('* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }');
-        printWindow.document.write('table { border-collapse: collapse; width: 80%; margin: 20px auto; }');
-        printWindow.document.write('table, th, td { border: 1px solid black; padding: 10px; }');
-        printWindow.document.write('.centered { text-align: center; }');
-        printWindow.document.write('.logo { width: 150px; height: 50px; margin: 0 auto; }');
-        printWindow.document.write('</style>');
-        printWindow.document.write('</head><body>');
+        const printWindow = window.open("", "_blank");
+        printWindow.document.write(
+            "<html><head><title>Print Summary Report</title>"
+        );
+        printWindow.document.write("<style>");
+        printWindow.document.write(
+            "* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }"
+        );
+        printWindow.document.write(
+            "table { border-collapse: collapse; width: 80%; margin: 20px auto; }"
+        );
+        printWindow.document.write(
+            "table, th, td { border: 1px solid black; padding: 10px; }"
+        );
+        printWindow.document.write(".centered { text-align: center; }");
+        printWindow.document.write(
+            ".logo { width: 150px; height: 50px; margin: 0 auto; }"
+        );
+        printWindow.document.write("</style>");
+        printWindow.document.write("</head><body>");
 
-        printWindow.document.write('<br><div class="centered">' +
-            '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
-            '</div>');
-        printWindow.document.write('<br><h4 class="centered">Summary Report</h4>');
-        printWindow.document.write('<span class="centered">' + 'as of ' + formattedDate + '</span><br>');
+        printWindow.document.write(
+            '<br><div class="centered">' +
+                '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
+                "</div>"
+        );
+        printWindow.document.write(
+            '<br><h4 class="centered">Summary Report</h4>'
+        );
+        printWindow.document.write(
+            '<span class="centered">' + "as of " + formattedDate + "</span><br>"
+        );
         // Display the content of the div
-        printWindow.document.write('<br><p>' + totalStudentsDivContent + '</p>');
-        printWindow.document.write('<p>' + selectedBatchYearElementOnPrint + totalStudentsPerYearElementOnPrint + '</p>');
+        printWindow.document.write(
+            "<br><p>" + totalStudentsDivContent + "</p>"
+        );
+        printWindow.document.write(
+            "<p>" +
+                selectedBatchYearElementOnPrint +
+                totalStudentsPerYearElementOnPrint +
+                "</p>"
+        );
 
         // Display the table content
-        printWindow.document.write('<table class="table table-bordered table-hover text-center">' + $('#example').html() + '</table>');
+        printWindow.document.write(
+            '<table class="table table-bordered table-hover text-center">' +
+                $("#example").html() +
+                "</table>"
+        );
 
         // Display the summary report as of the current date
 
-        printWindow.document.write('</body></html>');
+        printWindow.document.write("</body></html>");
         printWindow.document.close();
 
         // Trigger the print function on the new window or tab
@@ -1252,38 +1262,65 @@ $(document).ready(function () {
     });
 
     $(".printButtonOnFinancial").click(function () {
-        const printWindowOnFinancialReports = window.open('', '_blank');
-        printWindowOnFinancialReports.document.write('<html><head><title>Financial Statement</title>');
-        printWindowOnFinancialReports.document.write('<style>');
-        printWindowOnFinancialReports.document.write('* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }');
-        printWindowOnFinancialReports.document.write('table { border-collapse: collapse; width: 80%; margin: 20px auto; }');
-        printWindowOnFinancialReports.document.write('table, th, td { border: 1px solid black; padding: 10px; }');
-        printWindowOnFinancialReports.document.write('.centered { text-align: center; }');
-        printWindowOnFinancialReports.document.write('.logo { width: 150px; height: 50px; margin: 0 auto; }');
-        printWindowOnFinancialReports.document.write('</style></head><body>');
+        const printWindowOnFinancialReports = window.open("", "_blank");
+        printWindowOnFinancialReports.document.write(
+            "<html><head><title>Financial Statement</title>"
+        );
+        printWindowOnFinancialReports.document.write("<style>");
+        printWindowOnFinancialReports.document.write(
+            "* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }"
+        );
+        printWindowOnFinancialReports.document.write(
+            "table { border-collapse: collapse; width: 80%; margin: 20px auto; }"
+        );
+        printWindowOnFinancialReports.document.write(
+            "table, th, td { border: 1px solid black; padding: 10px; }"
+        );
+        printWindowOnFinancialReports.document.write(
+            ".centered { text-align: center; }"
+        );
+        printWindowOnFinancialReports.document.write(
+            ".logo { width: 150px; height: 50px; margin: 0 auto; }"
+        );
+        printWindowOnFinancialReports.document.write("</style></head><body>");
 
         // Header with logo and title
-        printWindowOnFinancialReports.document.write('<br><div class="centered">' +
-            '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
-            '</div>');
-        printWindowOnFinancialReports.document.write('<br><h4 class="centered">Financial Statement</h4>');
+        printWindowOnFinancialReports.document.write(
+            '<br><div class="centered">' +
+                '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
+                "</div>"
+        );
+        printWindowOnFinancialReports.document.write(
+            '<br><h4 class="centered">Financial Statement</h4>'
+        );
 
         // Date range
         if ($("#dates-from-text-when-set").length) {
-            printWindowOnFinancialReports.document.write('<span class="centered">' +
-                $("#dates-from-text-when-set").text() + ' - ' +
-                $("#dates-to-text-when-set").text() + '</span><br>');
+            printWindowOnFinancialReports.document.write(
+                '<span class="centered">' +
+                    $("#dates-from-text-when-set").text() +
+                    " - " +
+                    $("#dates-to-text-when-set").text() +
+                    "</span><br>"
+            );
         } else if ($("#dates-started").length && $("#date-current").length) {
-            printWindowOnFinancialReports.document.write('<span class="centered">' +
-                $("#dates-started").text() + ' - ' +
-                $("#date-current").text() + '</span><br>');
+            printWindowOnFinancialReports.document.write(
+                '<span class="centered">' +
+                    $("#dates-started").text() +
+                    " - " +
+                    $("#date-current").text() +
+                    "</span><br>"
+            );
         }
 
         // Display the table content
-        printWindowOnFinancialReports.document.write('<table class="table table-bordered table-hover text-center">' +
-            $('#example2').html() + '</table>');
+        printWindowOnFinancialReports.document.write(
+            '<table class="table table-bordered table-hover text-center">' +
+                $("#example2").html() +
+                "</table>"
+        );
 
-        printWindowOnFinancialReports.document.write('</body></html>');
+        printWindowOnFinancialReports.document.write("</body></html>");
         printWindowOnFinancialReports.document.close();
 
         // Trigger the print function on the new window or tab
@@ -1294,30 +1331,52 @@ $(document).ready(function () {
 
     $(".printButtonOnCOA").click(function () {
         const currentDateOnCOA = new Date();
-        const formattedDateOnCOA = currentDateOnCOA.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        const formattedDateOnCOA = currentDateOnCOA.toLocaleDateString(
+            "en-US",
+            { month: "long", day: "numeric", year: "numeric" }
+        );
 
-        const printWindowOnCOA = window.open('', '_blank');
-        printWindowOnCOA.document.write('<html><head><title>Closing Of Accounts Records</title>');
-        printWindowOnCOA.document.write('<style>');
-        printWindowOnCOA.document.write('* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }');
-        printWindowOnCOA.document.write('table { border-collapse: collapse; width: 80%; margin: 20px auto; }');
-        printWindowOnCOA.document.write('table, th, td { border: 1px solid black; padding: 10px; }');
-        printWindowOnCOA.document.write('.centered { text-align: center; }');
-        printWindowOnCOA.document.write('.logo { width: 150px; height: 50px; margin: 0 auto; }');
-        printWindowOnCOA.document.write('</style></head><body>');
+        const printWindowOnCOA = window.open("", "_blank");
+        printWindowOnCOA.document.write(
+            "<html><head><title>Closing Of Accounts Records</title>"
+        );
+        printWindowOnCOA.document.write("<style>");
+        printWindowOnCOA.document.write(
+            "* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }"
+        );
+        printWindowOnCOA.document.write(
+            "table { border-collapse: collapse; width: 80%; margin: 20px auto; }"
+        );
+        printWindowOnCOA.document.write(
+            "table, th, td { border: 1px solid black; padding: 10px; }"
+        );
+        printWindowOnCOA.document.write(".centered { text-align: center; }");
+        printWindowOnCOA.document.write(
+            ".logo { width: 150px; height: 50px; margin: 0 auto; }"
+        );
+        printWindowOnCOA.document.write("</style></head><body>");
 
         // Header with logo and title
-        printWindowOnCOA.document.write('<br><div class="centered">' +
-            '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
-            '</div>');
-        printWindowOnCOA.document.write('<br><h4 class="centered">Closing of Accounts Records<h4>');
-        printWindowOnCOA.document.write('<p class="centered">' + 'as of ' + formattedDateOnCOA + '</p><br>');
+        printWindowOnCOA.document.write(
+            '<br><div class="centered">' +
+                '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
+                "</div>"
+        );
+        printWindowOnCOA.document.write(
+            '<br><h4 class="centered">Closing of Accounts Records<h4>'
+        );
+        printWindowOnCOA.document.write(
+            '<p class="centered">' + "as of " + formattedDateOnCOA + "</p><br>"
+        );
 
         // Display the table content
-        printWindowOnCOA.document.write('<table class="table table-bordered table-hover text-center">' +
-            $('#exampleOnCOA').html() + '</table>');
+        printWindowOnCOA.document.write(
+            '<table class="table table-bordered table-hover text-center">' +
+                $("#exampleOnCOA").html() +
+                "</table>"
+        );
 
-        printWindowOnCOA.document.write('</body></html>');
+        printWindowOnCOA.document.write("</body></html>");
         printWindowOnCOA.document.close();
 
         // Trigger the print function on the new window or tab
@@ -1328,30 +1387,52 @@ $(document).ready(function () {
 
     $(".printButtonOnLogs").click(function () {
         const currentDateOnLogs = new Date();
-        const formattedDateOnLogs = currentDateOnLogs.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        const formattedDateOnLogs = currentDateOnLogs.toLocaleDateString(
+            "en-US",
+            { month: "long", day: "numeric", year: "numeric" }
+        );
 
-        const printWindowOnLogs = window.open('', '_blank');
-        printWindowOnLogs.document.write('<html><head><title>Activity Logs</title>');
-        printWindowOnLogs.document.write('<style>');
-        printWindowOnLogs.document.write('* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }');
-        printWindowOnLogs.document.write('table { border-collapse: collapse; width: 80%; margin: 20px auto; }');
-        printWindowOnLogs.document.write('table, th, td { border: 1px solid black; padding: 10px; }');
-        printWindowOnLogs.document.write('.centered { text-align: center; }');
-        printWindowOnLogs.document.write('.logo { width: 150px; height: 50px; margin: 0 auto; }');
-        printWindowOnLogs.document.write('</style></head><body>');
+        const printWindowOnLogs = window.open("", "_blank");
+        printWindowOnLogs.document.write(
+            "<html><head><title>Activity Logs</title>"
+        );
+        printWindowOnLogs.document.write("<style>");
+        printWindowOnLogs.document.write(
+            "* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }"
+        );
+        printWindowOnLogs.document.write(
+            "table { border-collapse: collapse; width: 80%; margin: 20px auto; }"
+        );
+        printWindowOnLogs.document.write(
+            "table, th, td { border: 1px solid black; padding: 10px; }"
+        );
+        printWindowOnLogs.document.write(".centered { text-align: center; }");
+        printWindowOnLogs.document.write(
+            ".logo { width: 150px; height: 50px; margin: 0 auto; }"
+        );
+        printWindowOnLogs.document.write("</style></head><body>");
 
         // Header with logo and title
-        printWindowOnLogs.document.write('<br><div class="centered">' +
-            '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
-            '</div>');
-        printWindowOnLogs.document.write('<br><h4 class="centered">Activity Logs Records<h4>');
-        printWindowOnLogs.document.write('<p class="centered">' + 'as of ' + formattedDateOnLogs + '</p><br>');
+        printWindowOnLogs.document.write(
+            '<br><div class="centered">' +
+                '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
+                "</div>"
+        );
+        printWindowOnLogs.document.write(
+            '<br><h4 class="centered">Activity Logs Records<h4>'
+        );
+        printWindowOnLogs.document.write(
+            '<p class="centered">' + "as of " + formattedDateOnLogs + "</p><br>"
+        );
 
         // Display the table content
-        printWindowOnLogs.document.write('<table class="table table-bordered table-hover text-center">' +
-            $('#logs-table').html() + '</table>');
+        printWindowOnLogs.document.write(
+            '<table class="table table-bordered table-hover text-center">' +
+                $("#logs-table").html() +
+                "</table>"
+        );
 
-        printWindowOnLogs.document.write('</body></html>');
+        printWindowOnLogs.document.write("</body></html>");
         printWindowOnLogs.document.close();
 
         setTimeout(() => {
@@ -1538,8 +1619,8 @@ function validateCustomizedEmailForm() {
 function displayError(element, message) {
     var errorElement = $(
         '<div class="error-message" style="color: red; font-size: 12px;">' +
-        message +
-        "</div>"
+            message +
+            "</div>"
     );
     element.parent().append(errorElement);
 }
@@ -1604,7 +1685,7 @@ $(document).ready(function () {
                     url: $(this).attr("action"),
                     type: $(this).attr("method"),
                     data: formData,
-                    processData: false, // Important! Prevent jQuery from processing the data
+                    processData: false, // Important! Prevent $ from processing the data
                     contentType: false, // Important! Specify content type as false for FormData
 
                     success: function (response) {
@@ -1625,7 +1706,7 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $('.printButton').click(function () {
+    $(".printButton").click(function () {
         // const filters = $(".filters");
         // const buttons = $(".buttons");
 
@@ -1635,5 +1716,3 @@ $(document).ready(function () {
         window.print();
     });
 });
-
-

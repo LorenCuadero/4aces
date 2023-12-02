@@ -17,7 +17,7 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-primary">Delete</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </form>
             </div>
         </div>

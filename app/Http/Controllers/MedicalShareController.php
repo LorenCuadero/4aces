@@ -93,7 +93,7 @@ class MedicalShareController extends Controller
 
         Mail::to($student_email)->send(new SendMedicalShareTransInfo($student_name, $medical_share->medical_concern, $medical_share->total_cost, $percent_share, $medical_share->amount_paid, $medical_share->date));
 
-        return back()->with('success', 'Medical share record added and email sent successfully!', compact('medical_share'));
+        return back()->with('success-medical', 'Medical share record added and email sent successfully!', compact('medical_share'));
     }
 
     public function updateMedicalShare(Request $request, $id)

@@ -1,5 +1,4 @@
 @extends('layouts.app')
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 @section('content')
     <div class="container">
@@ -15,13 +14,13 @@
                                 <input type="hidden" id="email_recover" name="email" value="{{ $user_email }}">
                                 <div class="input-group mb-3">
                                     <div class="input-group">
-                                        <input id="password_onreset" type="password"
+                                        <input id="password_reset" type="password"
                                             class="form-control @error('password') is-invalid @enderror" name="password"
                                             autocomplete="current-password">
                                         <div class="input-group-append">
-                                            <button type="button" class="btn text-muted border" id="togglePasswordOnReset"
+                                            <button type="button" class="btn text-muted border" id="togglePasswordReset"
                                                 inputmode="none">
-                                                <span class="far fa-eye" id="eyeIconPassword"></span>
+                                                <span class="far fa-eye" id="eyeIconPasswordReset"></span>
                                             </button>
                                         </div>
                                     </div>
@@ -29,13 +28,13 @@
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group">
-                                    <input id="cpassword" type="password"
+                                    <input id="cpassword_reset" type="password"
                                         class="form-control @error('password') is-invalid @enderror" name="cpassword"
                                         autocomplete="current-password">
                                     <div class="input-group-append">
-                                        <button type="button" class="btn text-muted border" id="toggleCPassword"
+                                        <button type="button" class="btn text-muted border" id="toggleCPasswordReset"
                                             inputmode="none">
-                                            <span class="far fa-eye" id="eyeIconCPassword"></span>
+                                            <span class="far fa-eye" id="eyeIconCPasswordReset"></span>
                                         </button>
                                     </div>
                                 </div>
@@ -55,12 +54,13 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function() {
             // Password toggle
-            $('#togglePasswordOnReset').on('click', function() {
-                const passwordInput = $('#password_onreset');
-                const eyeIcon = $('#eyeIconPassword');
+            $('#togglePasswordReset').on('click', function() {
+                const passwordInput = $('#password_reset');
+                const eyeIcon = $('#eyeIconPasswordReset');
 
                 if (passwordInput.attr('type') === 'password') {
                     passwordInput.attr('type', 'text');
@@ -72,9 +72,9 @@
             });
 
             // Confirm Password toggle
-            $('#toggleCPassword').on('click', function() {
-                const cPasswordInput = $('#cpassword');
-                const eyeIconCPassword = $('#eyeIconCPassword');
+            $('#toggleCPasswordReset').on('click', function() {
+                const cPasswordInput = $('#cpassword_reset');
+                const eyeIconCPassword = $('#eyeIconCPasswordReset');
 
                 if (cPasswordInput.attr('type') === 'password') {
                     cPasswordInput.attr('type', 'text');
