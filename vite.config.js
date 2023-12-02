@@ -9,7 +9,7 @@ const viteConfig = {
     plugins: [
         vue(),
         laravel({
-            input: ['resources/css/compile.css', 'resources/js/compile.js'],
+            input:[],
             refresh: true,
         }),
     ],
