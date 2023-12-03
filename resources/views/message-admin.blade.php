@@ -8,10 +8,9 @@
 
 <body>
     <p>Hello {{ $admin_name }},</p>
-    <p>You are now added as an administrator on IOMS. For the credentials:
-       <b> Email: <b>{{ $admin_email }}.</b>
-        <b> Password: <b>{{ $admin_password }}.</b>
-        Please use the provided credentials to log in initially. Once logged in, kindly change your password for your safety.</p>
+    <p>You are now added as an administrator to your account. For the credentials, use your own email and your password
+        is: <b>p@$$word</b>
+        Please enter use this credential to login initially. If logged in, kindly change password for your safety.</p>
     <p>Thank you,<br>Passerelles Numeriques
         Philippines</p>
 </body>

@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illmuniate\Support\Facades\Request;
 use App\Models\Log;
+use App\Models\Admin;
+
 
 class User extends Authenticatable
 {
@@ -58,5 +60,17 @@ class User extends Authenticatable
     public function logs()
     {
         return $this->hasMany(Log::class);
+    }
+    public function admins()
+    {
+        return $this->hasMany(Admin::class);
+    }
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+    public function staffs()
+    {
+        return $this->hasMany(Staff::class);
     }
 }
