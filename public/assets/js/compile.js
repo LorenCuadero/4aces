@@ -376,10 +376,14 @@ $(document).ready(function () {
 
         if (passwordInput.attr("type") === "password") {
             passwordInput.attr("type", "text");
-            toggleButton.html('<span class="far fa-eye-slash"></span>');
+            toggleButton.html(
+                '<span class="far fa-eye-slash" style="color: white"></span>'
+            );
         } else {
             passwordInput.attr("type", "password");
-            toggleButton.html('<span class="far fa-eye"></span>');
+            toggleButton.html(
+                '<span class="far fa-eye" style="color: white"></span>'
+            );
         }
     });
 

@@ -6,8 +6,8 @@
                     @if (session('success-added'))
                         <p><span class="text-success success-display ml-2">[ {{ session('success-added') }} ]</span></p>
                     @endif
-                    @if (session('error'))
-                        <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
+                    @if (session('error-add'))
+                        <p><span class="text-danger error-display ml-2">[ {{ session('error-add') }} ]</span></p>
                     @endif
                 </span>
                 <div class="col-12">

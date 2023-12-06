@@ -3,8 +3,8 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                @if (session('success-email'))
-                    <p><span class="text-success success-display ml-2">[ {{ session('success-email') }} ]</span></p>
+                @if (session('success-soa-email'))
+                    <p><span class="text-success success-display ml-2">[ {{ session('success-soa-email') }} ]</span></p>
                 @endif
                 @if (session('error-email'))
                     <p><span class="text-danger error-display ml-2">[ {{ session('error-email') }} ]</span></p>

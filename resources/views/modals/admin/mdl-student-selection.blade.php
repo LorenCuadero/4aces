@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="student-selection-modal-label">Select Student</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <a href="{{ route('rpt.dcpl.index') }}"><span aria-hidden="true">&times;</span> </a>
+                    <a href="{{ route('admin.counterpartRecords') }}"><span aria-hidden="true">&times;</span> </a>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">

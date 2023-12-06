@@ -15,7 +15,7 @@
                                 <div class="card-body">
                                     <div class="table-responsive view-all-modal">
                                         <table id="example" class="table table-bordered table-hover text-center">
-                                            <div class="row">
+                                            <div class="row"  style="font-size:14px">
                                                 <input type="hidden" id="all-student-number"
                                                     value="{{ $totalNumberOfStudents }}">
                                                 <div class="col-md-6" style="text-align: left">
@@ -49,7 +49,7 @@
                                                 <div class="col-md-6">
                                                     <div class="row d-flex">
                                                         <div class="col-md-8">
-                                                            <p class="mt-2 mb-0 text-right" style="12px">
+                                                            <p class="mt-2 mb-0 text-right" style="font-size:14px">
                                                                 <b>
                                                                     <span id="TotalNumberOfAllStudents"></span>
                                                                     <span id="selected-batch-year"></span>
@@ -60,7 +60,7 @@
                                                             </p>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <p class="mb-0 text-right ml-3" style="12px">
+                                                            {{-- <p class="mb-0 text-right ml-3" style="12px"> --}}
                                                                 <b>
 
                                                                     <button type="button"
@@ -69,7 +69,7 @@
                                                                     </button>
                                                                     </span>
                                                                 </b>
-                                                            </p>
+                                                            {{-- </p> --}}
                                                         </div>
                                                     </div>
                                                 </div>

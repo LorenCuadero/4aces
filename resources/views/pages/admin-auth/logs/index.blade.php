@@ -8,15 +8,6 @@
                     <div class="card">
                         <div class="card-header p-3 pt-4 pb-4" style="background-color: #ffff; color: #1f3c88;">
                             <h1 class="card-title"><b>Users Activity Log Records</b></h1>
-                            <div class="card-tools">
-                                <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0"
-                                    style="display: flex; align-items: center;">
-                                    <div class="nav-item btn btn-sm p-0" style="display: flex; align-items:center;">
-                                        <button type="button" class="btn btn-default printButtonOnLogs"><i
-                                                class="fas fa-print"></i> Print</button>
-                                    </div>
-                                </form>
-                            </div>
                         </div>
                         <div class="card-body table-responsive p-0">
                             <div class="p-2">

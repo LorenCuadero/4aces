@@ -92,7 +92,7 @@ class PersonalCashAdvanceController extends Controller
 
         Mail::to($student_email)->send(new SendPersonalCATransInfo($student_name, $personal_ca->purpose, $personal_ca->amount_due, $personal_ca->amount_paid, $personal_ca->date));
 
-        return back()->with('success', 'Personal cash advance record added and email sent successfully!', compact('personal_ca'));
+        return back()->with('success-pca', 'Personal cash advance record added and email sent successfully!', compact('personal_ca'));
     }
 
     public function updatePersonalCA(Request $request, $id)
@@ -125,7 +125,7 @@ class PersonalCashAdvanceController extends Controller
         Mail::to($studentEmail)->send(new SendPersonalCATransInfo($studentName, $personal_cash_advance->purpose, $personal_cash_advance->amount_due, $personal_cash_advance->amount_paid, $personal_cash_advance->date));
 
         // Return success message only if no duplicate was found
-        return back()->with('success', 'Personal cash advance record updated and email sent successfully!', compact('personal_cash_advance'));
+        return back()->with('success-pca', 'Personal cash advance record updated and email sent successfully!', compact('personal_cash_advance'));
     }
 
     public function deletePersonalCA($id)
@@ -133,7 +133,7 @@ class PersonalCashAdvanceController extends Controller
         $personalCA = PersonalCashAdvance::find($id);
 
         if (!$personalCA) {
-            return back()->with('error', 'Personal cash advance record not found.');
+            return back()->with('error-pca', 'Personal cash advance record not found.');
         }
 
         // Store student information before deletion
@@ -155,7 +155,7 @@ class PersonalCashAdvanceController extends Controller
         $personalCA->delete();
 
         // Return success message
-        return back()->with('success', 'Personal cash advance record deleted and emeil sent successfully.');
+        return back()->with('success-pca', 'Personal cash advance record deleted and emeil sent successfully.');
     }
 }
 

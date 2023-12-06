@@ -8,11 +8,16 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'IOMS') }}</title>
+    {{-- <title>{{ !empty($header_title) ? $header_title : ''}} IOMS</title> --}}
+
+    <!-- Page Icon -->
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/rbH9RXt/pn-logo-circle.png">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins">
 
     <!-- Scripts -->
     <link rel="stylesheet"
@@ -25,6 +30,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/staff.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/student.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
     <script defer src="{{ asset('assets/js/compile.js') }}"></script>
     <script defer src="{{ asset('assets/js/components/admin/admin.js') }}"></script>
     <script defer src="{{ asset('assets/js/components/staff/cmpt-staff-table-header.js') }}"></script>
@@ -41,6 +47,12 @@
     <script src="https://cdn.jsdelivr.net/npm/admin-lte/plugins/chart.js/Chart.min.js"></script>
 
 </head>
+
+<style>
+    body {
+    font-family: 'Poppins', sans-serif !important;
+    }
+</style>
 
 <body>
     <div id="app">

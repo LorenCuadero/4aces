@@ -82,31 +82,4 @@
         </div>
     </section>
     @include('modals.admin.mdl-student-selection-for-medical')
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Capture the click event on table rows with class "table-row1"
-            $(".table-rowMedical").click(function() {
-                // Get the data attributes from the clicked row
-                var studentId = $(this).find("td:first")
-                    .text(); // Assuming the first column contains the student ID
-                var route = "{{ route('admin.studentMedicalShareRecords', ['id' => ':studentId']) }}";
-
-                // Replace ':studentId' in the route with the actual student ID
-                route = route.replace(':studentId', studentId);
-
-                // Redirect to the desired route
-                window.location.href = route;
-            });
-        });
-        
-        $(document).ready(function() {
-            $("#selectToAddStudentMedicalShare").click(function() {
-                const addModal = $("#student-selection-medical-share-modal");
-
-                addModal.modal("show");
-            });
-        });
-    </script>
 @endsection

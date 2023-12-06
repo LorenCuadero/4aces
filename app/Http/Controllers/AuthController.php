@@ -48,14 +48,17 @@ class AuthController extends Controller
 
         Mail::to($user->email)->send(new SendOTPMail($otp, $user->email));
 
-        return view('otp_verification', compact('user_email'));
+        $data['header_title'] = "OTP";
+        return view('otp_verification', compact('user_email'), $data);
 
         $credentials = $request->only('email', 'password');
     }
 
     public function loginPage()
     {
-        return view('pages.welcome');
+        // return view('pages.welcome');
+        $data['header_title'] = "Login";
+        return view('layouts.auth.login', $data);
     }
 
     public function logout(Request $request)
@@ -103,7 +106,7 @@ class AuthController extends Controller
                 $user->forceFill([
                     'email_verified_at' => now(),
                 ])->save();
-            }   
+            }
 
             // Redirect to the intended dashboard based on the user's role
             if ($user->role == '0') {
@@ -136,7 +139,8 @@ class AuthController extends Controller
 
     public function forgotPassword()
     {
-        return view('forgot');
+        $data['header_title'] = "Forgot Password";
+        return view('forgot', $data);
     }
 
     public function postRecover(Request $request)
@@ -163,7 +167,8 @@ class AuthController extends Controller
         Mail::to($user->email)->send(new SendRecoverOTPMail($otp, $user->email));
 
         // Pass both email and OTP to the OTP verification view for recovery
-        return view('recover-by-otp', compact('user_email'));
+        $data['header_title'] = "Recovery OTP";
+        return view('recover-by-otp', compact('user_email'), $data);
     }
 
     public function recoverOTP(Request $request)
@@ -186,7 +191,8 @@ class AuthController extends Controller
         }
 
         if ($otp == $user->otp) {
-            return view('reset', compact('user_email'))->with('success', 'Password reset was successful!');
+            $data['header_title'] = "Reset";
+            return view('reset', compact('user_email'), $data)->with('success', 'Password reset was successful!');
         } else if ($otp != $user->otp) {
             return redirect()->back();
         }
@@ -202,7 +208,7 @@ class AuthController extends Controller
         if ($request->input('password') != $request->input('cpassword')) {
             $error = 'Passwords do not match.';
         } else if ($request->input('password') == null) {
-            $error = 'Password cannot be empty.';
+            $error = 'Password cannot be empty.';   
         } else if (strlen($request->input('password')) < 8) {
             $error = 'Password must be at least 8 characters.';
         } else if ($request->input('cpassword') == null) {
@@ -221,7 +227,8 @@ class AuthController extends Controller
             StoreLogsService::storeLogs($user->id, $action, "Account", null, null, null);
             return redirect()->route('login')->with('success', 'Password changed successfully.');
         } else {
-            return view('reset', compact('error', 'user_email'));
+            $data['header_title'] = "Reset";
+            return view('reset', compact('error', 'user_email'), $data);
         }
     }
 

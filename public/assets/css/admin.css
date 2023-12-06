@@ -68,6 +68,31 @@ input[type="date"]::-ms-clear {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 100px; /* Adjust the max-width as needed */
+    max-width: 400px; /* Adjust the max-width as needed */
     display: inline-block;
+}
+
+@media (max-width: 768px) {
+    .admin-accounts-section{
+        font-size: 12px;
+    }
+    .admin-accounts-table{
+        font-size: 12px;
+    }
+    .admin-accounts-mobile-btn span{
+        font-size: 12px;
+    }
+    .admin-accounts-mobile-btn a{
+        font-size: 12px;
+    }
+    .card-tools.admin-accounts {
+        width: 100%;
+        clear: both;
+        margin-top: 10px;
+        margin-bottom: -20px;
+        margin-right: 0 !important;
+    }
+    .admin-accounts-search-input input, .admin-accounts-search-input button, .admin-accounts-search-input a{
+        font-size: 12px;
+    }
 }

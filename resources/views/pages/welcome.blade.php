@@ -56,12 +56,12 @@
                                             class="text-danger error-display">{{ session('incorrect-password') }}</span>
                                     </p>
                                 @endif
-                                @if (session('error-email-no-found'))
+                                {{-- @if (session('error-email-no-found'))
                                     <p class="mt-1"><span class="text-danger error-display">
                                             {{ session('error-email-no-found') }}
                                         </span>
                                     </p>
-                                @endif
+                                @endif --}}
                                 @if (session('error-password-required'))
                                     <p class="mt-1"><span class="text-danger error-display">
                                             {{ session('error-password-required') }}

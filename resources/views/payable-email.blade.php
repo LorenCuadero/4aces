@@ -26,7 +26,7 @@
         Other Payable: <b>0.00 PHP</b> <br>
         <b>Total Payable: {{ $total }} PHP</b></p>
 
-    <p>To see all your records, click this link: (ioms-pn-student-parent-portal-link)</p>
+    <p>To see all your records, kindly click this link: <a href="https://pnphioms.online/login" title="PNPh ioms page">PNPh IOMS</a></p>
 
     <p>Thank you so much!</p>
 </body>

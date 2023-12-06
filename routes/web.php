@@ -161,16 +161,14 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get('/create-admin-account', [AccountController::class, 'createAdminAccount'])->name('admin.createAdminAccount');
+    Route::get('/create-staff-account', [AccountController::class, 'createStaffAccount'])->name('admin.createStaffAccount');
 
     Route::prefix('/admin-accounts')->group(function () {
         Route::get('/', [AccountController::class, 'indexAdminAccounts'])->name('admin.admin-accounts');
         Route::get('/{id}', [AccountController::class, 'getAdminAccount'])->name('admin.getAdminAccount');
         Route::put('/{id}', [AccountController::class, 'updateAdminAccount'])->name('admin.updateAdminAccount');
-        Route::delete('/{id}', [AccountController::class, 'deleteAdminAccount'])->name('admin.deleteAdminAccount');
+        Route::put('/delete/{id}', [AccountController::class, 'deleteAdminAccount'])->name('admin.deleteAdminAccount');
         Route::post('/', [AccountController::class, 'storeAdminAccount'])->name('admin.storeAdminAccount');
-
-        Route::get('/edit/{id}', [AccountController::class, 'updateAdminAccount'])->name('admin.updateAdminAccount');
-        Route::get('/delete/{id}', [AccountController::class, 'deleteAdminAccount'])->name('admin.deleteAdminAccount');
     });
 
     Route::prefix('/student-accounts')->group(function () {
@@ -185,7 +183,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [AccountController::class, 'indexStaffAccounts'])->name('admin.staff-accounts');
         Route::get('/{id}', [AccountController::class, 'getStaffAccount'])->name('admin.getStaffAccount');
         Route::put('/{id}', [AccountController::class, 'updateStaffAccount'])->name('admin.updateStaffAccount');
-        Route::delete('/{id}', [AccountController::class, 'deleteStaffAccount'])->name('admin.deleteStaffAccount');
+        Route::put('/{id}', [AccountController::class, 'deleteStaffAccount'])->name('admin.deleteStaffAccount');
         Route::post('/', [AccountController::class, 'storeStaffAccount'])->name('admin.storeStaffAccount');
     });
 
