@@ -39,7 +39,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Staff Test',
-                'email' => 'staff@gmail.com',
+                'email' => '21103903@usc.edu.ph',
                 'password' => bcrypt('Staffpassword'),
                 'email_verified_at' => now(),
                 'role' => '1',
