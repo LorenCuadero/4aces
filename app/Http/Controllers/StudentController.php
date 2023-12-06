@@ -103,8 +103,6 @@ class StudentController extends Controller
                 $validatedData['email'] = strtolower($validatedData['first_name'] . '_' . $validatedData['second_name'] . '.' . $validatedData['last_name'] . '@student.passerellesnumeriques.org');
             }
 
-            dd($validatedData['batch_year']);
-
             $student = new Student($validatedData);
             $student->save();
 
