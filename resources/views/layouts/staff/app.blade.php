@@ -32,10 +32,31 @@
     <script src="https://cdn.jsdelivr.net/npm/admin-lte/plugins/toastr/toastr.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.9/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.9/js/buttons.bootstrap4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/js/all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte/plugins/chart.js/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Handle click on pushmenu button
+            $('.navbar-nav a[data-widget="pushmenu"]').on('click', function () {
+                // Log a message to the console to check if the click event is triggered
+                console.log('Pushmenu button clicked');
+
+                // Toggle the collapse class on the body
+                $('body').toggleClass('sidebar-collapse');
+
+                // Optional: Log the classes on the body element to check their state
+                console.log('Body classes:', $('body').attr('class'));
+
+                // Optional: Add a check for mobile view and log a message
+                if ($(window).width() < 768) {
+                    console.log('Mobile view detected');
+                    // Toggle 'sidebar-mini' class
+                    $('body').toggleClass('sidebar-mini');
+                }
+            });
+        });
+    </script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed" data-page="{{ Route::currentRouteName() }}">

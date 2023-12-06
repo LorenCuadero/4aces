@@ -643,6 +643,7 @@ class AdminController extends Controller
         $personalCashAdvancePaidCountDecember = ($uniqueStudentsPersonalCashAdvancePaidDecember / $totalNumberOfStudents) * 100;
 
         // Pass the totals and percentages to the view
+        $data['header_title'] = "Dashboard";
         return view('pages.admin-auth.dashboard.index', [
             'medicalShareTotal' => $medicalShareTotal,
             'counterpartTotal' => $counterpartTotal,
@@ -723,7 +724,7 @@ class AdminController extends Controller
             'counterpartNotFullyPaidStudentsCount' => $counterpartNotFullyPaidStudentsCount,
             'batchYears' => $batchYears,
             'totalStudentsByBatchYear' => $totalStudentsByBatchYear,
-        ]);
+        ], $data);
     }
 
 
@@ -1500,11 +1501,11 @@ class AdminController extends Controller
             return redirect()->back()->with('error-email', 'You are not authorized to access this page.');
         }
         if ($request->selectedBatchYear == null) {
-            return redirect()->back()->with('error-mail', 'Please select a batch year');
+            return redirect()->back()->with('error-email', 'Please select a batch year');
         } else if ($request->month == null) {
-            return redirect()->back()->with('error-mail', 'Please select a month');
+            return redirect()->back()->with('error-email', 'Please select a month');
         } else if ($request->year == null) {
-            return redirect()->back()->with('error-mail', 'Please select a year');
+            return redirect()->back()->with('error-email', 'Please select a year');
         }
 
         $students = Student::where('batch_year', $request->selectedBatchYear)->get();

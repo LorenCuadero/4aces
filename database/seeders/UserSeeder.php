@@ -38,8 +38,8 @@ class UserSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'staff',
-                'email' => '21103903@usc.edu.ph',
+                'name' => 'Staff Test',
+                'email' => 'staff@gmail.com',
                 'password' => bcrypt('Staffpassword'),
                 'email_verified_at' => now(),
                 'role' => '1',
@@ -48,7 +48,7 @@ class UserSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'student',
+                'name' => 'Student Test',
                 'email' => 'lorencuadero8@gmail.com',
                 'password' => bcrypt('Studentpassword'),
                 'email_verified_at' => now(),

@@ -14,9 +14,10 @@ class StudentSeeder extends Seeder
 
         $students = [
             [
-                'first_name' => 'John',
-                'middle_name' => 'Doe',
-                'last_name' => 'Smith',
+                'user_id' => 4,
+                'first_name' => 'Student',
+                'middle_name' => 'N/A',
+                'last_name' => 'Test',
                 'email' => 'lorencuadero8@gmail.com',
                 'phone' => '123456789',
                 'birthdate' => Carbon::now()->subYears(20)->format('Y-m-d'),
@@ -26,32 +27,6 @@ class StudentSeeder extends Seeder
                 'batch_year' => '2020',
                 'joined' => Carbon::now()->subYears(1)->format('Y-m-d'),
             ],
-            [
-                'first_name' => 'Jane',
-                'middle_name' => '',
-                'last_name' => 'Smith',
-                'email' => 'janesmith@example.com',
-                'phone' => '987654321',
-                'birthdate' => Carbon::now()->subYears(22)->format('Y-m-d'),
-                'address' => '456 Main St., Anytown USA',
-                'parent_name' => 'Bob Johnson',
-                'parent_contact' => '123456789',
-                'batch_year' => '2019',
-                'joined' => Carbon::now()->subYears(2)->format('Y-m-d'),
-            ],
-            [
-                'first_name' => 'Bob',
-                'middle_name' => '',
-                'last_name' => 'Johnson',
-                'email' => 'bobjohnson@example.com',
-                'phone' => '5551234',
-                'birthdate' => Carbon::now()->subYears(18)->format('Y-m-d'),
-                'address' => '789 Main St., Anytown USA',
-                'parent_name' => 'John Doe',
-                'parent_contact' => '5555678',
-                'batch_year' => '2021',
-                'joined' => Carbon::now()->subMonths(6)->format('Y-m-d'),
-            ]
         ];
 
         foreach ($students as $student) {

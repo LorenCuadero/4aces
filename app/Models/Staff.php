@@ -9,12 +9,14 @@ class Staff extends Model
 {
     use HasFactory;
 
+    protected $table = 'staffs';
+
     protected $fillable = [
         'first_name',
         'middle_name',
         'last_name',
         'department',
-        'age',
+        'birthdate',
         'gender',
         'address',
         'civil_status',
@@ -25,7 +27,7 @@ class Staff extends Model
 
     public function user()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function log()

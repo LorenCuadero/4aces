@@ -1,28 +1,24 @@
 @extends('layouts.staff.app')
 @section('content')
+    <span>
+        @if (session('success-add-student'))
+            <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+        @endif
+        @if (session('error-add-student'))
+            <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
+        @endif
+        @if (session('info'))
+            <p><span class="text-info error-display ml-2">[ {{ session('info') }} ]</span></p>
+        @endif
+    </span>
     <section class="content">
-        <span>
-            @if (session('success'))
-                <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
-            @endif
-            @if (session('error'))
-                <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
-            @endif
-            @if (session('info'))
-                <p><span class="text-info error-display ml-2">[ {{ session('info') }} ]</span></p>
-            @endif
-        </span>
         <div class="card">
+            <br>
             <div class="card-body" style="background-color: none; border: none;">
-                <h1 class="card-title mb-3 mb-md-0" style="color:#1f3c88;"><b>Student Information: Add Form</b></h1>
+                <h1 class="card-title" style="color:#1f3c88;"><b>Student Information: Add Form</b></h1>
                 <br>
                 <form id="edit-form" enctype="multipart/form-data" method="POST" action="{{ route('students.store') }}">
                     @csrf
-                    @if (session('success'))
-                        <script>
-                            toastr.success('{{ session('success') }}');
-                        </script>
-                    @endif
                     <div class="row" style="text-align: left;">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -93,7 +89,6 @@
                         </div>
                     </div>
                 </form>
-                @include('assets.asst-loading-spinner')
             </div>
         </div>
     </section>

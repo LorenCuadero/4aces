@@ -1,0 +1,90 @@
+body {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+a{
+    color: white;
+}
+
+.custom-background {
+    background-image: url('https://i.ibb.co/HNfsfm3/pn-login-bg-cover.png');
+    /* Replace 'path/to/your/image.jpg' with the actual path to your background image */
+    background-size: cover;
+    /* Adjust as needed */
+    background-position: center;
+    /* Adjust as needed */
+    background-repeat: no-repeat;
+    /* Adjust as needed */
+    /* You can add more background properties as needed */
+}
+
+ input[type="text"].has-text {
+     background-color: white !important;
+     /* Change the background color to lightgreen */
+ }
+
+.custom-login.card {
+    box-shadow: none !important;
+    background-color: transparent;
+    color: white;
+}
+
+.custom-login-h1 {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px;
+}
+
+.custom-login.card-header {
+    border-bottom: none !important;
+}
+
+.login-box{
+    width: 500px !important ;
+}
+
+input[type="email"], input[type="password"]{
+    background-color: #1F3C88 !important;
+    color: white !important;
+}
+
+.forgot-password{
+    text-align: center !important;
+    padding: 10px;
+}
+.forgot-password a{
+    color: white;
+    text-transform: uppercase !important;
+}
+.forgot-password a:hover{
+    color: #cad9ff;
+}
+
+.custom-login-btn{
+    background-color: white !important;
+    color: #1F3C88 !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px;
+    border: none !important;
+}
+.custom-login-btn:hover{
+    color: #1F3C88 !important;
+    background-color: white !important;
+}
+
+@media (max-width: 576px){
+    .login-box,
+    .register-box {
+        margin-top: 0.5rem !important;
+        width: 90% !important;
+    }
+    .forgot-password a {
+        color: white;
+        text-transform: uppercase !important;
+        font-size: 12px !important;
+    }
+    .custom-login-btn{
+        font-size: 14px !important;
+    }
+}
+

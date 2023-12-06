@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins');
+body {
+    font-family: 'Poppins', sans-serif !important;
+}
 .elevation-4 {
     background-color: #1f3c88;
     color: #ffff;
@@ -185,4 +189,19 @@ form {
 
 .main-footer {
     background-color: transparent;
+}
+
+.pn-logo{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.pn-logo.brand-link .brand-image {
+    float: none !important;
+    max-height: 100px !important;
+    margin: auto !important;
+    display: block;
+    margin-left: auto;
+    margin-bottom: auto;
+    margin-right: auto;
 }

@@ -1,4 +1,5 @@
-<nav class="main-header navbar navbar-expand navbar-light" style="border: none; border-radius: 5px">
+{{-- <nav class="main-header navbar navbar-expand navbar-light" style="border: none; border-radius: 5px"> --}}
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <ul class="navbar-nav" style="border-top-left-radius: 5px; border-top-right-radius: 5px;">
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>

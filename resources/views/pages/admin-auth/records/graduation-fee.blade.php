@@ -84,22 +84,4 @@
     </section>
     @include('modals.admin.mdl-student-counterpart-view')
     @include('modals.admin.mdl-student-selection-for-graduation-fee')
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Capture the click event on table rows with class "table-row1"
-            $(".table-rowGraduation").click(function() {
-                // Get the data attributes from the clicked row
-                var studentId = $(this).find("td:first")
-                    .text(); // Assuming the first column contains the student ID
-                var route = "{{ route('admin.studentGraduationFeeRecords', ['id' => ':studentId']) }}";
-
-                // Replace ':studentId' in the route with the actual student ID
-                route = route.replace(':studentId', studentId);
-
-                // Redirect to the desired route
-                window.location.href = route;
-            });
-        });
-    </script>
 @endsection

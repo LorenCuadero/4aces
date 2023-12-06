@@ -26,16 +26,16 @@
                                     <div class="row" style="text-align: left;">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="first_name">Name</label>
-                                                <input type="text" class="form-control" id="first_name" name="first_name" required />
+                                                <label for="first_name_admin">Name</label>
+                                                <input type="text" class="form-control" id="first_name_admin" name="first_name" required />
                                             </div>
                                             <div class="form-group">
-                                                <label for="middle_name">Email</label>
-                                                <input type="text" class="form-control" id="middle_name" name="middle_name" required />
+                                                <label for="middle_name_admin">Email</label>
+                                                <input type="text" class="form-control" id="middle_name_admin" name="middle_name" required />
                                             </div>
                                             <div class="form-group">
-                                                <label for="last_name">Password</label>
-                                                <input type="text" class="form-control" id="last_name" name="last_name" required />
+                                                <label for="last_name_admin">Password</label>
+                                                <input type="text" class="form-control" id="last_name_admin" name="last_name" required />
                                             </div>
                                             <div class="form-group" style="float: right;">
                                                 <button type="submit" class="btn btn-primary mr-2">Add</button>

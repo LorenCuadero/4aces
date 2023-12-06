@@ -1,8 +1,11 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="#" class="brand-link">
+    {{-- <a href="#" class="brand-link">
         <img src="" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3">
         <span class="admin-title brand-text font-weight-light">{{ __('AppName') }}</span>
+    </a> --}}
+    <a href="#" class="pn-logo brand-link">
+        <img src="https://i.ibb.co/rbH9RXt/pn-logo-circle.png" alt="IOMS Logo" class="brand-image" style="height: 100px; width: auto; margin:auto">
     </a>
     <div class="sidebar">
         <nav class="mt-2">
@@ -47,7 +50,7 @@
                         <i class="nav-icon fas fa-users"></i>
                         <p>{{ __('Logs') }}</p>
                     </a>
-                </li>                
+                </li>
             </ul>
         </nav>
     </div>

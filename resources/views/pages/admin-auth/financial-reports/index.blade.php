@@ -65,7 +65,7 @@
                                                 style="width: 60%;">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-left"
+                                                        <th
                                                             style="background-color: #ffff; color: #1f3c88; width: 50%;">
                                                             Contribution Revenue
                                                         </th>
@@ -99,7 +99,7 @@
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
-                                                        <th class="text-left"
+                                                        <th
                                                             style="background-color: #ffff; color: #1f3c88; width: 50%;">
                                                             Total</th>
                                                         <th style="background-color: #ffff; color: #1f3c88; width: 50%;"

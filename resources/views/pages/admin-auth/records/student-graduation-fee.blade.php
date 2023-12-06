@@ -3,11 +3,11 @@
     <section class="content">
         <div class="row">
             <span>
-                @if (session('success'))
-                    <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+                @if (session('success-gfee'))
+                    <p><span class="text-success success-display ml-2">[ {{ session('success-gfee') }} ]</span></p>
                 @endif
-                @if (session('error'))
-                    <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
+                @if (session('error-fee'))
+                    <p><span class="text-danger error-display ml-2">[ {{ session('error-gfee') }} ]</span></p>
                 @endif
             </span>
             <div class="col-12">
