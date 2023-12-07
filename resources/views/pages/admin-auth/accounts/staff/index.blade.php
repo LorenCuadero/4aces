@@ -2,14 +2,14 @@
 @section('content')
     <section class="content">
         <h1 class="card-title mb-3 mb-md-0" style="color:#1f3c88;"><b>Staff Account Information: Add Form</b></h1>
-        <span>
+        {{-- <span>
             @if (session('success'))
                 <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
             @endif
             @if (session('error'))
                 <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
             @endif
-        </span>
+        </span> --}}
         <br>
         <div class="card">
             <div class="card-body" style="background-color: none; border: none;">
@@ -53,12 +53,22 @@
                             @enderror
                             <div class="form-group">
                                 <label for="password_staff">Password</label>
-                                <input type="text" class="form-control" id="password_staff" name="password" autocomplete="off"/>
+                                <input type="text" class="form-control" id="password_staff" value="$t@ffP@$$w0rd" disabled/>
                             </div>
+                            @error('password')
+                                <div class="alert alert-danger">
+                                    {{$message}}
+                                </div>
+                            @enderror
                             <div class="form-group">
                                 <label for="contact_number_staff">Contact Number</label>
                                 <input type="number" class="form-control" id="contact_number_staff" name="contact_number" />
                             </div>
+                            @error('contact_number')
+                                <div class="alert alert-danger">
+                                    {{$message}}
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">

@@ -87,6 +87,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [StudentController::class, 'indexStudent'])->name('students-info.index');
         Route::get('/{id}', [StudentController::class, 'getStudentInfo'])->name('students-info.getStudentInfo');
         Route::put('/{id}', [StudentController::class, 'updateStudent'])->name('students-info.updateStudent');
+        Route::delete('/{id}', [StudentController::class, 'deleteStudent'])->name('students-info.deletestudent');
     });
 
     Route::prefix('/student-portal')->group(function () {
@@ -162,20 +163,23 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/create-admin-account', [AccountController::class, 'createAdminAccount'])->name('admin.createAdminAccount');
     Route::get('/create-staff-account', [AccountController::class, 'createStaffAccount'])->name('admin.createStaffAccount');
+    Route::get('/create-student-account', [AccountController::class, 'createStudentAccount'])->name('admin.createStudentAccount');
 
     Route::prefix('/admin-accounts')->group(function () {
         Route::get('/', [AccountController::class, 'indexAdminAccounts'])->name('admin.admin-accounts');
         Route::get('/{id}', [AccountController::class, 'getAdminAccount'])->name('admin.getAdminAccount');
         Route::put('/{id}', [AccountController::class, 'updateAdminAccount'])->name('admin.updateAdminAccount');
-        Route::put('/delete/{id}', [AccountController::class, 'deleteAdminAccount'])->name('admin.deleteAdminAccount');
         Route::post('/', [AccountController::class, 'storeAdminAccount'])->name('admin.storeAdminAccount');
+        Route::delete('/{id}', [AccountController::class, 'softDeleteAdminAccount'])->name('admin.softDeleteAdminAccount');
+
     });
 
     Route::prefix('/student-accounts')->group(function () {
         Route::get('/', [AccountController::class, 'indexStudentsAccounts'])->name('admin.student-accounts');
         Route::get('/{id}', [AccountController::class, 'getStudentAccount'])->name('admin.getStudentAccount');
         Route::put('/{id}', [AccountController::class, 'updateStudentAccount'])->name('admin.updateStudentAccount');
-        Route::delete('/{id}', [AccountController::class, 'deleteStudentAccount'])->name('admin.deleteStudentAccount');
+        // Route::delete('/{id}', [AccountController::class, 'deleteStudentAccount'])->name('admin.deleteStudentAccount');
+        Route::delete('/{id}', [AccountController::class, 'softDeleteStudentAccount'])->name('admin.softDeleteStudentAccount');
         Route::post('/', [AccountController::class, 'storeStudentAccount'])->name('admin.storeStudentAccount');
     });
 
@@ -183,7 +187,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [AccountController::class, 'indexStaffAccounts'])->name('admin.staff-accounts');
         Route::get('/{id}', [AccountController::class, 'getStaffAccount'])->name('admin.getStaffAccount');
         Route::put('/{id}', [AccountController::class, 'updateStaffAccount'])->name('admin.updateStaffAccount');
-        Route::put('/{id}', [AccountController::class, 'deleteStaffAccount'])->name('admin.deleteStaffAccount');
+        Route::delete('/{id}', [AccountController::class, 'softDeleteStaffAccount'])->name('admin.softDeleteStaffAccount');
         Route::post('/', [AccountController::class, 'storeStaffAccount'])->name('admin.storeStaffAccount');
     });
 

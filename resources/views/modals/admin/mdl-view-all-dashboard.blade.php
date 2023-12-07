@@ -15,7 +15,7 @@
                                 <div class="card-body">
                                     <div class="table-responsive view-all-modal">
                                         <table id="example" class="table table-bordered table-hover text-center">
-                                            <div class="row"  style="font-size:14px">
+                                            <div class="row" style="font-size:14px">
                                                 <input type="hidden" id="all-student-number"
                                                     value="{{ $totalNumberOfStudents }}">
                                                 <div class="col-md-6" style="text-align: left">
@@ -61,14 +61,14 @@
                                                         </div>
                                                         <div class="col-md-3">
                                                             {{-- <p class="mb-0 text-right ml-3" style="12px"> --}}
-                                                                <b>
+                                                            <b>
 
-                                                                    <button type="button"
-                                                                        class="btn btn-default printButtonOnModal mr-1 float-right">
-                                                                        <i class="fas fa-print"></i> Print
-                                                                    </button>
-                                                                    </span>
-                                                                </b>
+                                                                <button type="button"
+                                                                    class="btn btn-default printButtonOnModal mr-1 float-right">
+                                                                    <i class="fas fa-print"></i> Print
+                                                                </button>
+                                                                </span>
+                                                            </b>
                                                             {{-- </p> --}}
                                                         </div>
                                                     </div>

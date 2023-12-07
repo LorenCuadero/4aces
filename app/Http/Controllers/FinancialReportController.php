@@ -10,13 +10,11 @@ use App\Models\PersonalCashAdvance;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
-
+use App\Models\Student;
 
 //
-class FinancialReportController extends Controller
-{
-    public function index()
-    {
+class FinancialReportController extends Controller {
+    public function index() {
         $counterpartTotal = Counterpart::sum('amount_paid');
         $medicalShareTotal = MedicalShare::sum('amount_paid');
         $graduationFeeTotal = GraduationFee::sum('amount_paid');
@@ -45,8 +43,20 @@ class FinancialReportController extends Controller
 
         $total = $counterpartTotal + $medicalShareTotal + $graduationFeeTotal + $personalCashAdvanceTotal;
 
-        // Log the start date
-        Log::info("Start From Date: $startFromDate");
+        // Count the total number of students
+        $totalNumberOfStudents = Student::count();
+
+        // Batch Years
+        $batchYears = Student::distinct('batch_year')->pluck('batch_year');
+
+        $totalStudentsByBatchYear = [];
+        foreach($batchYears as $year) {
+            $totalStudentsByBatchYear[$year] = Student::where('batch_year', $year)->count();
+        }
+
+        $allBatchYear = "All Batch Year";
+
+        $data['header_title'] = "Reports |";
 
         return view(
             'pages.admin-auth.financial-reports.index',
@@ -57,25 +67,98 @@ class FinancialReportController extends Controller
                 'personalCashAdvanceTotal',
                 'total',
                 'startFromDate',
-                'endToDate'
-            )
+                'endToDate',
+                'totalNumberOfStudents',
+                'totalStudentsByBatchYear',
+                'batchYears',
+                'year',
+                'allBatchYear'
+            ), $data
         );
     }
 
-    public function viewFinancialReportByDateFromAndTo(Request $request)
-    {
+    public function viewFinancialReportByDateFromAndTo(Request $request) {
         $dateFrom = $request->input('dateFrom');
         $dateTo = $request->input('dateTo');
+        $batchYearSelected = $request->input('batchYear');
 
-        $counterpartTotal = Counterpart::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_paid');
-        $medicalShareTotal = MedicalShare::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_paid');
-        $graduationFeeTotal = GraduationFee::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_paid');
-        $personalCashAdvanceTotal = PersonalCashAdvance::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_paid');
+        if($batchYearSelected == null) {
+            $allBatchYear = "All Batch Year";
+            $counterpartTotal = Counterpart::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_paid');
+            $medicalShareTotal = MedicalShare::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_paid');
+            $graduationFeeTotal = GraduationFee::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_paid');
+            $personalCashAdvanceTotal = PersonalCashAdvance::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_paid');
+
+            $total = $counterpartTotal + $medicalShareTotal + $graduationFeeTotal + $personalCashAdvanceTotal;
+
+            $dateFrom = date('F d, Y', strtotime($dateFrom));
+            $dateTo = date('F d, Y', strtotime($dateTo));
+
+
+            // Count the total number of students
+            $totalNumberOfStudents = Student::count();
+
+            // Batch Years
+            $batchYears = Student::distinct('batch_year')->pluck('batch_year');
+
+            $totalStudentsByBatchYear = [];
+            foreach($batchYears as $year) {
+                $totalStudentsByBatchYear[$year] = Student::where('batch_year', $year)->count();
+            }
+
+            return view(
+                'pages.admin-auth.financial-reports.index',
+                compact(
+                    'counterpartTotal',
+                    'medicalShareTotal',
+                    'graduationFeeTotal',
+                    'personalCashAdvanceTotal',
+                    'total',
+                    'dateFrom',
+                    'dateTo',
+                    'totalNumberOfStudents',
+                    'totalStudentsByBatchYear',
+                    'batchYears',
+                    'allBatchYear',
+                )
+            );
+        }
+
+        $counterpartTotal = Counterpart::join('students', 'counterparts.student_id', '=', 'students.id')
+            ->whereBetween('counterparts.date', [$dateFrom, $dateTo])
+            ->where('students.batch_year', $batchYearSelected)
+            ->sum('counterparts.amount_paid');
+
+        $medicalShareTotal = MedicalShare::join('students', 'medical_shares.student_id', '=', 'students.id')
+            ->whereBetween('medical_shares.date', [$dateFrom, $dateTo])
+            ->where('students.batch_year', $batchYearSelected)
+            ->sum('medical_shares.amount_paid');
+
+        $graduationFeeTotal = GraduationFee::join('students', 'graduation_fees.student_id', '=', 'students.id')
+            ->whereBetween('graduation_fees.date', [$dateFrom, $dateTo])
+            ->where('students.batch_year', $batchYearSelected)
+            ->sum('graduation_fees.amount_paid');
+
+        $personalCashAdvanceTotal = PersonalCashAdvance::join('students', 'personal_cash_advances.student_id', '=', 'students.id')
+            ->whereBetween('personal_cash_advances.date', [$dateFrom, $dateTo])
+            ->where('students.batch_year', $batchYearSelected)
+            ->sum('personal_cash_advances.amount_paid');
 
         $total = $counterpartTotal + $medicalShareTotal + $graduationFeeTotal + $personalCashAdvanceTotal;
 
         $dateFrom = date('F d, Y', strtotime($dateFrom));
         $dateTo = date('F d, Y', strtotime($dateTo));
+
+        // Count the total number of students
+        $totalNumberOfStudents = Student::count();
+
+        // Batch Years
+        $batchYears = Student::distinct('batch_year')->pluck('batch_year');
+
+        $totalStudentsByBatchYear = [];
+        foreach($batchYears as $year) {
+            $totalStudentsByBatchYear[$year] = Student::where('batch_year', $year)->count();
+        }
 
         return view(
             'pages.admin-auth.financial-reports.index',
@@ -86,7 +169,11 @@ class FinancialReportController extends Controller
                 'personalCashAdvanceTotal',
                 'total',
                 'dateFrom',
-                'dateTo'
+                'dateTo',
+                'batchYearSelected',
+                'totalNumberOfStudents',
+                'totalStudentsByBatchYear',
+                'batchYears'
             )
         );
     }

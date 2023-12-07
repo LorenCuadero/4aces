@@ -2,14 +2,6 @@
 @section('content')
     <section class="content">
         <div class="row">
-            <span>
-                @if (session('success-pca'))
-                    <p><span class="text-success success-display ml-2">[ {{ session('success-pca') }} ]</span></p>
-                @endif
-                @if (session('error-pca'))
-                    <p><span class="text-danger error-display ml-2">[ {{ session('erro-pca') }} ]</span></p>
-                @endif
-            </span>
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex flex-wrap align-items-center justify-content-between"

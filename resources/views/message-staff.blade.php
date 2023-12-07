@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Admin Account Creation Message</title>
+    <title>Staff Account Creation Message</title>
 </head>
 
 <body>
-    <p>Hello {{ $admin_name }},</p>
-    <p>You are now added as an administrator in IOMS. Your credentials are as follows: <br>
-        <b>Email:</b> {{ $admin_email }} <br>
-        <b>Password:</b> {{ $admin_password }}
+    <p>Hello {{ $staff_name }},</p>
+    <p>You can now log in to your IOMS. Your credentials are as follows: <br>
+        <b>Email:</b> {{ $staff_email }} <br>
+        <b>Password:</b> {{ $staff_password }}
     </p>
     <p>Please use the provided credentials to log in initially. Once logged in, kindly change your password for your
         safety.</p>

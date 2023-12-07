@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+    
+
 <body class="hold-transition login-page custom-background">
     <div class="login-box">
     <!-- login-logo -->
@@ -7,7 +9,7 @@
         <div class="login custom-login card-header text-center">
         <img src="https://i.ibb.co/rbH9RXt/pn-logo-circle.png" alt="" style="height: 100px; width: auto">
         <div style="padding: 20px">
-            <div class="custom-login-h1 h1">Integrated Online<br>Mangement System</div>
+            <div class="custom-login-h1 h1">Integrated Online<br>Management System</div>
         </div>
         </div>
         <div class="card-body">

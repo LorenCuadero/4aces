@@ -14,20 +14,23 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('first_name');
-            $table->string('second_name')->nullable();
-            $table->string('last_name');
             $table->string('middle_name')->nullable();
+            $table->string('last_name');
             $table->string('suffix')->nullable();
+            $table->string('gender');
             $table->string('email');
-            $table->string('phone')->nullable();
+            $table->string('password');
+            $table->string('contact_number')->nullable();
             $table->date('birthdate');
             $table->text('address');
             $table->string('parent_name');
             $table->string('parent_contact');
             $table->year('batch_year');
             $table->date('joined');
+
+            $table->unsignedBigInteger('user_id');
+
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

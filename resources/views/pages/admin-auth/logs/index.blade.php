@@ -15,7 +15,7 @@
                                     <thead style="font-size: 14px;">
                                         <tr>
                                             <th>Log Id</th>
-                                            <th>User Id</th>
+                                            <th>Name</th>
                                             <th>Action</th>
                                             <th>Category</th>
                                             <th>Affected Student</th>
@@ -28,12 +28,21 @@
                                         @forelse ($logs as $log)
                                             <tr>
                                                 <td>{{ $log->id }}</td>
-                                                <td>{{ $log->user_id }}</td>
+                                                <td>
+                                                    @if (isset($log->user_id))
+                                                        {{ $log->user->name }}
+                                                    @else
+                                                        <span>n/a</span>
+                                                    @endif
+                                                </td>
                                                 <td>{{ $log->action }}</td>
                                                 <td>{{ $log->record }}</td>
                                                 <td>
                                                     @if (isset($log->student_id))
-                                                        {{ $log->student->first_name . ' ' . $log->student->last_name }}
+                                                        @if (isset($log->student->first_name))
+                                                            {{ $log->student->first_name . ' ' . $log->student->last_name }}
+                                                        @endif
+                                                        <span>n/a</span>
                                                     @else
                                                         <span>n/a</span>
                                                     @endif

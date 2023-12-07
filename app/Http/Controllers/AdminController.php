@@ -643,7 +643,7 @@ class AdminController extends Controller
         $personalCashAdvancePaidCountDecember = ($uniqueStudentsPersonalCashAdvancePaidDecember / $totalNumberOfStudents) * 100;
 
         // Pass the totals and percentages to the view
-        $data['header_title'] = "Dashboard";
+        $data['header_title'] = "Dashboard |";
         return view('pages.admin-auth.dashboard.index', [
             'medicalShareTotal' => $medicalShareTotal,
             'counterpartTotal' => $counterpartTotal,

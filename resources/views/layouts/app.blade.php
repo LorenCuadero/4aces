@@ -8,8 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'IOMS') }}</title>
-    {{-- <title>{{ !empty($header_title) ? $header_title : ''}} IOMS</title> --}}
+    {{-- <title>{{ config('app.name', 'IOMS') }}</title> --}}
+    <title>{{ !empty($header_title) ? $header_title : ''}} IOMS</title>
 
     <!-- Page Icon -->
     <link rel="icon" type="image/x-icon" href="https://i.ibb.co/rbH9RXt/pn-logo-circle.png">
