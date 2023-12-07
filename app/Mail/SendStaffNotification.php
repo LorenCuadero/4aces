@@ -3,56 +3,47 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendReceiptOrPaymentInfo extends Mailable
-{
+class SendStaffNotification extends Mailable {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public $student_name;
-    public $month;
 
-    public $year;
+    public $staff_name;
 
-    public $amount_due;
-    public $amount_paid;
-    public $date;
-    public $send_amount_due_only;
+    public $staff_email;
 
-    public function __construct($student_name, $month, $year, $amount_due, $amount_paid, $date, $send_amount_due_only)
-    {
-        $this->student_name = $student_name;
-        $this->month = $this->getMonthName($month);
-        $this->year = $year;
-        $this->amount_due = $amount_due;
-        $this->amount_paid = $amount_paid;
-        $this->date = $date;
-        $this->send_amount_due_only = $send_amount_due_only;
+    public $staff_password;
+
+    public function __construct($staff_name, $staff_email, $staff_password) {
+        $this->staff_name = $staff_name;
+        $this->staff_email = $staff_email;
+        $this->staff_password = $staff_password;
     }
 
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
-    {
+    public function envelope(): Envelope {
         return new Envelope(
-            subject: 'PNPHI: Counterpart Transaction Information',
+            subject: "PNPh: Staff Account Created",
         );
     }
+
 
     /**
      * Get the message content definition.
      */
-    public function content(): Content
-    {
+    public function content(): Content {
         return new Content(
-            view: 'counterpart',
+            view: 'message-staff',
         );
     }
 
@@ -61,13 +52,11 @@ class SendReceiptOrPaymentInfo extends Mailable
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
-    public function attachments(): array
-    {
+    public function attachments(): array {
         return [];
     }
 
-    private function getMonthName($month)
-    {
+    private function getMonthName($month) {
         $months = [
             1 => 'January',
             2 => 'February',

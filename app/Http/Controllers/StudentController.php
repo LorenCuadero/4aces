@@ -14,11 +14,9 @@ use App\Mail\SendStudentNotification;
 use App\Mail\SendStudentAcademicNotification;
 use Illuminate\Support\Facades\Auth;
 
-class StudentController extends Controller
-{
-    public function index()
-    {
-        if (Auth::user()->role != '1') {
+class StudentController extends Controller {
+    public function index() {
+        if(Auth::user()->role != '1') {
             return redirect()->back()->with('error', 'You are not authorized to access this page.');
         }
 
@@ -26,8 +24,8 @@ class StudentController extends Controller
 
         $batchYears = [];
 
-        foreach ($students as $student) {
-            if (!in_array($student->batch_year, $batchYears)) {
+        foreach($students as $student) {
+            if(!in_array($student->batch_year, $batchYears)) {
                 $batchYears[] = $student->batch_year;
             }
         }
@@ -38,18 +36,16 @@ class StudentController extends Controller
         ]);
     }
 
-    public function addStudentPage()
-    {
-        if (Auth::user()->role == '1') {
+    public function addStudentPage() {
+        if(Auth::user()->role == '1') {
             return view('pages.staff-auth.students.student-info-page-add');
         } else {
             return redirect()->back()->with('error', 'You are not authorized to access this page.');
         }
     }
 
-    public function getStudent($id)
-    {
-        if (Auth::user()->role != '1') {
+    public function getStudent($id) {
+        if(Auth::user()->role != '1') {
             return redirect()->back()->with('error', 'You are not authorized to access this page.');
         }
 
@@ -57,19 +53,17 @@ class StudentController extends Controller
         return view('pages.staff-auth.students.index', compact('student'));
     }
 
-    public function create()
-    {
-        if (Auth::user()->role == '1') {
+    public function create() {
+        if(Auth::user()->role == '1') {
             return view('students.create');
         } else {
             return redirect()->back()->with('error', 'You are not authorized to access this page.');
         }
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         // Validate the request data
-        if (Auth::user()->role == '1') {
+        if(Auth::user()->role == '1') {
             $validatedData = $request->validate([
                 'first_name' => 'required',
                 'middle_name' => 'nullable',
@@ -85,35 +79,52 @@ class StudentController extends Controller
                 'joined' => 'required|date',
             ]);
 
-            $specialCharacters = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '{', '}', '[', ']', '|', ';', ':', '"', "'", '<', '>', ',', '.', '?', '/'];
+            // $specialCharacters = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '{', '}', '[', ']', '|', ';', ':', '"', "'", '<', '>', ',', '.', '?', '/'];
 
-            if (
-                strpbrk($request->input('first_name'), implode('', $specialCharacters)) !== false ||
-                strpbrk($request->input('last_name'), implode('', $specialCharacters)) !== false ||
-                strpbrk($request->input('middle_name'), implode('', $specialCharacters)) !== false ||
-                strpbrk($request->input('parent_name'), implode('', $specialCharacters)) !== false ||
-                strpbrk($request->input('second_name'), implode('', $specialCharacters)) !== false
-            ) {
-                return redirect()->back()->with('error', 'Name should not contain special characters');
+            // if (
+            //     strpbrk($request->input('first_name'), implode('', $specialCharacters)) !== false ||
+            //     strpbrk($request->input('last_name'), implode('', $specialCharacters)) !== false ||
+            //     strpbrk($request->input('middle_name'), implode('', $specialCharacters)) !== false ||
+            //     strpbrk($request->input('parent_name'), implode('', $specialCharacters)) !== false ||
+            //     strpbrk($request->input('second_name'), implode('', $specialCharacters)) !== false
+            // ) {
+            //     return redirect()->back()->with('error', 'Name should not contain special characters');
+            // }
+
+            // if(request()->input('second_name') == null) {
+            //     $validatedData['email'] = strtolower($validatedData['first_name'].'.'.$validatedData['last_name'].'@student.passerellesnumeriques.org');
+            // } else if(request()->input('second_name') != null) {
+            //     $validatedData['email'] = strtolower($validatedData['first_name'].'_'.$validatedData['second_name'].'.'.$validatedData['last_name'].'@student.passerellesnumeriques.org');
+            // }
+
+            if(str_word_count($request->first_name) > 1) {
+                // If more than one word, replace spaces with underscores
+                $first_name = strtolower(str_replace(' ', '_', $request->first_name));
+            } else {
+                // If only one word, use the name as is
+                $first_name = strtolower($request->first_name);
             }
+            $validatedData['email'] = strtolower($first_name.'.'.$request->last_name.'@student.passerellesnumeriques.org');
 
-            if (request()->input('second_name') == null) {
-                $validatedData['email'] = strtolower($validatedData['first_name'] . '.' . $validatedData['last_name'] . '@student.passerellesnumeriques.org');
-            } else if (request()->input('second_name') != null) {
-                $validatedData['email'] = strtolower($validatedData['first_name'] . '_' . $validatedData['second_name'] . '.' . $validatedData['last_name'] . '@student.passerellesnumeriques.org');
+
+            if ($validatedData['batch_year'] > 3000) {
+                return redirect()->back()->with('error', 'Batch year should be less than 3000');
             }
 
             $student = new Student($validatedData);
             $student->save();
 
+            if(!$student) {
+                return redirect()->back()->with('error-add', 'Something went wrong');
+            }
+
             // Create a new user instance associated with the student's email
             $user = new User();
             $user->email = $validatedData['email'];
-            $user->name = $validatedData['first_name'] . ' ' . $validatedData['last_name'];
+            $user->name = $validatedData['first_name'].' '.$validatedData['last_name'];
             $user->password = bcrypt('d3f@ultP@$$w0rd');
             $user->save();
             $defaultPassUnHashed = 'd3f@ultP@$$w0rd';
-            session()->flash('success', 'Student added successfully.');
 
             $action = "Added";
             StoreLogsService::storeLogs(auth()->user()->id, $action, "Student", $student->id, null, $validatedData['batch_year']);
@@ -124,19 +135,16 @@ class StudentController extends Controller
             return redirect()->back()->with('success-add-student', 'New student added successfully!');
         } else {
             return redirect()->back()->with('error-add-student', 'You are not authorized to access this page.');
-
         }
     }
 
-
-    public function updateStudent(Request $request, $id)
-    {
-        if (Auth::user()->role == '1') {
+    public function updateStudent(Request $request, $id) {
+        if(Auth::user()->role == '1') {
             $request->validate([
                 'first_name' => 'required',
                 'middle_name' => 'required',
                 'last_name' => 'required',
-                'email' => 'required|email|unique:students,email,' . $id,
+                'email' => 'required|email|unique:students,email,'.$id,
                 'phone' => 'required',
                 'birthdate' => 'required|date',
                 'address' => 'required',
@@ -168,16 +176,34 @@ class StudentController extends Controller
         }
     }
 
+    public function deleteStudent($id) {
+        // Find the student record by ID
+        $student = Student::find($id);
+
+        if(!$student) {
+            return back()->with('error', 'student record not found.');
+        }
+
+        // Log the action
+        $action = "Deleted";
+        StoreLogsService::storeLogs(auth()->user()->id, $action, "Student", $id, null, $student->batch_year);
+
+        // Mail::to($student->email)->send(new SendDeletionNotification($student_name, $month, $year, $amountDue, $amountPaid, $date));
+
+        $student->delete();
+
+        // Return success message
+        return back()->with('success', 'student record deleted and email sent successfully!');
+    }
     // Academic Reports Controllers
 
-    public function indexAcdRpt()
-    {
-        if (Auth::user()->role == '1') {
+    public function indexAcdRpt() {
+        if(Auth::user()->role == '1') {
             $students = Student::all();
             $batchYears = [];
 
-            foreach ($students as $student) {
-                if (!in_array($student->batch_year, $batchYears)) {
+            foreach($students as $student) {
+                if(!in_array($student->batch_year, $batchYears)) {
                     $batchYears[] = $student->batch_year;
                 }
 
@@ -190,8 +216,8 @@ class StudentController extends Controller
                 $second_sem_second_year_gpa = 0;
                 $first_sem_third_year_gpa = 0;
 
-                foreach ($academics as $academic) {
-                    switch ($academic->year_and_sem) {
+                foreach($academics as $academic) {
+                    switch($academic->year_and_sem) {
                         case 0:
                             $first_sem_fisrt_year_gpa += ($academic->midterm_grade + $academic->final_grade) / 2;
                             break;
@@ -226,9 +252,8 @@ class StudentController extends Controller
     }
 
 
-    public function getStudentAcademicReport($id)
-    {
-        if (Auth::user()->role == '1') {
+    public function getStudentAcademicReport($id) {
+        if(Auth::user()->role == '1') {
             $student = Student::find($id);
             return view('pages.staff-auth.students.student-info-page', compact('student'));
         } else {
@@ -237,12 +262,11 @@ class StudentController extends Controller
         }
     }
 
-    public function getStudentGradeReport($id)
-    {
-        if (Auth::user()->role == '1') {
+    public function getStudentGradeReport($id) {
+        if(Auth::user()->role == '1') {
             $student = Student::find($id);
 
-            if (!$student) {
+            if(!$student) {
                 return back()->with('error', 'Student not found!');
             }
 
@@ -254,16 +278,15 @@ class StudentController extends Controller
         }
     }
 
-    public function addStudentGradeReport(Request $request, $id)
-    {
-        if (Auth::user()->role == '1') {
-            if ($request->input('course_code') == null) {
+    public function addStudentGradeReport(Request $request, $id) {
+        if(Auth::user()->role == '1') {
+            if($request->input('course_code') == null) {
                 return back()->with('error-add', 'Please enter a course code');
-            } elseif ($request->input('midterm_grade') > 4 || $request->input('midterm_grade') < 0) {
+            } elseif($request->input('midterm_grade') > 4 || $request->input('midterm_grade') < 0) {
                 return back()->with('error-add', 'Please enter a valid midterm grade');
-            } elseif ($request->input('final_grade') > 4 || $request->input('final_grade') < 0) {
+            } elseif($request->input('final_grade') > 4 || $request->input('final_grade') < 0) {
                 return back()->with('error-add', 'Please enter a valid final grade');
-            } elseif ($request->input('year_and_sem') == null && $request->input('midterm_grade') != null) {
+            } elseif($request->input('year_and_sem') == null && $request->input('midterm_grade') != null) {
                 return back()->with('error-add', 'Please select a year and semester');
             }
 
@@ -285,20 +308,20 @@ class StudentController extends Controller
                 ->where('course_code', $validatedData['course_code'])
                 ->first();
 
-            if ($academic) {
+            if($academic) {
                 return redirect()->back()->with('error-add', 'An academic record for this course already exists.');
             }
 
             $student = Student::find($validatedData['student_id']);
 
             // Check if the student exists
-            if (!$student) {
+            if(!$student) {
                 return redirect()->back()->with('error-add', 'Student not found.');
             }
 
             // Access the student's email
             $student_email = $student->email;
-            $student_name = $student->first_name . '' . $student->last_name;
+            $student_name = $student->first_name.''.$student->last_name;
 
             $action = "Added";
             StoreLogsService::storeLogs(auth()->user()->id, $action, "Academic", $validatedData['student_id'], null, $student->batch_year);
@@ -313,9 +336,8 @@ class StudentController extends Controller
     }
 
 
-    public function updateStudentGradeReport(Request $request, $id)
-    {
-        if (Auth::user()->role == '1') {
+    public function updateStudentGradeReport(Request $request, $id) {
+        if(Auth::user()->role == '1') {
             $request->validate([
                 'course_code' => 'required|string',
                 'year_and_sem' => 'nullable',
@@ -323,13 +345,13 @@ class StudentController extends Controller
                 'final' => 'nullable|numeric',
             ]);
 
-            if ($request->input('course_code') == null) {
+            if($request->input('course_code') == null) {
                 return back()->with('error-add', 'Please enter a course code');
-            } elseif ($request->input('year_and_sem') == null && $request->input('midterm') != null) {
+            } elseif($request->input('year_and_sem') == null && $request->input('midterm') != null) {
                 return back()->with('error-add', 'Please select a year and semester');
-            } elseif ($request->input('midterm') > 4 || $request->input('midterm') < 0) {
+            } elseif($request->input('midterm') > 4 || $request->input('midterm') < 0) {
                 return back()->with('error-add', 'Please enter a valid midterm grade');
-            } elseif ($request->input('final') > 4 || $request->input('final') < 0) {
+            } elseif($request->input('final') > 4 || $request->input('final') < 0) {
                 return back()->with('error-add', 'Please enter a valid final grade');
             }
 
@@ -337,7 +359,7 @@ class StudentController extends Controller
 
             $academic = Academic::find($academicId);
 
-            if (!$academic) {
+            if(!$academic) {
                 return back()->with('error-add', 'Academic record not found.');
             }
 
@@ -352,13 +374,13 @@ class StudentController extends Controller
             $student = Student::find($request->input('student_id'));
 
             // Check if the student exists
-            if (!$student) {
+            if(!$student) {
                 return redirect()->back()->with('error-add', 'Student not found.');
             }
 
             // Access the student's email
             $student_email = $student->email;
-            $student_name = $student->first_name . '' . $student->last_name;
+            $student_name = $student->first_name.''.$student->last_name;
 
             $action = "Added";
             StoreLogsService::storeLogs(auth()->user()->id, $action, "Academic", $request->input('student_id'), null, $student->batch_year);
@@ -371,9 +393,8 @@ class StudentController extends Controller
         }
     }
 
-    public function indexStudsList(Request $request)
-    {
-        if (Auth::user()->role == '1') {
+    public function indexStudsList(Request $request) {
+        if(Auth::user()->role == '1') {
             // Retrieve all students
             $students = Student::whereDoesntHave('disciplinary')->get();
 
@@ -394,9 +415,8 @@ class StudentController extends Controller
 
     // Student Information Controllers
 
-    public function indexStudent()
-    {
-        if (Auth::user()->role == '1') {
+    public function indexStudent() {
+        if(Auth::user()->role == '1') {
             $students = Student::all();
             return view('pages.staff-auth.students.student-info-page', compact('students'));
         } else {
@@ -405,9 +425,8 @@ class StudentController extends Controller
 
     }
 
-    public function getStudentInfo($id)
-    {
-        if (Auth::user()->role == '1') {
+    public function getStudentInfo($id) {
+        if(Auth::user()->role == '1') {
             $student = Student::find($id);
             return view('pages.staff-auth.students.student-info-page', compact('student'));
         } else {

@@ -13,11 +13,6 @@
                 <form method="POST" action="{{ route('admin.updateAdminAccount', ['id' => $user->user_id]) }}">
                     @method('PUT')
                     @csrf
-                    @if (session('success'))
-                        <script>
-                            toastr.success('{{ session('success') }}');
-                        </script>
-                    @endif
                     <div class="row" style="text-align: left;">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -49,11 +44,21 @@
                                 <label for="password_admin">Password</label>
                                 <input type="text" class="form-control" id="password_admin" name="password" />
                             </div>
+                            @error('password')
+                                <div class="alert alert-danger">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                             <div class="form-group">
                                 <label for="contact_number_admin">Contact Number</label>
                                 <input type="number" class="form-control" id="contact_number_admin" name="contact_number"
                                     value="{{ $user->contact_number }}" />
                             </div>
+                            @error('contact_number')
+                                <div class="alert alert-danger">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
@@ -82,16 +87,6 @@
                                     <option value="Prefer not to say">Prefer not to say</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="department_admin">Department</label>
-                                <select name="department" id="department_admin" class="form-control">
-                                    <option value="{{ $user->department }}">{{ $user->department }}</option>
-                                    <option value="Administrative">Administrative</option>
-                                    <option value="Administrative Assistant">Administrative Assistant</option>
-                                    <option value="Finance">Finance</option>
-                                    <option value="HR">HR</option>
-                                </select>
-                            </div>
 
                             <div class="form-group">
                                 <label for="civil_status_admin">Civil Status</label>
@@ -104,14 +99,65 @@
                                     <option value="Divorced">Divorced</option>
                                 </select>
                             </div>
-                            <div class="form-group" style="float: right;">
+                            <div class="form-group">
+                                <label for="department_admin">Department</label>
+                                <select name="department" id="department_admin" class="form-control">
+                                    <option value="Administrative & Finance"
+                                        @if($user->department == 'Administrative & Finance') selected @endif>
+                                        Administrative & Finance
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="status_admin">Status</label>
+                                <select name="status" id="status_admin" class="form-control">
+                                    <option value="1" @if($user->status == 0) selected @endif>Active</option>
+                                    <option value="0" @if($user->status == 1) selected @endif>Inactive</option>
+                                </select>
+                                    @error('status')
+                                    <div class="alert alert-danger">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                            </div>
+
+                            <div class="form-group" style="float: right">
                                 <button type="submit" class="btn btn-primary mr-2">Save changes</button>
+                                <button type="button" class="btn btn-danger mr-2" data-toggle="modal" data-target="#confirmDeleteModal">Delete</button>
                                 <a href="{{ route('admin.admin-accounts') }}" class="btn btn-default">Cancel</a>
                             </div>
                         </div>
                     </div>
                 </form>
-                @include('assets.asst-loading-spinner')
+
+                <!-- Modal for confirming delete action -->
+                <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete this admin account?
+                            </div>
+                            <div class="modal-footer">
+                                <form method="POST" action="{{ route('admin.softDeleteAdminAccount', ['id' => $user->user_id]) }}">
+                                    @method('DELETE')
+                                    @csrf
+                                    <div class="form-group">
+                                        <a href="{{ route('admin.admin-accounts') }}" class="btn btn-default mr-2">Cancel</a>
+                                        <!-- Delete button in the modal -->
+                                        <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal">Confirm Delete</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               @include('assets.asst-loading-spinner')
             </div>
         </div>
     </section>

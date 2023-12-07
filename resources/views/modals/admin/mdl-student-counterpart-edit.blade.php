@@ -26,17 +26,35 @@
                     </div>
                     <div class="form-group">
                         <label for="amount_due">Amount Due</label>
-                        <input type="number" name="amount_due" id="edit-amount_due" class="form-control" step="any">
+                        <input type="number" name="amount_due" id="edit-amount_due" class="form-control"
+                            step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="amount_paid">Total Amount Paid</label>
+                        <input type="number" name="amount_paid_previously" id="edit-amount_paid" class="form-control"
+                            step="any" readonly>
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">Amount Paid</label>
-                        <input type="number" name="amount_paid" id="edit-amount_paid" class="form-control" step="any">
+                        <input type="number" name="amount_paid" id="edit-amount_paid" class="form-control"
+                            step="any">
                     </div>
-
                     <div class="form-group">
                         <label for="date">Date</label>
                         <input type="date" name="date" class="form-control" id="edit-date" rows="3"
                             placeholder="" required />
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="send_amount_due_only_edit_counterpart"
+                            name="send_amount_due_only_edit_counterpart" value="1">
+                        <label class="form-check-label" for="v">Send amount due only</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input"
+                            id="print_acknowledegement_receipt_edit_counterpart"
+                            name="print_acknowledegement_receipt_edit_counterpart" value="1">
+                        <label class="form-check-label" for="print_acknowledegement_receipt">Print acknowledgement
+                            receipt</label>
                     </div>
                     <div class="form-group" style="float: right;">
                         <button type="submit" class="btn btn-primary">Save Changes</button>

@@ -31,6 +31,26 @@
                                         <input type="date" id="date-to" class="form-control rounded p-2 filters"
                                             name="dateTo" required>
                                     </div>
+                                    <div class="nav-item btn btn-sm p-0" style="display: flex; align-items:center;">
+                                        <input type="hidden" id="all-student-number-financial report"
+                                            value="{{ $totalNumberOfStudents }}">
+                                        <div class="col-md-6" style="text-align: left">
+                                            <div class="form-group row text-left">
+                                                <div class="col-md-7">
+                                                    <select class="form-control" name="batchYear" id="batch_year">
+                                                        <a id="allBatch" href="{{ route('admin.financialReports') }}">
+                                                            <option value="">All
+                                                                Batch Year</option>
+                                                        </a>
+                                                        @foreach ($batchYears as $batchYear)
+                                                            <option name="batchYear" value="{{ $batchYear }}">
+                                                                {{ $batchYear }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <button type="submit" id="filter-submit" class="btn ml-1 filters"
                                         style="background-color: #1f3c88; color:#ffff" title="Filter"><i
                                             class='fas fa-filter' style='font-size:20px; color:#ffff'></i> Filter </button>
@@ -48,7 +68,14 @@
                             <div class="card-body" id="printableArea">
                                 <div class="table-responsive">
                                     <div class="m-2 mb-4">
-                                        <h5>Financial Statement</h5>
+                                        <h5 class="mb-0">Statement of Accounts</h5>
+                                        @if (isset($batchYearSelected))
+                                            <span id="selected-batch-year-reports">Batch {{ $batchYearSelected }}</span>
+                                        @endif
+                                        @if (isset($allBatchYear))
+                                            <span id="all-batch-year-reports">{{ $allBatchYear }}</span>
+                                        @endif
+                                        <br>
                                         @if (isset($dateFrom) && isset($dateTo))
                                             <span id="dates-from-text-when-set">{{ $dateFrom }}</span> - <span
                                                 id="dates-to-text-when-set">{{ $dateTo }}</span>
@@ -65,8 +92,7 @@
                                                 style="width: 60%;">
                                                 <thead>
                                                     <tr>
-                                                        <th
-                                                            style="background-color: #ffff; color: #1f3c88; width: 50%;">
+                                                        <th style="background-color: #ffff; color: #1f3c88; width: 50%;">
                                                             Contribution Revenue
                                                         </th>
                                                         <th style="background-color: #ffff; color: #1f3c88; width: 50%;">
@@ -99,8 +125,7 @@
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
-                                                        <th
-                                                            style="background-color: #ffff; color: #1f3c88; width: 50%;">
+                                                        <th style="background-color: #ffff; color: #1f3c88; width: 50%;">
                                                             Total</th>
                                                         <th style="background-color: #ffff; color: #1f3c88; width: 50%;"
                                                             id="totalFinance">₱

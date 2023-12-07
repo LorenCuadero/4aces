@@ -1,18 +1,21 @@
 @extends('layouts.admin.app')
-<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 @section('content')
     <section class="content">
         <div class="row">
-            <span>
-                @if (session('success-counterpart'))
-                    <p><span class="text-success success-display ml-2">[ {{ session('success-counterpart') }} ]</span></p>
-                @endif
-                @if (session('error'))
-                    <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
-                @endif
-            </span>
             <div class="col-12">
                 <div class="card">
+                    @if ($acknowledgementReceipt == 1)
+                        <span id="generateReceipt"></span>
+                        <input id="receipt_true" type="hidden" value="{{ $acknowledgementReceipt }}">
+                        <input id="student_name" type="hidden"
+                            value="{{ $student->first_name . ' ' . $student->last_name }}">
+                        <input id="student_batch_year" type="hidden" value="{{ $student->batch_year }}">
+                        <input id="current_user_name" type="hidden" value="{{ Auth::user()->name }}">
+                        <input id="date_of_transaction" type="hidden" value="{{ $dateOfTransaction }}">
+                        <input id="amount_paid_in_words" type="hidden" value="{{ $amountPaidInWords }}">
+                        <input id="category" type="hidden" value="{{ $category }}">
+                        <input id="amount_paid_receipt" type="hidden" value="{{ $amountPaid }}">
+                    @endif
                     <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
                         style="background-color: #ffff;">
                         <p class="card-title mb-3 mb-md-0" style=" padding-left:0%; font-size: 17px"><b>Parents
@@ -26,19 +29,20 @@
                                     style="display: flex; align-items:center;" data-target="add-student-grd-modal"
                                     data-toggle="modal">
                                     <a href="#" class="nav-link align-items-center btn"
-                                        style="color:#ffffff; background-color:#1f3c88"><i class="fa fa-plus" style="font-size: 17px"></i> Add</a>
+                                        style="color:#ffffff; background-color:#1f3c88"><i class="fa fa-plus"
+                                            style="font-size: 17px"></i> Add</a>
                                 </div>
-                                <div class="nav-item btn btn-sm p-0 ml-1"
-                                    style="display: flex; align-items:center;" >
-                                    <a href="{{ route('admin.counterpartRecords') }}" class="nav-link align-items-center btn"
-                                        style="color:#ffffff; background-color:#1f3c88"><i class="far fa-arrow-alt-circle-left" style="font-size: 17px"></i> Back</a>
+                                <div class="nav-item btn btn-sm p-0 ml-1" style="display: flex; align-items:center;">
+                                    <a href="{{ route('admin.counterpartRecords') }}"
+                                        class="nav-link align-items-center btn"
+                                        style="color:#ffffff; background-color:#1f3c88"><i
+                                            class="far fa-arrow-alt-circle-left" style="font-size: 17px"></i> Back</a>
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <input type="hidden" value="{{ $student->id }}">
                             <table class="table table-bordered table-hover data-table text-center">
                                 <thead>
                                     <tr>

@@ -47,6 +47,16 @@
                         <input type="date" name="date" class="form-control" id="date" rows="3"
                             placeholder="" required />
                     </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="send_amount_due_only" name="send_amount_due_only"
+                            value="1">
+                        <label class="form-check-label" for="v">Send amount due only</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="print_acknowledegement_receipt" name="print_acknowledegement_receipt"
+                            value="1">
+                        <label class="form-check-label" for="print_acknowledegement_receipt">Print acknowledgement receipt</label>
+                    </div>
                     <div class="form-group" style="float: right;">
                         <button type="submit" class="btn btn-primary">Add</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>

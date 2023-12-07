@@ -2,14 +2,6 @@
 @section('content')
     <section class="content">
         <div class="row">
-            <span>
-                @if (session('success-gfee'))
-                    <p><span class="text-success success-display ml-2">[ {{ session('success-gfee') }} ]</span></p>
-                @endif
-                @if (session('error-fee'))
-                    <p><span class="text-danger error-display ml-2">[ {{ session('error-gfee') }} ]</span></p>
-                @endif
-            </span>
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex flex-wrap align-items-center justify-content-between"

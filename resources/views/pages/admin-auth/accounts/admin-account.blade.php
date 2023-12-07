@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
 @section('content')
     <section class="content     ">
         <div class="container-fluid">
@@ -66,7 +66,8 @@
                                     <thead>
                                         <tr>
                                             <th style="display:none;">ID</th>
-                                            <th>Name</th>
+                                            <th>Last Name</th>
+                                            <th>First Name</th>
                                             <th>Email</th>
                                             <th>Department</th>
                                             <th>Email Verified At</th>
@@ -74,44 +75,29 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
+                                    @php
+                                        use Illuminate\Support\Str;
+                                    @endphp
                                     <tbody>
                                         @foreach ($users as $user)
                                             <tr>
                                                 <td style="display:none;">{{ $user->id }}</td>
-                                                <td>{{ $user->name }}</td>
-                                                <td class="truncate">{{ $user->email }}</td>
+                                                <td>{{$user->last_name}}</td>
+                                                <td>{{$user->first_name}}</td>
+                                                <td>{{ Str::limit($user->email, 30) }}</td>
                                                 <td>{{ $user->department }}</td>
                                                 {{-- <td class="truncate">{{ $user->password }}</td> --}}
                                                 <td>{{ $user->email_verified_at }}</td>
                                                 <td class="admin-accounts-mobile-btn">
-                                                    @if ($user->otp != null)
+                                                    @if ($user->status == 0)
                                                         <span class="btn badge-success rounded">Active</span>
                                                     @else
                                                         <span class="btn badge-warning rounded">Inactive</span>
                                                     @endif
                                                 </td>
                                                 <td class="admin-accounts-mobile-btn">
-                                                    {{-- <a href="{{ route('admin.getAdminAccount', ['id' => $user->id]) }}"
-                                                        class="btn btn-primary">Edit</a>
-                                                    <a href="{{ route('admin.deleteAdminAccount', ['id' => $user->id]) }}"
-                                                        class="btn btn-danger">Delete</a> --}}
-                                                    {{-- <form method="post" action="{{ route('admin.updateAdminAccount', ['id' => $user->id]) }}">
-                                                        @method('put')
-                                                        @csrf
-                                                        <input type="hidden" name="soft_delete" value="1">
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form> --}}
-                                                    <div class="btn-group">
-                                                        <div style="margin-right: 3px">
-                                                            <a href="{{ route('admin.getAdminAccount', ['id' => $user->user_id]) }}" class="btn btn-primary">Edit</a>
-                                                        </div>
-                                                        <form method="post" action="{{ route('admin.deleteAdminAccount', ['id' => $user->user_id]) }}">
-                                                            @method('put')
-                                                            @csrf
-                                                            <input type="hidden" name="soft_delete" value="1">
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                                        </form>
-                                                    </div>
+                                                    <a href="{{ route('admin.getAdminAccount', ['id' => $user->user_id]) }}"
+                                                        class="btn btn-primary">View</a>
                                                 </td>
                                             </tr>
                                         @endforeach

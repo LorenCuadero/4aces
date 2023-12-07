@@ -150,14 +150,20 @@
         @include('assets.asst-loading-spinner')
         @include('modals.mdl-change-pass-confirmation')
         <div class="content-wrapper text-center p-3">
-            <span>
+            {{-- <span>
                 @if (session('success'))
                     <p class="text-left"><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
                 @endif
                 @if (session('error'))
                     <p class="text-left"><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
                 @endif
-            </span>
+            </span> --}}
+            <span>
+                @if (session('success'))
+                        <script>
+                            toastr.success('{{ session('success') }}');
+                        </script>
+                    @endif
             <span>
                 @if (session('incorrect-password'))
                     <p style="text-align: left;"><span class="text-danger error-display ml-2"

@@ -33,7 +33,8 @@
                                                 <td>{{ $student->joined }}</td>
                                                 <td>
                                                     <a href="{{ route('students-info.getStudentInfo', ['id' => $student->id]) }}"
-                                                        id="edt-btn-students" class="btn btn-sm" style="background-color:#1f3c88; color:#fff; width:50%;"
+                                                        id="edt-btn-students" class="btn btn-sm"
+                                                        style="background-color:#1f3c88; color:#fff; width:30%;"
                                                         data-student-id="{{ $student->id }}"
                                                         data-student-first-name="{{ $student->first_name }}"
                                                         data-student-middle-name="{{ $student->middle_name }}"
@@ -49,6 +50,12 @@
                                                         data-student-url="{{ route('students-info.getStudentInfo', ['id' => $student->id]) }}">
                                                         <i class="far fa-edit" style="font-size: 17px"></i>
                                                         Edit
+                                                    </a>
+                                                    <a href="{{ route('students-info.deletestudent', ['id' => $student->id]) }}"
+                                                        class="btn btn-sm mr-1"
+                                                        style="background-color:#1f3c88; color:#fff; width:40%;">
+                                                        <i class="far fa-edit" style="font-size: 17px"></i>
+                                                        Delete
                                                     </a>
                                                 </td>
                                             </tr>

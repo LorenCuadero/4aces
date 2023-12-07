@@ -504,7 +504,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     var currentYear = new Date().getFullYear();
-    for (var i = currentYear; i >= currentYear - 14; i--) {
+    for (var i = currentYear; i >= currentYear - 30; i--) {
         $("#yearDropdownAnalytics").append(
             $("<option>", {
                 id: "year",
@@ -1291,11 +1291,25 @@ $(document).ready(function () {
                 "</div>"
         );
         printWindowOnFinancialReports.document.write(
-            '<br><h4 class="centered">Financial Statement</h4>'
+            '<br><h4 class="centered">Statement of Accounts</h4>'
         );
 
-        // Date range
+        if ($("#selected-batch-year-reports").length) {
+            printWindowOnFinancialReports.document.write(
+                '<span class="centered">' +
+                    $("#selected-batch-year-reports").text() +
+                    "</span><br>"
+            );
+        } else if ($("#all-batch-year-reports").length) {
+            printWindowOnFinancialReports.document.write(
+                '<span class="centered">' +
+                    $("#all-batch-year-reports").text() +
+                    "</span><br>"
+            );
+        }
+
         if ($("#dates-from-text-when-set").length) {
+            // Date range
             printWindowOnFinancialReports.document.write(
                 '<span class="centered">' +
                     $("#dates-from-text-when-set").text() +
@@ -1384,61 +1398,125 @@ $(document).ready(function () {
             printWindowOnCOA.print();
         }, 1000);
     });
+});
 
-    $(".printButtonOnLogs").click(function () {
-        const currentDateOnLogs = new Date();
-        const formattedDateOnLogs = currentDateOnLogs.toLocaleDateString(
-            "en-US",
-            { month: "long", day: "numeric", year: "numeric" }
-        );
+$(document).ready(function () {
+    function generateAndPrintSummaryReport() {
+        // Check the value right before you need it
+        if ($("#receipt_true").val() == 1) {
+            const printWindowOnStudentCounterpart = window.open("", "_blank");
+            if (!printWindowOnStudentCounterpart) {
+                return;
+            }
+            printWindowOnStudentCounterpart.document.write(
+                "<html><head><title>Print Acknowledgement Receipt</title>"
+            );
+            printWindowOnStudentCounterpart.document.write("<style>");
+            printWindowOnStudentCounterpart.document.write(
+                "* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }"
+            );
+            printWindowOnStudentCounterpart.document.write(
+                "table { border-collapse: collapse; width: 80%; margin: 20px auto; }"
+            );
+            printWindowOnStudentCounterpart.document.write(
+                "table, th, td { border: 1px solid black; padding: 10px; }"
+            );
+            printWindowOnStudentCounterpart.document.write(
+                ".centered { text-align: center; }"
+            );
+            printWindowOnStudentCounterpart.document.write(
+                ".logo { width: 150px; height: 50px; margin: 0 auto; }"
+            );
+            printWindowOnStudentCounterpart.document.write(
+                "</style></head><body><div style='padding-left:100px; padding-right:100px'>"
+            );
 
-        const printWindowOnLogs = window.open("", "_blank");
-        printWindowOnLogs.document.write(
-            "<html><head><title>Activity Logs</title>"
-        );
-        printWindowOnLogs.document.write("<style>");
-        printWindowOnLogs.document.write(
-            "* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }"
-        );
-        printWindowOnLogs.document.write(
-            "table { border-collapse: collapse; width: 80%; margin: 20px auto; }"
-        );
-        printWindowOnLogs.document.write(
-            "table, th, td { border: 1px solid black; padding: 10px; }"
-        );
-        printWindowOnLogs.document.write(".centered { text-align: center; }");
-        printWindowOnLogs.document.write(
-            ".logo { width: 150px; height: 50px; margin: 0 auto; }"
-        );
-        printWindowOnLogs.document.write("</style></head><body>");
+            // Header with logo and title
+            printWindowOnStudentCounterpart.document.write(
+                '<div style="text-align: left; margin-top:20px;">' +
+                    '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
+                    "</div>" +
+                    '<div style="text-align: center; margin-top:50px;">' +
+                    "<h4>PASSERELLES NUMERIQUES PHILIPPINES FOUNDATION INC.</h4>" +
+                    "<h6>The Bird Building, New Era St., Baranggay Luz, Cebu City, Philippines</h6>" +
+                    "<h4 style='margin-top:20px;'>Acknowledgement Receipt</h4>" +
+                    "</div>"
+            );
 
-        // Header with logo and title
-        printWindowOnLogs.document.write(
-            '<br><div class="centered">' +
-                '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
-                "</div>"
-        );
-        printWindowOnLogs.document.write(
-            '<br><h4 class="centered">Activity Logs Records<h4>'
-        );
-        printWindowOnLogs.document.write(
-            '<p class="centered">' + "as of " + formattedDateOnLogs + "</p><br>"
-        );
+            printWindowOnStudentCounterpart.document.write(
+                '<div style="display: flex; justify-content: space-between; margin-top:20px;">' +
+                    '<div style="text-align: left;">' +
+                    '<p style="text-align:left;">' +
+                    "To Whom It May Concern:" +
+                    "</p>" +
+                    "</div>" +
+                    '<div style="text-align: right;">' +
+                    '<p class="text-right">' +
+                    "Date: " +
+                    "<u><b>" +
+                    $("#date_of_transaction").val() +
+                    "</u></b>" +
+                    "</p>" +
+                    "</div>" +
+                    "</div><br>"
+            );
 
-        // Display the table content
-        printWindowOnLogs.document.write(
-            '<table class="table table-bordered table-hover text-center">' +
-                $("#logs-table").html() +
-                "</table>"
-        );
+            printWindowOnStudentCounterpart.document.write(
+                '<p style="text-align: justify; text-indent: 20px; padding:10px">' +
+                    "This is to acknowledge receipt from " +
+                    "<u><b>" +
+                    $("#student_name").val() +
+                    "</b></u>" +
+                    " the amount of " +
+                    "<u><b>" +
+                    $("#amount_paid_in_words").val() +
+                    " pesos only (PHP " +
+                    $("#amount_paid_receipt").val() +
+                    ")" +
+                    "</u></b>" +
+                    " as payment for " +
+                    "<u><b>" +
+                    $("#category").val() +
+                    "</u></b>" +
+                    ".</p><br><br><br>"
+            );
 
-        printWindowOnLogs.document.write("</body></html>");
-        printWindowOnLogs.document.close();
+            printWindowOnStudentCounterpart.document.write(
+                '<div style="display: flex; justify-content: space-between;">' +
+                    '<div style="text-align: center;">' +
+                    "Payment Received By:<br>" +
+                    '<span style="display: block;">' +
+                    "<u><b>" +
+                    $("#current_user_name").val() +
+                    "</u></b>" +
+                    "</span>" +
+                    '<span style="display: block;">Finance Staff</span>' +
+                    "</div>" +
+                    '<div style="text-align: center;  margin-top: 20px">' +
+                    '<span style="display: block;">' +
+                    "<u><b>" +
+                    $("#student_name").val() +
+                    "</u></b>" +
+                    "</span>" +
+                    '<span style="display: block;">Name and Signature Payee</span>' +
+                    "</div>" +
+                    "</div>"
+            );
 
-        setTimeout(() => {
-            printWindowOnLogs.print();
-        }, 1000);
-    });
+            printWindowOnStudentCounterpart.document.write(
+                "</div></body></html>"
+            );
+            printWindowOnStudentCounterpart.document.close();
+            setTimeout(() => {
+                printWindowOnStudentCounterpart.print();
+            }, 100);
+        }
+    }
+
+    // Use setTimeout to ensure that the content is fully loaded
+    setTimeout(function () {
+        generateAndPrintSummaryReport();
+    }, 100); // Adjust the timeout duration as needed
 });
 
 $(document).ready(function () {

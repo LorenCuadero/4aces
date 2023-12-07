@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('gender');
             $table->string('address');
             $table->string('civil_status');
-            $table->string('contact_number')->nullable()->regex('/^\+63\d{10}$/');
+            $table->string('contact_number')->nullable();
             $table->string('email');
             $table->string('password');
 

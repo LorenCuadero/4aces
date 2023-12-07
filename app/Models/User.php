@@ -10,11 +10,12 @@ use Laravel\Sanctum\HasApiTokens;
 use Illmuniate\Support\Facades\Request;
 use App\Models\Log;
 use App\Models\Admin;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +26,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_deleted',
+        'is_inactive'
     ];
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that should be hidden for serialization.

@@ -1,8 +1,8 @@
 @extends('layouts.staff.app')
 @section('content')
-    <span>
+    <span class="text-left">
         @if (session('success-add-student'))
-            <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
+            <p><span class="text-success success-display ml-2">[ {{ session('success-add-student') }} ]</span></p>
         @endif
         @if (session('error-add-student'))
             <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>

@@ -54,7 +54,7 @@
 
                                     <div class="form-group col-md-2 admin-accounts-search-input">
                                         <button type="submit" class="btn btn-primary">Search</button>
-                                        <a href="{{ route('admin.admin-accounts') }}" class="btn btn-success">Reset</a>
+                                        <a href="{{ route('admin.staff-accounts') }}" class="btn btn-success">Reset</a>
                                     </div>
 
                                 </div>
@@ -65,8 +65,9 @@
                                 <table class="table table-hover text-nowrap text-left admin-accounts-table">
                                     <thead>
                                         <tr>
-                                            <th >ID</th>
-                                            <th>Name</th>
+                                            <th style="display:none;">ID</th>
+                                            <th>Last Name</th>
+                                            <th>First Name</th>
                                             <th>Email</th>
                                             <th>Department</th>
                                             <th>Email Verified At</th>
@@ -77,31 +78,29 @@
                                     <tbody>
                                         @foreach ($users as $user)
                                             <tr>
-                                                <td>{{ $user->id }}</td>
-                                                <td>{{ $user->name }}</td>
-                                                <td>{{ $user->email }}</td>
+                                                <td style="display:none;">{{ $user->id }}</td>
+                                                <td>{{$user->last_name}}</td>
+                                                <td>{{$user->first_name}}</td>
+                                                <td>{{ Str::limit($user->email, 30) }}</td>
                                                 <td>{{ $user->department }}</td>
                                                 {{-- <td class="truncate">{{ $user->password }}</td> --}}
                                                 <td>{{ $user->email_verified_at }}</td>
-                                                <td class="admin-accounts-mobile-btn">
-                                                    @if ($user->otp != null)
+                                                 <td class="admin-accounts-mobile-btn">
+                                                    @if ($user->status == 0)
                                                         <span class="btn badge-success rounded">Active</span>
                                                     @else
                                                         <span class="btn badge-warning rounded">Inactive</span>
                                                     @endif
                                                 </td>
-                                                <td class="admin-accounts-mobile-btn">
+                                                 <td class="admin-accounts-mobile-btn">
                                                     <a href="{{ route('admin.getStaffAccount', ['id' => $user->user_id]) }}"
-                                                        class="btn btn-primary">Edit</a>
-                                                    <a href="{{ route('admin.deleteStaffAccount', ['id' => $user->user_id]) }}"
-                                                        class="btn btn-danger">Delete</a>
+                                                        class="btn btn-primary">View</a>
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                                 <div style="padding:10px; float:right;">
-                                    {{-- {!! $users->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!} --}}
                                     {!! $users->appends(['entries' => $entriesPerPage])->links() !!}
                                 </div>
                             </div>
