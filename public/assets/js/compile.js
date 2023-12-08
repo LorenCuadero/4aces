@@ -359,7 +359,7 @@ $(document).ready(function () {
             paging: true,
             pageLength: 5,
             searching: true,
-            ordering: false,
+            ordering: true,
             lengthChange: true,
         });
     } else {

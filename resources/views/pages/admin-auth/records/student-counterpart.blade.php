@@ -15,12 +15,19 @@
                         <input id="amount_paid_in_words" type="hidden" value="{{ $amountPaidInWords }}">
                         <input id="category" type="hidden" value="{{ $category }}">
                         <input id="amount_paid_receipt" type="hidden" value="{{ $amountPaid }}">
+                        <input id="student_id_on_pc" type="hidden" value="{{ $student->id }}">
                     @endif
                     <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
                         style="background-color: #ffff;">
                         <p class="card-title mb-3 mb-md-0" style=" padding-left:0%; font-size: 17px"><b>Parents
                                 Counterpart Record of:</b>
-                            {{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
+                            {{ $student->first_name }}
+
+                            @if ($student->middle_name && $student->middle_name != 'N/A')
+                                {{ ' ' . $student->middle_name }}
+                            @endif
+
+                            {{ ' ' . $student->last_name }}
                         </p>
                         <div class="d-flex flex-wrap align-items-center ml-auto">
                             <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0"
@@ -80,7 +87,7 @@
                                                 <a href="#" data-id="{{ $counterpart->id }}"
                                                     data-delete-url="{{ route('admin.deleteCounterpart', ['id' => 'counterpart_id']) }}"
                                                     class="btn btn-sm delete-counterpart"
-                                                    style="background-color: #dd3e3e; color: #ffff; width:50%; border-radius: 20px; margin: 2px;">
+                                                    style="background-color: #dd3e3e; color: #ffff; width:55%; border-radius: 20px; margin: 2px;">
                                                     <i class="fas fa-trash-alt" style="font-size: 16px; border: 1px;"></i>
                                                     Delete
                                                 </a>

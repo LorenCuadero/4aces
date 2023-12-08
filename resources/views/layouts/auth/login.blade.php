@@ -1,7 +1,24 @@
 @extends('layouts.app')
+@include('assets.asst-loading-spinner')
 
-    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <meta name="description" content="Passerelles Numeriques Philippines Integration Online Management System." />
+    <meta name="robots">
+
+    <title>{{ !empty($header_title) ? $header_title : '' }} IOMS</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/pn-logo-small.png')}}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+
+</head>
 <body class="hold-transition login-page custom-background">
     <div class="login-box">
     <!-- login-logo -->
@@ -41,6 +58,11 @@
                     @if (session('error-email-no-found'))
                         <p class="mt-1"><span
                                 class="text-danger error-display">{{ session('error-email-no-found') }}</span>
+                        </p>
+                    @endif
+                    @if (session('deactivated-email'))
+                        <p class="mt-1"><span
+                                class="text-danger error-display">{{ session('deactivated-email') }}</span>
                         </p>
                     @endif
                 </div>
@@ -107,3 +129,4 @@
 </div>
 <!-- /.login-box -->
 
+</html>

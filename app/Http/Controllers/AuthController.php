@@ -35,6 +35,11 @@ class AuthController extends Controller
             return redirect()->back()->withInput(compact('email'))->with('error-email-no-found', 'Email not found.');
         }
 
+        if($user->status == 1){
+            return redirect()->back()->withInput(compact('email'))->with('deactivated-email', "You're account has been deactivated. Contact admin to activate your account.");
+        }
+
+
         if (!Hash::check($request->input('password'), $user->password)) {
             return redirect()->back()->withInput(compact('email'))->with('error-incorrect-password', 'Incorrect password.');
         }

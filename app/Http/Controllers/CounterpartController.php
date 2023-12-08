@@ -35,14 +35,14 @@ class CounterpartController extends Controller {
                 'amount_paid' => $record->total_paid,
             ];
         }
-
+        $data['header_title'] = "Counterpart Record |";
         return view('pages.admin-auth.records.counterpart', [
             'students' => $students,
             'students_counterpart_records' => $students_counterpart_records,
             'studentsWithoutCounterparts' => $studentsWithoutCounterparts,
             'totalAmounts' => $totalAmounts,
             'counterpartRecords' => $counterpartRecords,
-        ]);
+        ], $data);
     }
 
     // foreach ($students as $student) {
@@ -95,8 +95,10 @@ class CounterpartController extends Controller {
             return $months[$month];
         });
 
+        $data['header_title'] = "Counterpart Record |";
+
         $acknowledgementReceipt = null;
-        return view('pages.admin-auth.records.student-counterpart', compact('student', 'student_counterpart_records', 'monthNames', 'months', 'acknowledgementReceipt'));
+        return view('pages.admin-auth.records.student-counterpart', compact('student', 'student_counterpart_records', 'monthNames', 'months', 'acknowledgementReceipt'), $data);
     }
 
     public function storeCounterpart(Request $request, $id) {
@@ -122,8 +124,8 @@ class CounterpartController extends Controller {
         $student = Student::find($id);
 
         // Check for duplicates
-        if($student->counterpart()->where('month', $validatedData['month'])
-            ->where('year', $validatedData['year'])
+        if($student->counterpart()->where('month', $request->input('month'))
+            ->where('year', $request->input('year'))
             ->exists()
         ) {
             return back()->with('error', 'Counterpart record failed to add, combination of month and year already exists!');
@@ -190,6 +192,7 @@ class CounterpartController extends Controller {
             'amountPaidInWords',
             'category'
         ))->with('success', 'Counterpart record added and email sent successfully!');
+
     }
 
     function numberToWords($number) {
@@ -217,6 +220,11 @@ class CounterpartController extends Controller {
             if($num % 100) {
                 $result .= ' and '.$this->numberToWords($num % 100);
             }
+        } elseif($num < 12000) {
+            $result = $words[(int)($num / 1000)].' thousand';
+            if($num % 1000) {
+                $result .= ' '.$this->numberToWords($num % 1000);
+            }
         } else {
             // For simplicity, you can extend this function for larger numbers if needed
             $result = 'Number is too large for conversion';
@@ -226,13 +234,11 @@ class CounterpartController extends Controller {
     }
 
     public function updateCounterpart(Request $request, $id) {
-        $validatedData = $request->validate([
-            'month' => 'required|string',
-            'year' => 'required|integer',
-            'amount_due' => 'required',
-            'amount_paid' => 'required',
-            'date' => 'required',
-        ]);
+        $counterpart = Counterpart::find($id);
+
+        if($request->input('amount_due') == null) {
+            return back()->with('error', 'Amount due cannot be empty!');
+        }
 
         $counterpart = Counterpart::find($id);
         $studentId = $counterpart->student_id;
@@ -240,49 +246,87 @@ class CounterpartController extends Controller {
         $studentName = $counterpart->student->first_name." ".$counterpart->student->last_name;
         $studentBatchYear = $counterpart->student->batch_year;
 
-        $dateOfTransaction = $validatedData['date'];
-        $amountPaid = $validatedData['amount_paid'];
+        // Check for duplicates
+        $existingCounterpart = Counterpart::where('month', $request->input('month'))
+            ->where('year', $request->input('year'))
+            ->where('student_id', $studentId)
+            ->first();
+
+        $amount_paid = 0;
+        if($request->input('amount_paid') != null) {
+            $amount_paid = $request->input('amount_paid');
+        }
+
+        $counterpart->month = $request->input('month');
+        $counterpart->year = $request->input('year');
+        $counterpart->amount_due = $request->input('amount_due');
+        $counterpart->amount_paid = $request->input('amount_paid_previously') + $amount_paid;
+        $counterpart->date = $request->input('date');
+        $counterpart->student_id = $studentId;
+        $counterpart->save();
+        $dateOfTransaction = $request->input('date');
+        $amountPaid = $amount_paid;
         $amountPaidInWords = $this->numberToWords($amountPaid);
         $category = "Parents Counterpart";
 
         $send_amount_due_only = 0;
-        if($request->has('send_amount_due_only_edit_counterpart')) {
+        if($request->input('send_amount_due_only_edit_counterpart') == 1) {
             $send_amount_due_only = 1;
         }
 
-        // Check for duplicates
-        $existingCounterpart = Counterpart::where('month', $validatedData['month'])
-            ->where('year', $validatedData['year'])
-            ->where('student_id', $studentId)
-            ->first();
-
-        $counterpart->month = $validatedData['month'];
-        $counterpart->year = $validatedData['year'];
-        $counterpart->amount_due = $validatedData['amount_due'];
-        $counterpart->amount_paid = $request->input('amount_paid_previously') + $validatedData['amount_paid'];
-        $counterpart->date = $validatedData['date'];
-        $counterpart->student_id = $studentId;
-
-        $counterpart->save();
-
-        $numericMonth = $validatedData['month'];
-        $monthName = date('F', mktime(0, 0, 0, $numericMonth, 1));
-
-        // Log the action
-        $action = "Updated";
-        StoreLogsService::storeLogs(auth()->user()->id, $action, "Counterpart", $studentId, null, $studentBatchYear);
+        $student = Student::find($studentId);
 
         $acknowledgementReceipt = 0;
         if($request->has('print_acknowledegement_receipt_edit_counterpart')) {
             $acknowledgementReceipt = 1;
         }
 
+        $numericMonth = $request->input('month');
+        $monthName = date('F', mktime(0, 0, 0, $numericMonth, 1));
+
+        // Log the action
+        $action = "Updated";
+        StoreLogsService::storeLogs(auth()->user()->id, $action, "Counterpart", $studentId, null, $studentBatchYear);
 
         // Send email notification to the student
         Mail::to($studentEmail)->send(new SendReceiptOrPaymentInfo($studentName, $counterpart->month, $counterpart->year, $counterpart->amount_due, $counterpart->amount_paid, $counterpart->date, $send_amount_due_only));
+        if(!$student) {
+            return back()->with('error', 'Student not found!');
+        }
 
-        // Return success message only if no duplicate was found
-        return redirect()->route('admin.studentPageCounterpartRecords', ['id' => $counterpart->student_id])->with('success', 'Counterpart record updated and email sent successfully!', compact('counterpart', 'acknowledgementReceipt'));
+        $student_counterpart_records = Counterpart::where('student_id', $student->id)->get();
+
+        $months = [
+            1 => 'January',
+            2 => 'February',
+            3 => 'March',
+            4 => 'April',
+            5 => 'May',
+            6 => 'June',
+            7 => 'July',
+            8 => 'August',
+            9 => 'September',
+            10 => 'October',
+            11 => 'November',
+            12 => 'December',
+        ];
+
+        $monthNames = $student_counterpart_records->pluck('month')->map(function ($month) use ($months) {
+            return $months[$month];
+        });
+
+        return view('pages.admin-auth.records.student-counterpart', compact(
+            'student',
+            'student_counterpart_records',
+            'monthNames',
+            'months',
+            'acknowledgementReceipt',
+            'counterpart',
+            'dateOfTransaction',
+            'amountPaid',
+            'amountPaidInWords',
+            'category'
+        ))->with('success', 'Counterpart record updated and email sent successfully!');
     }
 
     public function deleteCounterpart($id) {

@@ -1,4 +1,4 @@
-@extends('layouts.admin.app')
+@extends('layouts.staff.app')
 @section('content')
     <section class="content">
         <div class="container-fluid">
@@ -26,24 +26,24 @@
                                 <table id="exampleOnCOA" class="table table-bordered table-hover data-table text-center">
                                     <thead>
                                         <tr>
-                                            <th style="font-size:14px; background-color: #ffff; color: #1f3c88">Name</th>
-                                            <th style="font-size:14px; background-color: #ffff; color: #1f3c88">Batch Year</th>
-                                            <th style="font-size:14px; background-color: #ffff; color: #1f3c88">Counterpart Amount Due</th>
-                                            <th style="font-size:14px; background-color: #ffff; color: #1f3c88">Medical Share Amount Due
+                                            <th style="background-color: #ffff; color: #1f3c88">Name</th>
+                                            <th style="background-color: #ffff; color: #1f3c88">Batch Year</th>
+                                            <th style="background-color: #ffff; color: #1f3c88">Counterpart Amount Due</th>
+                                            <th style="background-color: #ffff; color: #1f3c88">Medical Share Amount Due
                                             </th>
-                                            <th style="font-size:14px; background-color: #ffff; color: #1f3c88">Personal Cash Advance Amount
+                                            <th style="background-color: #ffff; color: #1f3c88">Personal Cash Advance Amount
                                                 Due</th>
-                                            <th style="font-size:14px; background-color: #ffff; color: #1f3c88">Graduation Fee Amount Due
+                                            <th style="background-color: #ffff; color: #1f3c88">Graduation Fee Amount Due
                                             </th>
-                                            <th style="font-size:14px; background-color: #ffff; color: #1f3c88">Total Balances
+                                            <th style="background-color: #ffff; color: #1f3c88">Total Balances
                                             </th>
-                                            <th style="font-size:14px; background-color: #ffff; color: #1f3c88">Status</th>
+                                            <th style="background-color: #ffff; color: #1f3c88">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-body" style="font-size: 14px;">
                                         @forelse ($studentData as $data)
                                             <tr>
-                                                {{-- <td>{{ $data['name'] }}</td> --}}
+                                                <td>{{ $data['name'] }}</td>
                                                 <td>{{ $data['batch_year'] }}</td>
                                                 <td>{{ $data['counterpart_due_and_paid'] }}</td>
                                                 <td>{{ $data['medical_share_due_and_paid'] }}</td>

@@ -1343,6 +1343,130 @@ $(document).ready(function () {
         }, 1000);
     });
 
+    $(".printButtonOnAcademicReports").click(function () {
+        const printWindowOnAcademicReports = window.open("", "_blank");
+        printWindowOnAcademicReports.document.write(
+            "<html><head><title>Academic Report</title>"
+        );
+        printWindowOnAcademicReports.document.write("<style>");
+        printWindowOnAcademicReports.document.write(
+            "* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            "table { border-collapse: collapse; width: 80%; margin: 20px auto; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            "table, th, td { border: 1px solid black; padding: 10px; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            ".centered { text-align: center; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            ".logo { width: 150px; height: 50px; margin: 0 auto; }"
+        );
+        printWindowOnAcademicReports.document.write("</style></head><body>");
+
+        printWindowOnAcademicReports.document.write(
+            '<br><h4 class="centered" style="margin-top:50px">CERTIFICATE IN COMPUTER TECHNOLOGY</h4>' +
+                "<p>Effective SY: " +
+                $("#user_joined_year_int").val() +
+                " - " +
+                $("#user_joined_effective_year").val() +
+                "</p>"
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<span class="centered">' +
+                $(".student_name_academic").val() +
+                "</span><br><br><br>"
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<p class="text-disp"><b>General Point Average Per Semester</b></p><br>'
+        );
+
+        // Display the table content
+        printWindowOnAcademicReports.document.write(
+            '<table class="table table-bordered table-hover text-center">' +
+                $("#academic-table-report").html() +
+                "</table>"
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<p class="text-disp centered" style="font-size: 12px"><i>Note:</i> This record presents only the general ' +
+                "point average per semester and your general weighted average. For further details, please open" +
+                ' your <a href="https://ismis.usc.edu.ph/Account/Login?ReturnUrl=%2F"' +
+                ' style="text-decoration: #1f3c88" title="USC-ISMIS Link">ISMIS</a> account.</p>'
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<br><p class="centered">' +
+                "General Weighted Average: " +
+                $("#total_gpa_acad").val() +
+                "</p><br>"
+        );
+
+        printWindowOnAcademicReports.document.write("</body></html>");
+        printWindowOnAcademicReports.document.close();
+
+        // Trigger the print function on the new window or tab
+        setTimeout(() => {
+            printWindowOnAcademicReports.print();
+        }, 1000);
+    });
+
+    $(".printButtonOnDisciplinaryReports").click(function () {
+        const printButtonOnDisciplinaryReports = window.open("", "_blank");
+        printButtonOnDisciplinaryReports.document.write(
+            "<html><head><title>Disciplinary Report</title>"
+        );
+        printButtonOnDisciplinaryReports.document.write("<style>");
+        printButtonOnDisciplinaryReports.document.write(
+            "* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }"
+        );
+        printButtonOnDisciplinaryReports.document.write(
+            "table { border-collapse: collapse; width: 80%; margin: 20px auto; }"
+        );
+        printButtonOnDisciplinaryReports.document.write(
+            "table, th, td { border: 1px solid black; padding: 10px; }"
+        );
+        printButtonOnDisciplinaryReports.document.write(
+            ".centered { text-align: center; }"
+        );
+        printButtonOnDisciplinaryReports.document.write(
+            ".logo { width: 150px; height: 50px; margin: 0 auto; }"
+        );
+        printButtonOnDisciplinaryReports.document.write(
+            "</style></head><body>"
+        );
+
+        printButtonOnDisciplinaryReports.document.write(
+            '<br><h4 class="centered" style="margin-top:50px">Disciplinary Records</h4>' +
+                "</p>"
+        );
+
+        printButtonOnDisciplinaryReports.document.write(
+            '<span class="centered">' +
+                $(".student_name_academic").val() +
+                "</span><br>"
+        );
+
+        // Display the table content
+        printButtonOnDisciplinaryReports.document.write(
+            '<table class="table table-bordered table-hover text-center">' +
+                $("#disciplinary-report-table").html() +
+                "</table>"
+        );
+
+        printButtonOnDisciplinaryReports.document.write("</body></html>");
+        printButtonOnDisciplinaryReports.document.close();
+
+        // Trigger the print function on the new window or tab
+        setTimeout(() => {
+            printButtonOnDisciplinaryReports.print();
+        }, 1000);
+    });
+
     $(".printButtonOnCOA").click(function () {
         const currentDateOnCOA = new Date();
         const formattedDateOnCOA = currentDateOnCOA.toLocaleDateString(
@@ -1484,7 +1608,7 @@ $(document).ready(function () {
             printWindowOnStudentCounterpart.document.write(
                 '<div style="display: flex; justify-content: space-between;">' +
                     '<div style="text-align: center;">' +
-                    "Payment Received By:<br>" +
+                    "Payment Received By:<br><br><br>" +
                     '<span style="display: block;">' +
                     "<u><b>" +
                     $("#current_user_name").val() +
@@ -1492,7 +1616,7 @@ $(document).ready(function () {
                     "</span>" +
                     '<span style="display: block;">Finance Staff</span>' +
                     "</div>" +
-                    '<div style="text-align: center;  margin-top: 20px">' +
+                    '<div style="text-align: center;  margin-top: 52px">' +
                     '<span style="display: block;">' +
                     "<u><b>" +
                     $("#student_name").val() +
@@ -1509,7 +1633,12 @@ $(document).ready(function () {
             printWindowOnStudentCounterpart.document.close();
             setTimeout(() => {
                 printWindowOnStudentCounterpart.print();
-            }, 100);
+                toastr.success("Email sent successfully");
+            }, 1000);
+
+            // const student_id_on_pc = $("#student_id_on_pc").val();
+
+            // window.location.href = "/counterpart-records/" + student_id_on_pc;
         }
     }
 

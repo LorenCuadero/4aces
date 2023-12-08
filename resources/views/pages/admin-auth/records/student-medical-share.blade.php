@@ -8,7 +8,13 @@
                         style="background-color: #ffff;">
                         <p class="card-title mb-3 mb-md-0" style=" padding-left:0%; font-size: 17px"><b>Medical Share Record
                                 of:</b>
-                            {{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
+                            {{ $student->first_name }}
+
+                            @if ($student->middle_name && $student->middle_name != 'N/A')
+                                {{ ' ' . $student->middle_name }}
+                            @endif
+
+                            {{ ' ' . $student->last_name }}
                         </p>
                         <div class="d-flex flex-wrap align-items-center ml-auto">
                             <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0"
@@ -40,7 +46,7 @@
                                         <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Amount Paid
                                         </th>
                                         <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Date</th>
-                                        <th style="background-color: #fff; color:#1f3c88;" class="vertical-text"></th>
+                                        <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-body">

@@ -20,7 +20,7 @@
                                                 class="table table-bordered table-hover data-table text-center">
                                                 <thead style="background-color: #ffff; color:#1f3c88;">
                                                     <tr>
-                                                        <th style="background-color: #ffff; color:#1f3c88;">Month</th>
+                                                        <th style="background-color: #ffff; color:#1f3c88;">Date</th>
                                                         <th style="background-color: #ffff; color:#1f3c88;">Amount Due
                                                         </th>
                                                     </tr>

@@ -111,8 +111,8 @@
                             <div class="form-group">
                                 <label for="status_admin">Status</label>
                                 <select name="status" id="status_admin" class="form-control">
-                                    <option value="1" @if($user->status == 0) selected @endif>Active</option>
-                                    <option value="0" @if($user->status == 1) selected @endif>Inactive</option>
+                                    <option value="0" @if($user->status == 0) selected @endif>Active</option>
+                                    <option value="1" @if($user->status == 1) selected @endif>Inactive</option>
                                 </select>
                                     @error('status')
                                     <div class="alert alert-danger">

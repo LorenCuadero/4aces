@@ -8,11 +8,11 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        {{-- <title>{{ config('app.name', 'IOMS') }}</title> --}}
+    {{-- <title>{{ config('app.name', 'IOMS') }}</title> --}}
     <title>{{ !empty($header_title) ? $header_title : '' }} IOMS</title>
     <!-- Page Icon -->
     <link rel="icon" type="image/x-icon" href="https://i.ibb.co/rbH9RXt/pn-logo-circle.png">
-    
+
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte/dist/css/adminlte.min.css">

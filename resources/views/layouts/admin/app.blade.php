@@ -164,6 +164,7 @@
                             toastr.success('{{ session('success') }}');
                         </script>
                     @endif
+            </span>
             <span>
                 @if (session('incorrect-password'))
                     <p style="text-align: left;"><span class="text-danger error-display ml-2"
