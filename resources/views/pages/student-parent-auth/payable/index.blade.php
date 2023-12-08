@@ -65,32 +65,12 @@
             <div class="right-column">
                 <div class="right-content" style="border: none">
                     <p style="color: #1f3c88;">UNPAID COUNTERPART</p>
-                    <div class="flex-container d-flex"
-                        style="font-size: 13px; display: flex; align-items: center; text-align: center;">
-                        <div class="left-column" style="display: flex; align-items: center;">
-                            <div class="left-content1">
-                                <div class="arrow">
-                                    <span><i class="fas fa-arrow-down"></i> <i class="fas fa-arrow-up"></i> Latest to
-                                        Oldest</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="right-column1" style="display: flex; align-items: center; text-align:center">
-                            <div class="right-content1">
-                                <div class="arrow" style="text-align: center">
-                                    <span><a href="#" data-toggle="modal"
-                                            data-target="#student-counterpart-payable-modal">View All</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="left-column" style="background-color: none;">
-                        <div class="left-contelnt1">
+                        <div class="left-content1">
                             <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
-                                <!-- Content for "UNpaid Counterpart" -->
                                 @if (count($unpaidCounterpartRecords) > 0)
                                     @foreach ($unpaidCounterpartRecords as $record)
-                                        <div class="flex-container align-middle"
+                                        <div class="flex-container align-middle p-0"
                                             style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
                                             <div class="left-column" style="padding: 2%;">
                                                 <div class="left-content1  pt-0" style="font-size: 12px">
@@ -100,10 +80,10 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div class="left-column" style="padding: 2%;">
+                                            <div class="" style="padding: 2%;">
                                                 <div class="right-content" style="border: none">
-                                                    <p style="color: #1f3c88;">₱
-                                                        {{ number_format($record->amount_due - $record->amount_paid, 2) }}
+                                                    <p style="color: #1f3c88;">
+                                                        ₱{{ number_format($record->amount_due - $record->amount_paid, 2) }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -120,37 +100,27 @@
                             </div>
                         </div>
                     </div>
+                    <div style="display: flex; justify-content: center; align-items: center; text-align: center;">
+                        <div>
+                            <div class="arrow">
+                                <span><a href="#" class="btn btn-default" style="color: #1f3c88; font-size:10px;"
+                                        data-target="#student-counterpart-payable-modal" data-toggle="modal">View
+                                        All</a></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="right-column">
                 <div class="right-content" style="border: none">
                     <p style="color: #1f3c88;">UNPAID MEDICAL SHARE</p>
-                    <div class="flex-container"
-                        style="font-size: 13px; display: flex; align-items: center; text-align: center;">
-                        <div class="left-column" style="display: flex; align-items: center;">
-                            <div class="left-content1">
-                                <div class="arrow">
-                                    <span><i class="fas fa-arrow-down"></i> <i class="fas fa-arrow-up"></i> Latest to
-                                        Oldest</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="right-column1" style="display: flex; align-items: center; text-align:center">
-                            <div class="right-content1">
-                                <div class="arrow" style="text-align: center">
-                                    <span><a href="#" data-toggle="modal"
-                                            data-target="#student-medical-payable-modal">View All</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="left-column" style="background-color: none;">
                         <div class="left-content1">
                             <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
                                 <!-- Content for "UNpaid Counterpart" -->
                                 @if (count($unpaidMedicalRecords) > 0)
                                     @foreach ($unpaidMedicalRecords as $record)
-                                        <div class="flex-container align-middle"
+                                        <div class="flex-container align-middle p-0"
                                             style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
                                             <div class="left-column" style="padding: 2%;">
                                                 <div class="left-content1  pt-0" style="font-size: 12px">
@@ -178,37 +148,27 @@
                             </div>
                         </div>
                     </div>
+                    <div style="display: flex; justify-content: center; align-items: center; text-align: center;">
+                        <div>
+                            <div class="arrow">
+                                <span><a href="#" class="btn btn-default" style="color: #1f3c88; font-size:10px;"
+                                        data-target="#student-medical-payable-modal" data-toggle="modal">View
+                                        All</a></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="right-column">
                 <div class="right-content" style="border: none">
                     <p style="color: #1f3c88;">UNPAID PERSONAL CA</p>
-                    <div class="flex-container"
-                        style="font-size: 13px; display: flex; align-items: center; text-align: center;">
-                        <div class="left-column" style="display: flex; align-items: center;">
-                            <div class="left-content1">
-                                <div class="arrow">
-                                    <span><i class="fas fa-arrow-down"></i> <i class="fas fa-arrow-up"></i> Latest to
-                                        Oldest</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="right-column1" style="display: flex; align-items: center; text-align:center">
-                            <div class="right-content1">
-                                <div class="arrow" style="text-align: center">
-                                    <span><a href="#" data-toggle="modal"
-                                            data-target="#student-personal-ca-payable-modal">View All</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="left-column" style="background-color: none;">
                         <div class="left-content1">
                             <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
                                 <!-- Content for "UNpaid Counterpart" -->
                                 @if (count($unpaidPersonalCARecords) > 0)
                                     @foreach ($unpaidPersonalCARecords as $record)
-                                        <div class="flex-container align-middle"
+                                        <div class="flex-container align-middle p-0"
                                             style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
                                             <div class="left-column" style="padding: 2%;">
                                                 <div class="left-content1  pt-0" style="font-size: 12px">
@@ -237,37 +197,27 @@
                             </div>
                         </div>
                     </div>
+                    <div style="display: flex; justify-content: center; align-items: center; text-align: center;">
+                        <div>
+                            <div class="arrow">
+                                <span><a href="#" class="btn btn-default" style="color: #1f3c88; font-size:10px;"
+                                        data-target="#student-personal-ca-payable-modal" data-toggle="modal">View
+                                        All</a></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="right-column">
                 <div class="right-content" style="border: none">
                     <p style="color: #1f3c88;">UNPAID GRADUATION FEE</p>
-                    <div class="flex-container"
-                        style="font-size: 13px; display: flex; align-items: center; text-align: center;">
-                        <div class="left-column" style="display: flex; align-items: center;">
-                            <div class="left-content1">
-                                <div class="arrow">
-                                    <span><i class="fas fa-arrow-down"></i> <i class="fas fa-arrow-up"></i> Latest to
-                                        Oldest</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="right-column1" style="display: flex; align-items: center; text-align:center">
-                            <div class="right-content1">
-                                <div class="arrow" style="text-align: center">
-                                    <span><a href="#" data-toggle="modal"
-                                            data-target="#student-graduation-fee-payable-modal">View All</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="left-column" style="background-color: none;">
                         <div class="left-content1">
                             <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
                                 <!-- Content for "UNpaid Counterpart" -->
                                 @if (count($unpaidGraduationFeeRecords) > 0)
                                     @foreach ($unpaidGraduationFeeRecords as $record)
-                                        <div class="flex-container align-middle"
+                                        <div class="flex-container align-middle p-0"
                                             style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2%;">
                                             <div class="left-column" style="padding: 2%;">
                                                 <div class="left-content1 pt-0" style="font-size: 12px">
@@ -293,6 +243,15 @@
                                             fee records found.</p>
                                     </div>
                                 @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; text-align: center;">
+                        <div>
+                            <div class="arrow">
+                                <span><a href="#" class="btn btn-default" style="color: #1f3c88; font-size:10px;"
+                                        data-target="#student-graduation-fee-payable-modal" data-toggle="modal">View
+                                        All</a></span>
                             </div>
                         </div>
                     </div>

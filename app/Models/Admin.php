@@ -20,7 +20,8 @@ class Admin extends Model
         'civil_status',
         'contact_number',
         'email',
-        'password'
+        'password',
+        'status'
     ];
 
     public function user(){

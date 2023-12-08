@@ -25,7 +25,13 @@
                                                 <td>
                                                     <input type="hidden" id="stud_id_{{ $student->id }}" name="stud_id"
                                                         value="{{ $student->id }}">
-                                                    {{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
+                                                    {{ $student->first_name }}
+
+                                                    @if ($student->middle_name && $student->middle_name != 'N/A')
+                                                        {{ ' ' . $student->middle_name }}
+                                                    @endif
+
+                                                    {{ ' ' . $student->last_name }}
                                                 </td>
                                                 <td>
                                                     {{ $student->batch_year }}

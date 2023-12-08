@@ -9,6 +9,8 @@ use App\Models\Student;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 
 class StudentParentController extends Controller
 {
@@ -143,6 +145,7 @@ class StudentParentController extends Controller
                 $userMname = $student->middle_name;
                 $userLname = $student->last_name;
 
+
                 // Calculate the total payments for counterpart
                 $totalCounterpartPayment = $student->counterpart->sum('amount_paid');
 
@@ -157,17 +160,38 @@ class StudentParentController extends Controller
 
                 $totalPayments = $totalCounterpartPayment + $totalMedicalPayment + $totalPersonalCashAdvancePayment + $totalGraduationFeePayment;
 
+
+
+                /** PAID COUNTERPART **/
                 $paidCounterpartRecords = $student->counterpart;
+                // $sortOrderpaidCounterpart = session()->get('sortOrder', 'asc');
+                // $nextSortOrderPaidCounterpart = ($sortOrderpaidCounterpart == 'asc') ? 'desc' : 'asc'; // Toggle the sort order for the next request
+                // session()->put('sortOrder', $nextSortOrderPaidCounterpart);
+                // $sortedPaidCounterpartRecords = $paidCounterpartRecords->sortBy('date', SORT_REGULAR, $sortOrderpaidCounterpart === 'desc');
 
+
+                /** PAID MEDICAL RECORDS **/
                 $paidMedicalRecords = $student->medicalShare;
+                // $sortOrderPaidMedicalRecords = session()->get('sortOrder', 'asc');
+                // $nextSortOrderPaidMedicalRecords = ($sortOrderPaidMedicalRecords == 'asc') ? 'desc' : 'asc'; // Toggle the sort order for the next request
+                // session()->put('sortOrder', $nextSortOrderPaidMedicalRecords);
+                // $sortedOrderPaidMedicalRecords = $paidMedicalRecords->sortBy('date', SORT_REGULAR, $sortOrderPaidMedicalRecords === 'desc'); // Sort the records based on the 'date' column
 
+
+                /** PAID MEDICAL RECORDS **/
                 $paidPersonalCARecords = $student->personalCashAdvance;
+                // $sortOrderPaidPersonalCARecords = session()->get('sortOrder', 'asc');
+                // $nextSortOrderPaidPersonalCARecords = ($sortOrderPaidPersonalCARecords == 'asc')? 'desc' : 'asc'; // Toggle the sort order for the next request
+                // session()->put('sortOrder', $nextSortOrderPaidPersonalCARecords);
+                // $sortedOrderPaidPersonalCARecords = $paidPersonalCARecords->sortBy('date', SORT_REGULAR, $sortOrderPaidPersonalCARecords === 'desc'); // Sort the records based on the 'date' column
 
                 $paidGraduationFeeRecords = $student->graduationFee;
 
                 if ($student) {
                     $userName = $student->first_name;
                 }
+
+
             } else {
                 $userName = $user->name;
             }
@@ -187,7 +211,16 @@ class StudentParentController extends Controller
                     'paidCounterpartRecords',
                     'paidMedicalRecords',
                     'paidPersonalCARecords',
-                    'paidGraduationFeeRecords'
+                    'paidGraduationFeeRecords',
+                    // 'sortedPaidCounterpartRecords', // Use the sorted records in your view
+                    // 'nextSortOrderPaidCounterpart', // Include the variable for the sorting link
+                    // 'sortOrderpaidCounterpart' ,    // Include the current sort order for conditional styling in your view
+                    // 'sortedOrderPaidMedicalRecords', // Use the sorted records in your view
+                    // 'nextSortOrderPaidMedicalRecords', // Include the variable for the sorting link
+                    // 'sortOrderPaidMedicalRecords'  ,  // Include the current sort order for conditional styling in your view
+                    // 'sortedOrderPaidPersonalCARecords', // Use the sorted records in your view
+                    // 'nextSortOrderPaidPersonalCARecords', // Include the variable for the sorting link
+                    // 'sortOrderPaidPersonalCARecords'      // Include the current sort order for conditional styling in your view
                 )
             );
         } else {

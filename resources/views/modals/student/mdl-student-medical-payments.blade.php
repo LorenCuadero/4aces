@@ -27,6 +27,8 @@
                                                             Share</th>
                                                         <th style="background-color: #ffff; color:#1f3c88;">Amount Paid
                                                         </th>
+                                                        <th style="background-color: #ffff; color:#1f3c88;">Date Paid
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-body1">
@@ -39,6 +41,7 @@
                                                             <td>₱
                                                                 {{ number_format($record->amount_paid, 2) }}
                                                             </td>
+                                                            <td>{{$record->date}}</td>
                                                         </tr>
                                                     @empty
                                                         <tr>
@@ -61,3 +64,46 @@
         </div>
     </div>
 </div>
+<script>
+    // Function to handle sorting the table by year
+    function toggleSortOrder() {
+        // Fetch the sort link and modal ID
+        var sortLink = document.getElementById('sortPaidMedical');
+        var tableBody = document.querySelector('#student-medical-payments-modal .modal-body .table-body1');
+
+        // Attach a click event listener to the sort link
+        sortLink.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            // Fetch the current sort order from the link's data attribute
+            var currentSortOrder = sortLink.getAttribute('data-sort-order') || 'asc';
+
+            // Toggle the sort order
+            var nextSortOrder = (currentSortOrder === 'asc') ? 'desc' : 'asc';
+
+            // Update the link's data attribute with the new sort order
+            sortLink.setAttribute('data-sort-order', nextSortOrder);
+
+            // Fetch the rows from the table body
+            var rows = Array.from(tableBody.querySelectorAll('.table-row1'));
+
+            // Sort the rows based on the year column (assuming it's the second column)
+            rows.sort(function(row1, row2) {
+                var year1 = parseInt(row1.children[1].innerText);
+                var year2 = parseInt(row2.children[1].innerText);
+
+                return (nextSortOrder === 'asc') ? (year1 - year2) : (year2 - year1);
+            });
+
+            // Append the sorted rows back to the table body
+            rows.forEach(function(row) {
+                tableBody.appendChild(row);
+            });
+        });
+    }
+
+    // Call the function when the document is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleSortOrder();
+    });
+</script>

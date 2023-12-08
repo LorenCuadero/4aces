@@ -3,9 +3,16 @@
         <section class="content">
             <div class="row">
                 <span>
-                    @if (session('success-added'))
+                    {{-- @if (session('success-added'))
                         <p><span class="text-success success-display ml-2">[ {{ session('success-added') }} ]</span></p>
+                    @endif --}}
+
+                    @if (session('success-added'))
+                        <script>
+                            toastr.success('{{ session('success-added') }}');
+                        </script>
                     @endif
+
                     @if (session('error-add'))
                         <p><span class="text-danger error-display ml-2">[ {{ session('error-add') }} ]</span></p>
                     @endif
@@ -15,7 +22,11 @@
                         <div class="card-header d-flex flex-wrap align-items-center justify-content-between"  style="background-color: #fff; color:#1f3c88">
                             <h1 class="card-title mb-3 mb-md-0" style="color:#1f3c88;">
                                 <b>Grades of:</b>
-                                {{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
+                                {{ $student->first_name }}
+                                @if ($student->middle_name && $student->middle_name != 'N/A')
+                                    {{ ' ' . $student->middle_name }}
+                                @endif
+                                {{ ' ' . $student->last_name }}
                             </h1>
                             <br>
                             <div class="d-flex flex-wrap align-items-center ml-auto">

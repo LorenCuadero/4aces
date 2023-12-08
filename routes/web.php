@@ -67,6 +67,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/{id}', [StudentController::class, 'destroy'])->name('students.destroy');
     });
 
+    Route::get('/sample', function () {
+        return view('layouts.student.sample');
+    });
+
     Route::get('/student-add', [StudentController::class, 'addStudentPage'])->name('students.addStudentPage');
 
     Route::prefix('/reports-acd')->group(function () {
@@ -157,8 +161,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/', [FinancialReportController::class, 'viewFinancialReportByDateFromAndTo'])->name('admin.viewFinancialReportByDateFromAndTo');
     });
 
-    Route::prefix('/closing-of-accounts')->group(function () {
+    Route::prefix('/closing-of-accounts-admin')->group(function () {
         Route::get('/', [ClosingOfAccountController::class, 'index'])->name('admin.closingOfAccounts');
+    });
+
+    Route::prefix('/closing-of-accounts-staff')->group(function () {
+        Route::get('/', [ClosingOfAccountController::class, 'indexStaff'])->name('staff.closingOfAccounts');
     });
 
     Route::get('/create-admin-account', [AccountController::class, 'createAdminAccount'])->name('admin.createAdminAccount');

@@ -16,14 +16,20 @@
                                             <th>Total Share Due</th>
                                             <th>Total Share Paid</th>
                                             <th>Status</th>
-                                            <th></th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-body">
                                         @forelse ($student_ms_records as $student)
                                             <tr>
                                                 <td>
-                                                    {{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
+                                                   {{ $student->first_name }}
+
+                                                    @if ($student->middle_name && $student->middle_name != 'N/A')
+                                                        {{ ' ' . $student->middle_name }}
+                                                    @endif
+
+                                                    {{ ' ' . $student->last_name }}
                                                 </td>
                                                 <td>
                                                     {{ $student->batch_year }}

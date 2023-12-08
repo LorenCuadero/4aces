@@ -8,7 +8,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'IOMS') }}</title>
+    <title>{{ !empty($header_title) ? $header_title : '' }} IOMS</title>
+    <!-- Page Icon -->
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/rbH9RXt/pn-logo-circle.png">
 
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
@@ -33,19 +35,36 @@
     <script src="https://cdn.jsdelivr.net/npm/admin-lte/plugins/chart.js/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 
-        <script>
+    <script>
         $(document).ready(function () {
-            // Handle click on pushmenu button
-            $('.navbar-nav a[data-widget="pushmenu"]').on('click', function () {
-                // Toggle the collapse class on the body
-                $('body').toggleClass('sidebar-collapse');
+        // Check window width on document ready
+        if ($(window).width() < 768) {
+            $('body').addClass('sidebar-collapse');
+            $('body').addClass('sidebar-mini');
+        }
 
-                // Optional: Add a check for mobile view and toggle 'sidebar-mini' class
-                if ($(window).width() < 768) {
-                    $('body').toggleClass('sidebar-mini');
-                }
-            });
+        // Handle click on pushmenu button
+        $('.navbar-nav a[data-widget="pushmenu"]').on('click', function () {
+            // Toggle the collapse class on the body
+            $('body').toggleClass('sidebar-collapse');
+
+            // Toggle 'sidebar-mini' class based on window width
+            if ($(window).width() < 768) {
+                $('body').toggleClass('sidebar-mini');
+            }
         });
+
+        // Handle window resize to adjust sidebar classes
+        $(window).on('resize', function () {
+            if ($(window).width() < 768) {
+                $('body').addClass('sidebar-collapse');
+                $('body').addClass('sidebar-mini');
+            } else {
+                $('body').removeClass('sidebar-collapse');
+                $('body').removeClass('sidebar-mini');
+            }
+        });
+    });
     </script>
 </head>
 <style>
@@ -68,10 +87,17 @@
     .scrollable-content {
         overflow: auto;
     }
+    @media (max-width: 767px) {
+            .table-responsive {
+                overflow-x: auto;
+            }
+    }
 
 </style>
 
-<body class="hold-transition sidebar-mini layout-fixed" data-page="{{ Route::currentRouteName() }}">
+<body class="hold-transition sidebar-mini layout-fixed" style="height: auto;">
+
+{{-- <body class="hold-transition sidebar-mini layout-fixed" data-page="{{ Route::currentRouteName() }}"> --}}
     <div class="wrapper">
         @include('layouts.student.loading')
         @include('layouts.student.header')

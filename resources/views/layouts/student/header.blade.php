@@ -1,6 +1,9 @@
 <nav class="main-header navbar navbar-expand navbar-light" style="border: none; border-radius: 5px">
+    {{-- <nav class="main-header navbar navbar-expand navbar-white navbar-light"> --}}
     <ul class="navbar-nav" style="border-top-left-radius: 5px; border-top-right-radius: 5px;">
+    {{-- <ul class="navbar-nav"> --}}
         <li class="nav-item">
+            {{-- <a class="nav-link" id="pushMenuToggle" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a> --}}
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
     </ul>
@@ -14,7 +17,7 @@
                 <!-- User image -->
                 <li class="user-header" style="border-top-left-radius: 5px; border-top-right-radius: 5px;">
                     <img src="https://uploads-ssl.webflow.com/618858d8887e82559e959825/6219fed92de7e6b72f4db7af_profile%20pic.jpg"
-                        class="img-circle elevation-2" alt="User Image" style="margin-top: 5%"><br>
+                        class="img-circle elevation-2 custom-size-img" alt="User Image" style="margin-top: 5%"><br>
                     <p class="text-center" style="font-size: 12px">
                         @isset(\Auth::user()->name)
                             {{ \Auth::user()->name }}<br>

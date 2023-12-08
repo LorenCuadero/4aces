@@ -1,6 +1,4 @@
 @extends('layouts.admin.app')
-{{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
 @section('content')
     <section class="content     ">
         <div class="container-fluid">
@@ -90,14 +88,20 @@
                                                 <td>{{ $user->email_verified_at }}</td>
                                                 <td class="admin-accounts-mobile-btn">
                                                     @if ($user->status == 0)
-                                                        <span class="btn badge-success rounded">Active</span>
+                                                        <span class="badge-success rounded" style="padding: 5px; font-size: 13px">Active</span>
                                                     @else
-                                                        <span class="btn badge-warning rounded">Inactive</span>
+                                                        <span class="badge-warning rounded" style="padding: 5px; font-size: 13px">Inactive</span>
                                                     @endif
                                                 </td>
                                                 <td class="admin-accounts-mobile-btn">
                                                     <a href="{{ route('admin.getAdminAccount', ['id' => $user->user_id]) }}"
-                                                        class="btn btn-primary">View</a>
+                                                        class="btn btn-sm view-button-counterpart" style="background-color: #1f3c88; color: #ffff; border-radius: 20px">
+                                                        <i class="far fa-address-card"
+                                                            style="font-size: 15px;"></i> View</a>
+
+                                                        {{-- <button class="btn btn-sm view-button-counterpart"
+                                                        style="background-color: #1f3c88; color: #ffff; width:70%; border-radius: 20px"><i class="far fa-address-card"
+                                                            style="font-size: 15px;"></i> View</button> --}}
                                                 </td>
                                             </tr>
                                         @endforeach

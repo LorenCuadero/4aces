@@ -153,6 +153,10 @@ class AccountController extends Controller {
 
 
     public function getAdminAccount($id) {
+
+        // $status = User::where('id', $id)->first();
+        // dd($status->status);
+
         $user = Admin::where('user_id', $id)->first();
         $data['header_title'] = 'Edit Admin |';
         return view('pages.admin-auth.accounts.edit-admin-account', compact('user'), $data);

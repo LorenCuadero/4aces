@@ -76,7 +76,7 @@
                 </li>
                 <li class=" nav-item">
                     <a href="#" class="nav-link logout-link" style="text-decoration: none; color: #ffff">
-                        <i class="nav-icon fa-solid fa-right-from-bracket" style="color: #fff"></i>
+                        <i class="nav-icon fa-solid fa-right-from-bracket" style="color: #ffff;"></i>
                         <p style="color: #fff">Logout</p>
                     </a>
                 </li>

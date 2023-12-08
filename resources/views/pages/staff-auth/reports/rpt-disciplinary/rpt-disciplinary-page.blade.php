@@ -94,7 +94,7 @@
                                                 </td>
                                                 <td>
                                                     <a href="#" id="edit-dcpl-btn" class="btn btn-sm"
-                                                        style="width:70%;" data-toggle="modal"
+                                                        style="width:80%;" data-toggle="modal"
                                                         data-target="#edit-student-dcpl-modal"
                                                         data-student-id="{{ $studentsWithRecord->id }}"
                                                         data-student-fname="{{ $studentsWithRecord->student->first_name }}"

@@ -22,7 +22,13 @@
                                         @forelse ($students as $student)
                                             <tr class="table-row">
                                                 <td>{{ $student->id }}</td>
-                                                <td>{{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
+                                                <td>{{ $student->first_name }}
+
+                                                    @if ($student->middle_name && $student->middle_name != 'N/A')
+                                                        {{ ' ' . $student->middle_name }}
+                                                    @endif
+
+                                                    {{ ' ' . $student->last_name }}
                                                 </td>
                                                 <td>Batch {{ $student->batch_year }}</td>
                                                 <td>{{ $student->gwa }}</td>
