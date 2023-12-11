@@ -20,14 +20,12 @@ use Illuminate\Support\Facades\Mail;
 use App\Services\StoreLogsService;
 use Illuminate\Support\Facades\Auth;
 
-class AdminController extends Controller
-{
+class AdminController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function indexAdmin()
-    {
-        if (Auth::user()->role != '2') {
+    public function indexAdmin() {
+        if(Auth::user()->role != '2') {
             return redirect()->back()->with('error', 'You do not have permission to access this page');
         }
         // Calculate the total amount due from each table
@@ -57,7 +55,7 @@ class AdminController extends Controller
         $batchYears = Student::distinct('batch_year')->pluck('batch_year');
 
         $totalStudentsByBatchYear = [];
-        foreach ($batchYears as $year) {
+        foreach($batchYears as $year) {
             $totalStudentsByBatchYear[$year] = Student::where('batch_year', $year)->count();
         }
 
@@ -728,8 +726,11 @@ class AdminController extends Controller
     }
 
 
-    public function perYearViewMonthlyAcquisition(Request $request)
-    {
+    public function perYearViewMonthlyAcquisition(Request $request) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $year = $request->input('year');
         $totalNumberOfStudents = Student::count();
 
@@ -1234,9 +1235,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function getTotals(Request $request)
-    {
-        if (Auth::user()->role != '2') {
+    public function getTotals(Request $request) {
+        if(Auth::user()->role != '2') {
             return redirect()->back()->with('error', 'You are not authorized to access this page');
         }
         $batchYear = $request->input('batch_year');
@@ -1357,10 +1357,12 @@ class AdminController extends Controller
         ]);
     }
 
-    public function allBatchTotalCount()
-    {
-        // Calculate the total number of students that are paid in:
-        // Counterparts
+    public function allBatchTotalCount() {
+        
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $counterpartPaidStudentsCount = Counterpart::whereIn('student_id', function ($query) {
             $query->select('student_id')
                 ->from('counterparts')
@@ -1472,9 +1474,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function email()
-    {
-        if (Auth::user()->role != '2') {
+    public function email() {
+        if(Auth::user()->role != '2') {
             return response()->json([
                 'error' => 'You are not authorized to access this page.'
             ]);
@@ -1483,8 +1484,8 @@ class AdminController extends Controller
 
         $batchYears = [];
 
-        foreach ($students as $student) {
-            if (!in_array($student->batch_year, $batchYears)) {
+        foreach($students as $student) {
+            if(!in_array($student->batch_year, $batchYears)) {
                 $batchYears[] = $student->batch_year;
             }
         }
@@ -1495,16 +1496,15 @@ class AdminController extends Controller
         ]);
     }
 
-    public function sendEmail(Request $request)
-    {
-        if (Auth::user()->role != '2') {
+    public function sendEmail(Request $request) {
+        if(Auth::user()->role != '2') {
             return redirect()->back()->with('error-email', 'You are not authorized to access this page.');
         }
-        if ($request->selectedBatchYear == null) {
+        if($request->selectedBatchYear == null) {
             return redirect()->back()->with('error-email', 'Please select a batch year');
-        } else if ($request->month == null) {
+        } else if($request->month == null) {
             return redirect()->back()->with('error-email', 'Please select a month');
-        } else if ($request->year == null) {
+        } else if($request->year == null) {
             return redirect()->back()->with('error-email', 'Please select a year');
         }
 
@@ -1512,11 +1512,11 @@ class AdminController extends Controller
         $month = $request->month;
         $year = $request->year;
 
-        foreach ($students as $student) {
-            $student_name = $student->first_name . ' ' . $student->last_name;
+        foreach($students as $student) {
+            $student_name = $student->first_name.' '.$student->last_name;
 
             // Retrieve the student's counterpart balance
-            if ($student->counterpart) {
+            if($student->counterpart) {
                 $amountDue = $student->counterpart
                     ->sum('amount_due');
 
@@ -1527,7 +1527,7 @@ class AdminController extends Controller
             }
 
             // Retrieve the student's medical share balance
-            if ($student->medicalShare) {
+            if($student->medicalShare) {
                 $totalCost = $student->medicalShare
                     ->sum('total_cost');
 
@@ -1551,17 +1551,16 @@ class AdminController extends Controller
         return redirect()->back()->with('success-soa-email', 'Emails sent successfully');
     }
 
-    public function coa()
-    {
-        if (Auth::user()->role != '2') {
+    public function coa() {
+        if(Auth::user()->role != '2') {
             return redirect()->back()->with('error-email', 'You are not authorized to access this page.');
         }
         $students = Student::all();
 
         $batchYears = [];
 
-        foreach ($students as $student) {
-            if (!in_array($student->batch_year, $batchYears)) {
+        foreach($students as $student) {
+            if(!in_array($student->batch_year, $batchYears)) {
                 $batchYears[] = $student->batch_year;
             }
         }
@@ -1572,15 +1571,14 @@ class AdminController extends Controller
         ]);
     }
 
-    public function sendCOA(Request $request)
-    {
-        if (Auth::user()->role != '2') {
+    public function sendCOA(Request $request) {
+        if(Auth::user()->role != '2') {
             return redirect()->back()->with('error-coa', 'You are not authorized to access this page.');
         }
 
-        if ($request->selectedBatchYear == null) {
+        if($request->selectedBatchYear == null) {
             return redirect()->back()->with('error-coa', 'Please select a batch year');
-        } else if ($request->graduation_date == null) {
+        } else if($request->graduation_date == null) {
             return redirect()->back()->with('error-coa', 'Please select a graduation date');
         }
 
@@ -1591,8 +1589,8 @@ class AdminController extends Controller
 
         $students = Student::where('batch_year', $selectedBatchYear)->get();
 
-        foreach ($students as $student) {
-            $student_name = $student->first_name . ' ' . $student->last_name;
+        foreach($students as $student) {
+            $student_name = $student->first_name.' '.$student->last_name;
 
             // Calculate the balances for counterpart
             $counterpartBalance = $student->counterpart
@@ -1628,9 +1626,8 @@ class AdminController extends Controller
         return redirect()->back()->with('success-coa', 'Emails sent successfully');
     }
 
-    public function customizedEmail()
-    {
-        if (Auth::user()->role != '2') {
+    public function customizedEmail() {
+        if(Auth::user()->role != '2') {
             return redirect()->back()->with('error-email', 'You are not authorized to access this page.');
         }
 
@@ -1638,8 +1635,8 @@ class AdminController extends Controller
 
         $batchYears = [];
 
-        foreach ($students as $student) {
-            if (!in_array($student->batch_year, $batchYears)) {
+        foreach($students as $student) {
+            if(!in_array($student->batch_year, $batchYears)) {
                 $batchYears[] = $student->batch_year;
             }
         }
@@ -1650,30 +1647,29 @@ class AdminController extends Controller
         ]);
     }
 
-    public function sendCustomized(Request $request)
-    {
-        if (Auth::user()->role != '2') {
+    public function sendCustomized(Request $request) {
+        if(Auth::user()->role != '2') {
             return redirect()->back()->with('error-customized', 'You are not authorized to access this page.');
         }
 
-        if ($request->batch_year_selected == null) {
+        if($request->batch_year_selected == null) {
             return redirect()->back()->with('error-customized', 'Please select a batch year');
-        } else if ($request->subject == null) {
+        } else if($request->subject == null) {
             return redirect()->back()->with('error-customized', 'Please select a subject');
-        } else if ($request->salutation == null) {
+        } else if($request->salutation == null) {
             return redirect()->back()->with('error-customized', 'Please select a salutation');
-        } else if ($request->message == null) {
+        } else if($request->message == null) {
             return redirect()->back()->with('error', 'Please enter a message');
-        } else if ($request->conclusion_salutation == null) {
+        } else if($request->conclusion_salutation == null) {
             return redirect()->back()->with('error-customized', 'Please select a conclusion salutation');
-        } else if ($request->sender == null) {
+        } else if($request->sender == null) {
             return redirect()->back()->with('error', 'Please enter a sender name');
         }
 
         $selectedBatchYear = $request->batch_year_selected;
         $students = Student::where('batch_year', $selectedBatchYear)->get();
 
-        foreach ($students as $student) {
+        foreach($students as $student) {
             $subject = $request->subject;
             $salutation = $this->getSalutation($request->salutation, $request->otherSalutation);
             $message_content = $request->message;
@@ -1686,8 +1682,8 @@ class AdminController extends Controller
             $realFileName = null;
             $fileType = null;
 
-            if ($attachment) {
-                if ($attachment->isValid()) {
+            if($attachment) {
+                if($attachment->isValid()) {
                     $attachmentPath = $attachment->storeAs("attachments/{$student_id}", $attachment->getClientOriginalName(), 'public');
 
                     $realFileName = $attachment->getClientOriginalName();
@@ -1720,9 +1716,8 @@ class AdminController extends Controller
     }
 
 
-    private function getSalutation($selectedSalutation, $otherSalutation)
-    {
-        switch ($selectedSalutation) {
+    private function getSalutation($selectedSalutation, $otherSalutation) {
+        switch($selectedSalutation) {
             case '0':
                 return 'Hi';
             case '1':
@@ -1736,9 +1731,8 @@ class AdminController extends Controller
         }
     }
 
-    private function getConclusionSalutation($selectedConclusion, $otherConclusion)
-    {
-        switch ($selectedConclusion) {
+    private function getConclusionSalutation($selectedConclusion, $otherConclusion) {
+        switch($selectedConclusion) {
             case '0':
                 return 'Sincerely';
             case '1':

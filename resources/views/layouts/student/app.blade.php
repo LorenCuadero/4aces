@@ -37,34 +37,34 @@
 
     <script>
         $(document).ready(function () {
-        // Check window width on document ready
-        if ($(window).width() < 768) {
-            $('body').addClass('sidebar-collapse');
-            $('body').addClass('sidebar-mini');
-        }
+            // Handle click on pushmenu button
+            $('.navbar-nav a[data-widget="pushmenu"]').on('click', function () {
+                // Toggle the collapse class on the body
+                $('body').toggleClass('sidebar-collapse');
 
-        // Handle click on pushmenu button
-        $('.navbar-nav a[data-widget="pushmenu"]').on('click', function () {
-            // Toggle the collapse class on the body
-            $('body').toggleClass('sidebar-collapse');
+                // Toggle 'sidebar-mini' class based on window width
+                if ($(window).width() < 768) {
+                    $('body').toggleClass('sidebar-open');
+                    $('body').addClass('mobile-view');
+                }else {
+                    $('body').removeClass('mobile-view');
+                }
+            });
 
-            // Toggle 'sidebar-mini' class based on window width
-            if ($(window).width() < 768) {
-                $('body').toggleClass('sidebar-mini');
-            }
+            $(document).on('click', function (e) {
+                if (
+                    !$(e.target).closest('.main-sidebar').length && // Check if the click is not within the sidebar
+                    !$(e.target).closest('.navbar-nav').length && // Check if the click is not within the navbar
+                    $('body').hasClass('sidebar-open') // Check if the sidebar is open
+                ) {
+                    // Close the sidebar
+                    $('body').removeClass('sidebar-open');
+                }
+            });
+
         });
 
-        // Handle window resize to adjust sidebar classes
-        $(window).on('resize', function () {
-            if ($(window).width() < 768) {
-                $('body').addClass('sidebar-collapse');
-                $('body').addClass('sidebar-mini');
-            } else {
-                $('body').removeClass('sidebar-collapse');
-                $('body').removeClass('sidebar-mini');
-            }
-        });
-    });
+
     </script>
 </head>
 <style>
@@ -88,14 +88,20 @@
         overflow: auto;
     }
     @media (max-width: 767px) {
-            .table-responsive {
-                overflow-x: auto;
-            }
+        .table-responsive {
+            overflow-x: auto;
+        }
     }
+
+    .nav-pills .nav-item .nav-link.active {
+        background-color: #1f3c88;
+        color: white;
+    }
+
 
 </style>
 
-<body class="hold-transition sidebar-mini layout-fixed" style="height: auto;">
+<body class="sidebar-mini layout-fixed scrollable-content" style="height: auto;">
 
 {{-- <body class="hold-transition sidebar-mini layout-fixed" data-page="{{ Route::currentRouteName() }}"> --}}
     <div class="wrapper">
@@ -106,21 +112,30 @@
         @include('modals.mdl-change-pass-confirmation')
         @include('assets.asst-loading-spinner')
         <div class="content-wrapper text-center p-3">
-            <span>
-                @if (session('incorrect-password'))
-                    <p style="text-align: left;"><span class="text-danger error-display ml-2"
-                            style="text-align: left;">[
-                            {{ session('incorrect-password') }} ]</span></p>
-                @endif
-                @if (session('email-not-found'))
-                    <p style="text-align: left;"><span class="text-danger error-display ml-2"
-                            style="text-align: left;">[ {{ session('email-not-found') }} ]</span></p> @endif
-                                            @if (session('success'))
-                    <p class="text-left"><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
-                @endif
-                @if (session('error'))
-                    <p class="text-left"><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p> @endif
-            </span>
+                <span>
+                    @if (session('incorrect-password'))
+                        <script>
+                            toastr.error("{{ session('incorrect-password') }}");
+                        </script>
+                    @endif
+
+                    @if (session('email-not-found'))
+                        <script>
+                            toastr.error("{{ session('email-not-found') }}");
+                        </script>
+                    @endif
+
+                    @if (session('success'))
+                        <script>
+                            toastr.success("{{ session('success') }}");
+                        </script>
+                    @endif
+
+                    @if (session('error'))
+                        <script>
+                            toastr.error("{{ session('error') }}");
+                        </script> @endif
+                </span>
             @yield('content')
         </div>
         @include('layouts.student.footer')

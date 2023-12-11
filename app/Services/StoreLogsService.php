@@ -23,4 +23,41 @@ class StoreLogsService
         }
         return response()->json(['error' => 'Invalid user_id or action']);
     }
+
+    public static function numberToWords($number) {
+        $words = [
+            'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+            'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
+        ];
+
+        $tens = [
+            '', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
+        ];
+
+        $num = abs((int)$number);
+        $result = '';
+
+        if($num < 20) {
+            $result = $words[$num];
+        } elseif($num < 100) {
+            $result = $tens[(int)($num / 10)];
+            if($num % 10) {
+                $result .= '-'.$words[$num % 10];
+            }
+        } elseif($num < 1000) {
+            $result = $words[(int)($num / 100)].' hundred';
+            if($num % 100) {
+                $result .= ' and '.self::numberToWords($num % 100);
+            }
+        } elseif($num < 12000) {
+            $result = $words[(int)($num / 1000)].' thousand';
+            if($num % 1000) {
+                $result .= ' '.self::numberToWords($num % 1000);
+            }
+        } else {
+            $result = 'Number is too large for conversion';
+        }
+
+        return $result;
+    }
 }

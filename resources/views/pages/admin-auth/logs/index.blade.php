@@ -12,7 +12,7 @@
                         <div class="card-body table-responsive p-0">
                             <div class="p-2">
                                 <table id="logs-table" class="table table-hover text-nowrap data-table text-center">
-                                    <thead style="font-size: 14px;">
+                                    <thead style="font-size: 14px; color:#1f3c88">
                                         <tr>
                                             <th>Log Id</th>
                                             <th>Name</th>
@@ -29,7 +29,7 @@
                                             <tr>
                                                 <td>{{ $log->id }}</td>
                                                 <td>
-                                                    @if (isset($log->user_id))
+                                                    @if (isset($log->user))
                                                         {{ $log->user->name }}
                                                     @else
                                                         <span>n/a</span>

@@ -9,8 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendDisciplinaryNotification extends Mailable
-{
+class SendDisciplinaryNotification extends Mailable {
     use Queueable, SerializesModels;
 
     /**
@@ -28,22 +27,22 @@ class SendDisciplinaryNotification extends Mailable
     public $student_provisionary_description;
 
 
-    public function __construct($student_name, $student_verbal_warning_description, $student_written_warning_description, $student_verbal_warning_date, $student_written_warning_date, $student_provisionary_date) {
+    public function __construct($student_name, $student_verbal_warning_description, $student_verbal_warning_date, $student_written_warning_description, $student_written_warning_date, $student_provisionary_description, $student_provisionary_date) {
         $this->student_name = $student_name;
         $this->student_verbal_warning_description = $student_verbal_warning_description;
         $this->student_written_warning_description = $student_written_warning_description;
         $this->student_verbal_warning_date = $student_verbal_warning_date;
         $this->student_verbal_warning_date = $student_verbal_warning_date;
         $this->student_written_warning_date = $student_written_warning_date;
+        $this->student_provisionary_description = $student_provisionary_description;
         $this->student_provisionary_date = $student_provisionary_date;
     }
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
-    {
+    public function envelope(): Envelope {
         return new Envelope(
-            subject: "PNPh: Disciplinary Notification" ,
+            subject: "PNPh: Disciplinary Notification",
         );
     }
 
@@ -51,8 +50,7 @@ class SendDisciplinaryNotification extends Mailable
     /**
      * Get the message content definition.
      */
-    public function content(): Content
-    {
+    public function content(): Content {
         return new Content(
             view: 'message-disciplinary',
         );
@@ -63,13 +61,11 @@ class SendDisciplinaryNotification extends Mailable
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
-    public function attachments(): array
-    {
+    public function attachments(): array {
         return [];
     }
 
-    private function getMonthName($month)
-    {
+    private function getMonthName($month) {
         $months = [
             1 => 'January',
             2 => 'February',

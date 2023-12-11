@@ -48,42 +48,4 @@
             </div>
         </div>
     </div>
-    <style>
-        .otp-container {
-            display: flex;
-            justify-content: space-between;
-            width: 60%;
-            /* Adjust the width as needed */
-            margin: auto;
-        }
-
-        .otp-input {
-            width: 4em;
-            /* Adjust the width of each input field */
-        }
-    </style>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const otpInputs = document.querySelectorAll('.otp-input');
-
-            otpInputs.forEach((input, index) => {
-                input.addEventListener('input', (e) => {
-                    const inputValue = e.target.value;
-
-                    if (inputValue.length === 1 && index < otpInputs.length - 1) {
-                        // Move focus to the next input
-                        otpInputs[index + 1].focus();
-                    }
-                });
-
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Backspace' && inputValue.length === 0 && index > 0) {
-                        // Move focus to the previous input on backspace
-                        otpInputs[index - 1].focus();
-                    }
-                });
-            });
-        });
-    </script>
 @endsection

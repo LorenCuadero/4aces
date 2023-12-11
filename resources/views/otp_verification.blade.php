@@ -4,6 +4,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,12 +17,13 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/pn-logo-small.png')}}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/pn-logo-small.png') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
 
 
 
 </head>
+
 <body class="hold-transition login-page custom-background">
     <style>
         input[type="number"]::-webkit-inner-spin-button,
@@ -39,7 +41,8 @@
         <!-- /.login-logo -->
         <div class="custom-login card">
             <div class="login custom-login card-header text-center">
-                <img src="https://i.ibb.co/rbH9RXt/pn-logo-circle.png" alt="" style="height: 100px; width: auto">
+                <img src="https://i.ibb.co/rbH9RXt/pn-logo-circle.png" alt=""
+                    style="height: 100px; width: auto">
                 <div style="padding: 20px">
                     <div class="custom-login-h1 h1">Integrated Online<br>Management System</div>
                 </div>
@@ -67,6 +70,15 @@
                         @if ($errors->any())
                             <p><span class="text-danger error-display"> {{ $errors->first() }}</span></p>
                         @endif
+
+                        <br>
+                        <p class="text-center" id="otp-message">Did not received OTP?
+                            <a id="resend_otp_link" href="#" data-email="{{ $user_email }}"
+                                style="width: 30%; text-decoration:none; color:rgb(249, 252, 255)"><strong>Resend
+                                    OTP</strong></a>
+                        </p>
+                        <p class="text-center" id="otp-message"></p>
+
                     </div>
                     <div class="text-center mt-3">
                         <button type="submit" class="btn btn-primary" style="width: 30%">Verify</button>
@@ -102,5 +114,47 @@
                     }
                 });
             });
+
+            const loadingOverlay = document.querySelector(".loading-spinner-overlay");
+            let successNotificationShown = false; // Flag to track whether the success notification has been shown
+
+            // Function to show the loading spinner
+            function showLoadingSpinner() {
+                loadingOverlay.style.display = "block";
+                document.body.style.overflow = "hidden";
+            }
+
+            // Function to hide the loading spinner
+            function hideLoadingSpinner() {
+                loadingOverlay.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+
+            const resendLink = document.getElementById('resend_otp_link');
+
+            if (resendLink) {
+                resendLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    var email = this.getAttribute('data-email');
+
+                    showLoadingSpinner();
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/resend-otp', true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                hideLoadingSpinner();
+                                document.getElementById('otp-message').textContent =
+                                    'OTP has been resent to your email.';
+                            } else {
+                                console.error('Error:', xhr.statusText);
+                            }
+                        }
+                    };
+                    xhr.send('email=' + encodeURIComponent(email) + '&_token={{ csrf_token() }}');
+                });
+            }
         });
     </script>

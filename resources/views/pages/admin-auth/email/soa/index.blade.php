@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body"  style="font-size: 15px;">
                             <div class="row">
                                 <div class="col-md-12 text-left">
                                     <div class="flex-wrap align-items-center ml-auto">
@@ -89,7 +89,7 @@
                                             <input type="hidden" id="selectedBatchYear" name="selectedBatchYear">
                                             <input type="hidden" id="year" name="year">
                                             <input type="hidden" id="month" name="month">
-                                            <textarea class="form-control" rows="10" readonly>Hi (Name),
+                                            <textarea class="form-control scrollable-content" rows="10" readonly style="font-size: 14px; height:350px;">Hi (Name),
 
 I hope this email finds you well.
 

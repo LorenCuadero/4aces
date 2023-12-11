@@ -3,17 +3,6 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <span>
-                    @if (session('success'))
-                        <p><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
-                    @endif
-                    @if (session('error'))
-                        <p><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
-                    @endif
-                    @if (session('info'))
-                        <p><span class="text-info error-display ml-2">[ {{ session('info') }} ]</span></p>
-                    @endif
-                </span>
                 <div class="col-12" id="table">
                     <div class="card">
                         <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
@@ -38,9 +27,8 @@
                                     <div class="nav-item btn btn-sm p-2" id="selectToAdd"
                                         data-target="#student-selection-modal" data-toggle="modal"
                                         style="display: flex; align-items:center; height: 38px; margin-left: 4px;">
-                                        <a href="#" class="nav-link align-items-center"
-                                            style="color:#fff;height: 100%; display: flex; align-items: center;"><i
-                                                class="fas fa-user-plus mr-1" style="font-size: 17px"></i> Add Student</a>
+                                        <a href="#" class="nav-link align-items-center p-0" style="color:#1f3c88;"><i
+                                                class="fas fa-user-plus" style="font-size: 23px"></i></a>
                                     </div>
                                 </form>
                             </div>
@@ -50,7 +38,7 @@
                                 <table id="example2" class="table table-bordered table-hover data-table text-center">
                                     <thead>
                                         <tr>
-                                            <th style="background-color: #fff; color:#1f3c88" class="vertical-text">Student
+                                            <th style="background-color: #fff; color:#1f3c88" class="vertical-text">Students
                                             </th>
                                             <th style="background-color: #fff; color:#1f3c88" class="vertical-text">Formal
                                                 Verbal Warning</th>
@@ -64,11 +52,14 @@
                                     <tbody class="table-body">
                                         @forelse ($studentsWithDisciplinaryRecords as $studentsWithRecord)
                                             <tr class="table-row">
-                                                <td>
-                                                    {{ $studentsWithRecord->student->first_name }}
-                                                    {{ $studentsWithRecord->student->last_name }}
+                                                <td class="align-middle">
+                                                    {{ $studentsWithRecord->student->last_name }}, {{ $studentsWithRecord->student->first_name }}
+                                                    @if (($studentsWithRecord->middle_name && $student->middle_name != 'N/A') && ($studentsWithRecord->middle_name && $student->middle_name != 'n/a'))
+                                                        {{ ' ' . $studentsWithRecord->middle_name }}
+                                                    @endif
+
                                                 </td>
-                                                <td>
+                                                <td class="align-middle">
                                                     <input type="date" name="verbal_warning_date"
                                                         id="verbal_warning_date_{{ $studentsWithRecord->id }}"
                                                         value="{{ $studentsWithRecord->verbal_warning_date }}"
@@ -76,7 +67,7 @@
                                                     <input type="hidden"
                                                         value="{{ $studentsWithRecord->verbal_warning_description }}">
                                                 </td>
-                                                <td>
+                                                <td class="align-middle">
                                                     <input type="date" name="written_warning_date"
                                                         id="written_warning_date_{{ $studentsWithRecord->id }}"
                                                         value="{{ $studentsWithRecord->written_warning_date }}"
@@ -84,7 +75,7 @@
                                                     <input type="hidden"
                                                         value="{{ $studentsWithRecord->written_warning_description }}">
                                                 </td>
-                                                <td>
+                                                <td class="align-middle">
                                                     <input type="date" name="provisionary_date"
                                                         id="provisionary_date_{{ $studentsWithRecord->id }}"
                                                         value="{{ $studentsWithRecord->provisionary_date }}"
@@ -92,33 +83,44 @@
                                                     <input type="hidden"
                                                         value="{{ $studentsWithRecord->provisionary_description }}">
                                                 </td>
-                                                <td>
-                                                    <a href="#" id="edit-dcpl-btn" class="btn btn-sm"
-                                                        style="width:80%;" data-toggle="modal"
-                                                        data-target="#edit-student-dcpl-modal"
-                                                        data-student-id="{{ $studentsWithRecord->id }}"
-                                                        data-student-fname="{{ $studentsWithRecord->student->first_name }}"
-                                                        data-student-lname="{{ $studentsWithRecord->student->last_name }}"
-                                                        data-student-url="{{ route('rpt.dcpl.update', ['id' => '__student_id__']) }}"
-                                                        data-verbal-warning-date="{{ $studentsWithRecord->verbal_warning_date }}"
-                                                        data-verbal-warning-desc="{{ $studentsWithRecord->verbal_warning_description }}"
-                                                        data-written-warning-date="{{ $studentsWithRecord->written_warning_date }}"
-                                                        data-written-warning-desc="{{ $studentsWithRecord->written_warning_description }}"
-                                                        data-provisionary-warning-date="{{ $studentsWithRecord->provisionary_date }}"
-                                                        data-provisionary-warning-desc="{{ $studentsWithRecord->provisionary_description }}"
-                                                        data-student-route="{{ route('rpt.dcpl.index') }}">
-                                                        <i class="far fa-edit" style="font-size: 17px"></i>
-                                                        View | Edit
-                                                    </a>
+                                                <td class="align-middle">
+                                                    <div
+                                                        style="display: flex; align-items: center; justify-content:center;">
+                                                        <a href="#" id="edit-dcpl-btn" class="btn btn-sm"
+                                                            style="width:70%; color:#1f3c88;" data-toggle="modal"
+                                                            data-target="#edit-student-dcpl-modal"
+                                                            data-student-id="{{ $studentsWithRecord->id }}"
+                                                            data-student-fname="{{ $studentsWithRecord->student->first_name }}"
+                                                            data-student-lname="{{ $studentsWithRecord->student->last_name }}"
+                                                            data-student-url="{{ route('rpt.dcpl.update', ['id' => '__student_id__']) }}"
+                                                            data-verbal-warning-date="{{ $studentsWithRecord->verbal_warning_date }}"
+                                                            data-verbal-warning-desc="{{ $studentsWithRecord->verbal_warning_description }}"
+                                                            data-written-warning-date="{{ $studentsWithRecord->written_warning_date }}"
+                                                            data-written-warning-desc="{{ $studentsWithRecord->written_warning_description }}"
+                                                            data-provisionary-warning-date="{{ $studentsWithRecord->provisionary_date }}"
+                                                            data-provisionary-warning-desc="{{ $studentsWithRecord->provisionary_description }}"
+                                                            data-student-route="{{ route('rpt.dcpl.index') }}">
+                                                           <strong><i class="far fa-edit" style="font-size: 17px"></i>
+                                                            View | Edit</strong>
+                                                        </a>
+                                                        <a href="#" data-id="{{ $studentsWithRecord->id }}"
+                                                            data-url="{{ route('rpt.dcpl.destroy', ['id' => 'dcpl_id']) }}"
+                                                            class="btn btn-sm delete-dcpl-btn"
+                                                            style="color: #dd3e3e; width:70%; border-radius: 20px; margin: 2px;">
+                                                            <strong><i class="fas fa-trash-alt"
+                                                                style="font-size: 16px; border: 1px;"></i>
+                                                            Delete</strong>
+                                                        </a>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td class="align-middle"></td>
+                                                <td class="align-middle"></td>
+                                                <td class="align-middle"></td>
+                                                <td class="align-middle"></td>
+                                                <td class="align-middle"></td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -133,4 +135,5 @@
     @include('modals.staff.mdl-student-dcpl-rpt-edit')
     @include('modals.staff.mdl-student-dcpl-rpt-add')
     @include('modals.staff.mdl-student-selection')
+    @include('modals.staff.mdl-delete-student-disciplinary-confirmation')
 @endsection

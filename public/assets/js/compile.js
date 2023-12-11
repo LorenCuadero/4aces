@@ -7,14 +7,6 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $("#add-btn").click(function () {
-        const addModal = $("#addModal");
-
-        addModal.modal("show");
-    });
-});
-
-$(document).ready(function () {
     $("#grade-button").click(function () {
         const addModal = $("#student-acd-rpt-modal");
 

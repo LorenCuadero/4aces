@@ -24,7 +24,7 @@ class Student extends Model
         'second_name',
         'suffix',
         'email',
-        'phone',
+        'contact_number',
         'birthdate',
         'address',
         'parent_name',

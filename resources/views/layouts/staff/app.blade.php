@@ -39,7 +39,7 @@
     <script src="https://cdn.jsdelivr.net/npm/admin-lte/plugins/chart.js/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function () {
             // Handle click on pushmenu button
             $('.navbar-nav a[data-widget="pushmenu"]').on('click', function () {
@@ -60,10 +60,55 @@
                 }
             });
         });
+
+        $(document).ready(function () {
+            $(".delete-student").on("click", function () {
+                        var studentId = $(this).data("id");
+                        var formId = "#deletion-confirmed-form-student-" + studentId;
+                        var modalId = "#delete-student-confirmation-modal-" + studentId;
+
+                        // Set the correct form action dynamically
+                        $(formId).attr("action", $(this).attr("href"));
+
+                        // Open the corresponding modal
+                        $(modalId).modal("show");
+            });
+        });
+    </script> --}}
+    <script>
+        $(document).ready(function () {
+            // Handle click on pushmenu button
+            $('.navbar-nav a[data-widget="pushmenu"]').on('click', function () {
+                // Toggle the collapse class on the body
+                $('body').toggleClass('sidebar-collapse');
+
+                // Toggle 'sidebar-mini' class based on window width
+                if ($(window).width() < 768) {
+                    $('body').toggleClass('sidebar-open');
+                    $('body').addClass('mobile-view');
+                }else {
+                    $('body').removeClass('mobile-view');
+                }
+            });
+
+            $(document).on('click', function (e) {
+                if (
+                    !$(e.target).closest('.main-sidebar').length && // Check if the click is not within the sidebar
+                    !$(e.target).closest('.navbar-nav').length && // Check if the click is not within the navbar
+                    $('body').hasClass('sidebar-open') // Check if the sidebar is open
+                ) {
+                    // Close the sidebar
+                    $('body').removeClass('sidebar-open');
+                }
+            });
+
+        });
+
+
     </script>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed" data-page="{{ Route::currentRouteName() }}">
+<body class="hold-transition sidebar-mini layout-fixed scrollable-content" data-page="{{ Route::currentRouteName() }}">
     <div class="wrapper">
         @include('layouts.staff.loading')
         @include('layouts.staff.header')
@@ -71,21 +116,30 @@
         @include('modals.mdl-logout-confirmation')
         @include('modals.mdl-change-pass-confirmation')
         <div class="content-wrapper text-center p-3">
-            <span>
-                @if (session('incorrect-password'))
-                    <p style="text-align: left;"><span class="text-danger error-display ml-2"
-                            style="text-align: left;">[
-                            {{ session('incorrect-password') }} ]</span></p>
-                @endif
-                @if (session('email-not-found'))
-                    <p style="text-align: left;"><span class="text-danger error-display ml-2"
-                            style="text-align: left;">[ {{ session('email-not-found') }} ]</span></p> @endif
-                                            @if (session('success'))
-                    <p class="text-left"><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
-                @endif
-                @if (session('error'))
-                    <p class="text-left"><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p> @endif
-            </span>
+               <span>
+                    @if (session('incorrect-password'))
+                        <script>
+                            toastr.error("{{ session('incorrect-password') }}");
+                        </script>
+                    @endif
+
+                    @if (session('email-not-found'))
+                        <script>
+                            toastr.error("{{ session('email-not-found') }}");
+                        </script>
+                    @endif
+
+                    @if (session('success'))
+                        <script>
+                            toastr.success("{{ session('success') }}");
+                        </script>
+                    @endif
+
+                    @if (session('error'))
+                        <script>
+                            toastr.error("{{ session('error') }}");
+                        </script> @endif
+                </span>
             @yield('content')
         </div>
         @include('layouts.staff.footer')

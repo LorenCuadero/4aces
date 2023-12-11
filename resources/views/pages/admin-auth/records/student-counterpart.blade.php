@@ -5,17 +5,17 @@
             <div class="col-12">
                 <div class="card">
                     @if ($acknowledgementReceipt == 1)
-                        <span id="generateReceipt"></span>
-                        <input id="receipt_true" type="hidden" value="{{ $acknowledgementReceipt }}">
-                        <input id="student_name" type="hidden"
+                        <span class="generateReceipt"></span>
+                        <input class="receipt_true" type="hidden" value="{{ $acknowledgementReceipt }}">
+                        <input class="student_name" type="hidden"
                             value="{{ $student->first_name . ' ' . $student->last_name }}">
-                        <input id="student_batch_year" type="hidden" value="{{ $student->batch_year }}">
-                        <input id="current_user_name" type="hidden" value="{{ Auth::user()->name }}">
-                        <input id="date_of_transaction" type="hidden" value="{{ $dateOfTransaction }}">
-                        <input id="amount_paid_in_words" type="hidden" value="{{ $amountPaidInWords }}">
-                        <input id="category" type="hidden" value="{{ $category }}">
-                        <input id="amount_paid_receipt" type="hidden" value="{{ $amountPaid }}">
-                        <input id="student_id_on_pc" type="hidden" value="{{ $student->id }}">
+                        <input class="student_batch_year" type="hidden" value="{{ $student->batch_year }}">
+                        <input class="current_user_name" type="hidden" value="{{ Auth::user()->name }}">
+                        <input class="date_of_transaction" type="hidden" value="{{ $dateOfTransaction }}">
+                        <input class="amount_paid_in_words" type="hidden" value="{{ $amountPaidInWords }}">
+                        <input class="category" type="hidden" value="{{ $category }}">
+                        <input class="amount_paid_receipt" type="hidden" value="{{ $amountPaid }}">
+                        <input class="student_id_on_pc" type="hidden" value="{{ $student->id }}">
                     @endif
                     <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
                         style="background-color: #ffff;">
@@ -50,7 +50,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover data-table text-center">
+                            <table class="table table-bordered table-hover data-table text-center"  style="font-size: 14px;">
                                 <thead>
                                     <tr>
                                         <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Month</th>
@@ -63,15 +63,16 @@
                                         <th style="background-color: #fff; color:#1f3c88;" class="vertical-text"></th>
                                     </tr>
                                 </thead>
+                                <tbody class="table-body" style="font-size: 14px;">
                                 @forelse ($student_counterpart_records as $counterpart)
                                     <tr class="table-row align-middle">
-                                        <td>{{ $months[$counterpart->month] }}</td>
-                                        <td>{{ $counterpart->year }}</td>
-                                        <td>{{ $counterpart->amount_due }}</td>
-                                        <td>{{ $counterpart->amount_paid }}</td>
-                                        <td>{{ $counterpart->date }}</td>
+                                        <td class="align-middle">{{ $months[$counterpart->month] }}</td>
+                                        <td class="align-middle">{{ $counterpart->year }}</td>
+                                        <td class="align-middle">₱ {{ number_format($counterpart->amount_due, 2) }}</td>
+                                        <td class="align-middle">₱ {{ number_format($counterpart->amount_paid, 2) }}</td>
+                                        <td class="align-middle">{{ $counterpart->date }}</td>
                                         <td style="text-align: center;">
-                                            <div style="display: flex; flex-direction: column; align-items: center;">
+                                            <div style="display: flex; align-items: center; justify-content:center;">
                                                 <a href="#" id="edit" data-id="{{ $counterpart->id }}"
                                                     data-month="{{ $counterpart->month }}"
                                                     data-edit-url="{{ route('admin.updateCounterpart', ['id' => 'counterpart_id']) }}"
@@ -79,29 +80,29 @@
                                                     data-amount-due="{{ $counterpart->amount_due }}"
                                                     data-amount-paid="{{ $counterpart->amount_paid }}"
                                                     data-date="{{ $counterpart->date }}"
-                                                    class="btn btn-sm edit-student-counterpart-button"
-                                                    style="background-color: #1f3c88; color: #ffff; width:50%; border-radius: 20px; margin: 2px">
-                                                    <i class="far fa-edit" style="font-size: 17px"></i>
-                                                    Edit
+                                                    class="btn btn-sm edit-student-counterpart-button p-1"
+                                                    style="color: #1f3c88; border-radius: 20px; margin: 2px; width:40%">
+                                                    <strong><i class="far fa-edit" style="font-size: 17px"></i>
+                                                    Edit</strong>
                                                 </a>
                                                 <a href="#" data-id="{{ $counterpart->id }}"
                                                     data-delete-url="{{ route('admin.deleteCounterpart', ['id' => 'counterpart_id']) }}"
-                                                    class="btn btn-sm delete-counterpart"
-                                                    style="background-color: #dd3e3e; color: #ffff; width:55%; border-radius: 20px; margin: 2px;">
-                                                    <i class="fas fa-trash-alt" style="font-size: 16px; border: 1px;"></i>
-                                                    Delete
+                                                    class="btn btn-sm delete-counterpart p-1"
+                                                    style="color: #dd3e3e; border-radius: 20px; margin: 2px; width:40%">
+                                                   <strong><i class="fas fa-trash-alt" style="font-size: 16px; border: 1px;"></i>
+                                                    Delete</strong>
                                                 </a>
                                             </div>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td class="align-middle"></td>
+                                        <td class="align-middle"></td>
+                                        <td class="align-middle"></td>
+                                        <td class="align-middle"></td>
+                                        <td class="align-middle"></td>
+                                        <td class="align-middle"></td>
                                     </tr>
                                 @endforelse
                                 </tbody>

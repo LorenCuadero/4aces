@@ -26,10 +26,12 @@
                 <td style="width: 30%">Amount Due (15% Medical Share):</td>
                 <td class="amount"><b>{{ $percent_share_as_amount_due }} PHP</b></td>
             </tr>
-            <tr>
-                <td style="width: 30%">Amount Paid:</td>
-                <td class="amount"><b>{{ $amount_paid }} PHP</b></td>
-            </tr>
+            @if ($send_amount_due_only == 0)
+                <tr>
+                    <td style="width: 30%">Amount Paid:</td>
+                    <td class="amount"><b>{{ $amount_paid }} PHP</b></td>
+                </tr>
+            @endif
             <tr>
                 <td style="width: 30%">Date:</td>
                 <td class="amount"><b> {{ $date }}</b></td>

@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body" style="text-align: left">
                 <form id="edit-form-medical" method="POST"
-                   action="{{ route('admin.updateMedicalShare', ['id' => $student->id]) }}">
+                    action="{{ route('admin.updateMedicalShare', ['id' => $student->id]) }}">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="student_id" value="{{ $student->id }}">
@@ -21,20 +21,38 @@
                     </div>
                     <div class="form-group">
                         <label for="amount_due">Total Medical Expense</label>
-                        <input type="number" name="amount_due" id="amount_due_ms_edit" class="form-control" step="any">
+                        <input type="number" name="amount_due" id="amount_due_ms_edit" class="form-control"
+                            step="any">
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">15% Share</label>
                         <input type="text" class="form-control" id="percent_share" readonly>
                     </div>
                     <div class="form-group">
+                        <label for="amount_paid">Total Amount Paid</label>
+                        <input type="number" name="amount_paid_previous" id="amount_paid_ms_edit" class="form-control"
+                            step="any" readonly>
+                    </div>
+                    <div class="form-group">
                         <label for="amount_paid">Amount Paid</label>
-                        <input type="number" name="amount_paid" id="amount_paid_ms_edit" class="form-control" step="any">
+                        <input type="number" name="amount_paid" class="form-control"
+                            step="any">
                     </div>
                     <div class="form-group">
                         <label for="date">Date</label>
                         <input type="date" name="date" class="form-control" id="date_paid_ms_edit" rows="3"
                             placeholder="" required />
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="send_amount_due_only_medical_edit"
+                            name="send_amount_due_only_medical" value="1">
+                        <label class="form-check-label" for="v">Send amount due only</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="print_acknowledegement_receipt_medical_edit"
+                            name="print_acknowledegement_receipt_medical" value="1">
+                        <label class="form-check-label" for="print_acknowledegement_receipt">Print acknowledgement
+                            receipt</label>
                     </div>
                     <div class="form-group" style="float: right;">
                         <button type="submit" class="btn btn-primary">Save changes</button>

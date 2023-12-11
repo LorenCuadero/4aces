@@ -19,6 +19,10 @@ use Illuminate\Validation\Rule;
 
 class AccountController extends Controller {
     public function indexAdminAccounts(Request $request) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $users = User::join('admins', 'users.id', '=', 'admins.user_id')
             ->select('users.*', 'admins.*')
             ->where('users.is_deleted', "=", "0");
@@ -60,6 +64,10 @@ class AccountController extends Controller {
     }
 
     public function indexStaffAccounts(Request $request) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $users = User::join('staffs', 'users.id', '=', 'staffs.user_id')
             ->select('users.*', 'staffs.*')
             ->where('users.is_deleted', "=", "0");
@@ -100,6 +108,9 @@ class AccountController extends Controller {
     public function indexStudentsAccounts(Request $request) {
         // $users = User::where('role', 0)->get();
         // return view('pages.admin-auth.accounts.student-account', compact('users'));
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
 
         $users = User::join('students', 'users.id', '=', 'students.user_id')
             ->select('users.*', 'students.*')
@@ -140,14 +151,26 @@ class AccountController extends Controller {
     }
 
     public function createAdminAccount() {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         return view('pages.admin-auth.accounts.admin.index');
     }
 
     public function createStaffAccount() {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         return view('pages.admin-auth.accounts.staff.index');
     }
 
     public function createStudentAccount() {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         return view('pages.admin-auth.accounts.student.index');
     }
 
@@ -156,6 +179,9 @@ class AccountController extends Controller {
 
         // $status = User::where('id', $id)->first();
         // dd($status->status);
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
 
         $user = Admin::where('user_id', $id)->first();
         $data['header_title'] = 'Edit Admin |';
@@ -164,18 +190,30 @@ class AccountController extends Controller {
 
 
     public function getStaffAccount($id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $user = Staff::where('user_id', $id)->first();
         $data['header_title'] = 'Edit Staff |';
         return view('pages.admin-auth.accounts.edit-staff-account', compact('user'), $data);
     }
 
     public function getStudentAccount($id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $user = Student::where('user_id', $id)->first();
         $data['header_title'] = 'Edit Student |';
         return view('pages.admin-auth.accounts.edit-student-account', compact('user'));
     }
 
     public function storeAdminAccount(Request $request) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $admin_account = new User();
         $admin_account->name = ucfirst(request()->input('first_name')).' '.ucfirst(request()->input('last_name'));
         $admin_account->email = request()->input('email');
@@ -219,6 +257,10 @@ class AccountController extends Controller {
 
     public function storeStaffAccount(Request $request) {
         // dd($request->all());
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $request->validate([
             'email' => 'required|email|unique:users,email',
             'password' => 'string|min:8',
@@ -272,6 +314,9 @@ class AccountController extends Controller {
 
     public function storeStudentAccount(Request $request) {
         // dd($request->all());
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
 
         $validatedData = $request->validate([
             'first_name' => 'required',
@@ -361,6 +406,10 @@ class AccountController extends Controller {
 
     public function updateAdminAccount(Request $request, $id) {
         // dd($request->all());
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $validatedData = $request->validate([
             'first_name' => 'required',
             'middle_name' => 'nullable',
@@ -431,6 +480,11 @@ class AccountController extends Controller {
         // $student_account->update($validatedData);
 
         // return redirect()->back()->with('success', 'Student account updated successfully!');
+
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $validatedData = $request->validate([
             'first_name' => 'required',
             'middle_name' => 'nullable',
@@ -483,6 +537,9 @@ class AccountController extends Controller {
 
     public function updateStaffAccount(Request $request, $id) {
         // dd($request->all());
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
 
         $validatedData = $request->validate([
             'first_name' => 'required',
@@ -537,7 +594,10 @@ class AccountController extends Controller {
         return redirect()->back()->with('success', 'Staff account updated successfully!');
     }
     public function deleteAdminAccount($id) {
-        dd($id);
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $admin_account = User::find($id);
 
         if($admin_account) {
@@ -559,6 +619,11 @@ class AccountController extends Controller {
     }
 
     public function softDeleteAdminAccount($id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        } else if(Auth::user()->id == $id) {
+            return redirect()->back()->with('error', 'Error: Unable to Delete Account');
+        }
 
         $admin_account = User::find($id);
 
@@ -579,6 +644,10 @@ class AccountController extends Controller {
     }
 
     public function deleteStudentAccount($id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $student_account = User::find($id);
         $student_account->delete();
 
@@ -586,6 +655,9 @@ class AccountController extends Controller {
     }
 
     public function softDeleteStaffAccount($id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
 
         $staff_account = User::find($id);
 
@@ -606,6 +678,9 @@ class AccountController extends Controller {
 
     }
     public function softDeleteStudentAccount($id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
 
         $student_account = User::find($id);
 
@@ -635,6 +710,9 @@ class AccountController extends Controller {
 
 
     public function deleteStaffAccount($id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
 
         $staff_account = User::find($id);
 

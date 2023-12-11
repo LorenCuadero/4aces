@@ -19,8 +19,10 @@ class SendMedicalShareTransInfo extends Mailable
     public $percent_share_as_amount_due;
     public $amount_paid;
     public $date;
+    public $send_amount_due_only;
 
-    public function __construct($student_name, $medical_concern, $total_cost, $percent_share_as_amount_due, $amount_paid, $date)
+    public function __construct($student_name, $medical_concern, $total_cost, $percent_share_as_amount_due, $amount_paid, $date, $send_amount_due_only
+    )
     {
         $this->student_name = $student_name;
         $this->medical_concern = $medical_concern;
@@ -28,6 +30,7 @@ class SendMedicalShareTransInfo extends Mailable
         $this->percent_share_as_amount_due = $percent_share_as_amount_due;
         $this->amount_paid = $amount_paid;
         $this->date = $date;
+        $this->send_amount_due_only = $send_amount_due_only;
     }
 
     /**

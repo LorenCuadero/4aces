@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -57,37 +56,4 @@
             </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Password toggle
-            $('#togglePasswordReset').on('click', function() {
-                const passwordInput = $('#password_reset');
-                const eyeIcon = $('#eyeIconPasswordReset');
-
-                if (passwordInput.attr('type') === 'password') {
-                    passwordInput.attr('type', 'text');
-                    eyeIcon.removeClass('far fa-eye').addClass('far fa-eye-slash');
-                } else {
-                    passwordInput.attr('type', 'password');
-                    eyeIcon.removeClass('far fa-eye-slash').addClass('far fa-eye');
-                }
-            });
-
-            // Confirm Password toggle
-            $('#toggleCPasswordReset').on('click', function() {
-                const cPasswordInput = $('#cpassword_reset');
-                const eyeIconCPassword = $('#eyeIconCPasswordReset');
-
-                if (cPasswordInput.attr('type') === 'password') {
-                    cPasswordInput.attr('type', 'text');
-                    eyeIconCPassword.removeClass('far fa-eye').addClass('far fa-eye-slash');
-                } else {
-                    cPasswordInput.attr('type', 'password');
-                    eyeIconCPassword.removeClass('far fa-eye-slash').addClass('far fa-eye');
-                }
-            });
-        });
-    </script>
 @endsection
