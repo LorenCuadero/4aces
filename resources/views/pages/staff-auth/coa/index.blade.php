@@ -22,7 +22,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="table-responsive" style="font-size: 14px;">
                                 <table id="exampleOnCOA" class="table table-bordered table-hover data-table text-center">
                                     <thead>
                                         <tr>
@@ -43,14 +43,14 @@
                                     <tbody class="table-body" style="font-size: 14px;">
                                         @forelse ($studentData as $data)
                                             <tr>
-                                                <td>{{ $data['name'] }}</td>
-                                                <td>{{ $data['batch_year'] }}</td>
-                                                <td>{{ $data['counterpart_due_and_paid'] }}</td>
-                                                <td>{{ $data['medical_share_due_and_paid'] }}</td>
-                                                <td>{{ $data['personal_cash_advance_due_and_paid'] }}</td>
-                                                <td>{{ $data['graduation_fee_due_and_paid'] }}</td>
-                                                <td>{{ $data['total_balances'] }}</td>
-                                                <td>
+                                                <td class="alin-middle">{{ $data['name'] }}</td>
+                                                <td class="alin-middle">{{ $data['batch_year'] }}</td>
+                                                <td class="alin-middle">₱ {{ number_format($data['counterpart_due_and_paid'], 2) }}</td>
+                                                <td class="alin-middle">₱ {{ number_format($data['medical_share_due_and_paid'], 2) }}</td>
+                                                <td class="alin-middle">₱ {{ number_format($data['personal_cash_advance_due_and_paid'], 2) }}</td>
+                                                <td class="alin-middle">₱ {{ number_format($data['graduation_fee_due_and_paid'], 2) }}</td>
+                                                <td class="alin-middle">₱ {{ number_format($data['total_balances'], 2) }}</td>
+                                                <td class="alin-middle">
                                                     @if ($data['status'] == 'Closed')
                                                         <span class="badge badge-success">Close</span>
                                                     @endif
@@ -65,14 +65,14 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td class="alin-middle"></td>
+                                                <td class="alin-middle"></td>
+                                                <td class="alin-middle"></td>
+                                                <td class="alin-middle"></td>
+                                                <td class="alin-middle"></td>
+                                                <td class="alin-middle"></td>
+                                                <td class="alin-middle"></td>
+                                                <td class="alin-middle"></td>
                                             </tr>
                                         @endforelse
                                     </tbody>

@@ -12,10 +12,15 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use App\Services\StoreLogsService;
+use Illuminate\Support\Facades\Auth;
 
 class CounterpartController extends Controller {
 
     public function counterpartRecords() {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $students = Student::all();
 
         // Fetch all students who have counterpart records
@@ -68,6 +73,10 @@ class CounterpartController extends Controller {
     // ]);
 
     public function studentPageCounterpartRecords($id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $student = Student::find($id);
 
         if(!$student) {
@@ -102,6 +111,10 @@ class CounterpartController extends Controller {
     }
 
     public function storeCounterpart(Request $request, $id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $validatedData = $request->validate([
             'month' => 'required|string',
             'year' => 'required|integer',
@@ -112,18 +125,16 @@ class CounterpartController extends Controller {
 
         $dateOfTransaction = $validatedData['date'];
         $amountPaid = $validatedData['amount_paid'];
-        $amountPaidInWords = $this->numberToWords($amountPaid);
+        $amountPaidInWords = StoreLogsService::numberToWords($amountPaid);
         $category = "Parents Counterpart";
-
         $send_amount_due_only = 0;
+
         if($request->has('send_amount_due_only')) {
             $send_amount_due_only = 1;
         }
 
-        // Find the student by ID
-        $student = Student::find($id);
+        $student = Student::findOrFail($id);
 
-        // Check for duplicates
         if($student->counterpart()->where('month', $request->input('month'))
             ->where('year', $request->input('year'))
             ->exists()
@@ -138,14 +149,13 @@ class CounterpartController extends Controller {
             $acknowledgementReceipt = 1;
         }
 
-        // Log the action
         $action = "Added";
         StoreLogsService::storeLogs(auth()->user()->id, $action, "Counterpart", $counterpart->student_id, null, $student->batch_year);
-        // Send email notification to the student
 
+        $full_name = $student->first_name. " ". $student->last_name;
         Mail::to($student->email)->send(
             new SendReceiptOrPaymentInfo(
-                $student->full_name,
+                $full_name,
                 $counterpart->month,
                 $counterpart->year,
                 $counterpart->amount_due,
@@ -192,48 +202,13 @@ class CounterpartController extends Controller {
             'amountPaidInWords',
             'category'
         ))->with('success', 'Counterpart record added and email sent successfully!');
-
-    }
-
-    function numberToWords($number) {
-        $words = [
-            'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
-            'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
-        ];
-
-        $tens = [
-            '', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
-        ];
-
-        $num = abs((int)$number);
-        $result = '';
-
-        if($num < 20) {
-            $result = $words[$num];
-        } elseif($num < 100) {
-            $result = $tens[(int)($num / 10)];
-            if($num % 10) {
-                $result .= '-'.$words[$num % 10];
-            }
-        } elseif($num < 1000) {
-            $result = $words[(int)($num / 100)].' hundred';
-            if($num % 100) {
-                $result .= ' and '.$this->numberToWords($num % 100);
-            }
-        } elseif($num < 12000) {
-            $result = $words[(int)($num / 1000)].' thousand';
-            if($num % 1000) {
-                $result .= ' '.$this->numberToWords($num % 1000);
-            }
-        } else {
-            // For simplicity, you can extend this function for larger numbers if needed
-            $result = 'Number is too large for conversion';
-        }
-
-        return $result;
     }
 
     public function updateCounterpart(Request $request, $id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $counterpart = Counterpart::find($id);
 
         if($request->input('amount_due') == null) {
@@ -246,7 +221,6 @@ class CounterpartController extends Controller {
         $studentName = $counterpart->student->first_name." ".$counterpart->student->last_name;
         $studentBatchYear = $counterpart->student->batch_year;
 
-        // Check for duplicates
         $existingCounterpart = Counterpart::where('month', $request->input('month'))
             ->where('year', $request->input('year'))
             ->where('student_id', $studentId)
@@ -266,7 +240,7 @@ class CounterpartController extends Controller {
         $counterpart->save();
         $dateOfTransaction = $request->input('date');
         $amountPaid = $amount_paid;
-        $amountPaidInWords = $this->numberToWords($amountPaid);
+        $amountPaidInWords = StoreLogsService::numberToWords($amountPaid);
         $category = "Parents Counterpart";
 
         $send_amount_due_only = 0;
@@ -315,7 +289,7 @@ class CounterpartController extends Controller {
             return $months[$month];
         });
 
-        return view('pages.admin-auth.records.student-counterpart', compact(
+        return view('pages.admin-auth.records.student-counterpart')->with('success', 'Counterpart record updated and email sent successfully!')->with(compact(
             'student',
             'student_counterpart_records',
             'monthNames',
@@ -326,12 +300,16 @@ class CounterpartController extends Controller {
             'amountPaid',
             'amountPaidInWords',
             'category'
-        ))->with('success', 'Counterpart record updated and email sent successfully!');
+        ));
     }
 
     public function deleteCounterpart($id) {
         // Find the Counterpart record by ID
-        $counterpart = Counterpart::find($id);
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
+        $counterpart = Counterpart::with('student')->find($id);
 
         if(!$counterpart) {
             return back()->with('error', 'Counterpart record not found.');

@@ -931,6 +931,70 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $(".delete-student").click(function () {
+        const deleteId = $(this).data("id");
+        const deleteModalConfirm = $("#delete-student-confirmation-modal");
+        const deletionUrl = $(this).data("url");
+
+        $("#deletion-confirmed-form-student").attr(
+            "action",
+            deletionUrl.replace("grad_id", deleteId)
+        );
+        deleteModalConfirm.modal("show");
+    });
+});
+
+$(document).ready(function () {
+    $(".delete-graduation-fee").click(function () {
+        const deleteId = $(this).data("id");
+        const deleteModal = $("#delete-graduation-confirmation-modal");
+        const deletionUrl = $(this).data("url");
+
+        $("#deletion-confirmed-form-graduation").attr(
+            "action",
+            deletionUrl.replace("student_id", deleteId)
+        );
+
+        deleteModal.modal("show");
+    });
+});
+
+$(document).ready(function () {
+    $(".delete-academic").click(function () {
+        const deleteId = $(this).data("id");
+        const deleteModal = $("#delete-student-academic-confirmation-modal");
+        const deletionUrl = $(this).data("url");
+        const studentId = $(this).data("student-id");
+
+        $("#deletion-confirmed-form-student-academic").attr(
+            "action",
+            deletionUrl.replace("student_id", studentId)
+        );
+
+        $("#acad_id").val(deleteId);
+
+        deleteModal.modal("show");
+    });
+});
+
+$(document).ready(function () {
+    $(".delete-dcpl-btn").click(function () {
+        const deleteId = $(this).data("id");
+        const deleteModalDCPL = $(
+            "#delete-student-disciplinary-confirmation-modal"
+        );
+        const deletionUrl = $(this).data("url");
+
+        $("#deletion-confirmed-form-student-disciplinary").attr(
+            "action",
+            deletionUrl.replace("dcpl_id", deleteId)
+        );
+
+        deleteModalDCPL.modal("show");
+    });
+});
+
+$(document).ready(function () {
     $(".delete-counterpart").click(function () {
         const deleteId = $(this).data("id");
         const deleteModal = $("#delete-counterpart-confirmation-modal");
@@ -1376,7 +1440,7 @@ $(document).ready(function () {
         );
 
         printWindowOnAcademicReports.document.write(
-            '<span class="centered">' +
+            '<br><br><span class="centered">' +
                 $(".student_name_academic").val() +
                 "</span><br><br><br>"
         );
@@ -1527,7 +1591,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     function generateAndPrintSummaryReport() {
         // Check the value right before you need it
-        if ($("#receipt_true").val() == 1) {
+        if ($(".receipt_true").val() == 1) {
             const printWindowOnStudentCounterpart = window.open("", "_blank");
             if (!printWindowOnStudentCounterpart) {
                 return;
@@ -1578,7 +1642,7 @@ $(document).ready(function () {
                     '<p class="text-right">' +
                     "Date: " +
                     "<u><b>" +
-                    $("#date_of_transaction").val() +
+                    $(".date_of_transaction").val() +
                     "</u></b>" +
                     "</p>" +
                     "</div>" +
@@ -1589,18 +1653,18 @@ $(document).ready(function () {
                 '<p style="text-align: justify; text-indent: 20px; padding:10px">' +
                     "This is to acknowledge receipt from " +
                     "<u><b>" +
-                    $("#student_name").val() +
+                    $(".student_name").val() +
                     "</b></u>" +
                     " the amount of " +
                     "<u><b>" +
-                    $("#amount_paid_in_words").val() +
+                    $(".amount_paid_in_words").val() +
                     " pesos only (PHP " +
-                    $("#amount_paid_receipt").val() +
+                    $(".amount_paid_receipt").val() +
                     ")" +
                     "</u></b>" +
                     " as payment for " +
                     "<u><b>" +
-                    $("#category").val() +
+                    $(".category").val() +
                     "</u></b>" +
                     ".</p><br><br><br>"
             );
@@ -1611,7 +1675,7 @@ $(document).ready(function () {
                     "Payment Received By:<br><br><br>" +
                     '<span style="display: block;">' +
                     "<u><b>" +
-                    $("#current_user_name").val() +
+                    $(".current_user_name").val() +
                     "</u></b>" +
                     "</span>" +
                     '<span style="display: block;">Finance Staff</span>' +
@@ -1619,7 +1683,7 @@ $(document).ready(function () {
                     '<div style="text-align: center;  margin-top: 52px">' +
                     '<span style="display: block;">' +
                     "<u><b>" +
-                    $("#student_name").val() +
+                    $(".student_name").val() +
                     "</u></b>" +
                     "</span>" +
                     '<span style="display: block;">Name and Signature Payee</span>' +
@@ -1634,7 +1698,7 @@ $(document).ready(function () {
             setTimeout(() => {
                 printWindowOnStudentCounterpart.print();
                 toastr.success("Email sent successfully");
-            }, 1000);
+            }, 500);
 
             // const student_id_on_pc = $("#student_id_on_pc").val();
 

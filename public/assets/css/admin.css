@@ -39,7 +39,6 @@ input[type="date"]::-moz-calendar-picker-indicator {
 input[type="date"]::-ms-clear {
     background-color: #ffff;
     color: #495057;
-
 }
 
 .custom-modal-width {
@@ -56,12 +55,12 @@ input[type="date"]::-ms-clear {
 }
 
 .custom-modal-width-on-modal {
-        max-width: 1000px;
-        width: 100%;
+    max-width: 1000px;
+    width: 100%;
 }
 
 .view-all-modal {
-     overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 .truncate {
@@ -73,16 +72,16 @@ input[type="date"]::-ms-clear {
 }
 
 @media (max-width: 768px) {
-    .admin-accounts-section{
+    .admin-accounts-section {
         font-size: 12px;
     }
-    .admin-accounts-table{
+    .admin-accounts-table {
         font-size: 12px;
     }
-    .admin-accounts-mobile-btn span{
+    .admin-accounts-mobile-btn span {
         font-size: 12px;
     }
-    .admin-accounts-mobile-btn a{
+    .admin-accounts-mobile-btn a {
         font-size: 12px;
     }
     .card-tools.admin-accounts {
@@ -92,7 +91,27 @@ input[type="date"]::-ms-clear {
         margin-bottom: -20px;
         margin-right: 0 !important;
     }
-    .admin-accounts-search-input input, .admin-accounts-search-input button, .admin-accounts-search-input a{
+    .admin-accounts-search-input input,
+    .admin-accounts-search-input button,
+    .admin-accounts-search-input a {
         font-size: 12px;
     }
+}
+
+.custom-modal-width-student {
+    max-width: 700px;
+    width: 100%;
+}
+
+.dataTables_length, .dataTables_info{
+    float: left;
+    text-align: right;
+    font-size: 14px;
+    color: #1f3c88;
+}
+
+.dataTables_filter, .pagination {
+    text-align: right;
+    font-size: 14px;
+    color: #1f3c88;
 }

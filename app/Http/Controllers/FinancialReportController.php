@@ -11,10 +11,15 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Models\Student;
+use Illuminate\Support\Facades\Auth;
 
 //
 class FinancialReportController extends Controller {
     public function index() {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $counterpartTotal = Counterpart::sum('amount_paid');
         $medicalShareTotal = MedicalShare::sum('amount_paid');
         $graduationFeeTotal = GraduationFee::sum('amount_paid');
@@ -78,6 +83,10 @@ class FinancialReportController extends Controller {
     }
 
     public function viewFinancialReportByDateFromAndTo(Request $request) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+        
         $dateFrom = $request->input('dateFrom');
         $dateTo = $request->input('dateTo');
         $batchYearSelected = $request->input('batchYear');

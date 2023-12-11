@@ -1,52 +1,40 @@
 <div class="modal fade" id="student-graduation-fee-payments-modal" tabindex="-1" role="dialog"
     aria-labelledby="student-selection-modal-label" aria-hidden="true">
-    <div class="modal-dialog custom-modal-width" role="document">
+    <div class="modal-dialog" role="document"> <!-- Set a maximum width to avoid too wide modals -->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="student-selection-modal-label">Graduation Fee Payments</h5>
+                <h5 class="modal-title mb-0" id="student-selection-modal-label">Graduation Fee Payments</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <a href="{{ route('admin.counterpartRecords') }}"><span aria-hidden="true">&times;</span> </a>
+                    <a href="{{ route('admin.counterpartRecords') }}"><span aria-hidden="true">&times;</span></a>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div class="row" d-flex>
-                        <div class="col-12" id="table">
-                            <div class="card">
-                                {{-- @include('assets.asst-table-headers-no-order-by') --}}
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <form>
-                                            <table id="selection"
-                                                class="table table-bordered table-hover data-table text-center">
-                                                <thead style="background-color: #ffff; color:#1f3c88;">
-                                                    <tr>
-                                                        <th style="background-color: #ffff; color:#1f3c88;">Date</th>
-                                                        <th style="background-color: #ffff; color:#1f3c88;">Amount
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="table-body1">
-                                                    @forelse ($paidGraduationFeeRecords as $record)
-                                                        <tr class="table-row1">
-                                                            <td>{{ \Carbon\Carbon::parse($record->date)->format('F d, Y') }}
-                                                            </td>
-                                                            <td>₱ {{ number_format($record->amount_paid, 2) }}
-                                                            </td>
-                                                        </tr>
-                                                    @empty
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                    @endforelse
-                                                </tbody>
-                                            </table>
-                                        </form>
-                                        @include('assets.asst-loading-spinner')
+                    <!-- Bootstrap grid structure -->
+                    <div class="row d-flex justify-content-center align-items-center">
+                        @foreach ($paidGraduationFeeRecords as $record)
+                            <div class="col-md-6">
+                                <div class="card mb-3 scrollable-content"
+                                    style="height: 100px; overflow: auto; font-size: 13px;">
+                                    <div class="card-header sticky-top"
+                                        style="background-color: rgb(246, 246, 246); color: #1f3c88; height: 50px;">
+                                        <p class="mb-0">
+                                            <strong>{{ \Carbon\Carbon::parse($record->date)->format('F d, Y') }}</strong>
+                                        </p>
+                                    </div>
+                                    <div class="card-body p-2">
+                                        <div class="row">
+                                            <div class="col-6 text-right">
+                                                <p class="mb-1" style="color: #1f3c88;">Amount Paid:</p>
+                                            </div>
+                                            <div class="col-5 text-left">
+                                                <p class="mb-1">₱{{ number_format($record->amount_paid, 2) }}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

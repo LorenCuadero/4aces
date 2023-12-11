@@ -35,13 +35,19 @@
                         <input type="date" name="date" class="form-control" id="date" rows="3"
                             placeholder="" required />
                     </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="send_amount_due_only_medical" name="send_amount_due_only_medical"
+                            value="1">
+                        <label class="form-check-label" for="v">Send amount due only</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="print_acknowledegement_receipt_medical" name="print_acknowledegement_receipt_medical"
+                            value="1">
+                        <label class="form-check-label" for="print_acknowledegement_receipt">Print acknowledgement receipt</label>
+                    </div>
                     <div class="form-group" style="float: right;">
                         <button type="submit" class="btn btn-primary">Add</button>
-                        <a href="#"
-                            onclick="window.location.href = '{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id]) }}'; return false;"
-                            style="text-decoration: none; color: #fff;">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
-                        </a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
                 </form>
                 @include('assets.asst-loading-spinner')
             </div>

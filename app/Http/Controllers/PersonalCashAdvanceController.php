@@ -10,17 +10,20 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Services\StoreLogsService;
+use Illuminate\Support\Facades\Auth;
 
-class PersonalCashAdvanceController extends Controller
-{
-    public function personalCA()
-    {
+class PersonalCashAdvanceController extends Controller {
+    public function personalCA() {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $students = Student::all();
 
         $batchYears = [];
 
-        foreach ($students as $student) {
-            if (!in_array($student->batch_year, $batchYears)) {
+        foreach($students as $student) {
+            if(!in_array($student->batch_year, $batchYears)) {
                 $batchYears[] = $student->batch_year;
             }
         }
@@ -34,7 +37,7 @@ class PersonalCashAdvanceController extends Controller
             ->get();
 
         $totalAmounts = [];
-        foreach ($personalCArecords as $record) {
+        foreach($personalCArecords as $record) {
             $totalAmounts[$record->student_id] = [
                 'amount_due' => $record->total_due,
                 'amount_paid' => $record->total_paid,
@@ -51,27 +54,48 @@ class PersonalCashAdvanceController extends Controller
         ]);
     }
 
-    public function studentPersonalCARecords($id)
-    {
-        $student = Student::find($id);
-
-        if (!$student) {
-            return back()->with('error', 'Student not found!');
+    public function studentPersonalCARecords($id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
         }
 
+        $student = Student::find($id);
+
+        if(!$student) {
+            return back()->with('error', 'Student not found!');
+        }
+        $acknowledgementReceipt = null;
         $personal_ca_records = PersonalCashAdvance::where('student_id', $student->id)->get();
 
-        return view('pages.admin-auth.records.student-personal-ca', compact('student', 'personal_ca_records'));
+        return view('pages.admin-auth.records.student-personal-ca', compact('student', 'personal_ca_records', 'acknowledgementReceipt'));
     }
 
-    public function storePersonalCA(Request $request, $id)
-    {
+    public function storePersonalCA(Request $request, $id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $validatedData = $request->validate([
             'purpose' => ['required', 'string', 'max:255'],
             'amount_due' => ['required'],
             'amount_paid' => ['required'],
             'date' => ['required', 'date'],
         ]);
+
+        $dateOfTransaction = $validatedData['date'];
+        $amountPaid = $validatedData['amount_paid'];
+        $amountPaidInWords = StoreLogsService::numberToWords($amountPaid);
+        $category = "Personal Cash Advance";
+
+        $send_amount_due_only = 0;
+        if($request->has('send_amount_due_only')) {
+            $send_amount_due_only = 1;
+        }
+
+        $acknowledgementReceipt = 0;
+        if($request->has('print_acknowledegement_receipt')) {
+            $acknowledgementReceipt = 1;
+        }
 
         $personal_ca = new PersonalCashAdvance();
         $personal_ca->purpose = $validatedData['purpose'];
@@ -82,7 +106,7 @@ class PersonalCashAdvanceController extends Controller
 
         $student = Student::find($id);
         $student_email = $student->email;
-        $student_name = $student->first_name . ' ' . $student->last_name;
+        $student_name = $student->first_name.' '.$student->last_name;
 
         $personal_ca->save();
 
@@ -90,13 +114,24 @@ class PersonalCashAdvanceController extends Controller
         $action = "Added";
         StoreLogsService::storeLogs(auth()->user()->id, $action, "Personal Cash Advance", $personal_ca->student_id, null, $student->batch_year);
 
-        Mail::to($student_email)->send(new SendPersonalCATransInfo($student_name, $personal_ca->purpose, $personal_ca->amount_due, $personal_ca->amount_paid, $personal_ca->date));
+        $student = Student::find($id);
 
-        return back()->with('success', 'Personal cash advance record added and email sent successfully!', compact('personal_ca'));
+        if(!$student) {
+            return back()->with('error', 'Student not found!');
+        }
+
+        Mail::to($student_email)->send(new SendPersonalCATransInfo($student_name, $personal_ca->purpose, $personal_ca->amount_due, $personal_ca->amount_paid, $personal_ca->date, $send_amount_due_only));
+
+        $personal_ca_records = PersonalCashAdvance::where('student_id', $student->id)->get();
+
+        return view('pages.admin-auth.records.student-personal-ca', compact('student', 'personal_ca_records', 'amountPaid', 'amountPaidInWords', 'dateOfTransaction', 'category', 'acknowledgementReceipt'));
     }
 
-    public function updatePersonalCA(Request $request, $id)
-    {
+    public function updatePersonalCA(Request $request, $id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $validatedData = $request->validate([
             'purpose' => ['required', 'string', 'max:255'],
             'amount_due' => ['required'],
@@ -104,14 +139,29 @@ class PersonalCashAdvanceController extends Controller
             'date' => ['required', 'date'],
         ]);
 
+        $dateOfTransaction = $validatedData['date'];
+        $amountPaid = $validatedData['amount_paid'];
+        $amountPaidInWords = StoreLogsService::numberToWords($amountPaid);
+        $category = "Personal Cash Advance";
+
+        $send_amount_due_only = 0;
+        if($request->has('send_amount_due_only')) {
+            $send_amount_due_only = 1;
+        }
+
+        $acknowledgementReceipt = 0;
+        if($request->has('print_acknowledegement_receipt')) {
+            $acknowledgementReceipt = 1;
+        }
+
         $personal_cash_advance = PersonalCashAdvance::find($id);
         $studentId = $personal_cash_advance->student_id;
         $studentEmail = $personal_cash_advance->student->email;
-        $studentName = $personal_cash_advance->student->first_name . " " . $personal_cash_advance->student->last_name;
+        $studentName = $personal_cash_advance->student->first_name." ".$personal_cash_advance->student->last_name;
 
         $personal_cash_advance->purpose = $validatedData['purpose'];
         $personal_cash_advance->amount_due = $validatedData['amount_due'];
-        $personal_cash_advance->amount_paid = $validatedData['amount_paid'];
+        $personal_cash_advance->amount_paid = $validatedData['amount_paid'] + $request->input('amount_paid_previous');
         $personal_cash_advance->date = $validatedData['date'];
         $personal_cash_advance->student_id = $studentId;
 
@@ -122,22 +172,32 @@ class PersonalCashAdvanceController extends Controller
         StoreLogsService::storeLogs(auth()->user()->id, $action, "Personal Cash Advance", $studentId, null, $personal_cash_advance->student->batch_year);
 
         // Send email notification to the student
-        Mail::to($studentEmail)->send(new SendPersonalCATransInfo($studentName, $personal_cash_advance->purpose, $personal_cash_advance->amount_due, $personal_cash_advance->amount_paid, $personal_cash_advance->date));
+        Mail::to($studentEmail)->send(new SendPersonalCATransInfo($studentName, $personal_cash_advance->purpose, $personal_cash_advance->amount_due, $personal_cash_advance->amount_paid, $personal_cash_advance->date, $send_amount_due_only));
 
-        // Return success message only if no duplicate was found
-        return back()->with('success', 'Personal cash advance record updated and email sent successfully!', compact('personal_cash_advance'));
+        $student = Student::find($studentId);
+
+        if(!$student) {
+            return back()->with('error', 'Student not found!');
+        }
+
+        $personal_ca_records = PersonalCashAdvance::where('student_id', $studentId)->get();
+
+        return view('pages.admin-auth.records.student-personal-ca', compact('student', 'personal_ca_records', 'amountPaid', 'amountPaidInWords', 'dateOfTransaction', 'category', 'acknowledgementReceipt'));
     }
 
-    public function deletePersonalCA($id)
-    {
+    public function deletePersonalCA($id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $personalCA = PersonalCashAdvance::find($id);
 
-        if (!$personalCA) {
+        if(!$personalCA) {
             return back()->with('error', 'Personal cash advance record not found.');
         }
 
         // Store student information before deletion
-        $studentName = $personalCA->student->first_name . ' ' . $personalCA->student->last_name;
+        $studentName = $personalCA->student->first_name.' '.$personalCA->student->last_name;
         $studentEmail = $personalCA->student->email;
         $studentId = $personalCA->student->id;
         $month = $personalCA->month;

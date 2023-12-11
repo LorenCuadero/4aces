@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="font-size: 15px;">
                             <form id="send-coa-email-form" enctype="multipart/form-data" method="POST"
                                 action="{{ route('admin.sendCoa') }}">
                                 @csrf
@@ -85,7 +85,7 @@
                                     <div class="col-md-12 justify-content">
                                         <div class="container">
                                             <input type="hidden" id="selectedBatchYear" name="selectedBatchYear" required>
-                                            <textarea class="form-control" rows="10" readonly>
+                                            <textarea class="form-control scrollable-content" rows="10" readonly style="font-size: 14px; height:290px;">
 Dear (Name),
 
 I hope this email finds you well.

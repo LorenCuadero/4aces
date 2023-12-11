@@ -10,17 +10,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendDeletionNotificationMS;
 use App\Services\StoreLogsService;
+use Illuminate\Support\Facades\Auth;
 
-class MedicalShareController extends Controller
-{
-    public function medicalShare()
-    {
+class MedicalShareController extends Controller {
+    public function medicalShare() {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $students = Student::all();
 
         $batchYears = [];
 
-        foreach ($students as $student) {
-            if (!in_array($student->batch_year, $batchYears)) {
+        foreach($students as $student) {
+            if(!in_array($student->batch_year, $batchYears)) {
                 $batchYears[] = $student->batch_year;
             }
         }
@@ -34,7 +37,7 @@ class MedicalShareController extends Controller
             ->get();
 
         $totalAmounts = [];
-        foreach ($medicalShareRecords as $record) {
+        foreach($medicalShareRecords as $record) {
             $totalAmounts[$record->student_id] = [
                 'amount_due' => $record->total_due * 0.15,
                 'amount_paid' => $record->total_paid,
@@ -50,21 +53,28 @@ class MedicalShareController extends Controller
         ]);
     }
 
-    public function studentMedicalShareRecords($id)
-    {
+    public function studentMedicalShareRecords($id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $student = Student::find($id);
 
-        if (!$student) {
+        if(!$student) {
             return back()->with('error', 'Student not found!');
         }
 
+        $acknowledgementReceipt = null;
         $medical_share_records = MedicalShare::where('student_id', $student->id)->get();
 
-        return view('pages.admin-auth.records.student-medical-share', compact('student', 'medical_share_records'));
+        return view('pages.admin-auth.records.student-medical-share', compact('student', 'medical_share_records', 'acknowledgementReceipt'));
     }
 
-    public function storeMedicalShare(Request $request, $id)
-    {
+    public function storeMedicalShare(Request $request, $id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $validatedData = $request->validate([
             'medical_concern' => ['required', 'string', 'max:255'],
             'amount_due' => ['required'],
@@ -72,32 +82,53 @@ class MedicalShareController extends Controller
             'date' => ['required', 'date'],
         ]);
 
+        $send_amount_due_only = 0;
+        if($request->has('send_amount_due_only_medical')) {
+            $send_amount_due_only = 1;
+        }
+
+        $acknowledgementReceipt = 0;
+        if($request->has('print_acknowledegement_receipt_medical')) {
+            $acknowledgementReceipt = 1;
+        }
+
+        $dateOfTransaction = $validatedData['date'];
+        $amountPaid = $validatedData['amount_paid'];
+        $amountPaidInWords = StoreLogsService::numberToWords($validatedData['amount_paid']);
+        $category = "Medical Share";
+
         $medical_share = new MedicalShare();
         $medical_share->medical_concern = $validatedData['medical_concern'];
         $medical_share->total_cost = $validatedData['amount_due'];
         $percent_share = $validatedData['amount_due'] * 0.15;
-        $medical_share->amount_paid = $validatedData['amount_paid'];
-        $medical_share->date = $validatedData['date'];
+        $medical_share->amount_paid = $amountPaid;
+        $medical_share->date = $dateOfTransaction;
         $medical_share->student_id = $id;
         $medical_share->save();
 
-        $student = Student::find($id);
+        $student = Student::findOrFail($id);
         $studentId = $student->id;
         $student_email = $student->email;
-        $student_name = $student->first_name . ' ' . $student->last_name;
+        $student_name = $student->first_name.' '.$student->last_name;
         $student_batch_year = $student->batch_year;
 
         // Log the action
         $action = "Added";
         StoreLogsService::storeLogs(auth()->user()->id, $action, "Medical Share", $studentId, null, $student_batch_year);
 
-        Mail::to($student_email)->send(new SendMedicalShareTransInfo($student_name, $medical_share->medical_concern, $medical_share->total_cost, $percent_share, $medical_share->amount_paid, $medical_share->date));
+        Mail::to($student_email)->send(new SendMedicalShareTransInfo($student_name, $medical_share->medical_concern, $medical_share->total_cost, $percent_share, $medical_share->amount_paid, $medical_share->date, $send_amount_due_only
+        ));
 
-        return back()->with('success', 'Medical share record added and email sent successfully!', compact('medical_share'));
+        $medical_share_records = MedicalShare::where('student_id', $student->id)->get();
+
+        return view('pages.admin-auth.records.student-medical-share', compact('student', 'medical_share_records', 'acknowledgementReceipt', 'amountPaidInWords', 'category', 'dateOfTransaction', 'amountPaid'));
     }
 
-    public function updateMedicalShare(Request $request, $id)
-    {
+    public function updateMedicalShare(Request $request, $id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $validatedData = $request->validate([
             'medical_concern' => ['required', 'string', 'max:255'],
             'amount_due' => ['required', 'numeric'],
@@ -105,41 +136,65 @@ class MedicalShareController extends Controller
             'date' => ['required', 'date'],
         ]);
 
+        $send_amount_due_only = 0;
+        if($request->has('send_amount_due_only_medical')) {
+            $send_amount_due_only = 1;
+        }
+
+        $acknowledgementReceipt = 0;
+        if($request->has('print_acknowledegement_receipt_medical')) {
+            $acknowledgementReceipt = 1;
+        }
+
+        $dateOfTransaction = $validatedData['date'];
+        $amountPaid = $validatedData['amount_paid'];
+        $amountPaidUpdate = $validatedData['amount_paid'] + $request->input('amount_paid_previous');
+        $amountPaidInWords = StoreLogsService::numberToWords($validatedData['amount_paid']);
+        $category = "Medical Share";
+
         $medicalShare = MedicalShare::find(request()->input('medical_id'));
         $studentId = $medicalShare->student_id;
         $studentEmail = $medicalShare->student->email;
-        $studentName = $medicalShare->student->first_name . " " . $medicalShare->student->last_name;
+        $studentName = $medicalShare->student->first_name." ".$medicalShare->student->last_name;
         $studentBatchYear = $medicalShare->student->batch_year;
         $medicalShare->medical_concern = $validatedData['medical_concern'];
         $medicalShare->total_cost = $validatedData['amount_due'];
         $percent_share = $validatedData['amount_due'] * 0.15;
-        $medicalShare->amount_paid = $validatedData['amount_paid'];
+        $medicalShare->amount_paid = $amountPaidUpdate;
         $medicalShare->date = $validatedData['date'];
         $medicalShare->student_id = $studentId;
 
         $medicalShare->save();
+        $student = Student::find($id);
+        if(!$student) {
+            return back()->with('error', 'Student not found!');
+        }
 
         // Log the action
         $action = "Updated";
         StoreLogsService::storeLogs(auth()->user()->id, $action, "Medical Share", $studentId, null, $studentBatchYear);
 
         // Send email notification to the student
-        Mail::to($studentEmail)->send(new SendMedicalShareTransInfo($studentName, $medicalShare->medical_concern, $medicalShare->total_cost, $percent_share, $medicalShare->amount_paid, $medicalShare->date));
-
+        Mail::to($studentEmail)->send(new SendMedicalShareTransInfo($studentName, $medicalShare->medical_concern, $medicalShare->total_cost, $percent_share, $medicalShare->amount_paid, $medicalShare->date, $send_amount_due_only));
         // Return success message only if no duplicate was found
-        return back()->with('success', 'Medical share record updated and email sent successfully!', compact('medicalShare'));
+        $medical_share_records = MedicalShare::where('student_id', $studentId)->get();
+
+        return view('pages.admin-auth.records.student-medical-share', compact('student', 'medical_share_records', 'acknowledgementReceipt', 'amountPaidInWords', 'category', 'dateOfTransaction', 'amountPaid'));
     }
 
-    public function deleteMedicalShare($id)
-    {
+    public function deleteMedicalShare($id) {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $medicalShare = MedicalShare::find($id);
 
-        if (!$medicalShare) {
+        if(!$medicalShare) {
             return back()->with('error', 'personal cash advance record not found.');
         }
 
         // Store student information before deletion
-        $studentName = $medicalShare->student->first_name . ' ' . $medicalShare->student->last_name;
+        $studentName = $medicalShare->student->first_name.' '.$medicalShare->student->last_name;
         $studentEmail = $medicalShare->student->email;
         $studentId = $medicalShare->student->id;
         $amountDue = $medicalShare->total_cost * 0.15;

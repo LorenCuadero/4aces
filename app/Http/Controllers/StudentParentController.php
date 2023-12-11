@@ -81,6 +81,10 @@ class StudentParentController extends Controller
 
     public function indexReports()
     {
+        if(Auth::user()->role != '0') {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
+
         $user = Auth::user();
         $gradeReports = null; // Initialize gradeReports as null
         $userFname = null;
@@ -228,40 +232,63 @@ class StudentParentController extends Controller
         }
     }
 
-    public function indexProfile()
-    {
-        if (Auth::user()->role == '0') {
-            $user = Auth::user();
-            $userData = null;
+    public function indexProfile() {
+        $user = Auth::user();
 
-            if ($user->role == 0) {
-                // Retrieve the student's information based on the email using the relationship
-                $student = $user->student;
+        if($user->role != '0') {
+            return redirect()->back()->with('error', 'You are not authorized to access this page.');
+        }
 
-                if ($student) {
-                    // Create an array with the student's information
-                    $userData = [
-                        'first_name' => $student->first_name,
-                        'last_name' => $student->last_name,
-                        'middle_name' => $student->middle_name,
-                        'email' => $student->email,
-                        'phone' => $student->phone,
-                        'birthdate' => $student->birthdate,
-                        'address' => $student->address,
-                        'parent_name' => $student->parent_name,
-                        'parent_contact' => $student->parent_contact,
-                        'batch_year' => $student->batch_year,
-                        'joined' => $student->joined,
-                        // Add any other fields you want to retrieve
-                    ];
-                }
+        $userData = null;
+        $gradeReports = null; // Initialize gradeReports as null
+        $userFname = null;
+        $userMname = null;
+        $userLname = null;
+        $disciplinaryRecords = null;
+        $totalGPA = null;
+        $userJoinedYear = null;
+        $userJoinedYearInt = null;
+        $userJoinedEffectiveYear = null;
+
+        if($user->role == 0) {
+            // Retrieve the student's information based on the email using the relationship
+            $student = $user->student;
+
+            if($student) {
+                // Create an array with the student's information for profile
+                $userData = [
+                    'id' => $student->id,
+                    'first_name' => $student->first_name,
+                    'last_name' => $student->last_name,
+                    'middle_name' => $student->middle_name,
+                    'email' => $student->email,
+                    'phone' => $student->phone,
+                    'birthdate' => $student->birthdate,
+                    'address' => $student->address,
+                    'parent_name' => $student->parent_name,
+                    'parent_contact' => $student->parent_contact,
+                    'batch_year' => $student->batch_year,
+                    'joined' => $student->joined,
+                    // Add any other fields you want to retrieve
+                ];
+
+                // Get the academic records for the student
+                $gradeReports = Academic::where('student_id', $student->id)->get();
+                $disciplinaryRecords = Disciplinary::where('student_id', $student->id)->get();
+                $userFname = $student->first_name;
+                $userMname = $student->middle_name;
+                $userLname = $student->last_name;
+                $userJoined = Carbon::parse($student->joined);
+                $userJoinedYear = $userJoined->year;
+                $userJoinedYearInt = (int)$userJoinedYear; // Convert to an integer
+                $userJoinedEffectiveYear = $userJoinedYearInt + 2;
+                $totalGPA = $gradeReports->sum('gpa') / 4;
             } else {
                 $userData = $user->first_name;
             }
-
-            return view('pages.student-parent-auth.profile.index', compact('userData'));
-        } else {
-            return redirect()->back()->with('error', 'You are not authorized to access this page.');
         }
+
+        return view('pages.student-parent-auth.profile.index', compact('userData', 'gradeReports', 'userFname', 'userLname', 'userMname', 'disciplinaryRecords', 'totalGPA', 'userJoinedYearInt', 'userJoinedEffectiveYear'));
     }
+
 }

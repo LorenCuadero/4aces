@@ -40,6 +40,8 @@ Route::prefix('/forgot-password')->group(function () {
     Route::post('/', [AuthController::class, 'postRecover'])->name('recover');
 });
 
+Route::post('/resend-otp', [AuthController::class, 'resend'])->name('resend');
+
 Route::prefix('/reset-password')->group(function () {
     Route::post('/', [AuthController::class, 'recoverOTP'])->name('recover-submit');
 });
@@ -78,6 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{id}', [StudentController::class, 'getStudentGradeReport'])->name('rpt.acd.getStudentGradeReport');
         Route::put('/{id}', [StudentController::class, 'updateStudentGradeReport'])->name('rpt.acd.updateStudentGradeReport');
         Route::post('/{id}', [StudentController::class, 'addStudentGradeReport'])->name('rpt.acd.addStudentGradeReport');
+        Route::delete('/{id}', [StudentController::class, 'destroyStudentGradeReport'])->name('rpt.acd.destroyStudentGradeReport');
     });
 
     Route::prefix('/reports-dcpl')->group(function () {
@@ -85,6 +88,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{id}', [DisciplinaryController::class, 'showDisciplinaryRecordsForStudent'])->name('rpt.dcpl.showDisciplinaryRecordsForStudent');
         Route::post('/', [DisciplinaryController::class, 'store'])->name('rpt.dcpl.store');
         Route::put('/{id}', [DisciplinaryController::class, 'update'])->name('rpt.dcpl.update');
+        Route::delete('/{id}', [DisciplinaryController::class, 'destroy'])->name('rpt.dcpl.destroy');
     });
 
     Route::prefix('/students-info')->group(function () {
@@ -154,6 +158,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{id}', [GraduationFeeController::class, 'studentGraduationFeeRecords'])->name('admin.studentGraduationFeeRecords');
         Route::post('/{id}', [GraduationFeeController::class, 'storeGraduationFee'])->name('admin.storeGraduationFee');
         Route::put('/{id}', [GraduationFeeController::class, 'updateGraduationFee'])->name('admin.updateGraduationFee');
+        Route::delete('/{id}', [GraduationFeeController::class, 'deleteGraduationFee'])->name('admin.deleteGraduationFee');
     });
 
     Route::prefix('/financial-reports')->group(function () {

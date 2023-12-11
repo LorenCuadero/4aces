@@ -2,24 +2,10 @@
     @section('content')
         <section class="content">
             <div class="row">
-                <span>
-                    {{-- @if (session('success-added'))
-                        <p><span class="text-success success-display ml-2">[ {{ session('success-added') }} ]</span></p>
-                    @endif --}}
-
-                    @if (session('success-added'))
-                        <script>
-                            toastr.success('{{ session('success-added') }}');
-                        </script>
-                    @endif
-
-                    @if (session('error-add'))
-                        <p><span class="text-danger error-display ml-2">[ {{ session('error-add') }} ]</span></p>
-                    @endif
-                </span>
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header d-flex flex-wrap align-items-center justify-content-between"  style="background-color: #fff; color:#1f3c88">
+                        <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
+                            style="background-color: #fff; color:#1f3c88">
                             <h1 class="card-title mb-3 mb-md-0" style="color:#1f3c88;">
                                 <b>Grades of:</b>
                                 {{ $student->first_name }}
@@ -35,7 +21,8 @@
                                         style="display: flex; align-items:center; height: 38px; margin-left: 4px;"
                                         data-target="add-student-grd-modal" data-toggle="modal">
                                         <a class="nav-link align-items-center"
-                                            style="color:#fff;height: 100%; display: flex; align-items: center;"><i class="fa fa-plus mr-1" style="font-size: 17px"></i>  Add</a>
+                                            style="color:#fff;height: 100%; display: flex; align-items: center;"><i
+                                                class="fa fa-plus mr-1" style="font-size: 17px"></i> Add</a>
                                     </div>
                                     <div class="nav-item btn btn-sm" id="back"
                                         style="display: flex; align-items:center; height: 38px; margin-left: 4px;">
@@ -68,8 +55,8 @@
                                     <tbody class="table-body">
                                         @forelse ($academics as $academic)
                                             <tr class="table-row">
-                                                <td>{{ $academic->course_code }}</td>
-                                                <td>
+                                                <td class="align-middle">{{ $academic->course_code }}</td>
+                                                <td class="align-middle">
                                                     @if (isset($academic->year_and_sem))
                                                         @if ($academic->year_and_sem == 0)
                                                             1st year - First Semester
@@ -88,44 +75,48 @@
                                                         @endif
                                                     @endif
                                                 </td>
-                                                <td>
+                                                <td class="align-middle">
                                                     @if ($academic->midterm_grade != null)
                                                         {{ $academic->midterm_grade }}
                                                     @endif
                                                 </td>
-                                                <td>
+                                                <td class="align-middle">
                                                     @if ($academic->final_grade != null)
                                                         {{ $academic->final_grade }}
                                                     @endif
                                                 </td>
-                                                <td>
-                                                    <a href="#" class="edit-grade-btn btn btn-sm"
-                                                        data-academic-id="{{ $academic->id }}"
-                                                        data-academic-course-code="{{ $academic->course_code }}"
-                                                        data-year-and-sem="{{ $academic->year_and_sem }}"
-                                                        data-midterm="{{ $academic->midterm_grade }}"
-                                                        data-final=" {{ $academic->final_grade }} "
-                                                        style="background-color: #1f3c88; color: #ffff; width:60%; border-radius: 20px; margin: 2px">
-                                                        <i class="far fa-edit" style="font-size: 17px"></i>
-                                                        Edit
-                                                    </a>
-                                                    {{-- <a href="#" data-id="{{ $personal_ca_record->id }}"
-                                                        data-delete-url="{{ route('admin.deletePersonalCA', ['id' => 'personal_ca_id']) }}"
-                                                        class="btn btn-sm delete-personal-ca"
-                                                        style="background-color: #dd3e3e; color: #ffff; width:50%; border-radius: 20px; margin: 2px;">
-                                                        <i class="fas fa-trash-alt"
-                                                            style="font-size: 16px; border: 1px;"></i>
-                                                        Delete
-                                                    </a> --}}
+                                                <td class="align-middle">
+                                                    <div
+                                                        style="display: flex; align-items: center; justify-content:center;">
+                                                        <a href="#" class="edit-grade-btn btn btn-sm"
+                                                            data-academic-id="{{ $academic->id }}"
+                                                            data-academic-course-code="{{ $academic->course_code }}"
+                                                            data-year-and-sem="{{ $academic->year_and_sem }}"
+                                                            data-midterm="{{ $academic->midterm_grade }}"
+                                                            data-final=" {{ $academic->final_grade }} "
+                                                            style="color: #1f3c88;width:50%; border-radius: 20px; margin: 2px">
+                                                            <strong><i class="far fa-edit" style="font-size: 17px"></i>
+                                                            Edit</strong>
+                                                        </a>
+                                                        <a href="#" data-id="{{ $academic->id }}"
+                                                            data-student-id="{{ $student->id }}"
+                                                            data-url="{{ route('rpt.acd.destroyStudentGradeReport', ['id' => 'student_id', 'academic_id' => $academic->id]) }}"
+                                                            class="btn btn-sm delete-academic"
+                                                            style="color: #dd3e3e; width:50%; border-radius: 20px; margin: 2px;">
+                                                            <i class="fas fa-trash-alt"
+                                                                style="font-size: 16px; border: 1px;"></i>
+                                                            Delete
+                                                        </a>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td class="align-middle"></td>
+                                                <td class="align-middle"></td>
+                                                <td class="align-middle"></td>
+                                                <td class="align-middle"></td>
+                                                <td class="align-middle"></td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -138,6 +129,5 @@
         </section>
         @include('modals.staff.mdl-student-acd-rpt')
         @include('modals.staff.mdl-student-acd-rpt-add')
-        {{-- <cmpt-student-acd-rpt></cmpt-student-acd-rpt> --}}
-        <cmpt-staff-add></cmpt-staff-add>
+        @include('modals.staff.mdl-delete-student-academic-confirmation')
     @endsection

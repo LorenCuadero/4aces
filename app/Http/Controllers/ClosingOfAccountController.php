@@ -7,9 +7,14 @@ use App\Models\Counterpart;
 use App\Models\MedicalShare;
 use App\Models\PersonalCashAdvance;
 use App\Models\GraduationFee;
+use Illuminate\Support\Facades\Auth;
 
 class ClosingOfAccountController extends Controller {
     public function index() {
+        if(Auth::user()->role != '2') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
         $students = Student::all();
         $batchYears = [];
         $studentData = [];
@@ -65,6 +70,11 @@ class ClosingOfAccountController extends Controller {
     }
 
     public function indexStaff() {
+        if(Auth::user()->role != '1') {
+            return redirect()->back()->with('error', 'You do not have permission to access this page');
+        }
+
+
         $students = Student::all();
         $batchYears = [];
         $studentData = [];
@@ -97,9 +107,7 @@ class ClosingOfAccountController extends Controller {
                 }
 
                 $studentData[] = [
-                    'name' => $student->first_name.
-                        (($student->middle_name && $student->middle_name !== 'N/A') ? ' '.$student->middle_name : '').
-                        ' '.$student->last_name,
+                    'name' => $student->last_name.', '.$student->first_name.' '.$student->middle_name,
                     'batch_year' => $student->batch_year,
                     'counterpart_due_and_paid' => $studentTotalCounterpartAmountDueAndPaid,
                     'medical_share_due_and_paid' => $studentTotalMedicalShareAmountDueAndPaid,
@@ -110,6 +118,7 @@ class ClosingOfAccountController extends Controller {
                 ];
             }
         }
+
 
         return view(
             'pages.staff-auth.coa.index',

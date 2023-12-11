@@ -43,7 +43,7 @@
                                     <tbody class="table-body" style="font-size: 14px;">
                                         @forelse ($studentData as $data)
                                             <tr>
-                                                {{-- <td>{{ $data['name'] }}</td> --}}
+                                                <td>{{ $data['name'] }}</td>
                                                 <td>{{ $data['batch_year'] }}</td>
                                                 <td>{{ $data['counterpart_due_and_paid'] }}</td>
                                                 <td>{{ $data['medical_share_due_and_paid'] }}</td>

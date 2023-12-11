@@ -141,7 +141,7 @@
 
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed" data-page="{{ Route::currentRouteName() }}">
+<body class="hold-transition sidebar-mini layout-fixed scrollable-content" data-page="{{ Route::currentRouteName() }}">
     <div class="wrapper">
         @include('layouts.admin.loading')
         @include('layouts.admin.header')
@@ -150,31 +150,30 @@
         @include('assets.asst-loading-spinner')
         @include('modals.mdl-change-pass-confirmation')
         <div class="content-wrapper text-center p-3">
-            {{-- <span>
-                @if (session('success'))
-                    <p class="text-left"><span class="text-success success-display ml-2">[ {{ session('success') }} ]</span></p>
-                @endif
-                @if (session('error'))
-                    <p class="text-left"><span class="text-danger error-display ml-2">[ {{ session('error') }} ]</span></p>
-                @endif
-            </span> --}}
-            <span>
-                @if (session('success'))
+               <span>
+                    @if (session('incorrect-password'))
                         <script>
-                            toastr.success('{{ session('success') }}');
+                            toastr.error("{{ session('incorrect-password') }}");
                         </script>
                     @endif
-            </span>
-            <span>
-                @if (session('incorrect-password'))
-                    <p style="text-align: left;"><span class="text-danger error-display ml-2"
-                            style="text-align: left;">[
-                            {{ session('incorrect-password') }} ]</span></p>
-                @endif
-                @if (session('email-not-found'))
-                    <p style="text-align: left;"><span class="text-danger error-display ml-2"
-                            style="text-align: left;">[ {{ session('email-not-found') }} ]</span></p> @endif
-            </span>
+
+                    @if (session('email-not-found'))
+                        <script>
+                            toastr.error("{{ session('email-not-found') }}");
+                        </script>
+                    @endif
+
+                    @if (session('success'))
+                        <script>
+                            toastr.success("{{ session('success') }}");
+                        </script>
+                    @endif
+
+                    @if (session('error'))
+                        <script>
+                            toastr.error("{{ session('error') }}");
+                        </script> @endif
+                </span>
             @yield('content')
         </div>
         @include('layouts.admin.footer')

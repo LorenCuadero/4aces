@@ -10,44 +10,46 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div class="row" d-flex>
-                        <div class="col-12" id="table">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <form>
-                                            <table id="selection"
-                                                class="table table-bordered table-hover data-table text-center">
-                                                <thead style="background-color: #ffff; color:#1f3c88;">
-                                                    <tr>
-                                                        <th style="background-color: #ffff; color:#1f3c88;">Month</th>
-                                                        <th style="background-color: #ffff; color:#1f3c88;">Year</th>
-                                                        <th style="background-color: #ffff; color:#1f3c88;">Amount</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="table-body1">
-                                                    @forelse ($unpaidCounterpartRecords as $record)
-                                                        <tr class="table-row1">
-                                                            <td>{{ date('F', mktime(0, 0, 0, $record->month, 1)) }}</td>
-                                                            <td>{{ $record->year }}</td>
-                                                            <td>₱{{ number_format($record->amount_due - $record->amount_paid, 2) }}
-                                                            </td>
-                                                        </tr>
-                                                    @empty
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                    @endforelse
-                                                </tbody>
-                                            </table>
-                                        </form>
-                                        @include('assets.asst-loading-spinner')
+                    <!-- Bootstrap grid structure -->
+                    <div class="row">
+                        @for ($month = 1; $month <= 12; $month++)
+                            <div class="col-md-3">
+                                <div class="card mb-3 scrollable-content"
+                                    style="height: 200px; overflow: auto; font-size: 13px;">
+                                    <div class="card-header sticky-top"
+                                        style="background-color:rgb(246, 246, 246); color: #1f3c88; height: 50px;">
+                                        <p class="mb-0"><strong>{{ date('F', mktime(0, 0, 0, $month, 1)) }}</strong>
+                                        </p>
+                                    </div>
+                                    <div class="card-body p-2 text-left">
+                                        @foreach ($unpaidCounterpartRecords as $record)
+                                            @if ($record->month == $month)
+                                                <div class="row">
+                                                    <div class="col-4">
+
+                                                        <p class="mb-1" style="color: #1f3c88">Year:
+                                                        </p>
+                                                        <p class="mb-1" style="color: #1f3c88">
+                                                            Amount:</strong></p>
+                                                        <p class="mb-1" style="color: #1f3c88">Date:</strong>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="mb-1">{{ $record->year }}</p>
+                                                        <p class="mb-1">
+                                                            ₱{{ number_format($record->amount_due - $record->amount_paid, 2) }}
+                                                        </p>
+                                                        <p class="mb-1">{{ $record->date }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <hr class="m-1">
+                                            @endif
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endfor
                     </div>
                 </div>
             </div>

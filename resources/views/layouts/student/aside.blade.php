@@ -3,7 +3,7 @@
     <a href="#"><i class="fas fa-times custom-close" id="closeSidebarIcon"></i></a> --}}
     <a href="#" class="pn-logo brand-link">
         <img src="https://i.ibb.co/rbH9RXt/pn-logo-circle.png" alt="IOMS Logo" class="brand-image"
-            style="height: 100px; width: auto; margin:auto">
+            style="max-height: 100px; width: auto; margin:auto; max-width: 100%;">
     </a>
     <div class="sidebar">
         <nav class="mt-2">
@@ -11,26 +11,20 @@
                 data-accordion="false">
                 <li class="nav-item">
                     <a href="{{ route('payable.index') }}" style="text-decoration: none" class="nav-link">
-                        <i class="fa-solid fa-money-bill" style="color: #ffff"></i>
+                        <i class="fas fa-coins" style="color: #ffff"></i>
                         <p style="color:#ffff">Payable</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('student.payments.index') }}" style="text-decoration: none" class="nav-link">
-                        <i class="fa-solid fa-money-bill-wave" style="color: #ffff"></i>
+                        <i class="fas fa-money-bill-wave" style="color: #ffff"></i>
                         <p style="color:#ffff">Payment</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('student.reports.index') }}" style="text-decoration: none" class="nav-link">
-                        <i class="fa-solid fa-folder-open" style="color: #ffff"></i>
-                        <p style="color:#ffff">Reports</p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{ route('student.profile.index') }}" style="text-decoration: none" class="nav-link">
-                       <i class="fa-solid fa-user" style="color: #ffff"></i>
-                        <p style="color:#ffff">Profile</p>
+                        <i class="fa-solid fa-folder" style="color: #ffff"></i>
+                        <p style="color:#ffff">Profile & Reports</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -43,3 +37,4 @@
         </nav>
     </div>
 </aside>
+<div id="sidebar-overlay"></div>
