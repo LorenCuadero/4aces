@@ -43,7 +43,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="password_admin">Password</label>
-                                <input type="text" class="form-control" id="password_admin" name="password" />
+                                <input type="text" class="form-control" id="password_admin" name="password" placeholder="Auto-Generated" disabled/>
                             </div>
                             <div class="form-group">
                                 <label for="contact_number_admin">Contact Number</label>
@@ -96,7 +96,7 @@
                                 <label for="address_admin">Address</label>
                                 <textarea name="address" class="form-control" id="address_admin" rows="3" required autocomplete="off"></textarea>
                             </div>
-                            
+
                             <div class="form-group" style="float: right;">
                                 <button type="submit" class="btn btn-primary mr-2">Add</button>
                                 <a href="{{ route('admin.admin-accounts') }}" class="btn btn-default">Back</a>

@@ -62,12 +62,16 @@ class StudentParentController extends Controller
                     $totalPayables = $totalCounterpart + $totalMedical + $totalPersonalCashAdvance + $totalGraduationFee;
 
                     $unpaidCounterpartRecords = $student->counterpart;
+                    // dd($unpaidCounterpartRecords->all());
 
                     $unpaidMedicalRecords = $student->medicalShare;
+                    // dd($unpaidMedicalRecords);
 
                     $unpaidPersonalCARecords = $student->personalCashAdvance;
 
                     $unpaidGraduationFeeRecords = $student->graduationFee;
+
+                    // dd($totalPayables);
                 }
             } else {
                 $userName = $user->name;

@@ -166,7 +166,7 @@
                             <div class="table-responsive">
                                 <h4 style="color: #1f3c88;" class="h4-text">Summary Reports</h4>
                                 {{-- <p>Percentage of accumulated amount</p> --}}
-                                <table class="table table-bordered table-hover align-middle">
+                                <table class="table table-hover align-middle">
                                     <tbody id="table-body">
                                         <tr>
                                             <td style="border: none; padding: 0vh">Total No of Students (All Batches)

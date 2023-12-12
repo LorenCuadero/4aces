@@ -14,7 +14,7 @@
                 data-accordion="false" style="color: #ffff;">
                 <li class="nav-item {{ Request::is('dashboard') ? 'menu-open active-hover' : 'hover' }}">
                     <a href="{{ route('students.index') }}"
-                        class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" style="text-decoration: none;">
+                        class="nav-link {{ Request::is('dashboard') ? 'active' : '' }} active" style="text-decoration: none;">
                         <i class="nav-icon fas fa-home" style="color: #ffff"></i>
                         <p style="color: #ffff">Students</p>
                     </a>

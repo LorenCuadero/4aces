@@ -50,7 +50,7 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <input type="hidden" value="{{ $student->id }}">
-                            <table class="table table-bordered table-hover data-table text-center" style="font-size: 14px;">
+                            <table class="table table-hover data-table text-center" style="font-size: 14px;">
                                 <thead style="background-color: #fff; color:#1f3c88;">
                                     <tr>
                                         <th class="vertical-text" style="background-color: #fff; color:#1f3c88;">Amount Due

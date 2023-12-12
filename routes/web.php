@@ -41,6 +41,7 @@ Route::prefix('/forgot-password')->group(function () {
 });
 
 Route::post('/resend-otp', [AuthController::class, 'resend'])->name('resend');
+Route::post('/resend-recover-otp', [AuthController::class, 'resendRecoverOTP'])->name('resend-recover-otp');
 
 Route::prefix('/reset-password')->group(function () {
     Route::post('/', [AuthController::class, 'recoverOTP'])->name('recover-submit');

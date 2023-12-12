@@ -47,8 +47,9 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="password_staff">Password</label>
-                                <input type="text" class="form-control" id="password_staff" name="password" />
+                                <label for="password_admin">Password</label>
+                                <input type="text" class="form-control" id="password_admin" name="password"
+                                    placeholder="Auto-Generated" disabled />
                             </div>
                             <div class="form-group">
                                 <label for="contact_number_staff">Contact Number</label>
@@ -77,7 +78,7 @@
                             <div class="form-group">
                                 <label for="birthdate_staff">Birthdate</label>
                                 <input type="date" max="{{ now()->subYears(18)->format('Y-m-d') }}" class="form-control"
-                                    id="birthdate_staff" name="birthdate" required />
+                                    id="birthdate_staff" name="birthdate" required pattern="\d{4}-\d{2}-\d{2}"/>
                             </div>
                             @error('birthdate')
                                 <div class="alert alert-danger">

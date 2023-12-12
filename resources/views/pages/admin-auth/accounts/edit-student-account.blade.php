@@ -34,12 +34,11 @@
                             <div class="form-group">
                                 <label for="suffix_student">Suffix</label>
                                 <select class="form-control" id="suffix_student" name="suffix">
-                                    <option value="None" @if ($user->status == 'None' || $user->status == null) selected @endif>None</option>
+                                    <option value="" @if ($user->status == null || $user->status == 'None') selected @endif>Select Suffix</option>
                                     <option value="Jr." @if ($user->status == 'Jr.') selected @endif>Jr.</option>
                                     <option value="II" @if ($user->status == 'II') selected @endif>II</option>
                                     <option value="III" @if ($user->status == 'III') selected @endif>III</option>
-                                    <option value="Prefer not to say" @if ($user->status == 1) selected @endif>
-                                        Prefer not to say</option>
+                                    <option value="IV" @if ($user->status == 1) selected @endif>IV</option>
                                 </select>
                             </div>
                             @error('suffix')
@@ -145,7 +144,7 @@
                             <div class="form-group">
                                 <label for="joined_student">Joined</label>
                                 <input type="date" class="form-control" id="joined_student" name="joined"
-                                    value="{{ $user->joined }}" />
+                                    value="{{ $user->joined }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" />
                             </div>
                             @error('batch_year')
                                 <div class="alert alert-danger">

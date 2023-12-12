@@ -21,47 +21,9 @@
                                 </form>
                             </div>
                         </div>
-                        <form method="" action="">
-                            <div class="card-body pb-0">
-                                <div class="row">
-                                    <div class="form-group col-md-3 admin-accounts-search-input">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ Request::get('name') }}" placeholder="Search Name"
-                                            autocomplete="name">
-                                    </div>
-
-                                    <div class="form-group col-md-3 admin-accounts-search-input">
-                                        <input type="text" class="form-control" id="email" name="email"
-                                            value="{{ Request::get('email') }}" placeholder="Search Email"
-                                            autocomplete="on">
-                                    </div>
-
-                                    <div class="form-group col-md-3 admin-accounts-search-input">
-                                        <input type="date" class="form-control" id="date" name="date"
-                                            value="{{ Request::get('date') }}">
-                                    </div>
-
-                                    <div class="form-group col-md-1 admin-accounts-search-input">
-                                        <select class="form-control" name="entries" id="entries"
-                                            onchange="this.form.submit()">
-                                            <option value="10" {{ $entriesPerPage == 10 ? 'selected' : '' }}>10</option>
-                                            <option value="25" {{ $entriesPerPage == 25 ? 'selected' : '' }}>25</option>
-                                            <option value="50" {{ $entriesPerPage == 50 ? 'selected' : '' }}>50</option>
-                                            <!-- Add more options as needed -->
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-md-2 admin-accounts-search-input">
-                                        <button type="submit" class="btn btn-primary">Search</button>
-                                        <a href="{{ route('admin.staff-accounts') }}" class="btn btn-success">Reset</a>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </form>
-                        <div class="card-body table-responsive p-1" style="font-size: 14px;">
-                            <div class="p-0">
-                                <table class="table table-hover text-nowrap text-left admin-accounts-table">
+                        <div class="card-body">
+                            <div class="table-responsive scrollable-content">
+                                <table id="example2" class="table table-hover data-table text-center"  style="font-size: 14px;width: 100%;border-collapse: collapse;">
                                     <thead style="color:#1f3c88">
                                         <tr>
                                             <th style="display:none;">ID</th>

@@ -22,14 +22,14 @@
                                     @csrf
                                     <div class="nav-item btn btn-sm p-0" style="display: flex; align-items:center;">
                                         <input type="date" class="form-control rounded p-2 filters" id="date-from"
-                                            name="dateFrom" required>
+                                            name="dateFrom" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required >
                                     </div>
                                     <div class="nav-item btn btn-sm p-0 m-2" style="display: flex; align-items:center;">
                                         <p class="mb-0 text-to filters">to</p>
                                     </div>
-                                    <div class="nav-item btn btn-sm p-0" style="display: flex; align-items:center;">
-                                        <input type="date" id="date-to" class="form-control rounded p-2 filters"
-                                            name="dateTo" required>
+                                    <div class="nav-item btn btn-sm p-0" style="display: flex; align-items:center; ">
+                                        <input type="date" id="date-to" class="form-control rounded filters"
+                                            name="dateTo" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
                                     </div>
                                     <div class="nav-item btn btn-sm p-0" style="display: flex; align-items:center;">
                                         <input type="hidden" id="all-student-number-financial report"

@@ -71,7 +71,7 @@
                     <div class="d-sm-none mb-2"> <!-- Show only on mobile view -->
                         <div id="carouselExample" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
-                                @if (count($paidCounterpartRecords) > 0)
+                                @if (!empty($paidCounterpartRecords) && count($paidCounterpartRecords) > 0)
                                     @foreach ($paidCounterpartRecords as $key => $record)
                                         <div class="carousel-item{{ $key === 0 ? ' active' : '' }}"
                                             style="height: 100px !important; ">
@@ -102,7 +102,7 @@
                                 @else
                                     <div class="flex-container align-middle text-center pl-3 pt-3"
                                         style="background-color: #1f3c88; border-radius: 10px;  padding: 15px!important">
-                                        <p style="color: #1f3c88; font-size:13px; padding-left:20%" class="text-center">No
+                                        <p style="color: #ffffff; font-size:13px;" class="text-center pt-3">No
                                             records
                                             found.</p>
                                     </div>
@@ -124,9 +124,9 @@
                     <div class="d-none d-sm-block"> <!-- Show only on non-mobile view -->
                         <div class="left-column" style="background-color: none;">
                             <div class="left-content1 text-center">
-                                <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
+                                <div class="scrollable-content" style="height:200px; max-height: 200px; overflow: auto;">
                                     <!-- Content for "paid Counterpart" -->
-                                    @if (count($paidCounterpartRecords) > 0)
+                                    @if (!empty($paidCounterpartRecords) && count($paidCounterpartRecords) > 0)
                                         @foreach ($paidCounterpartRecords as $record)
                                             <div class="flex-container align-middle p-0"
                                                 style="background-color: rgb(237, 237, 237); border-radius: 10px; padding: 2%;">
@@ -180,7 +180,7 @@
                     <div class="d-sm-none mb-2"> <!-- Show only on mobile view -->
                         <div id="carouselExample" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
-                                @if (count($paidMedicalRecords) > 0)
+                                @if (!empty($paidMedicalRecords) && count($paidMedicalRecords) > 0)
                                     @foreach ($paidMedicalRecords as $key => $record)
                                         <div class="carousel-item{{ $key === 0 ? ' active' : '' }}"
                                             style="height: 100px !important; ">
@@ -210,8 +210,9 @@
                                 @else
                                     <div class="flex-container align-middle text-center pl-3 pt-3"
                                         style="background-color: #1f3c88; border-radius: 10px;  padding: 15px!important">
-                                        <p style="color: #1f3c88; font-size:13px" class="text-center">No records found.
-                                        </p>
+                                        <p style="color: #ffffff; font-size:13px;" class="text-center pt-3">No
+                                            records
+                                            found.</p>
                                     </div>
                                 @endif
                             </div>
@@ -232,9 +233,9 @@
                     <div class="d-none d-sm-block"> <!-- Show only on non-mobile view -->
                         <div class="left-column" style="background-color: none;">
                             <div class="left-content1 text-center">
-                                <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
+                                <div class="scrollable-content" style="height:200px; max-height: 200px; overflow: auto;">
                                     <!-- Content for "paid Counterpart" -->
-                                    @if (count($paidMedicalRecords) > 0)
+                                    @if (!empty($paidMedicalRecords) && count($paidMedicalRecords) > 0)
                                         @foreach ($paidMedicalRecords as $record)
                                             <div class="flex-container align-middle p-0"
                                                 style="background-color: rgb(237, 237, 237); border-radius: 10px; padding: 2%;">
@@ -287,7 +288,7 @@
                     <div class="d-sm-none mb-2"> <!-- Show only on mobile view -->
                         <div id="carouselExample" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
-                                @if (count($paidPersonalCARecords) > 0)
+                                @if (!empty($paidPersonalCARecords) && count($paidPersonalCARecords) > 0)
                                     @foreach ($paidPersonalCARecords as $key => $record)
                                         <div class="carousel-item{{ $key === 0 ? ' active' : '' }}"
                                             style="height: 100px !important; ">
@@ -317,8 +318,9 @@
                                 @else
                                     <div class="flex-container align-middle text-center pl-3 pt-3"
                                         style="background-color: #1f3c88; border-radius: 10px;  padding: 15px!important">
-                                        <p style="color: #1f3c88; font-size:13px" class="text-center">No records found.
-                                        </p>
+                                        <p style="color: #ffffff; font-size:13px;" class="text-center pt-3">No
+                                            records
+                                            found.</p>
                                     </div>
                                 @endif
                             </div>
@@ -338,9 +340,9 @@
                     <div class="d-none d-sm-block"> <!-- Show only on non-mobile view -->
                         <div class="left-column" style="background-color: none;">
                             <div class="left-content1 text-center">
-                                <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
+                                <div class="scrollable-content" style="height:200px; max-height: 200px; overflow: auto;">
                                     <!-- Content for "paid Counterpart" -->
-                                    @if (count($paidPersonalCARecords) > 0)
+                                    @if (!empty($paidPersonalCARecords) && count($paidPersonalCARecords) > 0)
                                         @foreach ($paidPersonalCARecords as $record)
                                             <div class="flex-container align-middle p-0"
                                                 style="background-color: rgb(237, 237, 237); border-radius: 10px; padding: 2%;">
@@ -393,7 +395,7 @@
                     <div class="d-sm-none mb-2"> <!-- Show only on mobile view -->
                         <div id="carouselExample" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
-                                @if (count($paidGraduationFeeRecords) > 0)
+                                @if (!empty($paidGraduationFeeRecords) && count($paidGraduationFeeRecords) > 0)
                                     @foreach ($paidGraduationFeeRecords as $key => $record)
                                         <div class="carousel-item{{ $key === 0 ? ' active' : '' }}"
                                             style="height: 100px !important; ">
@@ -423,8 +425,9 @@
                                 @else
                                     <div class="flex-container align-middle text-center pl-3 pt-3"
                                         style="background-color: #1f3c88; border-radius: 10px;  padding: 15px!important">
-                                        <p style="color: #1f3c88; font-size:13px" class="text-center">No records found.
-                                        </p>
+                                        <p style="color: #ffffff; font-size:13px;" class="text-center pt-3">No
+                                            records
+                                            found.</p>
                                     </div>
                                 @endif
                             </div>
@@ -444,9 +447,9 @@
                     <div class="d-none d-sm-block"> <!-- Show only on non-mobile view -->
                         <div class="left-column" style="background-color: none;">
                             <div class="left-content1 text-center">
-                                <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
+                                <div class="scrollable-content" style="height:200px; max-height: 200px; overflow: auto;">
                                     <!-- Content for "paid Counterpart" -->
-                                    @if (count($paidGraduationFeeRecords) > 0)
+                                    @if (!empty($paidGraduationFeeRecords) && count($paidGraduationFeeRecords) > 0)
                                         @foreach ($paidGraduationFeeRecords as $record)
                                             <div class="flex-container align-middle p-0"
                                                 style="background-color: rgb(237, 237, 237); border-radius: 10px; padding: 2%;">

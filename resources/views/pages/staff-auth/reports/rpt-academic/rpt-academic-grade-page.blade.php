@@ -37,7 +37,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <input type="hidden" value="{{ $student->id }}">
-                                <table class="table table-bordered table-hover data-table text-center">
+                                <table class="table table-hover data-table text-center" style="font-size: 14px">
                                     <thead>
                                         <tr>
                                             <th style="background-color: #fff; color:#1f3c88" class="vertical-text">Course

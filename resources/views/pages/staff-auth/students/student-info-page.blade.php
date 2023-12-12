@@ -74,7 +74,7 @@
                             <div class="form-group">
                                 <label for="birthdate">Birthdate</label>
                                 <input type="date" class="form-control" id="birthdate" name="birthdate"
-                                    value="{{ $student->birthdate }}" />
+                                    value="{{ $student->birthdate }}" max="{{ now()->subYears(18)->format('Y-m-d') }}"/>
                             </div>
                             <div class="form-group">
                                 <label for="batch_year">Batch Year</label>
@@ -84,7 +84,7 @@
                             <div class="form-group">
                                 <label for="joined">Date Joined</label>
                                 <input type="date" class="form-control" id="joined" name="joined"
-                                    value="{{ $student->joined }}" />
+                                    value="{{ $student->joined }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"/>
                             </div>
                         </div>
 

@@ -47,7 +47,7 @@ class ClosingOfAccountController extends Controller {
                 }
 
                 $studentData[] = [
-                    'name' => $student->last_name.', '.$student->first_name.' '.$student->middle_name,
+                    'name' => $student->last_name . ', ' . $student->first_name . ($student->middle_name !== 'N/A' ? ' ' . $student->middle_name : ''),
                     'batch_year' => $student->batch_year,
                     'counterpart_due_and_paid' => $studentTotalCounterpartAmountDueAndPaid,
                     'medical_share_due_and_paid' => $studentTotalMedicalShareAmountDueAndPaid,

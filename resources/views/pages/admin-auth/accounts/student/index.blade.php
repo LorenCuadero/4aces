@@ -48,11 +48,12 @@
                             <div class="form-group">
                                 <label for="suffix_student">Suffix</label>
                                 <select class="form-control" id="suffix_student" name="suffix">
-                                    <option value="None" selected>None</option>
+                                    <option value="">Select Suffix</option>
                                     <option value="Jr.">Jr.</option>
+                                    <option value="Sr.">Sr.</option>
                                     <option value="II">II</option>
                                     <option value="III">III</option>
-                                    <option value="Prefer not say">Prefer not say</option>
+                                    <option value="IV">IV</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -117,7 +118,7 @@
                             @enderror
                             <div class="form-group">
                                 <label for="joined_student">Joined</label>
-                                <input type="date" class="form-control" id="joined_student" name="joined" required />
+                                <input type="date" class="form-control" id="joined_student" name="joined" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required />
                             </div>
                             @error('batch_year')
                                 <div class="alert alert-danger">

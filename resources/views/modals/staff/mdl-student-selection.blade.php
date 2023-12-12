@@ -17,11 +17,11 @@
                                     <div class="table-responsive" style="overflow: hidden;">
                                         <form>
                                             <table id="selection"
-                                                class="table table-bordered table-hover data-table text-center"
-                                                style="overflow: hidden;">
+                                                class="table table-hover data-table text-center"
+                                                style="overflow: hidden; width: 100%; font-size: 14px">
                                                 <thead>
                                                     <tr>
-                                                        <th style="background-color: #ffff; color: #1f3c88"
+                                                        <th style="background-color: #ffff; color: #1f3c88; display:none"
                                                             class="vertical-text">User Id</th>
                                                         <th style="background-color: #ffff; color: #1f3c88"
                                                             class="vertical-text">Name</th>
@@ -34,14 +34,12 @@
                                                 <tbody class="table-body1">
                                                     @forelse ($students as $student)
                                                         <tr class="table-row1">
-                                                            <td>{{ $student->id }}</td>
-                                                            <td>{{ $student->first_name }}
-
+                                                            <td hidden>{{ $student->id }}</td>
+                                                            <td>{{ $student->last_name }},
+                                                                {{ $student->first_name }}
                                                                 @if ($student->middle_name && $student->middle_name != 'N/A')
                                                                     {{ ' ' . $student->middle_name }}
                                                                 @endif
-
-                                                                {{ ' ' . $student->last_name }}
                                                             </td>
                                                             <td>Batch {{ $student->batch_year }}</td>
                                                             <td> <a href="{{ route('rpt.dcpl.showDisciplinaryRecordsForStudent', ['id', $student->id]) }}"
@@ -55,7 +53,7 @@
                                                         </tr>
                                                     @empty
                                                         <tr>
-                                                            <td></td>
+                                                            <td style="display: none"></td>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
