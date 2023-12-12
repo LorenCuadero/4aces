@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendRecoverOTPMail extends Mailable
+class SendResendRecoverOTPMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -32,7 +32,7 @@ class SendRecoverOTPMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Recovery One-Time Password (OTP)',
+            subject: 'Resent Recovery One-Time Password (OTP)',
         );
     }
 
@@ -42,7 +42,7 @@ class SendRecoverOTPMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'recover-message',
+            view: 'resend-recover-otp-message',
         );
     }
 

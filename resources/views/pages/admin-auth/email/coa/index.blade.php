@@ -12,7 +12,7 @@
                 <div class="col-12" id="table">
                     <div class="card">
                         <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
-                        style="color: #1f3c88; background-color:#ffffff">
+                            style="color: #1f3c88; background-color:#ffffff">
                             <div class="row">
                                 <div class="col-md-12">
                                     <p class="card-title mb-3 mb-md-0"
@@ -56,20 +56,23 @@
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center justify-content">
-                                                        <div class="align-middle">
-                                                            <p class="mt-2"><b style="color:#1f3c88;">Set
-                                                                    Graduation Date: </b>
+                                                        <div class="align-middle" style="width: 100% !important">
+                                                            <p class="mt-2" style="display: flex;">
+                                                                <b style="color:#1f3c88;">Set
+                                                                    Graduation Date:
+                                                                </b>
                                                                 <input class="selections"
-                                                                    style="color:#495057; width: 120px; padding: 6px;     height: 38px;"
+                                                                    style="color:#495057; width: 150px; padding: 6px; height: 38px;"
                                                                     type="date" id="graduation_date"
-                                                                    name="graduation_date">
+                                                                    name="graduation_date"
+                                                                    max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                                             </p>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center justify-content">
                                                         <div class="align-middle">
-                                                            <p class="mt-1"><b
-                                                                    style="color:#1f3c88;">Subject:</b> Statement of Account
+                                                            <p class="mt-1"><b style="color:#1f3c88;">Subject:</b>
+                                                                Statement of Account
                                                                 for
                                                                 Parents' Counterpart Balances for Graduating Alumni</p>
                                                         </div>

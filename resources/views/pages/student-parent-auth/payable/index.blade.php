@@ -64,9 +64,7 @@
         <div class="flex-container align-middle" style="background-color: none;">
             <div class="right-column">
                 <div class="right-content rounded"
-                    style="border: none; box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
-    border-radius: 0.25rem;
-    background-color: #fff;">
+                    style="border: none; box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);border-radius: 0.25rem; background-color: #fff;">
                     <p style="color: #1f3c88;"><strong>Unpaid Counterpart</strong></p>
                     <div class="d-sm-none mb-2"> <!-- Show only on mobile view -->
                         <div id="carouselExample" class="carousel slide" data-ride="carousel">
@@ -91,7 +89,7 @@
                                                     style="margin:auto !important; display: flex; align-items: center; justify-content: center; height: 100%;">
                                                     <div class="right-content" style="border: none;padding: 0 !important">
                                                         <p style="color: #ffffff;" class="mb-0">
-                                                            ₱{{ number_format($record->amount_paid, 2) }}
+                                                            ₱{{ number_format($record->amount_due - $record->amount_paid, 2) }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -122,7 +120,7 @@
                     <div class="d-none d-sm-block"> <!-- Show only on non-mobile view -->
                         <div class="left-column" style="background-color: none;">
                             <div class="left-content1 text-center">
-                                <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
+                                <div class="scrollable-content" style="height:200px; max-height: 200px; overflow: auto;">
                                     <!-- Content for "paid Counterpart" -->
                                     @if (count($unpaidCounterpartRecords) > 0)
                                         @foreach ($unpaidCounterpartRecords as $record)
@@ -139,8 +137,7 @@
                                                 <div class="left-column" style="padding: 2%; width: 30%">
                                                     <div class="right-content" style="border: none">
                                                         <p style="color: #1f3c88;" class="mb-2 mt-2">
-                                                            ₱{{ number_format($record->amount_paid, 2) }}
-                                                        </p>
+                                                            ₱{{ number_format($record->amount_due - $record->amount_paid, 2) }}                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -196,7 +193,7 @@
                                                     style="margin:auto !important; display: flex; align-items: center; justify-content: center; height: 100%;">
                                                     <div class="right-content" style="border: none;padding: 0 !important">
                                                         <p style="color: #ffffff;" class="mb-0">
-                                                            ₱{{ number_format($record->amount_paid, 2) }}
+                                                            ₱{{ number_format($record->amount_due - $record->amount_paid, 2) }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -228,7 +225,7 @@
                     <div class="d-none d-sm-block"> <!-- Show only on non-mobile view -->
                         <div class="left-column" style="background-color: none;">
                             <div class="left-content1 text-center">
-                                <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
+                                <div class="scrollable-content" style="height:200px;max-height: 200px; overflow: auto;">
                                     <!-- Content for "paid Counterpart" -->
                                     @if (count($unpaidMedicalRecords) > 0)
                                         @foreach ($unpaidMedicalRecords as $record)
@@ -244,7 +241,7 @@
                                                 <div class="left-column" style="padding: 2%; width: 30%">
                                                     <div class="right-content" style="border: none">
                                                         <p style="color: #1f3c88;" class="mb-2 mt-2">
-                                                            ₱{{ number_format($record->amount_paid, 2) }}
+                                                            ₱{{ number_format(($record->total_cost * 0.15) - $record->amount_paid, 2) }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -301,7 +298,7 @@
                                                     style="margin:auto !important; display: flex; align-items: center; justify-content: center; height: 100%;">
                                                     <div class="right-content" style="border: none;padding: 0 !important">
                                                         <p style="color: #ffffff;" class="mb-0">
-                                                            ₱{{ number_format($record->amount_paid, 2) }}
+                                                            ₱{{ number_format($record->amount_due - $record->amount_paid, 2) }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -333,7 +330,7 @@
                     <div class="d-none d-sm-block"> <!-- Show only on non-mobile view -->
                         <div class="left-column" style="background-color: none;">
                             <div class="left-content1 text-center">
-                                <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
+                                <div class="scrollable-content" style="height:200px;max-height: 200px; overflow: auto;">
                                     <!-- Content for "paid Counterpart" -->
                                     @if (count($unpaidPersonalCARecords) > 0)
                                         @foreach ($unpaidPersonalCARecords as $record)
@@ -349,7 +346,7 @@
                                                 <div class="left-column" style="padding: 2%; width: 30%">
                                                     <div class="right-content" style="border: none">
                                                         <p style="color: #1f3c88;" class="mb-2 mt-2">
-                                                            ₱{{ number_format($record->amount_paid, 2) }}
+                                                            ₱{{ number_format($record->amount_due - $record->amount_paid, 2) }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -406,7 +403,7 @@
                                                     style="margin:auto !important; display: flex; align-items: center; justify-content: center; height: 100%;">
                                                     <div class="right-content" style="border: none;padding: 0 !important">
                                                         <p style="color: #ffffff;" class="mb-0">
-                                                            ₱{{ number_format($record->amount_paid, 2) }}
+                                                            ₱{{ number_format($record->amount_due - $record->amount_paid, 2) }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -437,7 +434,7 @@
                     <div class="d-none d-sm-block"> <!-- Show only on non-mobile view -->
                         <div class="left-column" style="background-color: none;">
                             <div class="left-content1 text-center">
-                                <div class="scrollable-content" style="max-height: 200px; overflow: auto;">
+                                <div class="scrollable-content" style="height:200px;max-height: 200px; overflow: auto;">
                                     <!-- Content for "paid Counterpart" -->
                                     @if (count($unpaidGraduationFeeRecords) > 0)
                                         @foreach ($unpaidGraduationFeeRecords as $record)
@@ -453,7 +450,7 @@
                                                 <div class="left-column" style="padding: 2%; width: 30%">
                                                     <div class="right-content" style="border: none">
                                                         <p style="color: #1f3c88;" class="mb-2 mt-2">
-                                                            ₱{{ number_format($record->amount_paid, 2) }}
+                                                            ₱{{ number_format($record->amount_due - $record->amount_paid, 2) }}
                                                         </p>
                                                     </div>
                                                 </div>

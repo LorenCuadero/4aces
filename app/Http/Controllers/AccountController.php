@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Models\Student;
 use App\Mail\SendStudentNotification;
+use App\Mail\SendStaffNotification;
 use Illuminate\Validation\Rule;
 
 
@@ -303,7 +304,7 @@ class AccountController extends Controller {
             $action = "Added";
             StoreLogsService::storeLogs(auth()->user()->id, $action, "Staff", $staff->id, null, null);
 
-            Mail::to($staff->email)->send(new SendStudentNotification($staff_name, $staff->email, $defaultPassUnHashed));
+            Mail::to($staff->email)->send(new SendStaffNotification($staff_name, $staff->email, $defaultPassUnHashed));
 
             return redirect()->back()->with('success', 'New staff added successfully!');
         } else {

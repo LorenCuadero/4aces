@@ -21,7 +21,7 @@
                             <label for="verbal-warning" class="col-md-4 col-form-label">Formal Verbal Warning:</label>
                             <div class="col-md-8">
                                 <input class="form-control" type="date" id="verbal_warning_date_dcpl"
-                                    name="verbal_warning_date">
+                                    name="verbal_warning_date" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -34,7 +34,7 @@
                             <label for="written-warning" class="col-md-4 col-form-label">Written Warning:</label>
                             <div class="col-md-8">
                                 <input class="form-control" type="date" id="written_warning_date_dcpl"
-                                    name="written_warning_date">
+                                    name="written_warning_date" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -49,7 +49,7 @@
                                 Warning:</label>
                             <div class="col-md-8">
                                 <input class="form-control" type="date" id="provisionary_date_dcpl"
-                                    name="provisionary_date">
+                                    name="provisionary_date" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                             </div>
                         </div>
                         <div class="form-group row">

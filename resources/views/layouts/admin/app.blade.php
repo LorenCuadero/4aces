@@ -166,13 +166,13 @@
                     @if (session('success'))
                         <script>
                             toastr.success("{{ session('success') }}");
-                        </script>
-                    @endif
+                        </script> @endif
 
-                    @if (session('error'))
+                    {{-- @if (session('error'))
                         <script>
                             toastr.error("{{ session('error') }}");
-                        </script> @endif
+                        </script>
+                    @endif --}}
                 </span>
             @yield('content')
         </div>

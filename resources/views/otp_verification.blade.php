@@ -56,7 +56,7 @@
                             address you provided. Please enter the OTP below for verification.</p>
                         <input type="hidden" id="email" name="email" value="{{ $user_email }}">
 
-                        <div class="otp-container row justify-content-center">
+                        {{-- <div class="otp-container row justify-content-center">
                             <!-- Use individual input fields for each digit of the OTP -->
                             @for ($i = 1; $i <= 6; $i++)
                                 <div class="col-2">
@@ -65,7 +65,10 @@
                                         maxlength="1" required>
                                 </div>
                             @endfor
-                        </div>
+                        </div> --}}
+
+                        <input type="number" id="otp" name="otp" class="form-control otp-input" placeholder="000000"
+                           min="0" maxlength="6" pattern="{6}" title="Please enter a 6-digit OTP" required style="text-align: center">
 
                         @if ($errors->any())
                             <p><span class="text-danger error-display"> {{ $errors->first() }}</span></p>
@@ -95,25 +98,25 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const otpInputs = document.querySelectorAll('.otp-input');
+            // const otpInputs = document.querySelectorAll('.otp-input');
 
-            otpInputs.forEach((input, index) => {
-                input.addEventListener('input', (e) => {
-                    const inputValue = e.target.value;
+            // otpInputs.forEach((input, index) => {
+            //     input.addEventListener('input', (e) => {
+            //         const inputValue = e.target.value;
 
-                    if (inputValue.length === 1 && index < otpInputs.length - 1) {
-                        // Move focus to the next input
-                        otpInputs[index + 1].focus();
-                    }
-                });
+            //         if (inputValue.length === 1 && index < otpInputs.length - 1) {
+            //             // Move focus to the next input
+            //             otpInputs[index + 1].focus();
+            //         }
+            //     });
 
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Backspace' && inputValue.length === 0 && index > 0) {
-                        // Move focus to the previous input on backspace
-                        otpInputs[index - 1].focus();
-                    }
-                });
-            });
+            //     input.addEventListener('keydown', (e) => {
+            //         if (e.key === 'Backspace' && inputValue.length === 0 && index > 0) {
+            //             // Move focus to the previous input on backspace
+            //             otpInputs[index - 1].focus();
+            //         }
+            //     });
+            // });
 
             const loadingOverlay = document.querySelector(".loading-spinner-overlay");
             let successNotificationShown = false; // Flag to track whether the success notification has been shown
@@ -158,3 +161,4 @@
             }
         });
     </script>
+</body>

@@ -8,7 +8,7 @@
                         @include('assets.asst-table-headers-with-add-gf-records')
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="example2" class="table table-bordered table-hover data-table text-center"  style="font-size: 14px;">
+                                <table id="example2" class="table table-hover data-table text-center"  style="font-size: 14px;">
                                     <thead style="background-color: #ffff; color: #1f3c88">
                                         <tr>
                                             <th>Name</th>

@@ -16,26 +16,31 @@
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <form>
-                                            <table id="selection" class="table table-bordered table-hover data-table text-center">
-                                                <thead>
+                                            <table id="selection"
+                                                class="table table-bordered table-hover data-table text-center" style="width: 100%; font-size: 14px">
+                                                <thead style="background-color: #ffff; color:#1f3c88;">
                                                     <tr>
-                                                        <th style="background-color: #ffff; color:#1f3c88;">User Id</th>
+                                                        <th style="background-color: #ffff; color:#1f3c88; display:none">User Id</th>
                                                         <th style="background-color: #ffff; color:#1f3c88;">Name</th>
-                                                        <th style="background-color: #ffff; color:#1f3c88;">Batch Year
-                                                        </th>
+                                                        <th style="background-color: #ffff; color:#1f3c88;">Batch Year </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-body1">
                                                     @forelse ($studentsWithoutPCA as $student)
                                                         <tr class="table-rowPersonal">
-                                                            <td>{{ $student->id }}</td>
-                                                            <td>{{ $student->first_name . ' ' . $student->middle_name . ' ' . $student->last_name }}
+                                                            <td hidden>{{ $student->id }}</td>
+                                                            <td>
+                                                                {{ $student->last_name}}, {{ $student->first_name}}
+                                                                @if ($student->middle_name && $student->middle_name != 'N/A')
+                                                                    {{ ' ' . $student->middle_name }}
+                                                                @endif
+
                                                             </td>
                                                             <td>Batch {{ $student->batch_year }}</td>
                                                         </tr>
                                                     @empty
                                                         <tr>
-                                                            <td></td>
+                                                            <td style="display:none"></td>
                                                             <td></td>
                                                             <td></td>
                                                         </tr>

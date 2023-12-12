@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Mail\ForgotPasswordMail;
 use App\Mail\SendResendOTPMail;
+use App\Mail\SendResendRecoverOTPMail;
 
 class AuthController extends Controller {
     public function login(Request $request) {
@@ -76,12 +77,12 @@ class AuthController extends Controller {
         // Validate the submitted OTP and email
         $request->validate([
             'email' => 'required|email',
-            'otp1' => 'required|numeric',
-            'otp2' => 'required|numeric',
-            'otp3' => 'required|numeric',
-            'otp4' => 'required|numeric',
-            'otp5' => 'required|numeric',
-            'otp6' => 'required|numeric',
+            'otp' => 'required|numeric',
+            // 'otp2' => 'required|numeric',
+            // 'otp3' => 'required|numeric',
+            // 'otp4' => 'required|numeric',
+            // 'otp5' => 'required|numeric',
+            // 'otp6' => 'required|numeric',
         ]);
 
         // Get the user by their email
@@ -89,7 +90,8 @@ class AuthController extends Controller {
 
         $user_email = $user->email;
 
-        $otp = $request->input('otp1').$request->input('otp2').$request->input('otp3').$request->input('otp4').$request->input('otp5').$request->input('otp6');
+        // $otp = $request->input('otp1').$request->input('otp2').$request->input('otp3').$request->input('otp4').$request->input('otp5').$request->input('otp6');
+        $otp = $request->input('otp');
 
         if(!$user) {
             dd('User not found');
@@ -198,11 +200,11 @@ class AuthController extends Controller {
     }
 
     public function recoverOTP(Request $request) {
-        if($request->input('otp1') == null || $request->input('otp2') == null || $request->input('otp3') == null || $request->input('otp4') == null || $request->input('otp5') == null || $request->input('otp6') == null) {
+        if($request->input('otp') == null) {
             return redirect()->back()->with('error-otp-required', 'OTP is required, please complete all fields');
         }
 
-        $otp = $request->input('otp1').$request->input('otp2').$request->input('otp3').$request->input('otp4').$request->input('otp5').$request->input('otp6');
+        $otp = $request->input('otp');
 
         if($otp == null) {
             return redirect()->back()->with('error', 'OTP not found.');
@@ -221,6 +223,31 @@ class AuthController extends Controller {
         } else if($otp != $user->otp) {
             return redirect()->back();
         }
+    }
+
+    public function resendRecoverOTP(Request $request)
+    {
+        if ($request->input('email') == null) {
+            return redirect()->back()->with('error-email-required', 'Email is required');
+        }
+
+        $user = User::where('email', $request->input('email'))->first();
+
+        if (!$user) {
+            return redirect()->back()->with('email-not-found', 'The provided email is not associated with our system. Please enter a valid email linked to your account.');
+        }
+
+        // Generate a random OTP
+        $otp = rand(100000, 999999);
+
+        // Store the OTP in the user's record (you may use a different storage method)
+        $user->otp = $otp;
+        $user_email = $user->email;
+        $user->save();
+
+        Mail::to($user->email)->send(new SendResendRecoverOTPMail($otp, $user->email));
+
+        return view('recover-by-otp', compact('user_email'))->with('success', 'OTP has been resent to your email.');
     }
 
     public function submitReset(Request $request) {
@@ -309,6 +336,8 @@ class AuthController extends Controller {
             return redirect()->back()->with('incorrect-password', 'Incorrect password');
         }
 
-        return view('reset-pass-auth', compact('user_email'));
+        $data['header_title'] = 'Reset Password |';
+
+        return view('reset-pass-auth', compact('user_email'), $data);
     }
 }

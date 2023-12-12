@@ -8,7 +8,7 @@
                         @include('assets.asst-table-headers-with-add')
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="example2" class="table table-bordered table-hover data-table text-center">
+                                <table id="example2" class="table table-hover data-table text-center" style="font-size: 14px">
                                     <thead>
                                         <tr>
                                             {{-- <th style="background-color: #fff; color:#1f3c88" class="vertical-text">User Id

@@ -8,14 +8,9 @@ a{
 
 .custom-background {
     background-image: url('https://i.ibb.co/q7ZFj6L/pn-bg-cover.jpg');
-    /* Replace 'path/to/your/image.jpg' with the actual path to your background image */
     background-size: cover;
-    /* Adjust as needed */
     background-position: center;
-    /* Adjust as needed */
     background-repeat: no-repeat;
-    /* Adjust as needed */
-    /* You can add more background properties as needed */
 }
 
  input[type="text"].has-text {

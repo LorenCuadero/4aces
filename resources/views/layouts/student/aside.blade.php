@@ -10,7 +10,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ route('payable.index') }}" style="text-decoration: none" class="nav-link">
+                    <a href="{{ route('payable.index') }}" style="text-decoration: none" class="nav-link active">
                         <i class="fas fa-coins" style="color: #ffff"></i>
                         <p style="color:#ffff">Payable</p>
                     </a>

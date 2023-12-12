@@ -41,7 +41,7 @@
                     <div class="form-group">
                         <label for="date">Date</label>
                         <input type="date" name="date" class="form-control" id="date_paid_ms_edit" rows="3"
-                            placeholder="" required />
+                            placeholder="" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required />
                     </div>
                     <div class="form-check mb-3">
                         <input type="checkbox" class="form-check-input" id="send_amount_due_only_medical_edit"
