@@ -349,7 +349,7 @@ $(document).ready(function () {
         $(".data-table").DataTable({
             paging: true,
             paging: true,
-            pageLength: 5,
+            pageLength: 10,
             searching: true,
             ordering: true,
             lengthChange: true,

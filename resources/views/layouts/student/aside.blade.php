@@ -10,25 +10,25 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ route('payable.index') }}" style="text-decoration: none" class="nav-link active">
+                    <a href="{{ route('payable.index') }}" style="text-decoration: none" class="nav-link {{ request()->routeIs('payable.index') ? 'active' : '' }}">
                         <i class="fas fa-coins" style="color: #ffff"></i>
                         <p style="color:#ffff">Payable</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('student.payments.index') }}" style="text-decoration: none" class="nav-link">
+                    <a href="{{ route('student.payments.index') }}" style="text-decoration: none" class="nav-link {{ request()->routeIs('student.payments.index') ? 'active' : '' }}">
                         <i class="fas fa-money-bill-wave" style="color: #ffff"></i>
                         <p style="color:#ffff">Payment</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('student.profile.index') }}" style="text-decoration: none" class="nav-link">
+                    <a href="{{ route('student.profile.index') }}" style="text-decoration: none" class="nav-link {{ request()->routeIs('student.profile.index') ? 'active' : '' }}">
                         <i class="fa-solid fa-folder" style="color: #ffff"></i>
                         <p style="color:#ffff">Profile & Reports</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link logout-link" tyle="text-decoration: none">
+                    <a href="#" class="nav-link logout-link" style="text-decoration: none">
                         <i class="fa-solid fa-right-from-bracket" style="color: #ffff"></i>
                         <p style="color:#ffff">Logout</p>
                     </a>

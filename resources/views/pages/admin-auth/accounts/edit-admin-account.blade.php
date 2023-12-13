@@ -71,9 +71,9 @@
                                     value="{{ $user->middle_name }}" />
                             </div>
                             <div class="form-group">
-                                <label for="last_name_admin">Last Name</label>
-                                <input type="text" class="form-control" id="last_name_admin" name="last_name"
-                                    value="{{ $user->last_name }}" />
+                                <label for="address_admin">Address</label>
+                                <input name="address" class="form-control" id="address_admin" value="{{ $user->address }}"
+                                    autocomplete="on" />
                             </div>
                             <div class="form-group">
                                 <label for="email_admin">Email Address</label>
@@ -97,9 +97,9 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="address_admin">Address</label>
-                                <input name="address" class="form-control" id="address_admin" value="{{ $user->address }}"
-                                    autocomplete="on" />
+                                <label for="last_name_admin">Last Name</label>
+                                <input type="text" class="form-control" id="last_name_admin" name="last_name"
+                                    value="{{ $user->last_name }}" />
                             </div>
                             <div class="form-group">
                                 <label for="birthdate_admin">Birthdate</label>
@@ -140,7 +140,7 @@
                                 <button type="submit" class="btn btn-primary mr-2">Save changes</button>
                                 <button type="button" class="btn btn-danger mr-2" data-toggle="modal"
                                     data-target="#confirmDeleteModal">Delete</button>
-                                <a href="{{ route('admin.admin-accounts') }}" class="btn btn-default">Cancel</a>
+                                <a href="{{ route('admin.accounts.admin-accounts') }}" class="btn btn-default">Cancel</a>
                             </div>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
                                     @method('DELETE')
                                     @csrf
                                     <div class="form-group">
-                                        <a href="{{ route('admin.admin-accounts') }}"
+                                        <a href="{{ route('admin.accounts.admin-accounts') }}"
                                             class="btn btn-default mr-2">Cancel</a>
                                         <!-- Delete button in the modal -->
                                         <button type="submit" class="btn btn-danger" data-toggle="modal"

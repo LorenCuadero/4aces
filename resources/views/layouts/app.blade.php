@@ -49,15 +49,26 @@
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/js/all.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte/plugins/chart.js/Chart.min.js" defer></script>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif !important;
-        }
-    </style>
 </head>
 
 
 <body>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif !important;
+        }
+        /* For WebKit browsers (Chrome, Safari) */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* For Firefox */
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
     <div id="app">
         @include('assets.asst-loading-spinner')
         <main class="py-4">

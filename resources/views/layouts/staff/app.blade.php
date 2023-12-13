@@ -19,8 +19,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte/plugins/toastr/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte/dist/css/adminlte.min.css">
-
     <link rel="stylesheet" href="{{ asset('assets/css/aside.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/staff.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/student.css') }}">
@@ -86,6 +84,7 @@
                 if ($(window).width() < 768) {
                     $('body').toggleClass('sidebar-open');
                     $('body').addClass('mobile-view');
+                    $('body').removeClass('sidebar-mini');
                 }else {
                     $('body').removeClass('mobile-view');
                 }
@@ -104,11 +103,21 @@
 
         });
 
+        $(document).ready(function () {
+            // Add an "active" class to the clicked navigation item
+            $('.nav-link').on('click', function () {
+                // Remove active class from all other navigation items
+                $('.nav-link').removeClass('active');
+
+                // Add active class to the clicked navigation item
+                $(this).addClass('active');
+            });
+        });
 
     </script>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed scrollable-content" data-page="{{ Route::currentRouteName() }}">
+<body class="sidebar-mini layout-fixed scrollable-content" data-page="{{ Route::currentRouteName() }}">
     <div class="wrapper">
         @include('layouts.staff.loading')
         @include('layouts.staff.header')

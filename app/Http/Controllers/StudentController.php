@@ -665,4 +665,16 @@ class StudentController extends Controller
             return redirect()->back()->with('error', 'You are not authorized to access this page.');
         }
     }
+
+    public function updateReceiveOTP(Request $request)
+    {
+        $user = auth()->user();
+
+        // Update receive OTP setting
+        $user->receive_otp = $request->input('receiveOTP', 1); // Default to 0 if not provided
+        $user->save();
+
+        return redirect()->back()->with('success', 'Settings updated!');
+    }
+
 }

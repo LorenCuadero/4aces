@@ -3,14 +3,6 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <span>
-                    @if (session('success-customized'))
-                        <p><span class="text-success success-display ml-2">[ {{ session('success-customized') }} ]</span></p>
-                    @endif
-                    @if (session('error-customized'))
-                        <p><span class="text-danger error-display ml-2">[ {{ session('error-customized') }} ]</span></p>
-                    @endif
-                </span>
                 <div class="col-12" id="table">
                     <div class="card">
                         <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
@@ -55,7 +47,9 @@
                                             <p for="subject" class="col-sm-2 control-p"><b
                                                     style="color:#1f3c88;">Subject:</b></p>
                                             <div class="col-sm-10">
-                                                <textarea type="text" name="subject" class="form-control" id="subject"></textarea>
+                                                <textarea type="text" name="subject" class="form-control" id="subject">
+
+                                                </textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
@@ -154,7 +148,9 @@
                             <div class="p-1">
                                 <p>Subject: <span id="previewSubject"></span></p>
                                 <p><span id="previewSalutation"></span> <span class="batchYearSelectedOnModal"></span></p>
-                                <p id="previewMessage"></p>
+                                <div style="white-space: pre-line;">
+                                    <p id="previewMessage"></p>
+                                </div>
                                 <p><span id="previewConclusionSalutation"></span>,<br><span id="previewSender"></span>
                                 </p>
                                 <span id="previewAttachment"></span>

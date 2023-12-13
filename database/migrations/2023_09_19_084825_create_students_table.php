@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('parent_contact');
             $table->year('batch_year');
             $table->date('joined');
-
+            
             $table->unsignedBigInteger('user_id');
 
             $table->timestamps();

@@ -3,12 +3,6 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                @if (session('success-coa'))
-                    <p><span class="text-success success-display ml-2">[ {{ session('success-coa') }} ]</span></p>
-                @endif
-                @if (session('error-coa'))
-                    <p><span class="text-danger error-display ml-2">[ {{ session('error-coa') }} ]</span></p>
-                @endif
                 <div class="col-12" id="table">
                     <div class="card">
                         <div class="card-header d-flex flex-wrap align-items-center justify-content-between"

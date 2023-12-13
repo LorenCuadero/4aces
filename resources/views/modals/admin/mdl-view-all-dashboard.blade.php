@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="student-selection-modal-label">Summary Report</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <a href="{{ route('admin.admin-accounts') }}"><span aria-hidden="true">&times;</span> </a> </button>
+                    <a href="{{ route('admin.accounts.admin-accounts') }}"><span aria-hidden="true">&times;</span> </a> </button>
             </div>
             <div class="modal-body b-gray-color pb-0">
                 <div class="container-fluid">

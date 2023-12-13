@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->string('role')->default(0);
             $table->boolean('is_deleted')->default(0);
             $table->boolean('status')->default(0); // 0 = Active, 1 = Inactive
+            $table->boolean('receive_otp')->default(1); // 0 = Disallow, 1 = Allow
+
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

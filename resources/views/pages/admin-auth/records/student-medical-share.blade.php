@@ -4,6 +4,16 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                    @if ($successMS == 1)
+                        <script>
+                            toastr.success("Medical Share record added and email sent successfully!");
+                        </script>
+                    @endif
+                    @if ($successMSUpdate == 1)
+                        <script>
+                            toastr.success("Medical Share record updated and email sent successfully!");
+                        </script>
+                    @endif
                     @if ($acknowledgementReceipt == 1)
                         <span class="generateReceipt"></span>
                         <input class="receipt_true" type="hidden" value="{{ $acknowledgementReceipt }}">
@@ -39,7 +49,8 @@
                                             style="font-size: 17px"></i> Add</a>
                                 </div>
                                 <div class="nav-item btn btn-sm p-0 ml-1" style="display: flex; align-items:center;">
-                                    <a href="{{ route('admin.medicalShare') }}" class="nav-link align-items-center btn"
+                                    <a href="{{ route('admin.records.medicalShare') }}"
+                                        class="nav-link align-items-center btn"
                                         style="color:#ffffff; background-color:#1f3c88"><i
                                             class="far fa-arrow-alt-circle-left" style="font-size: 17px"></i> Back</a>
                                 </div>
@@ -67,12 +78,15 @@
                                 <tbody class="table-body" style="font-size: 14px;">
                                     @forelse ($medical_share_records as $medical_share_record)
                                         <tr class="table-row">
-                                            <td  class="align-middle">{{ $medical_share_record->medical_concern }}</td>
-                                            <td  class="align-middle">₱ {{ number_format($medical_share_record->total_cost, 2) }}</td>
-                                            <td  class="align-middle">₱ {{ number_format($medical_share_record->total_cost * 0.15, 2) }}</td>
-                                            <td  class="align-middle">₱ {{ number_format($medical_share_record->amount_paid, 2) }}</td>
-                                            <td  class="align-middle">{{ $medical_share_record->date }}</td>
-                                            <td  class="align-middle">
+                                            <td class="align-middle">{{ $medical_share_record->medical_concern }}</td>
+                                            <td class="align-middle">₱
+                                                {{ number_format($medical_share_record->total_cost, 2) }}</td>
+                                            <td class="align-middle">₱
+                                                {{ number_format($medical_share_record->total_cost * 0.15, 2) }}</td>
+                                            <td class="align-middle">₱
+                                                {{ number_format($medical_share_record->amount_paid, 2) }}</td>
+                                            <td class="align-middle">{{ $medical_share_record->date }}</td>
+                                            <td class="align-middle">
                                                 <div style="display: flex; align-items: center; justify-content:center;">
                                                     <a href="#" data-toggle="modal"
                                                         data-target="#edit-student-medical-share-modal"
@@ -85,14 +99,14 @@
                                                         class="btn btn-sm editStudentMedicalShareRecordBtn"
                                                         style="color: #1f3c88;width:50%; border-radius: 20px; margin: 2px">
                                                         <strong><i class="far fa-edit" style="font-size: 17px"></i>
-                                                        Edit</strong>
+                                                            Edit</strong>
                                                     </a>
                                                     <a href="#" data-id="{{ $medical_share_record->id }}"
                                                         data-delete-url="{{ route('admin.deleteMedicalShare', ['id' => 'medical_share_id']) }}"
                                                         class="btn btn-sm delete-medical-share"
                                                         style="color: #dd3e3e; width:50%; border-radius: 20px; margin: 2px;">
                                                         <strong><i class="fas fa-trash-alt"
-                                                            style="font-size: 16px; border: 1px;"></i>Delete</strong>
+                                                                style="font-size: 16px; border: 1px;"></i>Delete</strong>
 
                                                     </a>
                                                 </div>
@@ -103,12 +117,12 @@
 
                                     @empty
                                         <tr>
-                                            <td  class="align-middle"></td>
-                                            <td  class="align-middle"></td>
-                                            <td  class="align-middle"></td>
-                                            <td  class="align-middle"></td>
-                                            <td  class="align-middle"></td>
-                                            <td  class="align-middle"></td>
+                                            <td class="align-middle"></td>
+                                            <td class="align-middle"></td>
+                                            <td class="align-middle"></td>
+                                            <td class="align-middle"></td>
+                                            <td class="align-middle"></td>
+                                            <td class="align-middle"></td>
                                         </tr>
                                     @endforelse
                                 </tbody>

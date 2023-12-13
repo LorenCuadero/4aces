@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <h5 class="modal-title mb-0" id="student-selection-modal-label">Graduation Fee Payables</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <a href="{{ route('admin.counterpartRecords') }}"><span aria-hidden="true">&times;</span></a>
+                    <a href="{{ route('admin.records.counterpartRecords') }}"><span aria-hidden="true">&times;</span></a>
                 </button>
             </div>
             <div class="modal-body">

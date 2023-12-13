@@ -39,7 +39,7 @@
                     </div>
                     <div class="form-group" style="float: right;">
                         <button type="submit" class="btn btn-primary">Add</button>
-                        <a href="{{ route('admin.graduationFees') }}"></a>
+                        <a href="{{ route('admin.records.graduationFees') }}"></a>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
                         </a>
                     </div>
