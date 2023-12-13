@@ -14,10 +14,12 @@ use Illuminate\Support\Facades\Cache;
 use App\Services\StoreLogsService;
 use Illuminate\Support\Facades\Auth;
 
-class CounterpartController extends Controller {
+class CounterpartController extends Controller
+{
 
-    public function counterpartRecords() {
-        if(Auth::user()->role != '2') {
+    public function counterpartRecords()
+    {
+        if (Auth::user()->role != '2') {
             return redirect()->back()->with('error', 'You do not have permission to access this page');
         }
 
@@ -34,7 +36,7 @@ class CounterpartController extends Controller {
             ->get();
 
         $totalAmounts = [];
-        foreach($counterpartRecords as $record) {
+        foreach ($counterpartRecords as $record) {
             $totalAmounts[$record->student_id] = [
                 'amount_due' => $record->total_due,
                 'amount_paid' => $record->total_paid,
@@ -72,14 +74,15 @@ class CounterpartController extends Controller {
     //     'counterpartRecords' => $counterpartRecords,
     // ]);
 
-    public function studentPageCounterpartRecords($id) {
-        if(Auth::user()->role != '2') {
+    public function studentPageCounterpartRecords($id)
+    {
+        if (Auth::user()->role != '2') {
             return redirect()->back()->with('error', 'You do not have permission to access this page');
         }
 
         $student = Student::find($id);
 
-        if(!$student) {
+        if (!$student) {
             return back()->with('error', 'Student not found!');
         }
 
@@ -107,11 +110,15 @@ class CounterpartController extends Controller {
         $data['header_title'] = "Counterpart Record |";
 
         $acknowledgementReceipt = null;
-        return view('pages.admin-auth.records.student-counterpart', compact('student', 'student_counterpart_records', 'monthNames', 'months', 'acknowledgementReceipt'), $data);
+        $successPC = null;
+        $successPCUpdate = null;
+
+        return view('pages.admin-auth.records.student-counterpart', compact('student', 'student_counterpart_records', 'monthNames', 'months', 'acknowledgementReceipt', 'successPC', 'successPCUpdate'), $data);
     }
 
-    public function storeCounterpart(Request $request, $id) {
-        if(Auth::user()->role != '2') {
+    public function storeCounterpart(Request $request, $id)
+    {
+        if (Auth::user()->role != '2') {
             return redirect()->back()->with('error', 'You do not have permission to access this page');
         }
 
@@ -129,15 +136,16 @@ class CounterpartController extends Controller {
         $category = "Parents Counterpart";
         $send_amount_due_only = 0;
 
-        if($request->has('send_amount_due_only')) {
+        if ($request->has('send_amount_due_only')) {
             $send_amount_due_only = 1;
         }
 
         $student = Student::findOrFail($id);
 
-        if($student->counterpart()->where('month', $request->input('month'))
-            ->where('year', $request->input('year'))
-            ->exists()
+        if (
+            $student->counterpart()->where('month', $request->input('month'))
+                ->where('year', $request->input('year'))
+                ->exists()
         ) {
             return back()->with('error', 'Counterpart record failed to add, combination of month and year already exists!');
         }
@@ -145,14 +153,14 @@ class CounterpartController extends Controller {
         $counterpart = $student->counterpart()->create($validatedData);
 
         $acknowledgementReceipt = 0;
-        if($request->has('print_acknowledegement_receipt')) {
+        if ($request->has('print_acknowledegement_receipt')) {
             $acknowledgementReceipt = 1;
         }
 
         $action = "Added";
         StoreLogsService::storeLogs(auth()->user()->id, $action, "Counterpart", $counterpart->student_id, null, $student->batch_year);
 
-        $full_name = $student->first_name. " ". $student->last_name;
+        $full_name = $student->first_name . " " . $student->last_name;
         Mail::to($student->email)->send(
             new SendReceiptOrPaymentInfo(
                 $full_name,
@@ -165,7 +173,7 @@ class CounterpartController extends Controller {
             )
         );
 
-        if(!$student) {
+        if (!$student) {
             return back()->with('error', 'Student not found!');
         }
 
@@ -190,6 +198,8 @@ class CounterpartController extends Controller {
             return $months[$month];
         });
 
+        $successPC = 1;
+        $successPCUpdate = 0;
         return view('pages.admin-auth.records.student-counterpart', compact(
             'student',
             'student_counterpart_records',
@@ -200,25 +210,28 @@ class CounterpartController extends Controller {
             'dateOfTransaction',
             'amountPaid',
             'amountPaidInWords',
-            'category'
+            'category',
+            'successPC',
+            'successPCUpdate'
         ))->with('success', 'Counterpart record added and email sent successfully!');
     }
 
-    public function updateCounterpart(Request $request, $id) {
-        if(Auth::user()->role != '2') {
+    public function updateCounterpart(Request $request, $id)
+    {
+        if (Auth::user()->role != '2') {
             return redirect()->back()->with('error', 'You do not have permission to access this page');
         }
 
         $counterpart = Counterpart::find($id);
 
-        if($request->input('amount_due') == null) {
+        if ($request->input('amount_due') == null) {
             return back()->with('error', 'Amount due cannot be empty!');
         }
 
         $counterpart = Counterpart::find($id);
         $studentId = $counterpart->student_id;
         $studentEmail = $counterpart->student->email;
-        $studentName = $counterpart->student->first_name." ".$counterpart->student->last_name;
+        $studentName = $counterpart->student->first_name . " " . $counterpart->student->last_name;
         $studentBatchYear = $counterpart->student->batch_year;
 
         $existingCounterpart = Counterpart::where('month', $request->input('month'))
@@ -227,7 +240,7 @@ class CounterpartController extends Controller {
             ->first();
 
         $amount_paid = 0;
-        if($request->input('amount_paid') != null) {
+        if ($request->input('amount_paid') != null) {
             $amount_paid = $request->input('amount_paid');
         }
 
@@ -244,14 +257,14 @@ class CounterpartController extends Controller {
         $category = "Parents Counterpart";
 
         $send_amount_due_only = 0;
-        if($request->input('send_amount_due_only_edit_counterpart') == 1) {
+        if ($request->input('send_amount_due_only_edit_counterpart') == 1) {
             $send_amount_due_only = 1;
         }
 
         $student = Student::find($studentId);
 
         $acknowledgementReceipt = 0;
-        if($request->has('print_acknowledegement_receipt_edit_counterpart')) {
+        if ($request->has('print_acknowledegement_receipt_edit_counterpart')) {
             $acknowledgementReceipt = 1;
         }
 
@@ -264,7 +277,7 @@ class CounterpartController extends Controller {
 
         // Send email notification to the student
         Mail::to($studentEmail)->send(new SendReceiptOrPaymentInfo($studentName, $counterpart->month, $counterpart->year, $counterpart->amount_due, $counterpart->amount_paid, $counterpart->date, $send_amount_due_only));
-        if(!$student) {
+        if (!$student) {
             return back()->with('error', 'Student not found!');
         }
 
@@ -289,34 +302,41 @@ class CounterpartController extends Controller {
             return $months[$month];
         });
 
-        return view('pages.admin-auth.records.student-counterpart')->with('success', 'Counterpart record updated and email sent successfully!')->with(compact(
-            'student',
-            'student_counterpart_records',
-            'monthNames',
-            'months',
-            'acknowledgementReceipt',
-            'counterpart',
-            'dateOfTransaction',
-            'amountPaid',
-            'amountPaidInWords',
-            'category'
-        ));
+        $successPCUpdate = 1;
+        $successPC = 0;
+        return view('pages.admin-auth.records.student-counterpart',
+            compact(
+                'student',
+                'student_counterpart_records',
+                'monthNames',
+                'months',
+                'acknowledgementReceipt',
+                'counterpart',
+                'dateOfTransaction',
+                'amountPaid',
+                'amountPaidInWords',
+                'category',
+                'successPC',
+                'successPCUpdate',
+            )
+        );
     }
 
-    public function deleteCounterpart($id) {
+    public function deleteCounterpart($id)
+    {
         // Find the Counterpart record by ID
-        if(Auth::user()->role != '2') {
+        if (Auth::user()->role != '2') {
             return redirect()->back()->with('error', 'You do not have permission to access this page');
         }
 
         $counterpart = Counterpart::with('student')->find($id);
 
-        if(!$counterpart) {
+        if (!$counterpart) {
             return back()->with('error', 'Counterpart record not found.');
         }
 
         // Store student information before deletion
-        $studentName = $counterpart->student->first_name.' '.$counterpart->student->last_name;
+        $studentName = $counterpart->student->first_name . ' ' . $counterpart->student->last_name;
         $studentEmail = $counterpart->student->email;
         $studentId = $counterpart->student->id;
         $month = $counterpart->month;

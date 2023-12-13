@@ -66,8 +66,10 @@ class PersonalCashAdvanceController extends Controller {
         }
         $acknowledgementReceipt = null;
         $personal_ca_records = PersonalCashAdvance::where('student_id', $student->id)->get();
+        $successPCA = 0;
+        $successPCAUpdate = 0;
 
-        return view('pages.admin-auth.records.student-personal-ca', compact('student', 'personal_ca_records', 'acknowledgementReceipt'));
+        return view('pages.admin-auth.records.student-personal-ca', compact('student', 'personal_ca_records', 'acknowledgementReceipt', 'successPCA', 'successPCAUpdate'));
     }
 
     public function storePersonalCA(Request $request, $id) {
@@ -123,8 +125,10 @@ class PersonalCashAdvanceController extends Controller {
         Mail::to($student_email)->send(new SendPersonalCATransInfo($student_name, $personal_ca->purpose, $personal_ca->amount_due, $personal_ca->amount_paid, $personal_ca->date, $send_amount_due_only));
 
         $personal_ca_records = PersonalCashAdvance::where('student_id', $student->id)->get();
+        $successPCA = 1;
+        $successPCAUpdate = 0;
 
-        return view('pages.admin-auth.records.student-personal-ca', compact('student', 'personal_ca_records', 'amountPaid', 'amountPaidInWords', 'dateOfTransaction', 'category', 'acknowledgementReceipt'));
+        return view('pages.admin-auth.records.student-personal-ca', compact('student', 'personal_ca_records', 'amountPaid', 'amountPaidInWords', 'dateOfTransaction', 'category', 'acknowledgementReceipt', 'successPCA', 'successPCAUpdate'));
     }
 
     public function updatePersonalCA(Request $request, $id) {
@@ -181,8 +185,10 @@ class PersonalCashAdvanceController extends Controller {
         }
 
         $personal_ca_records = PersonalCashAdvance::where('student_id', $studentId)->get();
+        $successPCA = 0;
+        $successPCAUpdate = 1;
 
-        return view('pages.admin-auth.records.student-personal-ca', compact('student', 'personal_ca_records', 'amountPaid', 'amountPaidInWords', 'dateOfTransaction', 'category', 'acknowledgementReceipt'));
+        return view('pages.admin-auth.records.student-personal-ca', compact('student', 'personal_ca_records', 'amountPaid', 'amountPaidInWords', 'dateOfTransaction', 'category', 'acknowledgementReceipt', 'successPCA', 'successPCAUpdate'));
     }
 
     public function deletePersonalCA($id) {

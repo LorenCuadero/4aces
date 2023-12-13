@@ -27,7 +27,8 @@ class User extends Authenticatable
         'email',
         'password',
         'is_deleted',
-        'is_inactive'
+        'is_inactive',
+        'receive_otp'
     ];
     protected $dates = ['deleted_at'];
 
@@ -58,7 +59,7 @@ class User extends Authenticatable
 
     public function studentName()
     {
-        return $this->hasOne(Student::class, 'id');
+        return $this->hasOne(Student::class, 'id', 'user_id');
     }
 
     public function logs()

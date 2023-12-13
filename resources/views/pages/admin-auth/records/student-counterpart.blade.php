@@ -4,6 +4,16 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                    @if ($successPC == 1)
+                        <script>
+                            toastr.success("Counterpart record added and email sent successfully!");
+                        </script>
+                    @endif
+                    @if ($successPCUpdate == 1)
+                        <script>
+                            toastr.success("Counterpart record updated and email sent successfully!");
+                        </script>
+                    @endif
                     @if ($acknowledgementReceipt == 1)
                         <span class="generateReceipt"></span>
                         <input class="receipt_true" type="hidden" value="{{ $acknowledgementReceipt }}">
@@ -40,7 +50,7 @@
                                             style="font-size: 17px"></i> Add</a>
                                 </div>
                                 <div class="nav-item btn btn-sm p-0 ml-1" style="display: flex; align-items:center;">
-                                    <a href="{{ route('admin.counterpartRecords') }}"
+                                    <a href="{{ route('admin.records.counterpartRecords') }}"
                                         class="nav-link align-items-center btn"
                                         style="color:#ffffff; background-color:#1f3c88"><i
                                             class="far fa-arrow-alt-circle-left" style="font-size: 17px"></i> Back</a>
@@ -50,7 +60,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover data-table text-center"  style="font-size: 14px;">
+                            <table class="table table-hover data-table text-center" style="font-size: 14px;">
                                 <thead>
                                     <tr>
                                         <th style="background-color: #fff; color:#1f3c88;" class="vertical-text">Month</th>
@@ -64,47 +74,50 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-body" style="font-size: 14px;">
-                                @forelse ($student_counterpart_records as $counterpart)
-                                    <tr class="table-row align-middle">
-                                        <td class="align-middle">{{ $months[$counterpart->month] }}</td>
-                                        <td class="align-middle">{{ $counterpart->year }}</td>
-                                        <td class="align-middle">₱ {{ number_format($counterpart->amount_due, 2) }}</td>
-                                        <td class="align-middle">₱ {{ number_format($counterpart->amount_paid, 2) }}</td>
-                                        <td class="align-middle">{{ $counterpart->date }}</td>
-                                        <td style="text-align: center;">
-                                            <div style="display: flex; align-items: center; justify-content:center;">
-                                                <a href="#" id="edit" data-id="{{ $counterpart->id }}"
-                                                    data-month="{{ $counterpart->month }}"
-                                                    data-edit-url="{{ route('admin.updateCounterpart', ['id' => 'counterpart_id']) }}"
-                                                    data-year="{{ $counterpart->year }}"
-                                                    data-amount-due="{{ $counterpart->amount_due }}"
-                                                    data-amount-paid="{{ $counterpart->amount_paid }}"
-                                                    data-date="{{ $counterpart->date }}"
-                                                    class="btn btn-sm edit-student-counterpart-button p-1"
-                                                    style="color: #1f3c88; border-radius: 20px; margin: 2px; width:40%">
-                                                    <strong><i class="far fa-edit" style="font-size: 17px"></i>
-                                                    Edit</strong>
-                                                </a>
-                                                <a href="#" data-id="{{ $counterpart->id }}"
-                                                    data-delete-url="{{ route('admin.deleteCounterpart', ['id' => 'counterpart_id']) }}"
-                                                    class="btn btn-sm delete-counterpart p-1"
-                                                    style="color: #dd3e3e; border-radius: 20px; margin: 2px; width:40%">
-                                                   <strong><i class="fas fa-trash-alt" style="font-size: 16px; border: 1px;"></i>
-                                                    Delete</strong>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td class="align-middle"></td>
-                                        <td class="align-middle"></td>
-                                        <td class="align-middle"></td>
-                                        <td class="align-middle"></td>
-                                        <td class="align-middle"></td>
-                                        <td class="align-middle"></td>
-                                    </tr>
-                                @endforelse
+                                    @forelse ($student_counterpart_records as $counterpart)
+                                        <tr class="table-row align-middle">
+                                            <td class="align-middle">{{ $months[$counterpart->month] }}</td>
+                                            <td class="align-middle">{{ $counterpart->year }}</td>
+                                            <td class="align-middle">₱ {{ number_format($counterpart->amount_due, 2) }}
+                                            </td>
+                                            <td class="align-middle">₱ {{ number_format($counterpart->amount_paid, 2) }}
+                                            </td>
+                                            <td class="align-middle">{{ $counterpart->date }}</td>
+                                            <td style="text-align: center;">
+                                                <div style="display: flex; align-items: center; justify-content:center;">
+                                                    <a href="#" id="edit" data-id="{{ $counterpart->id }}"
+                                                        data-month="{{ $counterpart->month }}"
+                                                        data-edit-url="{{ route('admin.updateCounterpart', ['id' => 'counterpart_id']) }}"
+                                                        data-year="{{ $counterpart->year }}"
+                                                        data-amount-due="{{ $counterpart->amount_due }}"
+                                                        data-amount-paid="{{ $counterpart->amount_paid }}"
+                                                        data-date="{{ $counterpart->date }}"
+                                                        class="btn btn-sm edit-student-counterpart-button p-1"
+                                                        style="color: #1f3c88; border-radius: 20px; margin: 2px; width:40%">
+                                                        <strong><i class="far fa-edit" style="font-size: 17px"></i>
+                                                            Edit</strong>
+                                                    </a>
+                                                    <a href="#" data-id="{{ $counterpart->id }}"
+                                                        data-delete-url="{{ route('admin.deleteCounterpart', ['id' => 'counterpart_id']) }}"
+                                                        class="btn btn-sm delete-counterpart p-1"
+                                                        style="color: #dd3e3e; border-radius: 20px; margin: 2px; width:40%">
+                                                        <strong><i class="fas fa-trash-alt"
+                                                                style="font-size: 16px; border: 1px;"></i>
+                                                            Delete</strong>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td class="align-middle"></td>
+                                            <td class="align-middle"></td>
+                                            <td class="align-middle"></td>
+                                            <td class="align-middle"></td>
+                                            <td class="align-middle"></td>
+                                            <td class="align-middle"></td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

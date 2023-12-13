@@ -18,10 +18,10 @@ class StaffSeeder extends Seeder
     {
         DB::table('staffs')->insert([
             [
-                'user_id' => 3,
-                'first_name' => 'Staff',
+                'user_id' => 4,
+                'first_name' => 'Jane',
                 'middle_name' => 'N/A',
-                'last_name' => 'Test',
+                'last_name' => 'Doe',
                 'department' => 'Education',
                 'birthdate' => '2001-10-05',
                 'gender' => 'Female',
@@ -33,6 +33,22 @@ class StaffSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'user_id' => 7,
+                'first_name' => 'Allan',
+                'middle_name' => 'N/A',
+                'last_name' => 'Celestial',
+                'department' => 'Education',
+                'birthdate' => '2001-10-05',
+                'gender' => 'Male',
+                'address' => 'Cebu',
+                'civil_status' => 'Single',
+                'contact_number' => "0900011111",
+                'email' => '21103903@usc.edu.ph',
+                'password' => bcrypt('Staffpassword'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
         ]);
     }
 }

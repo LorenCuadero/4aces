@@ -3,12 +3,6 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                @if (session('success-soa-email'))
-                    <p><span class="text-success success-display ml-2">[ {{ session('success-soa-email') }} ]</span></p>
-                @endif
-                @if (session('error-email'))
-                    <p><span class="text-danger error-display ml-2">[ {{ session('error-email') }} ]</span></p>
-                @endif
                 <div class="col-12" id="table">
                     <div class="card">
                         <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
@@ -22,7 +16,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body"  style="font-size: 15px;">
+                        <div class="card-body" style="font-size: 15px;">
                             <div class="row">
                                 <div class="col-md-12 text-left">
                                     <div class="flex-wrap align-items-center ml-auto">

@@ -65,9 +65,11 @@ class MedicalShareController extends Controller {
         }
 
         $acknowledgementReceipt = null;
+        $successMS = 0;
+        $successMSUpdate = 0;
         $medical_share_records = MedicalShare::where('student_id', $student->id)->get();
 
-        return view('pages.admin-auth.records.student-medical-share', compact('student', 'medical_share_records', 'acknowledgementReceipt'));
+        return view('pages.admin-auth.records.student-medical-share', compact('student', 'medical_share_records', 'acknowledgementReceipt', 'successMS', 'successMSUpdate'));
     }
 
     public function storeMedicalShare(Request $request, $id) {
@@ -120,8 +122,10 @@ class MedicalShareController extends Controller {
         ));
 
         $medical_share_records = MedicalShare::where('student_id', $student->id)->get();
+        $successMS = 1;
+        $successMSUpdate = 0;
 
-        return view('pages.admin-auth.records.student-medical-share', compact('student', 'medical_share_records', 'acknowledgementReceipt', 'amountPaidInWords', 'category', 'dateOfTransaction', 'amountPaid'));
+        return view('pages.admin-auth.records.student-medical-share', compact('student', 'medical_share_records', 'acknowledgementReceipt', 'amountPaidInWords', 'category', 'dateOfTransaction', 'amountPaid', 'successMS', 'successMSUpdate'));
     }
 
     public function updateMedicalShare(Request $request, $id) {
@@ -178,8 +182,10 @@ class MedicalShareController extends Controller {
         Mail::to($studentEmail)->send(new SendMedicalShareTransInfo($studentName, $medicalShare->medical_concern, $medicalShare->total_cost, $percent_share, $medicalShare->amount_paid, $medicalShare->date, $send_amount_due_only));
         // Return success message only if no duplicate was found
         $medical_share_records = MedicalShare::where('student_id', $studentId)->get();
+        $successMS = 0;
+        $successMSUpdate = 1;
 
-        return view('pages.admin-auth.records.student-medical-share', compact('student', 'medical_share_records', 'acknowledgementReceipt', 'amountPaidInWords', 'category', 'dateOfTransaction', 'amountPaid'));
+        return view('pages.admin-auth.records.student-medical-share', compact('student', 'medical_share_records', 'acknowledgementReceipt', 'amountPaidInWords', 'category', 'dateOfTransaction', 'amountPaid', 'successMS', 'successMSUpdate'));
     }
 
     public function deleteMedicalShare($id) {

@@ -66,8 +66,10 @@ class GraduationFeeController extends Controller {
 
         $acknowledgementReceipt = null;
         $graduation_fee_records = GraduationFee::where('student_id', $student->id)->get();
+        $successGF = 0;
+        $successGFUpdate = 0;
 
-        return view('pages.admin-auth.records.student-graduation-fee', compact('student', 'graduation_fee_records', 'acknowledgementReceipt'));
+        return view('pages.admin-auth.records.student-graduation-fee', compact('student', 'graduation_fee_records', 'acknowledgementReceipt', 'successGF', 'successGFUpdate'));
     }
 
     public function storeGraduationFee(Request $request, $id) {
@@ -116,8 +118,10 @@ class GraduationFeeController extends Controller {
         Mail::to($student_email)->send(new SendGraduationFeeTransInfo($student_name, $graduation_fee->amount_due, $graduation_fee->amount_paid, $graduation_fee->date, $send_amount_due_only));
 
         $graduation_fee_records = GraduationFee::where('student_id', $student->id)->get();
+        $successGF = 1;
+        $successGFUpdate = 0;
 
-        return view('pages.admin-auth.records.student-graduation-fee', compact('student', 'graduation_fee_records', 'amountPaid', 'amountPaidInWords', 'dateOfTransaction', 'category', 'acknowledgementReceipt'));
+        return view('pages.admin-auth.records.student-graduation-fee', compact('student', 'graduation_fee_records', 'amountPaid', 'amountPaidInWords', 'dateOfTransaction', 'category', 'acknowledgementReceipt', 'successGF', 'successGFUpdate'));
     }
 
     public function updateGraduationFee(Request $request, $id) {
@@ -172,8 +176,10 @@ class GraduationFeeController extends Controller {
         }
 
         $graduation_fee_records = GraduationFee::where('student_id', $student->id)->get();
+        $successGF = 0;
+        $successGFUpdate = 1;
 
-        return view('pages.admin-auth.records.student-graduation-fee', compact('student', 'graduation_fee_records', 'amountPaid', 'amountPaidInWords', 'dateOfTransaction', 'category', 'acknowledgementReceipt'));
+        return view('pages.admin-auth.records.student-graduation-fee', compact('student', 'graduation_fee_records', 'amountPaid', 'amountPaidInWords', 'dateOfTransaction', 'category', 'acknowledgementReceipt', 'successGF', 'successGFUPdate'));
     }
 
     public function deleteGraduationFee(Request $request, $id) {

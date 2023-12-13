@@ -10,17 +10,18 @@
                                 <i class="fa-solid fa-user" style="color: #1f3c88; font-size: 50px; padding: 16px"></i>
                             </div>
                             <h3 class="profile-username text-center" style="font-size: 18px">
-                                 {{ $userData['first_name'] }}
-                                    @if (strcasecmp($userData['middle_name'], 'n/a') !== 0 && !is_null($userData['middle_name']))
-                                        {{ $userData['middle_name'] }}
-                                    @endif
-                                    {{ $userData['last_name'] }}
+                                {{ $userData['first_name'] }}
+                                @if (strcasecmp($userData['middle_name'], 'n/a') !== 0 && !is_null($userData['middle_name']))
+                                    {{ $userData['middle_name'] }}
+                                @endif
+                                {{ $userData['last_name'] }}
                             </h3>
                             <p style="font-size: 13px" class="text-muted text-center mb-0">Student</p>
                         </div>
-                        <div class="card-body text-left student-profile" style="font-size: 13px; padding-to">
-                            <span class="text-left" style="display: none"><strong style="text-align: left"><i class="far fa-id-card mr-1"
-                                        style="color: #1f3c88; background-color:#ffffff"></i> User Id</strong></span>
+                        <div class="card-body text-left student-profile" style="font-size: 13px;">
+                            <span class="text-left" style="display: none"><strong style="text-align: left"><i
+                                        class="far fa-id-card mr-1" style="color: #1f3c88; background-color:#ffffff"></i>
+                                    User Id</strong></span>
                             <p class="text-muted mb-0" style="display: none">
                                 {{ $userData['id'] }} </p>
                             {{-- <hr class="m-2"> --}}
@@ -66,10 +67,10 @@
 
                 <div class="col-md-9">
                     <div class="card">
-                        <div class="card-header p-2"  style="background-color: #ffffff;">
+                        <div class="card-header p-2" style="background-color: #ffffff;">
                             <ul class="nav nav-pills">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="#grades" data-toggle="tab">Academic</a>
+                                    <a class="nav-link active_tab" href="#grades" data-toggle="tab">Academic</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#reports" data-toggle="tab">Disciplinary</a>
@@ -180,8 +181,8 @@
                                                         </tr>
                                                         <tr class="table-row p-2">
                                                             <td class="dcpl-records">Probationary</td>
-                                                            <td>{{ $disciplinaryRecord->provisionary_description }}</td>
                                                             <td>{{ $disciplinaryRecord->provisionary_date }}</td>
+                                                            <td>{{ $disciplinaryRecord->provisionary_description }}</td>
                                                         </tr>
                                                     @empty
                                                         <tr>

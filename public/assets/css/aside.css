@@ -198,9 +198,17 @@ form {
     margin-bottom: auto;
     margin-right: auto;
 }
-.navbar-nav .nav-link:focus,
-.navbar-nav .nav-link:hover {
-    color: rgba(0, 0, 0, 0.7);
+aside .nav-link:focus,
+aside .nav-link:hover {
+    background-color: rgba(220, 221, 222, 0.2) !important;
+}
+.nav-pills .nav-link.active, .nav-pills .nav-link.active i, .nav-pills .nav-link.active p,  .nav-pills .show>.nav-link{
+    background-color: white !important;
+    color: #1f3c88 !important;
+}
+.nav-pills .nav-link.active_tab, .nav-pills .nav-link.active_tab i{
+    background-color: #1f3c88 !important;
+    color: white !important;
 }
 @media (max-width: 768px) {
     .left-column {

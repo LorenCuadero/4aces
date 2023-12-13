@@ -60,7 +60,7 @@ class AdminSeeder extends Seeder
                 'address' => 'Cebu',
                 'civil_status' => 'Single',
                 'contact_number' => "0900011111",
-                'email' => 'allan.divino@student.passerellesnumeriques.org',
+                'email' => 'drystanjoe@gmail.com',
                 'password' => bcrypt('Adminpassword'),
                 'created_at' => now(),
                 'updated_at' => now(),

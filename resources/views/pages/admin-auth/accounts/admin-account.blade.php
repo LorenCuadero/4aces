@@ -64,10 +64,6 @@
                                                         class="btn btn-sm view-button-counterpart"
                                                         style="color: #1f3c88; border-radius: 20px">
                                                         <strong><i class="fa fa-eye"></i> View</strong></a>
-
-                                                    {{-- <button class="btn btn-sm view-button-counterpart"
-                                                        style="background-color: #1f3c88; color: #ffff; width:70%; border-radius: 20px"><i class="far fa-address-card"
-                                                            style="font-size: 15px;"></i> View</button> --}}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -80,66 +76,4 @@
             </div>
         </div>
     </section>
-    {{-- @include('modals.admin.accounts.mdl-admin-account-edit') --}}
-    {{-- <script>
-        $(document).ready(function() {
-            // Handle click event on "Edit" button
-            $('.edit-admin-account-button').on('click', function() {
-                // Get the data attributes from the clicked button
-                var userId = $(this).data('user-id');
-                var name = $(this).data('user-name');
-                var email = $(this).data('user-email');
-                var password = $(this).data('user-password');
-                var emailVerifiedAt = $(this).data('user-email-verified-at');
-                var otp = $(this).data('user-otp');
-
-                // Populate the modal fields with the data
-                $('#edit-admin-account-form input[name="counterpart_id"]').val(userId);
-                $('#edit-admin-account-form input[name="admin_first_name"]').val(name);
-                $('#edit-admin-account-form input[name="user_email"]').val(email);
-                $('#edit-admin-account-form input[name="user_password"]').val(password);
-                $('#edit-admin-account-form input[name="admin_email_verified_at"]').val(emailVerifiedAt);
-                $('#edit-admin-account-form input[name="user_otp"]').val(otp);
-
-                // Trigger modal opening
-                $('#edit-admin-account-modal').modal('show');
-            });
-        });
-
-        $('.edit-admin-account-button').on('click', function() {
-            // Get the data attributes from the clicked button
-            var userId = $(this).data('user-id');
-            var name = $(this).data('user-name');
-            var email = $(this).data('user-email');
-
-            // Populate the modal fields with the data
-            $('#edit-admin-account-form input[name="counterpart_id"]').val(userId);
-            $('#edit-admin-account-form input[name="admin_first_name"]').val(name);
-            $('#edit-admin-account-form input[name="user_email"]').val(email);
-
-            // Trigger modal opening
-            $('#edit-admin-account-modal').modal('show');
-        });
-
-        // Handle click event on "Edit Password" button
-        $('.edit-password-button').on('click', function() {
-            var userId = $(this).data('user-id');
-
-            // Populate the password modal with user ID
-            $('#edit-password-form input[name="counterpart_id"]').val(userId);
-
-            // Trigger password modal opening
-            $('#edit-admin-account-modal').modal('hide');
-            setTimeout(() => {
-                $('#edit-password-modal').modal('show');
-            }, 2000);
-        });
-
-        // $('.close-pass').on('click', function() {
-        //     $('#edit-password-modal').modal('hide');
-        //     setTimeout(() => {
-        //         $('#edit-admin-account-modal').modal('show');
-        //     });
-        // });
-    </script> --}}
 @endsection

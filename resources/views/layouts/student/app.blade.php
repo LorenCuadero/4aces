@@ -46,8 +46,10 @@
                 if ($(window).width() < 768) {
                     $('body').toggleClass('sidebar-open');
                     $('body').addClass('mobile-view');
+                    $('body').removeClass('sidebar-mini');
                 }else {
                     $('body').removeClass('mobile-view');
+                    $('body').removeClass('sidebar-open');
                 }
             });
 
@@ -62,6 +64,18 @@
                 }
             });
 
+        });
+
+
+        $(document).ready(function () {
+            // Add an "active" class to the clicked navigation item
+            $('.nav-link').on('click', function () {
+                // Remove active class from all other navigation items
+                $('.nav-link').removeClass('active_tab');
+
+                // Add active class to the clicked navigation item
+                $(this).addClass('active_tab');
+            });
         });
 
 
@@ -98,6 +112,17 @@
         color: white;
     }
 
+    /* For WebKit browsers (Chrome, Safari) */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* For Firefox */
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
 
 </style>
 

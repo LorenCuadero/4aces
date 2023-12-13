@@ -1697,7 +1697,6 @@ $(document).ready(function () {
             printWindowOnStudentCounterpart.document.close();
             setTimeout(() => {
                 printWindowOnStudentCounterpart.print();
-                toastr.success("Email sent successfully");
             }, 500);
 
             // const student_id_on_pc = $("#student_id_on_pc").val();

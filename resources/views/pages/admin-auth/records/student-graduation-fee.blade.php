@@ -4,6 +4,16 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                    @if ($successGF == 1)
+                        <script>
+                            toastr.success("Graduation Fee record added and email sent successfully!");
+                        </script>
+                    @endif
+                    @if ($successGFUpdate == 1)
+                        <script>
+                            toastr.success("Graduation Fee record updated and email sent successfully!");
+                        </script>
+                    @endif
                     @if ($acknowledgementReceipt == 1)
                         <span class="generateReceipt"></span>
                         <input class="receipt_true" type="hidden" value="{{ $acknowledgementReceipt }}">
@@ -40,7 +50,8 @@
                                             style="font-size: 17px"></i> Add</a>
                                 </div>
                                 <div class="nav-item btn btn-sm p-0 ml-1" style="display: flex; align-items:center;">
-                                    <a href="{{ route('admin.graduationFees') }}" class="nav-link align-items-center btn"
+                                    <a href="{{ route('admin.records.graduationFees') }}"
+                                        class="nav-link align-items-center btn"
                                         style="color:#ffffff; background-color:#1f3c88"><i
                                             class="far fa-arrow-alt-circle-left" style="font-size: 17px"></i> Back</a>
                                 </div>

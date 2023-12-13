@@ -103,7 +103,7 @@
                                 <button type="submit" class="btn btn-primary mr-2">Save changes</button>
                                 <button type="button" class="btn btn-danger mr-2" data-toggle="modal"
                                     data-target="#confirmDeleteModal">Delete</button>
-                                <a href="{{ route('admin.staff-accounts') }}" class="btn btn-default">Cancel</a>
+                                <a href="{{ route('admin.accounts.taff-accounts') }}" class="btn btn-default">Cancel</a>
                             </div>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                                     @method('DELETE')
                                     @csrf
                                     <div class="form-group">
-                                        <a href="{{ route('admin.admin-accounts') }}"
+                                        <a href="{{ route('admin.accounts.staff-accounts') }}"
                                             class="btn btn-default mr-2">Cancel</a>
                                         <!-- Delete button in the modal -->
                                         <button type="submit" class="btn btn-danger" data-toggle="modal"

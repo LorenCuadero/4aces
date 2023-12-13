@@ -11,7 +11,7 @@
                         </div>
                         <div class="card-body table-responsive p-0">
                             <div class="p-2">
-                                <table id="logs-table" class="table table-hover text-nowrap data-table text-center">
+                                <table id="logs-table" class="table table-hover text-nowrap data-table text-center" style="font-size: 14px;">
                                     <thead style="font-size: 14px; color:#1f3c88">
                                         <tr>
                                             <th>Log Id</th>
@@ -42,7 +42,6 @@
                                                         @if (isset($log->student->first_name))
                                                             {{ $log->student->first_name . ' ' . $log->student->last_name }}
                                                         @endif
-                                                        <span>n/a</span>
                                                     @else
                                                         <span>n/a</span>
                                                     @endif

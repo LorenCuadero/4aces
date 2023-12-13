@@ -4,6 +4,16 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                    @if ($successPCA == 1)
+                        <script>
+                            toastr.success("Personal Cash Advance record added and email sent successfully!");
+                        </script>
+                    @endif
+                    @if ($successPCAUpdate == 1)
+                        <script>
+                            toastr.success("Personal Cash Advance  record updated and email sent successfully!");
+                        </script>
+                    @endif
                     @if ($acknowledgementReceipt == 1)
                         <span class="generateReceipt"></span>
                         <input class="receipt_true" type="hidden" value="{{ $acknowledgementReceipt }}">
@@ -40,7 +50,8 @@
                                             style="font-size: 17px"></i> Add</a>
                                 </div>
                                 <div class="nav-item btn btn-sm p-0 ml-1" style="display: flex; align-items:center;">
-                                    <a href="{{ route('admin.personalCA') }}" class="nav-link align-items-center btn"
+                                    <a href="{{ route('admin.records.personalCA') }}"
+                                        class="nav-link align-items-center btn"
                                         style="color:#ffffff; background-color:#1f3c88"><i
                                             class="far fa-arrow-alt-circle-left" style="font-size: 17px"></i> Back</a>
                                 </div>
@@ -85,7 +96,8 @@
                                                         data-date="{{ $personal_ca_record->date }}"
                                                         class="btn btn-sm edit-student-personal-ca-button"
                                                         style="color: #1f3c88; width:40%; border-radius: 20px; margin: 2px">
-                                                        <strong><i class="far fa-edit" style="font-size: 17px"></i> Edit</strong>
+                                                        <strong><i class="far fa-edit" style="font-size: 17px"></i>
+                                                            Edit</strong>
 
                                                     </a>
                                                     <a href="#" data-id="{{ $personal_ca_record->id }}"
@@ -93,8 +105,8 @@
                                                         class="btn btn-sm delete-personal-ca"
                                                         style="color: #dd3e3e; width:40%; border-radius: 20px; margin: 2px;">
                                                         <strong><i class="fas fa-trash-alt"
-                                                            style="font-size: 16px; border: 1px;"></i>
-                                                        Delete</strong>
+                                                                style="font-size: 16px; border: 1px;"></i>
+                                                            Delete</strong>
                                                     </a>
                                                 </div>
                                             </td>

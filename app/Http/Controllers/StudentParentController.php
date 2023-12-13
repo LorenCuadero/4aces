@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 
 
 class StudentParentController extends Controller
@@ -172,26 +173,15 @@ class StudentParentController extends Controller
 
                 /** PAID COUNTERPART **/
                 $paidCounterpartRecords = $student->counterpart;
-                // $sortOrderpaidCounterpart = session()->get('sortOrder', 'asc');
-                // $nextSortOrderPaidCounterpart = ($sortOrderpaidCounterpart == 'asc') ? 'desc' : 'asc'; // Toggle the sort order for the next request
-                // session()->put('sortOrder', $nextSortOrderPaidCounterpart);
-                // $sortedPaidCounterpartRecords = $paidCounterpartRecords->sortBy('date', SORT_REGULAR, $sortOrderpaidCounterpart === 'desc');
 
 
                 /** PAID MEDICAL RECORDS **/
                 $paidMedicalRecords = $student->medicalShare;
-                // $sortOrderPaidMedicalRecords = session()->get('sortOrder', 'asc');
-                // $nextSortOrderPaidMedicalRecords = ($sortOrderPaidMedicalRecords == 'asc') ? 'desc' : 'asc'; // Toggle the sort order for the next request
-                // session()->put('sortOrder', $nextSortOrderPaidMedicalRecords);
-                // $sortedOrderPaidMedicalRecords = $paidMedicalRecords->sortBy('date', SORT_REGULAR, $sortOrderPaidMedicalRecords === 'desc'); // Sort the records based on the 'date' column
 
 
                 /** PAID MEDICAL RECORDS **/
                 $paidPersonalCARecords = $student->personalCashAdvance;
-                // $sortOrderPaidPersonalCARecords = session()->get('sortOrder', 'asc');
-                // $nextSortOrderPaidPersonalCARecords = ($sortOrderPaidPersonalCARecords == 'asc')? 'desc' : 'asc'; // Toggle the sort order for the next request
-                // session()->put('sortOrder', $nextSortOrderPaidPersonalCARecords);
-                // $sortedOrderPaidPersonalCARecords = $paidPersonalCARecords->sortBy('date', SORT_REGULAR, $sortOrderPaidPersonalCARecords === 'desc'); // Sort the records based on the 'date' column
+
 
                 $paidGraduationFeeRecords = $student->graduationFee;
 
@@ -220,15 +210,6 @@ class StudentParentController extends Controller
                     'paidMedicalRecords',
                     'paidPersonalCARecords',
                     'paidGraduationFeeRecords',
-                    // 'sortedPaidCounterpartRecords', // Use the sorted records in your view
-                    // 'nextSortOrderPaidCounterpart', // Include the variable for the sorting link
-                    // 'sortOrderpaidCounterpart' ,    // Include the current sort order for conditional styling in your view
-                    // 'sortedOrderPaidMedicalRecords', // Use the sorted records in your view
-                    // 'nextSortOrderPaidMedicalRecords', // Include the variable for the sorting link
-                    // 'sortOrderPaidMedicalRecords'  ,  // Include the current sort order for conditional styling in your view
-                    // 'sortedOrderPaidPersonalCARecords', // Use the sorted records in your view
-                    // 'nextSortOrderPaidPersonalCARecords', // Include the variable for the sorting link
-                    // 'sortOrderPaidPersonalCARecords'      // Include the current sort order for conditional styling in your view
                 )
             );
         } else {
@@ -293,6 +274,27 @@ class StudentParentController extends Controller
         }
 
         return view('pages.student-parent-auth.profile.index', compact('userData', 'gradeReports', 'userFname', 'userLname', 'userMname', 'disciplinaryRecords', 'totalGPA', 'userJoinedYearInt', 'userJoinedEffectiveYear'));
+    }
+
+    public function updateStudentDetails(Request $request)
+    {
+        $user = auth()->user();
+        $student = $user->student;
+
+        // dd($request->all());
+
+        // Update parent details
+        $student->parent_name = $request->input('parentName');
+        $student->parent_contact = $request->input('parentContact');
+
+        // Save changes
+        $student->save();
+
+        // Update receive OTP setting
+        $user->receive_otp = $request->input('receiveOTP', 1); // Default to 0 if not provided
+        $user->save();
+
+        return redirect()->back()->with('success', 'Student details updated successfully!');
     }
 
 }

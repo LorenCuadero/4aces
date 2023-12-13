@@ -8,10 +8,10 @@
     <title>Customized Email</title>
 </head>
 
-<body>
-    <p>{{ $salutation }} Batch {{ $selectedBatchYear }},</p>
-    <p>{{ $message_content }}</p>
-    <p>{{ $conclusion_salutation }}, <br>
+<body style="background-color: transparent; color: black; font-family: Arial, Helvetica, sans-serif">
+    <p style="background-color: transparent; color: black; font-family: Arial, Helvetica, sans-serif">{{ $salutation }} Batch {{ $selectedBatchYear }},</p>
+    <p style="background-color: transparent; color: black; font-family: Arial, Helvetica, sans-serif; white-space:pre-line">{{ $message_content }}</p>
+    <p style="background-color: transparent; color: black; font-family: Arial, Helvetica, sans-serif">{{ $conclusion_salutation }}, <br>
         {{ $sender }}</p>
 </body>
 
