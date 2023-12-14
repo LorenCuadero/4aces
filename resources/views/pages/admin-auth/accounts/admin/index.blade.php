@@ -11,9 +11,8 @@
                 @endif
 
                 <form id="add-admin-form" enctype="multipart/form-data" method="POST"
-                    action="{{ route('admin.storeAdminAccount') }}"> @method('PUT')
+                    action="{{ route('admin.storeAdminAccount') }}">
                     @csrf
-
                     <div class="row" style="text-align: left;">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -43,7 +42,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="password_admin">Password</label>
-                                <input type="text" class="form-control" id="password_admin" name="password" placeholder="Auto-Generated" disabled/>
+                                <input type="text" class="form-control" id="password_admin" name="password"
+                                    placeholder="Auto-Generated" disabled />
                             </div>
                             <div class="form-group">
                                 <label for="contact_number_admin">Contact Number</label>
@@ -99,7 +99,7 @@
 
                             <div class="form-group" style="float: right;">
                                 <button type="submit" class="btn btn-primary mr-2">Add</button>
-                                <a href="{{ route('admin.admin-accounts') }}" class="btn btn-default">Back</a>
+                                <a href="{{ route('admin.accounts.admin-accounts') }}" class="btn btn-default">Back</a>
                             </div>
                         </div>
                     </div>
