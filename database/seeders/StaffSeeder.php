@@ -44,7 +44,7 @@ class StaffSeeder extends Seeder
                 'address' => 'Cebu',
                 'civil_status' => 'Single',
                 'contact_number' => "0900011111",
-                'email' => '21103903@usc.edu.ph',
+                'email' => '21103864@usc.edu.ph',
                 'password' => bcrypt('Staffpassword'),
                 'created_at' => now(),
                 'updated_at' => now(),

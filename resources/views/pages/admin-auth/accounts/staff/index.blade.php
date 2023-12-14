@@ -102,7 +102,7 @@
 
                             <div class="form-group" style="float: right;">
                                 <button type="submit" class="btn btn-primary mr-2">Add</button>
-                                <a href="{{ route('admin.staff-accounts') }}" class="btn btn-default">Back</a>
+                                <a href="{{ route('admin.accounts.staff-accounts') }}" class="btn btn-default">Back</a>
                             </div>
                         </div>
                     </div>

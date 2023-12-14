@@ -103,7 +103,7 @@
                                 <button type="submit" class="btn btn-primary mr-2">Save changes</button>
                                 <button type="button" class="btn btn-danger mr-2" data-toggle="modal"
                                     data-target="#confirmDeleteModal">Delete</button>
-                                <a href="{{ route('admin.accounts.taff-accounts') }}" class="btn btn-default">Cancel</a>
+                                <a href="{{ route('admin.accounts.staff-accounts') }}" class="btn btn-default">Cancel</a>
                             </div>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                Are you sure you want to delete this admin account?
+                                Are you sure you want to delete this account?
                             </div>
                             <div class="modal-footer">
                                 <form method="POST"

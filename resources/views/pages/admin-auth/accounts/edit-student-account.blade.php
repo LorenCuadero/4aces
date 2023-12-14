@@ -173,7 +173,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                Are you sure you want to delete this admin account?
+                                Are you sure you want to delete this account?
                             </div>
                             <div class="modal-footer">
                                 <form method="POST"

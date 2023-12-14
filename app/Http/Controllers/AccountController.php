@@ -672,7 +672,7 @@ class AccountController extends Controller {
             $action = "Soft Deleted";
             StoreLogsService::storeLogs(auth()->user()->id, $action, "Staff Account", null, null, null);
 
-            return redirect()->route('admin.staff-accounts')->with('success', 'Staff account soft deleted successfully.');
+            return redirect()->route('admin.accounts.staff-accounts')->with('success', 'Staff account soft deleted successfully.');
         } else {
             return redirect()->back()->with('error', 'Staff account not found!');
         }
@@ -685,8 +685,23 @@ class AccountController extends Controller {
 
         $student_account = User::find($id);
 
-        if($student_account) {
+        if (!$student_account) {
+            return back()->with('error', 'Student account not found.');
+        }
 
+        $student = Student::where('email', $student_account->email)->first();
+
+        if (!$student) {
+            return back()->with('error', 'Student not found.');
+        }
+
+
+        if ($this->hasAssociations($student)) {
+            return back()->with('error', 'Cannot delete the student. There are records referencing this student.');
+        }
+
+
+        if ($student_account) {
             $student_account->is_deleted = 1;
             $student_account->deleted_at = Carbon::now();
             $student_account->save();
@@ -695,7 +710,7 @@ class AccountController extends Controller {
             $action = "Soft Deleted";
             StoreLogsService::storeLogs(auth()->user()->id, $action, "Student Account", null, null, null);
 
-            return redirect()->route('admin.staff-accounts')->with('success', 'Student account soft deleted successfully.');
+            return redirect()->route('admin.accounts.staff-accounts')->with('success', 'Student account soft deleted successfully.');
         } else {
             return redirect()->back()->with('error', 'Student account not found!');
         }
@@ -708,6 +723,17 @@ class AccountController extends Controller {
 
     //     return redirect()->back()->with('success', 'Student account deleted successfully!');
     // }
+
+    private function hasAssociations(Student $student)
+    {
+        // Check for associations in each related table
+        return $student->counterpart()->exists() ||
+            $student->medicalShare()->exists() ||
+            $student->personalCashAdvance()->exists() ||
+            $student->graduationFee()->exists() ||
+            $student->academics()->exists() ||
+            $student->disciplinary()->exists();
+    }
 
 
     public function deleteStaffAccount($id) {

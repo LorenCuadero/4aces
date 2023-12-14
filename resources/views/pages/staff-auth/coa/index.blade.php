@@ -23,7 +23,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive" style="font-size: 14px;">
-                                <table id="exampleOnCOA" class="table table-bordered table-hover data-table text-center">
+                                <table id="exampleOnCOA" class="table table-hover data-table text-center">
                                     <thead>
                                         <tr>
                                             <th style="background-color: #ffff; color: #1f3c88">Name</th>
