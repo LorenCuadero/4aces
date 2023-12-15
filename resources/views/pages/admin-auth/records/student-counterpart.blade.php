@@ -76,7 +76,9 @@
                                 <tbody class="table-body" style="font-size: 14px;">
                                     @forelse ($student_counterpart_records as $counterpart)
                                         <tr class="table-row align-middle">
-                                            <td class="align-middle">{{ $months[$counterpart->month] }}</td>
+                                            <td class="align-middle" data-order="{{ $counterpart->month }}">
+                                                {{ $months[$counterpart->month] }}
+                                            </td>
                                             <td class="align-middle">{{ $counterpart->year }}</td>
                                             <td class="align-middle">₱ {{ number_format($counterpart->amount_due, 2) }}
                                             </td>

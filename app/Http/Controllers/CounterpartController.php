@@ -86,7 +86,9 @@ class CounterpartController extends Controller
             return back()->with('error', 'Student not found!');
         }
 
-        $student_counterpart_records = Counterpart::where('student_id', $student->id)->get();
+        $student_counterpart_records = Counterpart::where('student_id', $student->id)
+            ->orderBy('month')
+            ->get();
 
         $months = [
             1 => 'January',
