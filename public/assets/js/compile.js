@@ -83,7 +83,6 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#closeButton").on("click", function (event) {
         event.preventDefault();
-
     });
 });
 
@@ -345,6 +344,15 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $.fn.dataTable.ext.order["month-order"] = function (settings, col) {
+        return this.api()
+            .column(col, { order: "index" })
+            .nodes()
+            .map(function (td, i) {
+                return $(td).attr("data-order");
+            });
+    };
+
     if ($(".data-table tbody tr").length > 0) {
         $(".data-table").DataTable({
             paging: true,
@@ -353,6 +361,10 @@ $(document).ready(function () {
             searching: true,
             ordering: true,
             lengthChange: true,
+            columnDefs: [
+                { type: "month-order", targets: 0 }, // Targets the first column (Month)
+                { orderable: false, targets: 0 }, // Disable sorting for the first column (Month)
+            ],
         });
     } else {
         $(".data-table").html("<p>No data available.</p>");
