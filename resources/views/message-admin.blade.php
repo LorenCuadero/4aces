@@ -14,8 +14,11 @@
     </p>
     <p>Please use the provided credentials to log in initially. Once logged in, kindly change your password for your
         safety.</p>
-    <p>If ever you have problems while logging in, please reply to this email or check your internet connection and
-        refresh.</p>
+    <p>If there are problems while logging in, please try checking your internet connection and reload the page. <br>If
+        the
+        issue persist please feel free to reply on this email or contact the admin through this: <a
+            href="#">lorenfe.cuadero@student.passerellesnumeriques.org</a>
+    </p>
     <p>Thank you,<br>Passerelles Numériques Philippines</p>
 </body>
 
