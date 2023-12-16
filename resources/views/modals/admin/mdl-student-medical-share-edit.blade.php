@@ -16,11 +16,11 @@
                     <input type="hidden" name="student_id" value="{{ $student->id }}">
                     <input type="hidden" name="medical_id" id="medical_id">
                     <div class="form-group">
-                        <label for="course_code">Medical Concern</label>
+                        <label for="course_code">Medical Concern <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="medical_concern_ms_edit" name="medical_concern">
                     </div>
                     <div class="form-group">
-                        <label for="amount_due">Total Medical Expense</label>
+                        <label for="amount_due">Total Medical Expense <span class="text-danger">*</span></label>
                         <input type="number" name="amount_due" id="amount_due_ms_edit" class="form-control"
                             step="any">
                     </div>
@@ -31,7 +31,7 @@
                     <div class="form-group">
                         <label for="amount_paid">Total Amount Paid</label>
                         <input type="number" name="amount_paid_previous" id="amount_paid_ms_edit" class="form-control"
-                            step="any" readonly>
+                            step="any">
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">Amount Paid</label>
@@ -39,7 +39,7 @@
                             step="any">
                     </div>
                     <div class="form-group">
-                        <label for="date">Date</label>
+                        <label for="date">Date <span class="text-danger">*</span></label>
                         <input type="date" name="date" class="form-control" id="date_paid_ms_edit" rows="3"
                             placeholder="" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required />
                     </div>

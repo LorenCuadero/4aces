@@ -14,11 +14,11 @@
                     @csrf
                     <input type="hidden" name="student_id" value="{{ $student->id }}">
                     <div class="form-group">
-                        <label for="course_code">Medical Concern</label>
+                        <label for="course_code">Medical Concern <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="medical_concern" name="medical_concern">
                     </div>
                     <div class="form-group">
-                        <label for="amount_due">Total Medical Expense</label>
+                        <label for="amount_due">Total Medical Expense <span class="text-danger">*</span></label>
                         <input type="number" name="amount_due" id="amount_due" class="form-control"  step="any">
                     </div>
                     <div class="form-group">
@@ -31,7 +31,7 @@
                         <input type="number" name="amount_paid" id="amount_paid" class="form-control"  step="any">
                     </div>
                     <div class="form-group">
-                        <label for="date">Date</label>
+                        <label for="date">Date <span class="text-danger">*</span></label>
                         <input type="date" name="date" class="form-control" id="date" rows="3"
                             placeholder="" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required />
                     </div>

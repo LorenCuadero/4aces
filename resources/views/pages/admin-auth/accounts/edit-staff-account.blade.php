@@ -17,7 +17,7 @@
                     <div class="row" style="text-align: left;">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="first_name_staff">First Name</label>
+                                <label for="first_name_staff">First Name  <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="first_name_staff" name="first_name"
                                     value="{{ $user->first_name }}" autocomplete="on" />
                             </div>
@@ -27,12 +27,12 @@
                                     value="{{ $user->middle_name }}" />
                             </div>
                             <div class="form-group">
-                                <label for="last_name_staff">Last Name</label>
+                                <label for="last_name_staff">Last Name  <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="last_name_staff" name="last_name"
                                     value="{{ $user->last_name }}" />
                             </div>
                             <div class="form-group">
-                                <label for="email_staff">Email Address</label>
+                                <label for="email_staff">Email Address  <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" id="email_staff" name="email"
                                     value="{{ $user->email }}" autocomplete="on" />
                             </div>
@@ -49,12 +49,12 @@
                                     value="{{ $user->contact_number }}" />
                             </div>
                             <div class="form-group">
-                                <label for="address_staff">Address</label>
+                                <label for="address_staff">Address  <span class="text-danger">*</span></label>
                                 <input name="address" class="form-control" id="address_staff" value="{{ $user->address }}"
                                     autocomplete="on" />
                             </div>
                             <div class="form-group">
-                                <label for="birthdate_staff">Birthdate</label>
+                                <label for="birthdate_staff">Birthdate  <span class="text-danger">*</span></label>
                                 <input type="date" max="{{ now()->subYears(18)->format('Y-m-d') }}" class="form-control"
                                     id="birthdate_staff" name="birthdate" value="{{ $user->birthdate }}" />
                             </div>
@@ -66,17 +66,24 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="gender_staff">Gender</label>
+                                <label for="gender_staff">Gender  <span class="text-danger">*</span></label>
                                 <select class="form-control" id="gender_staff" name="gender">
-                                    <option value="{{ $user->gender }}">{{ $user->gender }}</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option value="{{ $user->gender }}">
+                                        @if ($user->gender == 'Male')
+                                            He
+                                        @endif
+                                        @if ($user->gender == 'Female')
+                                            She
+                                        @endif
+                                    </option>
+                                    <option value="Male">He</option>
+                                    <option value="Female">She</option>
                                     <option value="Non-binary">Non-Binary</option>
                                     <option value="Prefer not to say">Prefer not to say</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="department_staff">Department</label>
+                                <label for="department_staff">Department  <span class="text-danger">*</span></label>
                                 <select name="department" id="department_staff" class="form-control">
                                     <option value="{{ $user->department }}">{{ $user->department }}</option>
                                     <option value="Administrative">Administrative</option>
@@ -87,7 +94,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="civil_status_staff">Civil Status</label>
+                                <label for="civil_status_staff">Civil Status  <span class="text-danger">*</span></label>
                                 <select name="civil_status" id="civil_status_staff" class="form-control">
                                     <option value="{{ $user->civil_status }}">{{ $user->civil_status }}</option>
                                     <option value="Single">Single</option>

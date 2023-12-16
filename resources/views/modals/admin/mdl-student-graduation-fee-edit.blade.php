@@ -15,20 +15,20 @@
                     @method('PUT')
                     <input type="hidden" name="student_id">
                     <div class="form-group">
-                        <label for="amount_due">Amount Due</label>
+                        <label for="amount_due">Amount Due <span class="text-danger">*</span></label>
                         <input type="number" name="amount_due" id="edit_amount_due_gf" class="form-control"
                             step="any">
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">Total Amount Paid</label>
-                        <input type="number" name="amount_paid_previous" id="edit_amount_paid_gf" class="form-control" readonly>
+                        <input type="number" name="amount_paid_previous" id="edit_amount_paid_gf" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="amount_paid">Amount Paid</label>
+                        <label for="amount_paid">Amount Paid </label>
                         <input type="number" name="amount_paid" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="date">Date</label>
+                        <label for="date">Date <span class="text-danger">*</span></label>
                         <input type="date" name="date" class="form-control" id="edit_date_gf" rows="3"
                             placeholder="" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required />
                     </div>

@@ -226,6 +226,14 @@
                 $(this).addClass('active');
             });
         });
+
+        $(document).ready(function() {
+            $('.printButtonOnAdminAcademicReports').on('click', function() {
+                var studentId = $(this).data('student-id');
+                // Show the corresponding print pane
+                $('#grades-' + studentId).show();
+            });
+        });
     </script>
 </body>
 

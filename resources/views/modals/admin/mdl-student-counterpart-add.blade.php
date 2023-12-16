@@ -14,7 +14,7 @@
                     @csrf
                     <input type="hidden" name="student_id" value="{{ $student->id }}">
                     <div class="form-group">
-                        <label for="course_code">Month</label>
+                        <label for="course_code">Month <span class="text-danger">*</span></label>
                         <select name="month" id="month" class="form-control" required>
                             <option value="1">January</option>
                             <option value="2">February</option>
@@ -31,11 +31,11 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="amount_due">Year</label>
-                        <select id="year" name="year" class="form-control yearDropdown"></select>
+                        <label for="amount_due">Year <span class="text-danger">*</span></label>
+                        <select id="year" name="year" class="form-control yearDropdown" required></select>
                     </div>
                     <div class="form-group">
-                        <label for="amount_due">Amount Due</label>
+                        <label for="amount_due">Amount Due <span class="text-danger">*</span></label>
                         <input type="number" name="amount_due" id="amount_due" class="form-control" step="any">
                     </div>
                     <div class="form-group">
@@ -43,19 +43,20 @@
                         <input type="number" name="amount_paid" id="amount_paid" class="form-control" step="any">
                     </div>
                     <div class="form-group">
-                        <label for="date">Date</label>
+                        <label for="date">Date <span class="text-danger">*</span></label>
                         <input type="date" name="date" class="form-control" id="date" rows="3"
                             placeholder="" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required />
                     </div>
                     <div class="form-check mb-3">
-                        <input type="checkbox" class="form-check-input" id="send_amount_due_only" name="send_amount_due_only"
-                            value="1">
+                        <input type="checkbox" class="form-check-input" id="send_amount_due_only"
+                            name="send_amount_due_only" value="1">
                         <label class="form-check-label" for="v">Send amount due only</label>
                     </div>
                     <div class="form-check mb-3">
-                        <input type="checkbox" class="form-check-input" id="print_acknowledegement_receipt" name="print_acknowledegement_receipt"
-                            value="1">
-                        <label class="form-check-label" for="print_acknowledegement_receipt">Print acknowledgement receipt</label>
+                        <input type="checkbox" class="form-check-input" id="print_acknowledegement_receipt"
+                            name="print_acknowledegement_receipt" value="1">
+                        <label class="form-check-label" for="print_acknowledegement_receipt">Print acknowledgement
+                            receipt</label>
                     </div>
                     <div class="form-group" style="float: right;">
                         <button type="submit" class="btn btn-primary">Add</button>

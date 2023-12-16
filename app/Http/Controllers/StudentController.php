@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use App\Mail\SendAccountDeletion;
+use App\Mail\SendStudentAcademicDeleteNotification;
 
 class StudentController extends Controller
 {
@@ -615,7 +616,7 @@ class StudentController extends Controller
         $action = "Deleted";
         StoreLogsService::storeLogs(auth()->user()->id, $action, "Academic", $request->input('student_id'), null, $student->batch_year);
 
-        Mail::to($student_email)->send(new SendStudentAcademicNotification($student_name, $academic->course_code, $academic->year_and_sem, $academic->midterm_grade, $academic->final_grade));
+        Mail::to($student_email)->send(new SendStudentAcademicDeleteNotification($student_name, $academic->course_code, $academic->year_and_sem, $academic->midterm_grade, $academic->final_grade));
 
         $academic->delete();
 

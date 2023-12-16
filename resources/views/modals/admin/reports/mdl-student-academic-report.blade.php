@@ -10,12 +10,12 @@
             </div>
             <div class="modal-body">
                 <form id="new-form-edit" method="POST"
-                    action="{{ route('rpt.acd.updateStudentGradeReport', ['id' => $student->id]) }}">
+                    action="{{ route('admin.reports.updateStudentGradeReport', ['id' => $student->id]) }}">
                     @csrf
                     @method('PUT')
                     <input type="hidden" id="edit-id-student-grade" name="academic_id">
                     <div class="form-group" style="text-align: left">
-                        <label for="course_code">Course Code <span class="text-danger">*</span></label>
+                        <label for="course_code">Course Code</label>
                         <input type="text" class="form-control" id="course_code_edit" name="course_code" required
                             value="" />
                     </div>
@@ -43,7 +43,7 @@
                     <div class="form-group" style="text-align: left; float:right;">
                         <button type="submit" class="btn btn-primary mr-2">Save Changes</button>
                         <a href="#"
-                            onclick="window.location.href = '{{ route('rpt.acd.getStudentGradeReport', ['id' => $student->id]) }}'; return false;"
+                            onclick="window.location.href = '{{ route('admin.reports.getStudentGradeReport', ['id' => $student->id]) }}'; return false;"
                             style="text-decoration: none; color: #fff;">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
                         </a>

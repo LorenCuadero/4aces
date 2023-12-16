@@ -17,7 +17,7 @@
                     <div class="row" style="text-align: left;">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="first_name_student">First Name</label>
+                                <label for="first_name_student">First Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="first_name_student" name="first_name"
                                     required autocomplete="off" />
                             </div>
@@ -36,7 +36,7 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label for="last_name_student">Last Name</label>
+                                <label for="last_name_student">Last Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="last_name_student" name="last_name"
                                     required />
                             </div>
@@ -46,7 +46,7 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label for="suffix_student">Suffix</label>
+                                <label for="suffix_student">Suffix <span class="text-danger">*</span></label>
                                 <select class="form-control" id="suffix_student" name="suffix">
                                     <option value="">Select Suffix</option>
                                     <option value="Jr.">Jr.</option>
@@ -57,7 +57,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="address_student">Address</label>
+                                <label for="address_student">Address <span class="text-danger">*</span></label>
                                 <textarea name="address" class="form-control" id="address_student" rows="3" required autocomplete="off"></textarea>
                             </div>
                             @error('address')
@@ -73,7 +73,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="email_student_off">Email Address</label>
+                                <label for="email_student_off">Email Address <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" id="email_student_off" value="Auto-Generated"
                                     disabled />
                             </div>
@@ -83,12 +83,12 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label for="password_student">Password</label>
+                                <label for="password_student">Password <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="password_student" value="d3f@ultP@$$w0rd"
                                     disabled />
                             </div>
                             <div class="form-group">
-                                <label for="contact_number_student">Contact Number</label>
+                                <label for="contact_number_student">Contact Number </label>
                                 <input type="number" class="form-control" id="contact_number_student"
                                     name="contact_number" />
                             </div>
@@ -98,7 +98,7 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label for="batch_year_student">Batch Year</label>
+                                <label for="batch_year_student">Batch Year <span class="text-danger">*</span></label>
                                 <select class="form-control" id="batch_year_student"name="batch_year">
                                     @php
                                         $currentYear = now()->year;
@@ -117,7 +117,7 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label for="joined_student">Joined</label>
+                                <label for="joined_student">Joined <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="joined_student" name="joined" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required />
                             </div>
                             @error('batch_year')
@@ -128,7 +128,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="birthdate_student">Birthdate</label>
+                                <label for="birthdate_student">Birthdate <span class="text-danger">*</span></label>
                                 <input type="date" max="{{ now()->subYears(18)->format('Y-m-d') }}" class="form-control"
                                     id="birthdate_student" name="birthdate" required />
                             </div>
@@ -138,7 +138,7 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label for="gender_student">Gender</label>
+                                <label for="gender_student">Gender <span class="text-danger">*</span></label>
                                 <select class="form-control" id="gender_student" name="gender">
                                     <option value="Male" selected>Male</option>
                                     <option value="Female">Female</option>
@@ -153,7 +153,7 @@
                             @enderror
 
                             <div class="form-group">
-                                <label for="parent_name_student">Parent's / Guardian's Name</label>
+                                <label for="parent_name_student">Parent's / Guardian's Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="parent_name_student"
                                     name="parent_name" />
                             </div>
@@ -164,7 +164,7 @@
                             @enderror
 
                             <div class="form-group">
-                                <label for="parent_contact_student">Parent's / Guardian's Contact Number</label>
+                                <label for="parent_contact_student">Parent's / Guardian's Contact Number <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="parent_contact_student"
                                     name="parent_contact" />
                             </div>

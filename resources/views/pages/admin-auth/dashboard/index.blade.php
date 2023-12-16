@@ -28,18 +28,21 @@
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text" style="color: #1f3c88;">Medical Share</span>
-                                        <span class="info-box-number" style="color: #1f3c88;">{{ number_format($medicalShareTotal, 2) }}</span>
+                                        <span class="info-box-number"
+                                            style="color: #1f3c88;">{{ number_format($medicalShareTotal, 2) }}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="clearfix hidden-md-up"></div>
                             <div class="col-12 col-sm-10 col-md-4">
                                 <div class="info-box mb-3">
-                                    <span class="info-box-icon elevation-1"> <i style="color: #1f3c88;" class="fa-regular fa-money-bill-1"></i>
+                                    <span class="info-box-icon elevation-1"> <i style="color: #1f3c88;"
+                                            class="fa-regular fa-money-bill-1"></i>
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text" style="color: #1f3c88;">Total Received</span>
-                                        <span class="info-box-number" style="color: #1f3c88;">{{ number_format($receivedTotal, 2) }}</span>
+                                        <span class="info-box-number"
+                                            style="color: #1f3c88;">{{ number_format($receivedTotal, 2) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +68,8 @@
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text" style="color: #1f3c88;">Graduation Fees</span>
-                                        <span class="info-box-number" style="color: #1f3c88;">{{ number_format($graduationFeeTotal, 2) }}</span>
+                                        <span class="info-box-number"
+                                            style="color: #1f3c88;">{{ number_format($graduationFeeTotal, 2) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +80,8 @@
                                             class="fa-solid fa-circle-dollar-to-slot"></i></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text" style="color: #1f3c88;">Total Receivable</span>
-                                        <span class="info-box-number" style="color: #1f3c88;">{{ number_format($receivableTotal, 2) }}</span>
+                                        <span class="info-box-number"
+                                            style="color: #1f3c88;">{{ number_format($receivableTotal, 2) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -105,56 +110,56 @@
                             </div>
                             <div class="card-body" style="padding-top: 1%">
                                 <div class="chart">
-                                    <input type="hidden" id="percentage"
-                                        data-medical-january="{{ $medicalSharePaidCountJanuary }}"
-                                        data-medical-february="{{ $medicalSharePaidCountFebruary }}"
-                                        data-medical-march="{{ $medicalSharePaidCountMarch }}"
-                                        data-medical-april="{{ $medicalSharePaidCountApril }}"
-                                        data-medical-may="{{ $medicalSharePaidCountMay }}"
-                                        data-medical-june="{{ $medicalSharePaidCountJune }}"
-                                        data-medical-july="{{ $medicalSharePaidCountJuly }}"
-                                        data-medical-august="{{ $medicalSharePaidCountAugust }}"
-                                        data-medical-september="{{ $medicalSharePaidCountSeptember }}"
-                                        data-medical-october="{{ $medicalSharePaidCountOctober }}"
-                                        data-medical-november="{{ $medicalSharePaidCountNovember }}"
-                                        data-medical-december="{{ $medicalSharePaidCountDecember }}"
-                                        data-counterpart-january="{{ $counterpartPaidCountJanuary }}"
-                                        data-counterpart-february="{{ $counterpartPaidCountFebruary }}"
-                                        data-counterpart-march="{{ $counterpartPaidCountMarch }}"
-                                        data-counterpart-april="{{ $counterpartPaidCountApril }}"
-                                        data-counterpart-may="{{ $counterpartPaidCountMay }}"
-                                        data-counterpart-june="{{ $counterpartPaidCountJune }}"
-                                        data-counterpart-july="{{ $counterpartPaidCountJuly }}"
-                                        data-counterpart-august="{{ $counterpartPaidCountAugust }}"
-                                        data-counterpart-september="{{ $counterpartPaidCountSeptember }}"
-                                        data-counterpart-october="{{ $counterpartPaidCountOctober }}"
-                                        data-counterpart-november="{{ $counterpartPaidCountNovember }}"
-                                        data-counterpart-december="{{ $counterpartPaidCountDecember }}"
-                                        data-personal-ca-january="{{ $personalCashAdvancePaidCountJanuary }}"
-                                        data-personal-ca-february="{{ $personalCashAdvancePaidCountFebruary }}"
-                                        data-personal-ca-march="{{ $personalCashAdvancePaidCountMarch }}"
-                                        data-personal-ca-april="{{ $personalCashAdvancePaidCountApril }}"
-                                        data-personal-ca-may="{{ $personalCashAdvancePaidCountMay }}"
-                                        data-personal-ca-june="{{ $personalCashAdvancePaidCountJune }}"
-                                        data-personal-ca-july="{{ $personalCashAdvancePaidCountJuly }}"
-                                        data-personal-ca-august="{{ $personalCashAdvancePaidCountAugust }}"
-                                        data-personal-ca-september="{{ $personalCashAdvancePaidCountSeptember }}"
-                                        data-personal-ca-october="{{ $personalCashAdvancePaidCountOctober }}"
-                                        data-personal-ca-november="{{ $personalCashAdvancePaidCountNovember }}"
-                                        data-personal-ca-december="{{ $personalCashAdvancePaidCountDecember }}"
-                                        data-graduation-fee-january="{{ $graduationFeePaidCountJanuary }}"
-                                        data-graduation-fee-february="{{ $graduationFeePaidCountFebruary }}"
-                                        data-graduation-fee-march="{{ $graduationFeePaidCountMarch }}"
-                                        data-graduation-fee-april="{{ $graduationFeePaidCountApril }}"
-                                        data-graduation-fee-may="{{ $graduationFeePaidCountMay }}"
-                                        data-graduation-fee-june="{{ $graduationFeePaidCountJune }}"
-                                        data-graduation-fee-july="{{ $graduationFeePaidCountJuly }}"
-                                        data-graduation-fee-august="{{ $graduationFeePaidCountAugust }}"
-                                        data-graduation-fee-september="{{ $graduationFeePaidCountSeptember }}"
-                                        data-graduation-fee-october="{{ $graduationFeePaidCountOctober }}"
-                                        data-graduation-fee-november="{{ $graduationFeePaidCountNovember }}"
-                                        data-graduation-fee-december="{{ $graduationFeePaidCountDecember }}">
-                                    <canvas id="barChart"
+                                    <input type="hidden" class="percentage"
+                                        data-medical-january="{{ round($medicalSharePaidCountJanuary) }}"
+                                        data-medical-february="{{ round($medicalSharePaidCountFebruary) }}"
+                                        data-medical-march="{{ round($medicalSharePaidCountMarch) }}"
+                                        data-medical-april="{{ round($medicalSharePaidCountApril) }}"
+                                        data-medical-may="{{ round($medicalSharePaidCountMay) }}"
+                                        data-medical-june="{{ round($medicalSharePaidCountJune) }}"
+                                        data-medical-july="{{ round($medicalSharePaidCountJuly) }}"
+                                        data-medical-august="{{ round($medicalSharePaidCountAugust) }}"
+                                        data-medical-september="{{ round($medicalSharePaidCountSeptember) }}"
+                                        data-medical-october="{{ round($medicalSharePaidCountOctober) }}"
+                                        data-medical-november="{{ round($medicalSharePaidCountNovember) }}"
+                                        data-medical-december="{{ round($medicalSharePaidCountDecember) }}"
+                                        data-counterpart-january="{{ round($counterpartPaidCountJanuary) }}"
+                                        data-counterpart-february="{{ round($counterpartPaidCountFebruary) }}"
+                                        data-counterpart-march="{{ round($counterpartPaidCountMarch) }}"
+                                        data-counterpart-april="{{ round($counterpartPaidCountApril) }}"
+                                        data-counterpart-may="{{ round($counterpartPaidCountMay) }}"
+                                        data-counterpart-june="{{ round($counterpartPaidCountJune) }}"
+                                        data-counterpart-july="{{ round($counterpartPaidCountJuly) }}"
+                                        data-counterpart-august="{{ round($counterpartPaidCountAugust) }}"
+                                        data-counterpart-september="{{ round($counterpartPaidCountSeptember) }}"
+                                        data-counterpart-october="{{ round($counterpartPaidCountOctober) }}"
+                                        data-counterpart-november="{{ round($counterpartPaidCountNovember) }}"
+                                        data-counterpart-december="{{ round($counterpartPaidCountDecember) }}"
+                                        data-personal-ca-january="{{ round($personalCashAdvancePaidCountJanuary) }}"
+                                        data-personal-ca-february="{{ round($personalCashAdvancePaidCountFebruary) }}"
+                                        data-personal-ca-march="{{ round($personalCashAdvancePaidCountMarch) }}"
+                                        data-personal-ca-april="{{ round($personalCashAdvancePaidCountApril) }}"
+                                        data-personal-ca-may="{{ round($personalCashAdvancePaidCountMay) }}"
+                                        data-personal-ca-june="{{ round($personalCashAdvancePaidCountJune) }}"
+                                        data-personal-ca-july="{{ round($personalCashAdvancePaidCountJuly) }}"
+                                        data-personal-ca-august="{{ round($personalCashAdvancePaidCountAugust) }}"
+                                        data-personal-ca-september="{{ round($personalCashAdvancePaidCountSeptember) }}"
+                                        data-personal-ca-october="{{ round($personalCashAdvancePaidCountOctober) }}"
+                                        data-personal-ca-november="{{ round($personalCashAdvancePaidCountNovember) }}"
+                                        data-personal-ca-december="{{ round($personalCashAdvancePaidCountDecember) }}"
+                                        data-graduation-fee-january="{{ round($graduationFeePaidCountJanuary) }}"
+                                        data-graduation-fee-february="{{ round($graduationFeePaidCountFebruary) }}"
+                                        data-graduation-fee-march="{{ round($graduationFeePaidCountMarch) }}"
+                                        data-graduation-fee-april="{{ round($graduationFeePaidCountApril) }}"
+                                        data-graduation-fee-may="{{ round($graduationFeePaidCountMay) }}"
+                                        data-graduation-fee-june="{{ round($graduationFeePaidCountJune) }}"
+                                        data-graduation-fee-july="{{ round($graduationFeePaidCountJuly) }}"
+                                        data-graduation-fee-august="{{ round($graduationFeePaidCountAugust) }}"
+                                        data-graduation-fee-september="{{ round($graduationFeePaidCountSeptember) }}"
+                                        data-graduation-fee-october="{{ round($graduationFeePaidCountOctober) }}"
+                                        data-graduation-fee-november="{{ round($graduationFeePaidCountNovember) }}"
+                                        data-graduation-fee-december="{{ round($graduationFeePaidCountDecember) }}">
+                                    <canvas class="barChart"
                                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 514px;"
                                         width="606" height="294" class="chartjs-render-monitor"></canvas>
                                 </div>

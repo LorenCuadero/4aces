@@ -26,11 +26,11 @@
                 </li>
                 <!-- Menu Footer-->
                 <li class="user-footer text-center" style="border-radius: 5px; display: inline-block; width: 100%;">
-                    <div class="mb-2">
+                    {{-- <div class="mb-2">
                         <a href="#" class="btn btn-default btn-flat" style="border-radius: 5px; width: 100%;"
                             data-toggle="modal" data-target="#settingsModal"><i class="fa-solid fa-gear"></i>
                             Settings</a>
-                    </div>
+                    </div> --}}
                     <div class="mb-2">
                         <a href="#" class="btn btn-default btn-flat change-pass"
                             style="border-radius: 5px; width: 100%;"><i class="fa-solid fa-lock"></i> Change
@@ -49,7 +49,7 @@
 </nav>
 
 <!-- Settings -->
-<div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel"
+{{-- <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -62,7 +62,7 @@
             <form id="studentDetailsForm" action="{{ route('admin.updateReceiveOTP') }}" method="POST">
                 @csrf
                 @method('PUT')
-                <div class="modal-body">
+                <div class="modal-body"> --}}
                     {{-- <div
                         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h1 class="h2">Edit Information</h1>
@@ -79,7 +79,7 @@
                             value="{{ Auth::user()->student->parent_contact }}" required>
                     </div> --}}
 
-                    <div
+                    {{-- <div
                         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h1 class="h2">OTP Settings</h1>
                     </div>
@@ -96,4 +96,4 @@
             </form>
         </div>
     </div>
-</div>
+</div> --}}

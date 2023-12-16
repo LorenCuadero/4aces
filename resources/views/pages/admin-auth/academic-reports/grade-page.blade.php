@@ -1,4 +1,4 @@
-    @extends('layouts.staff.app')
+    @extends('layouts.admin.app')
     @section('content')
         <section class="content">
             <div class="row">
@@ -27,13 +27,14 @@
                                     <div class="nav-item btn btn-sm" id="addGradeBtn"
                                         style="display: flex; align-items:center; height: 38px; margin-left: 4px;"
                                         data-target="add-student-grd-modal" data-toggle="modal">
-                                        <a class="nav-link align-items-center"
+                                        <a {{-- href="{{ route('admin.reports.getStudentGradeReport', ['id' => $student->id]) }}" --}} class="nav-link align-items-center"
                                             style="color:#fff;height: 100%; display: flex; align-items: center;"><i
                                                 class="fa fa-plus mr-1" style="font-size: 17px"></i> Add</a>
                                     </div>
                                     <div class="nav-item btn btn-sm" id="back"
                                         style="display: flex; align-items:center; height: 38px; margin-left: 4px;">
-                                        <a href="{{ route('rpt.acd.index') }}" class="nav-link align-items-center"
+                                        <a href="{{ route('admin.reports.academicReports') }}"
+                                            class="nav-link align-items-center"
                                             style="color:#fff;height: 100%; display: flex; align-items: center;"><i
                                                 class="far fa-arrow-alt-circle-left mr-1" style="font-size: 17px"></i>
                                             Back</a>
@@ -108,7 +109,7 @@
                                                         </a>
                                                         <a href="#" data-id="{{ $academic->id }}"
                                                             data-student-id="{{ $student->id }}"
-                                                            data-url="{{ route('rpt.acd.destroyStudentGradeReport', ['id' => 'student_id', 'academic_id' => $academic->id]) }}"
+                                                            data-url="{{ route('admin.reports.destroyStudentGradeReport', ['id' => 'student_id', 'academic_id' => $academic->id]) }}"
                                                             class="btn btn-sm delete-academic"
                                                             style="color: #dd3e3e; width:50%; border-radius: 20px; margin: 2px;">
                                                             <i class="fas fa-trash-alt"
@@ -209,7 +210,7 @@
                 </div>
             </div>
         </section>
-        @include('modals.staff.mdl-student-acd-rpt')
-        @include('modals.staff.mdl-student-acd-rpt-add')
+        @include('modals.admin.reports.mdl-student-academic-report')
+        @include('modals.admin.reports.mdl-student-add-academic-report')
         @include('modals.staff.mdl-delete-student-academic-confirmation')
     @endsection

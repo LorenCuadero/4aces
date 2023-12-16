@@ -37,10 +37,10 @@ class AdminController extends Controller
         $personalCashAdvanceTotal = PersonalCashAdvance::sum('amount_due');
 
         // Receivables
-        $medicalShareReceivable = MedicalShare::sum('total_cost') - MedicalShare::sum('amount_paid');
-        $counterpartReceivable = Counterpart::sum('amount_due') - Counterpart::sum('amount_paid');
-        $graduationFeeReceivable = GraduationFee::sum('amount_due') - GraduationFee::sum('amount_paid');
-        $personalCashAdvanceReceivable = PersonalCashAdvance::sum('amount_due') - PersonalCashAdvance::sum('amount_paid');
+        $medicalShareReceivable = $medicalShareTotal - MedicalShare::sum('amount_paid');
+        $counterpartReceivable = $counterpartTotal - Counterpart::sum('amount_paid');
+        $graduationFeeReceivable = $graduationFeeTotal - GraduationFee::sum('amount_paid');
+        $personalCashAdvanceReceivable = $personalCashAdvanceTotal - PersonalCashAdvance::sum('amount_paid');
         $receivableTotal = $medicalShareReceivable + $counterpartReceivable + $graduationFeeReceivable + $personalCashAdvanceReceivable;
 
         // Received
@@ -190,7 +190,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidJanuary = $studentsWithCounterpartPaidJanuary->count();
-        $counterpartPaidCountJanuary = ($uniqueStudentsCounterpartPaidJanuary / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountJanuary = round(($uniqueStudentsCounterpartPaidJanuary / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountJanuary = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 1)
@@ -199,7 +199,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidJanuary = $graduationFeePaidCountJanuary->count();
-        $graduationFeePaidCountJanuary = $uniqueStudentsGraduationFeePaidJanuary / $totalNumberOfStudents * 100;
+        $graduationFeePaidCountJanuary = round($uniqueStudentsGraduationFeePaidJanuary / $totalNumberOfStudents * 100);
 
         $personalCashAdvancePaidCountJanuary = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 1)
@@ -208,7 +208,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidJanuary = $personalCashAdvancePaidCountJanuary->count();
-        $personalCashAdvancePaidCountJanuary = $uniqueStudentsPersonalCashAdvancePaidJanuary / $totalNumberOfStudents * 100;
+        $personalCashAdvancePaidCountJanuary = round($uniqueStudentsPersonalCashAdvancePaidJanuary / $totalNumberOfStudents * 100);
 
         // February
         $medicalSharePaidCountFebruary = MedicalShare::where('amount_paid', '>', 0)
@@ -218,7 +218,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidFebruary = $medicalSharePaidCountFebruary->count();
-        $medicalSharePaidCountFebruary = $uniqueStudentsMedicalSharePaidFebruary / $totalNumberOfStudents * 100;
+        $medicalSharePaidCountFebruary = round($uniqueStudentsMedicalSharePaidFebruary / $totalNumberOfStudents * 100);
 
         $studentsWithCounterpartPaidFebruary = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
@@ -227,7 +227,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidFebruary = $studentsWithCounterpartPaidFebruary->count();
-        $counterpartPaidCountFebruary = ($uniqueStudentsCounterpartPaidFebruary / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountFebruary = round(($uniqueStudentsCounterpartPaidFebruary / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountFebruary = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
@@ -236,7 +236,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidJanuary = $graduationFeePaidCountFebruary->count();
-        $graduationFeePaidCountFebruary = $uniqueStudentsGraduationFeePaidJanuary / $totalNumberOfStudents * 100;
+        $graduationFeePaidCountFebruary = round($uniqueStudentsGraduationFeePaidJanuary / $totalNumberOfStudents * 100);
 
         $personalCashAdvancePaidCountFebruary = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
@@ -245,7 +245,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidFebruary = $personalCashAdvancePaidCountFebruary->count();
-        $personalCashAdvancePaidCountFebruary = $uniqueStudentsPersonalCashAdvancePaidFebruary / $totalNumberOfStudents * 100;
+        $personalCashAdvancePaidCountFebruary = round($uniqueStudentsPersonalCashAdvancePaidFebruary / $totalNumberOfStudents * 100);
 
         // March
         $medicalSharePaidCountMarch = MedicalShare::where('amount_paid', '>', 0)
@@ -255,7 +255,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidMarch = $medicalSharePaidCountMarch->count();
-        $medicalSharePaidCountMarch = ($uniqueStudentsMedicalSharePaidMarch / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountMarch = round(($uniqueStudentsMedicalSharePaidMarch / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidMarch = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
@@ -265,7 +265,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidMarch = $studentsWithCounterpartPaidMarch->count();
-        $counterpartPaidCountMarch = ($uniqueStudentsCounterpartPaidMarch / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountMarch = round(($uniqueStudentsCounterpartPaidMarch / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountMarch = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
@@ -275,7 +275,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidMarch = $graduationFeePaidCountMarch->count();
-        $graduationFeePaidCountMarch = ($uniqueStudentsGraduationFeePaidMarch / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountMarch = round(($uniqueStudentsGraduationFeePaidMarch / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountMarch = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
@@ -285,7 +285,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidMarch = $personalCashAdvancePaidCountMarch->count();
-        $personalCashAdvancePaidCountMarch = ($uniqueStudentsPersonalCashAdvancePaidMarch / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountMarch = round(($uniqueStudentsPersonalCashAdvancePaidMarch / $totalNumberOfStudents) * 100);
 
         // April
         $medicalSharePaidCountApril = MedicalShare::where('amount_paid', '>', 0)
@@ -296,7 +296,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidApril = $medicalSharePaidCountApril->count();
-        $medicalSharePaidCountApril = ($uniqueStudentsMedicalSharePaidApril / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountApril = round(($uniqueStudentsMedicalSharePaidApril / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidApril = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
@@ -306,7 +306,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidApril = $studentsWithCounterpartPaidApril->count();
-        $counterpartPaidCountApril = ($uniqueStudentsCounterpartPaidApril / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountApril = round(($uniqueStudentsCounterpartPaidApril / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountApril = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
@@ -316,7 +316,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidApril = $graduationFeePaidCountApril->count();
-        $graduationFeePaidCountApril = ($uniqueStudentsGraduationFeePaidApril / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountApril = round(($uniqueStudentsGraduationFeePaidApril / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountApril = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
@@ -326,7 +326,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidApril = $personalCashAdvancePaidCountApril->count();
-        $personalCashAdvancePaidCountApril = ($uniqueStudentsPersonalCashAdvancePaidApril / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountApril = round(($uniqueStudentsPersonalCashAdvancePaidApril / $totalNumberOfStudents) * 100);
 
         // May
         $medicalSharePaidCountMay = MedicalShare::where('amount_paid', '>', 0)
@@ -337,7 +337,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidMay = $medicalSharePaidCountMay->count();
-        $medicalSharePaidCountMay = ($uniqueStudentsMedicalSharePaidMay / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountMay = round(($uniqueStudentsMedicalSharePaidMay / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidMay = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
@@ -347,7 +347,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidMay = $studentsWithCounterpartPaidMay->count();
-        $counterpartPaidCountMay = ($uniqueStudentsCounterpartPaidMay / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountMay = round(($uniqueStudentsCounterpartPaidMay / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountMay = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
@@ -357,7 +357,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidMay = $graduationFeePaidCountMay->count();
-        $graduationFeePaidCountMay = ($uniqueStudentsGraduationFeePaidMay / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountMay = round(($uniqueStudentsGraduationFeePaidMay / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountMay = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
@@ -367,7 +367,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidMay = $personalCashAdvancePaidCountMay->count();
-        $personalCashAdvancePaidCountMay = ($uniqueStudentsPersonalCashAdvancePaidMay / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountMay = round(($uniqueStudentsPersonalCashAdvancePaidMay / $totalNumberOfStudents) * 100);
 
         // June
         $medicalSharePaidCountJune = MedicalShare::where('amount_paid', '>', 0)
@@ -378,7 +378,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidJune = $medicalSharePaidCountJune->count();
-        $medicalSharePaidCountJune = ($uniqueStudentsMedicalSharePaidJune / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountJune = round(($uniqueStudentsMedicalSharePaidJune / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidJune = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
@@ -388,7 +388,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidJune = $studentsWithCounterpartPaidJune->count();
-        $counterpartPaidCountJune = ($uniqueStudentsCounterpartPaidJune / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountJune = round(($uniqueStudentsCounterpartPaidJune / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountJune = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
@@ -398,7 +398,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidJune = $graduationFeePaidCountJune->count();
-        $graduationFeePaidCountJune = ($uniqueStudentsGraduationFeePaidJune / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountJune = round(($uniqueStudentsGraduationFeePaidJune / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountJune = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
@@ -408,7 +408,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidJune = $personalCashAdvancePaidCountJune->count();
-        $personalCashAdvancePaidCountJune = ($uniqueStudentsPersonalCashAdvancePaidJune / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountJune = round(($uniqueStudentsPersonalCashAdvancePaidJune / $totalNumberOfStudents) * 100);
 
         // July
         $medicalSharePaidCountJuly = MedicalShare::where('amount_paid', '>', 0)
@@ -419,7 +419,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidJuly = $medicalSharePaidCountJuly->count();
-        $medicalSharePaidCountJuly = ($uniqueStudentsMedicalSharePaidJuly / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountJuly = round(($uniqueStudentsMedicalSharePaidJuly / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidJuly = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
@@ -429,7 +429,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidJuly = $studentsWithCounterpartPaidJuly->count();
-        $counterpartPaidCountJuly = ($uniqueStudentsCounterpartPaidJuly / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountJuly = round(($uniqueStudentsCounterpartPaidJuly / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountJuly = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
@@ -439,7 +439,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidJuly = $graduationFeePaidCountJuly->count();
-        $graduationFeePaidCountJuly = ($uniqueStudentsGraduationFeePaidJuly / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountJuly = round(($uniqueStudentsGraduationFeePaidJuly / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountJuly = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
@@ -449,7 +449,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidJuly = $personalCashAdvancePaidCountJuly->count();
-        $personalCashAdvancePaidCountJuly = ($uniqueStudentsPersonalCashAdvancePaidJuly / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountJuly = round(($uniqueStudentsPersonalCashAdvancePaidJuly / $totalNumberOfStudents) * 100);
 
         // August
         $medicalSharePaidCountAugust = MedicalShare::where('amount_paid', '>', 0)
@@ -460,7 +460,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidAugust = $medicalSharePaidCountAugust->count();
-        $medicalSharePaidCountAugust = ($uniqueStudentsMedicalSharePaidAugust / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountAugust = round(($uniqueStudentsMedicalSharePaidAugust / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidAugust = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 8)
@@ -470,7 +470,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidAugust = $studentsWithCounterpartPaidAugust->count();
-        $counterpartPaidCountAugust = ($uniqueStudentsCounterpartPaidAugust / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountAugust = round(($uniqueStudentsCounterpartPaidAugust / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountAugust = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 8)
@@ -478,7 +478,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidAugust = $graduationFeePaidCountAugust->count();
-        $graduationFeePaidCountAugust = ($uniqueStudentsGraduationFeePaidAugust / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountAugust = round(($uniqueStudentsGraduationFeePaidAugust / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountAugust = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 8)
@@ -488,7 +488,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidAugust = $personalCashAdvancePaidCountAugust->count();
-        $personalCashAdvancePaidCountAugust = ($uniqueStudentsPersonalCashAdvancePaidAugust / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountAugust = round(($uniqueStudentsPersonalCashAdvancePaidAugust / $totalNumberOfStudents) * 100);
 
         // September
         $medicalSharePaidCountSeptember = MedicalShare::where('amount_paid', '>', 0)
@@ -499,7 +499,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidSeptember = $medicalSharePaidCountSeptember->count();
-        $medicalSharePaidCountSeptember = ($uniqueStudentsMedicalSharePaidSeptember / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountSeptember = round(($uniqueStudentsMedicalSharePaidSeptember / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidSeptember = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
@@ -509,7 +509,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidSeptember = $studentsWithCounterpartPaidSeptember->count();
-        $counterpartPaidCountSeptember = ($uniqueStudentsCounterpartPaidSeptember / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountSeptember = round(($uniqueStudentsCounterpartPaidSeptember / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountSeptember = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
@@ -519,7 +519,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidSeptember = $graduationFeePaidCountSeptember->count();
-        $graduationFeePaidCountSeptember = ($uniqueStudentsGraduationFeePaidSeptember / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountSeptember = round(($uniqueStudentsGraduationFeePaidSeptember / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountSeptember = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
@@ -529,7 +529,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidSeptember = $personalCashAdvancePaidCountSeptember->count();
-        $personalCashAdvancePaidCountSeptember = ($uniqueStudentsPersonalCashAdvancePaidSeptember / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountSeptember = round(($uniqueStudentsPersonalCashAdvancePaidSeptember / $totalNumberOfStudents) * 100);
 
         // October
         $medicalSharePaidCountOctober = MedicalShare::where('amount_paid', '>', 0)
@@ -539,7 +539,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidOctober = $medicalSharePaidCountOctober->count();
-        $medicalSharePaidCountOctober = ($uniqueStudentsMedicalSharePaidOctober / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountOctober = round(($uniqueStudentsMedicalSharePaidOctober / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidOctober = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
@@ -548,7 +548,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidOctober = $studentsWithCounterpartPaidOctober->count();
-        $counterpartPaidCountOctober = ($uniqueStudentsCounterpartPaidOctober / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountOctober = round(($uniqueStudentsCounterpartPaidOctober / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountOctober = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
@@ -557,7 +557,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidOctober = $graduationFeePaidCountOctober->count();
-        $graduationFeePaidCountOctober = ($uniqueStudentsGraduationFeePaidOctober / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountOctober = round(($uniqueStudentsGraduationFeePaidOctober / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountOctober = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
@@ -566,7 +566,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidOctober = $personalCashAdvancePaidCountOctober->count();
-        $personalCashAdvancePaidCountOctober = ($uniqueStudentsPersonalCashAdvancePaidOctober / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountOctober = round(($uniqueStudentsPersonalCashAdvancePaidOctober / $totalNumberOfStudents) * 100);
 
         // November
         $medicalSharePaidCountNovember = MedicalShare::where('amount_paid', '>', 0)
@@ -576,7 +576,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidNovember = $medicalSharePaidCountNovember->count();
-        $medicalSharePaidCountNovember = ($uniqueStudentsMedicalSharePaidNovember / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountNovember = round(($uniqueStudentsMedicalSharePaidNovember / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidNovember = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
@@ -585,7 +585,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidNovember = $studentsWithCounterpartPaidNovember->count();
-        $counterpartPaidCountNovember = ($uniqueStudentsCounterpartPaidNovember / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountNovember = round(($uniqueStudentsCounterpartPaidNovember / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountNovember = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
@@ -594,7 +594,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidNovember = $graduationFeePaidCountNovember->count();
-        $graduationFeePaidCountNovember = ($uniqueStudentsGraduationFeePaidNovember / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountNovember = round(($uniqueStudentsGraduationFeePaidNovember / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountNovember = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
@@ -603,7 +603,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidNovember = $personalCashAdvancePaidCountNovember->count();
-        $personalCashAdvancePaidCountNovember = ($uniqueStudentsPersonalCashAdvancePaidNovember / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountNovember = round(($uniqueStudentsPersonalCashAdvancePaidNovember / $totalNumberOfStudents) * 100);
 
         // December
         $medicalSharePaidCountDecember = MedicalShare::where('amount_paid', '>', 0)
@@ -613,7 +613,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidDecember = $medicalSharePaidCountDecember->count();
-        $medicalSharePaidCountDecember = ($uniqueStudentsMedicalSharePaidDecember / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountDecember = round(($uniqueStudentsMedicalSharePaidDecember / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidDecember = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
@@ -622,7 +622,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidDecember = $studentsWithCounterpartPaidDecember->count();
-        $counterpartPaidCountDecember = ($uniqueStudentsCounterpartPaidDecember / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountDecember = round(($uniqueStudentsCounterpartPaidDecember / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountDecember = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
@@ -631,7 +631,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidDecember = $graduationFeePaidCountDecember->count();
-        $graduationFeePaidCountDecember = ($uniqueStudentsGraduationFeePaidDecember / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountDecember = round(($uniqueStudentsGraduationFeePaidDecember / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountDecember = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
@@ -640,7 +640,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidDecember = $personalCashAdvancePaidCountDecember->count();
-        $personalCashAdvancePaidCountDecember = ($uniqueStudentsPersonalCashAdvancePaidDecember / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountDecember = round(($uniqueStudentsPersonalCashAdvancePaidDecember / $totalNumberOfStudents) * 100);
 
         // Pass the totals and percentages to the view
         $data['header_title'] = "Dashboard |";
@@ -746,7 +746,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidJanuary = $medicalSharePaidCountJanuary->count();
-        $medicalSharePaidCountJanuary = $uniqueStudentsMedicalSharePaidJanuary / $totalNumberOfStudents * 100;
+        $medicalSharePaidCountJanuary = round($uniqueStudentsMedicalSharePaidJanuary / $totalNumberOfStudents * 100);
 
         $studentsWithCounterpartPaidJanuary = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 1)
@@ -755,7 +755,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidJanuary = $studentsWithCounterpartPaidJanuary->count();
-        $counterpartPaidCountJanuary = ($uniqueStudentsCounterpartPaidJanuary / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountJanuary = round(($uniqueStudentsCounterpartPaidJanuary / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountJanuary = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 1)
@@ -764,7 +764,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidJanuary = $graduationFeePaidCountJanuary->count();
-        $graduationFeePaidCountJanuary = $uniqueStudentsGraduationFeePaidJanuary / $totalNumberOfStudents * 100;
+        $graduationFeePaidCountJanuary = round($uniqueStudentsGraduationFeePaidJanuary / $totalNumberOfStudents * 100);
 
         $personalCashAdvancePaidCountJanuary = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 1)
@@ -773,7 +773,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidJanuary = $personalCashAdvancePaidCountJanuary->count();
-        $personalCashAdvancePaidCountJanuary = $uniqueStudentsPersonalCashAdvancePaidJanuary / $totalNumberOfStudents * 100;
+        $personalCashAdvancePaidCountJanuary = round($uniqueStudentsPersonalCashAdvancePaidJanuary / $totalNumberOfStudents * 100);
 
         // February
         $medicalSharePaidCountFebruary = MedicalShare::where('amount_paid', '>', 0)
@@ -783,7 +783,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidFebruary = $medicalSharePaidCountFebruary->count();
-        $medicalSharePaidCountFebruary = $uniqueStudentsMedicalSharePaidFebruary / $totalNumberOfStudents * 100;
+        $medicalSharePaidCountFebruary = round($uniqueStudentsMedicalSharePaidFebruary / $totalNumberOfStudents * 100);
 
         $studentsWithCounterpartPaidFebruary = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
@@ -792,7 +792,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidFebruary = $studentsWithCounterpartPaidFebruary->count();
-        $counterpartPaidCountFebruary = ($uniqueStudentsCounterpartPaidFebruary / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountFebruary = round(($uniqueStudentsCounterpartPaidFebruary / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountFebruary = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
@@ -801,7 +801,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidJanuary = $graduationFeePaidCountFebruary->count();
-        $graduationFeePaidCountFebruary = $uniqueStudentsGraduationFeePaidJanuary / $totalNumberOfStudents * 100;
+        $graduationFeePaidCountFebruary = round($uniqueStudentsGraduationFeePaidJanuary / $totalNumberOfStudents * 100);
 
         $personalCashAdvancePaidCountFebruary = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 2)
@@ -810,7 +810,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidFebruary = $personalCashAdvancePaidCountFebruary->count();
-        $personalCashAdvancePaidCountFebruary = $uniqueStudentsPersonalCashAdvancePaidFebruary / $totalNumberOfStudents * 100;
+        $personalCashAdvancePaidCountFebruary = round($uniqueStudentsPersonalCashAdvancePaidFebruary / $totalNumberOfStudents * 100);
 
         // March
         $medicalSharePaidCountMarch = MedicalShare::where('amount_paid', '>', 0)
@@ -820,7 +820,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidMarch = $medicalSharePaidCountMarch->count();
-        $medicalSharePaidCountMarch = ($uniqueStudentsMedicalSharePaidMarch / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountMarch = round(($uniqueStudentsMedicalSharePaidMarch / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidMarch = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
@@ -829,7 +829,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidMarch = $studentsWithCounterpartPaidMarch->count();
-        $counterpartPaidCountMarch = ($uniqueStudentsCounterpartPaidMarch / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountMarch = round(($uniqueStudentsCounterpartPaidMarch / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountMarch = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
@@ -838,7 +838,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidMarch = $graduationFeePaidCountMarch->count();
-        $graduationFeePaidCountMarch = ($uniqueStudentsGraduationFeePaidMarch / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountMarch = round(($uniqueStudentsGraduationFeePaidMarch / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountMarch = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 3)
@@ -847,7 +847,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidMarch = $personalCashAdvancePaidCountMarch->count();
-        $personalCashAdvancePaidCountMarch = ($uniqueStudentsPersonalCashAdvancePaidMarch / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountMarch = round(($uniqueStudentsPersonalCashAdvancePaidMarch / $totalNumberOfStudents) * 100);
 
         // April
         $medicalSharePaidCountApril = MedicalShare::where('amount_paid', '>', 0)
@@ -857,7 +857,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidApril = $medicalSharePaidCountApril->count();
-        $medicalSharePaidCountApril = ($uniqueStudentsMedicalSharePaidApril / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountApril = round(($uniqueStudentsMedicalSharePaidApril / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidApril = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
@@ -866,7 +866,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidApril = $studentsWithCounterpartPaidApril->count();
-        $counterpartPaidCountApril = ($uniqueStudentsCounterpartPaidApril / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountApril = round(($uniqueStudentsCounterpartPaidApril / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountApril = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
@@ -875,7 +875,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidApril = $graduationFeePaidCountApril->count();
-        $graduationFeePaidCountApril = ($uniqueStudentsGraduationFeePaidApril / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountApril = round(($uniqueStudentsGraduationFeePaidApril / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountApril = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 4)
@@ -884,7 +884,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidApril = $personalCashAdvancePaidCountApril->count();
-        $personalCashAdvancePaidCountApril = ($uniqueStudentsPersonalCashAdvancePaidApril / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountApril = round(($uniqueStudentsPersonalCashAdvancePaidApril / $totalNumberOfStudents) * 100);
 
         // May
         $medicalSharePaidCountMay = MedicalShare::where('amount_paid', '>', 0)
@@ -894,7 +894,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidMay = $medicalSharePaidCountMay->count();
-        $medicalSharePaidCountMay = ($uniqueStudentsMedicalSharePaidMay / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountMay = round(($uniqueStudentsMedicalSharePaidMay / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidMay = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
@@ -903,7 +903,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidMay = $studentsWithCounterpartPaidMay->count();
-        $counterpartPaidCountMay = ($uniqueStudentsCounterpartPaidMay / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountMay = round(($uniqueStudentsCounterpartPaidMay / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountMay = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
@@ -912,7 +912,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidMay = $graduationFeePaidCountMay->count();
-        $graduationFeePaidCountMay = ($uniqueStudentsGraduationFeePaidMay / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountMay = round(($uniqueStudentsGraduationFeePaidMay / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountMay = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 5)
@@ -921,7 +921,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidMay = $personalCashAdvancePaidCountMay->count();
-        $personalCashAdvancePaidCountMay = ($uniqueStudentsPersonalCashAdvancePaidMay / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountMay = round(($uniqueStudentsPersonalCashAdvancePaidMay / $totalNumberOfStudents) * 100);
 
         // June
         $medicalSharePaidCountJune = MedicalShare::where('amount_paid', '>', 0)
@@ -931,7 +931,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidJune = $medicalSharePaidCountJune->count();
-        $medicalSharePaidCountJune = ($uniqueStudentsMedicalSharePaidJune / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountJune = round(($uniqueStudentsMedicalSharePaidJune / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidJune = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
@@ -940,7 +940,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidJune = $studentsWithCounterpartPaidJune->count();
-        $counterpartPaidCountJune = ($uniqueStudentsCounterpartPaidJune / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountJune = round(($uniqueStudentsCounterpartPaidJune / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountJune = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
@@ -949,7 +949,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidJune = $graduationFeePaidCountJune->count();
-        $graduationFeePaidCountJune = ($uniqueStudentsGraduationFeePaidJune / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountJune = round(($uniqueStudentsGraduationFeePaidJune / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountJune = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 6)
@@ -958,7 +958,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidJune = $personalCashAdvancePaidCountJune->count();
-        $personalCashAdvancePaidCountJune = ($uniqueStudentsPersonalCashAdvancePaidJune / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountJune = round(($uniqueStudentsPersonalCashAdvancePaidJune / $totalNumberOfStudents) * 100);
 
         // July
         $medicalSharePaidCountJuly = MedicalShare::where('amount_paid', '>', 0)
@@ -968,7 +968,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidJuly = $medicalSharePaidCountJuly->count();
-        $medicalSharePaidCountJuly = ($uniqueStudentsMedicalSharePaidJuly / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountJuly = round(($uniqueStudentsMedicalSharePaidJuly / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidJuly = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
@@ -977,7 +977,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidJuly = $studentsWithCounterpartPaidJuly->count();
-        $counterpartPaidCountJuly = ($uniqueStudentsCounterpartPaidJuly / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountJuly = round(($uniqueStudentsCounterpartPaidJuly / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountJuly = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
@@ -986,7 +986,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidJuly = $graduationFeePaidCountJuly->count();
-        $graduationFeePaidCountJuly = ($uniqueStudentsGraduationFeePaidJuly / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountJuly = round(($uniqueStudentsGraduationFeePaidJuly / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountJuly = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 7)
@@ -995,7 +995,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidJuly = $personalCashAdvancePaidCountJuly->count();
-        $personalCashAdvancePaidCountJuly = ($uniqueStudentsPersonalCashAdvancePaidJuly / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountJuly = round(($uniqueStudentsPersonalCashAdvancePaidJuly / $totalNumberOfStudents) * 100);
 
         // August
         $medicalSharePaidCountAugust = MedicalShare::where('amount_paid', '>', 0)
@@ -1005,7 +1005,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidAugust = $medicalSharePaidCountAugust->count();
-        $medicalSharePaidCountAugust = ($uniqueStudentsMedicalSharePaidAugust / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountAugust = round(($uniqueStudentsMedicalSharePaidAugust / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidAugust = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 8)
@@ -1014,7 +1014,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidAugust = $studentsWithCounterpartPaidAugust->count();
-        $counterpartPaidCountAugust = ($uniqueStudentsCounterpartPaidAugust / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountAugust = round(($uniqueStudentsCounterpartPaidAugust / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountAugust = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 8)
@@ -1023,7 +1023,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidAugust = $graduationFeePaidCountAugust->count();
-        $graduationFeePaidCountAugust = ($uniqueStudentsGraduationFeePaidAugust / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountAugust = round(($uniqueStudentsGraduationFeePaidAugust / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountAugust = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 8)
@@ -1032,7 +1032,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidAugust = $personalCashAdvancePaidCountAugust->count();
-        $personalCashAdvancePaidCountAugust = ($uniqueStudentsPersonalCashAdvancePaidAugust / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountAugust = round(($uniqueStudentsPersonalCashAdvancePaidAugust / $totalNumberOfStudents) * 100);
 
         // September
         $medicalSharePaidCountSeptember = MedicalShare::where('amount_paid', '>', 0)
@@ -1042,7 +1042,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidSeptember = $medicalSharePaidCountSeptember->count();
-        $medicalSharePaidCountSeptember = ($uniqueStudentsMedicalSharePaidSeptember / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountSeptember = round(($uniqueStudentsMedicalSharePaidSeptember / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidSeptember = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
@@ -1051,7 +1051,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidSeptember = $studentsWithCounterpartPaidSeptember->count();
-        $counterpartPaidCountSeptember = ($uniqueStudentsCounterpartPaidSeptember / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountSeptember = round(($uniqueStudentsCounterpartPaidSeptember / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountSeptember = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
@@ -1060,7 +1060,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidSeptember = $graduationFeePaidCountSeptember->count();
-        $graduationFeePaidCountSeptember = ($uniqueStudentsGraduationFeePaidSeptember / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountSeptember = round(($uniqueStudentsGraduationFeePaidSeptember / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountSeptember = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 9)
@@ -1069,7 +1069,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidSeptember = $personalCashAdvancePaidCountSeptember->count();
-        $personalCashAdvancePaidCountSeptember = ($uniqueStudentsPersonalCashAdvancePaidSeptember / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountSeptember = round(($uniqueStudentsPersonalCashAdvancePaidSeptember / $totalNumberOfStudents) * 100);
 
         // October
         $medicalSharePaidCountOctober = MedicalShare::where('amount_paid', '>', 0)
@@ -1079,7 +1079,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidOctober = $medicalSharePaidCountOctober->count();
-        $medicalSharePaidCountOctober = ($uniqueStudentsMedicalSharePaidOctober / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountOctober = round(($uniqueStudentsMedicalSharePaidOctober / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidOctober = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
@@ -1088,7 +1088,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidOctober = $studentsWithCounterpartPaidOctober->count();
-        $counterpartPaidCountOctober = ($uniqueStudentsCounterpartPaidOctober / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountOctober = round(($uniqueStudentsCounterpartPaidOctober / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountOctober = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
@@ -1097,7 +1097,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidOctober = $graduationFeePaidCountOctober->count();
-        $graduationFeePaidCountOctober = ($uniqueStudentsGraduationFeePaidOctober / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountOctober = round(($uniqueStudentsGraduationFeePaidOctober / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountOctober = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 10)
@@ -1106,7 +1106,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidOctober = $personalCashAdvancePaidCountOctober->count();
-        $personalCashAdvancePaidCountOctober = ($uniqueStudentsPersonalCashAdvancePaidOctober / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountOctober = round(($uniqueStudentsPersonalCashAdvancePaidOctober / $totalNumberOfStudents) * 100);
 
         // November
         $medicalSharePaidCountNovember = MedicalShare::where('amount_paid', '>', 0)
@@ -1116,7 +1116,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidNovember = $medicalSharePaidCountNovember->count();
-        $medicalSharePaidCountNovember = ($uniqueStudentsMedicalSharePaidNovember / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountNovember = round(($uniqueStudentsMedicalSharePaidNovember / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidNovember = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
@@ -1125,7 +1125,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidNovember = $studentsWithCounterpartPaidNovember->count();
-        $counterpartPaidCountNovember = ($uniqueStudentsCounterpartPaidNovember / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountNovember = round(($uniqueStudentsCounterpartPaidNovember / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountNovember = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
@@ -1134,7 +1134,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidNovember = $graduationFeePaidCountNovember->count();
-        $graduationFeePaidCountNovember = ($uniqueStudentsGraduationFeePaidNovember / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountNovember = round(($uniqueStudentsGraduationFeePaidNovember / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountNovember = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 11)
@@ -1143,7 +1143,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidNovember = $personalCashAdvancePaidCountNovember->count();
-        $personalCashAdvancePaidCountNovember = ($uniqueStudentsPersonalCashAdvancePaidNovember / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountNovember = round(($uniqueStudentsPersonalCashAdvancePaidNovember / $totalNumberOfStudents) * 100);
 
         // December
         $medicalSharePaidCountDecember = MedicalShare::where('amount_paid', '>', 0)
@@ -1153,7 +1153,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsMedicalSharePaidDecember = $medicalSharePaidCountDecember->count();
-        $medicalSharePaidCountDecember = ($uniqueStudentsMedicalSharePaidDecember / $totalNumberOfStudents) * 100;
+        $medicalSharePaidCountDecember = round(($uniqueStudentsMedicalSharePaidDecember / $totalNumberOfStudents) * 100);
 
         $studentsWithCounterpartPaidDecember = Counterpart::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
@@ -1162,7 +1162,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsCounterpartPaidDecember = $studentsWithCounterpartPaidDecember->count();
-        $counterpartPaidCountDecember = ($uniqueStudentsCounterpartPaidDecember / $totalNumberOfStudents) * 100;
+        $counterpartPaidCountDecember = round(($uniqueStudentsCounterpartPaidDecember / $totalNumberOfStudents) * 100);
 
         $graduationFeePaidCountDecember = GraduationFee::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
@@ -1171,7 +1171,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsGraduationFeePaidDecember = $graduationFeePaidCountDecember->count();
-        $graduationFeePaidCountDecember = ($uniqueStudentsGraduationFeePaidDecember / $totalNumberOfStudents) * 100;
+        $graduationFeePaidCountDecember = round(($uniqueStudentsGraduationFeePaidDecember / $totalNumberOfStudents) * 100);
 
         $personalCashAdvancePaidCountDecember = PersonalCashAdvance::where('amount_paid', '>', 0)
             ->whereMonth('date', 12)
@@ -1180,7 +1180,7 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         $uniqueStudentsPersonalCashAdvancePaidDecember = $personalCashAdvancePaidCountDecember->count();
-        $personalCashAdvancePaidCountDecember = ($uniqueStudentsPersonalCashAdvancePaidDecember / $totalNumberOfStudents) * 100;
+        $personalCashAdvancePaidCountDecember = round(($uniqueStudentsPersonalCashAdvancePaidDecember / $totalNumberOfStudents) * 100);
 
         return response()->json([
             // Medical

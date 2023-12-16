@@ -1,4 +1,5 @@
 @extends('layouts.staff.app')
+
 @section('content')
     <section class="content">
         <div class="card">
@@ -12,16 +13,16 @@
                     <div class="row" style="text-align: left;">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="first_name">First Name</label>
-                                <input type="text" class="form-control" id="first_name" name="first_name" />
+                                <label for="first_name">First Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required/>
                             </div>
                             <div class="form-group">
                                 <label for="middle_name">Middle Name</label>
-                                <input type="text" class="form-control" id="middle_name" name="middle_name" />
+                                <input type="text" class="form-control" id="middle_name" name="middle_name"/>
                             </div>
                             <div class="form-group">
-                                <label for="last_name">Last Name</label>
-                                <input type="text" class="form-control" id="last_name" name="last_name" />
+                                <label for="last_name">Last Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required/>
                             </div>
                             <div class="form-group">
                                 <label for="suffix">Suffix</label>
@@ -35,10 +36,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="gender_student">Gender</label>
-                                <select class="form-control" id="gender_student" name="gender">
-                                    <option value="Male" selected>Male</option>
-                                    <option value="Female">Female</option>
+                                <label for="gender_student">Gender <span class="text-danger">*</span></label>
+                                <select class="form-control" id="gender_student" name="gender" required>
+                                    <option value="Male" selected>He</option>
+                                    <option value="Female">She</option>
                                     <option value="Non-binary">Non-Binary</option>
                                     <option value="Prefer not to say">Prefer not to say</option>
                                 </select>
@@ -73,31 +74,31 @@
                                 <input type="number" class="form-control" id="phone" name="contact_number" />
                             </div>
                             <div class="form-group">
-                                <label for="birthdate">Birthdate</label>
-                                <input type="date" class="form-control" id="birthdate" name="birthdate" max="{{ now()->subYears(18)->format('Y-m-d') }}"/>
+                                <label for="birthdate">Birthdate <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="birthdate" name="birthdate" max="{{ now()->subYears(18)->format('Y-m-d') }}" required/>
                             </div>
                             <div class="form-group">
-                                <label for="batch_year">Batch Year</label>
-                                <input type="number" class="form-control" id="batch_year" name="batch_year" />
+                                <label for="batch_year">Batch Year <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="batch_year" name="batch_year" required/>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="parent_name">Parent's / Guardian's Name</label>
-                                <input type="text" class="form-control" id="parent_name" name="parent_name" />
+                                <label for="parent_name">Parent's / Guardian's Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="parent_name" name="parent_name" required />
                             </div>
                             <div class="form-group">
-                                <label for="parent_contact">Parent's / Guardian's Contact Number</label>
-                                <input type="number" class="form-control" id="parent_contact" name="parent_contact" />
+                                <label for="parent_contact">Parent's / Guardian's Contact Number <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="parent_contact" name="parent_contact" required/>
                             </div>
                             <div class="form-group">
-                                <label for="joined">Date Joined</label>
-                                <input type="date" class="form-control" id="joined" name="joined"  max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"/>
+                                <label for="joined">Date Joined <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="joined" name="joined"  max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required/>
                             </div>
                             <div class="form-group">
-                                <label for="address">Address</label>
-                                <textarea name="address" class="form-control" id="address" rows="3"></textarea>
+                                <label for="address">Address <span class="text-danger">*</span></label>
+                                <textarea name="address" class="form-control" id="address" rows="3" required></textarea>
                             </div>
                             <div class="form-group" style="float: right;">
                                 <button type="submit" class="btn btn-primary mr-2">Add</button>

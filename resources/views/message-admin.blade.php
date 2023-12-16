@@ -14,6 +14,8 @@
     </p>
     <p>Please use the provided credentials to log in initially. Once logged in, kindly change your password for your
         safety.</p>
+    <p>If ever you have problems while logging in, please reply to this email or check your internet connection and
+        refresh.</p>
     <p>Thank you,<br>Passerelles Numériques Philippines</p>
 </body>
 

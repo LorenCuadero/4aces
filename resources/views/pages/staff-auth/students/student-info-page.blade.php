@@ -15,7 +15,7 @@
                     <div class="row" style="text-align: left;">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="first_name">First Name</label>
+                                <label for="first_name">First Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="first_name" name="first_name"
                                     value="{{ $student->first_name }}" />
                             </div>
@@ -25,7 +25,7 @@
                                     value="{{ $student->middle_name }}" />
                             </div>
                             <div class="form-group">
-                                <label for="last_name">Last Name</label>
+                                <label for="last_name">Last Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="last_name" name="last_name"
                                     value="{{ $student->last_name }}" />
                             </div>
@@ -41,10 +41,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="gender_student">Gender</label>
+                                <label for="gender_student">Gender <span class="text-danger">*</span></label>
                                 <select class="form-control" id="gender_student" name="gender">
-                                    <option value="Male" {{ $student->gender == 'Male' ? 'selected' : '' }}>Male</option>
-                                    <option value="Female" {{ $student->gender == 'Female' ? 'selected' : '' }}>Female
+                                    <option value="Male" {{ $student->gender == 'Male' ? 'selected' : '' }}>He</option>
+                                    <option value="Female" {{ $student->gender == 'Female' ? 'selected' : '' }}>She
                                     </option>
                                     <option value="Non-binary" {{ $student->gender == 'Non-binary' ? 'selected' : '' }}>
                                         Non-Binary</option>
@@ -72,17 +72,17 @@
                                     value="{{ $student->contact_number }}" />
                             </div>
                             <div class="form-group">
-                                <label for="birthdate">Birthdate</label>
+                                <label for="birthdate">Birthdate <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="birthdate" name="birthdate"
                                     value="{{ $student->birthdate }}" max="{{ now()->subYears(18)->format('Y-m-d') }}"/>
                             </div>
                             <div class="form-group">
-                                <label for="batch_year">Batch Year</label>
+                                <label for="batch_year">Batch Year <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="batch_year" name="batch_year"
                                     value="{{ $student->batch_year }}" />
                             </div>
                             <div class="form-group">
-                                <label for="joined">Date Joined</label>
+                                <label for="joined">Date Joined <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="joined" name="joined"
                                     value="{{ $student->joined }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"/>
                             </div>
@@ -90,17 +90,17 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="parent_name">Parent's / Guardian's Name</label>
+                                <label for="parent_name">Parent's / Guardian's Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="parent_name" name="parent_name"
                                     value="{{ $student->parent_name }}" />
                             </div>
                             <div class="form-group">
-                                <label for="parent_contact">Parent's / Guardian's Contact Number</label>
+                                <label for="parent_contact">Parent's / Guardian's Contact Number <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="parent_contact" name="parent_contact"
                                     value="{{ $student->parent_contact }}" />
                             </div>
                             <div class="form-group ">
-                                <label for="address">Address</label>
+                                <label for="address">Address <span class="text-danger">*</span></label>
                                 <input name="address" class="form-control" id="address" value="{{ $student->address ? $student->address : '' }}">
 
                             </div>
