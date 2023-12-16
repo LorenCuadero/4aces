@@ -1355,7 +1355,7 @@ $(document).ready(function () {
                 "</div>"
         );
         printWindowOnFinancialReports.document.write(
-            '<br><h4 class="centered">Summary of Payments and Payables/h4>'
+            '<br><h4 class="centered">Summary of Payments and Payables</h4>'
         );
 
         if ($("#selected-batch-year-reports").length) {
