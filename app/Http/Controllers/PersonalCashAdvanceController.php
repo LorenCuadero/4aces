@@ -80,7 +80,7 @@ class PersonalCashAdvanceController extends Controller {
         $validatedData = $request->validate([
             'purpose' => ['required', 'string', 'max:255'],
             'amount_due' => ['required'],
-            'amount_paid' => ['required'],
+            'amount_paid' => ['nullable'],
             'date' => ['required', 'date'],
         ]);
 
@@ -99,10 +99,18 @@ class PersonalCashAdvanceController extends Controller {
             $acknowledgementReceipt = 1;
         }
 
+        $amount = 0;
+        if ($amountPaid == null) {
+            $amount = 0;
+        }
+        if ($amountPaid != null) {
+            $amount = $amountPaid;
+        }
+
         $personal_ca = new PersonalCashAdvance();
         $personal_ca->purpose = $validatedData['purpose'];
         $personal_ca->amount_due = $validatedData['amount_due'];
-        $personal_ca->amount_paid = $validatedData['amount_paid'];
+        $personal_ca->amount_paid = $amount;
         $personal_ca->date = $validatedData['date'];
         $personal_ca->student_id = $id;
 

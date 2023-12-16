@@ -83,7 +83,7 @@ class GraduationFeeController extends Controller
 
         $validatedData = $request->validate([
             'amount_due' => ['required'],
-            'amount_paid' => ['required'],
+            'amount_paid' => ['nullable'],
             'date' => ['required', 'date'],
         ]);
 
@@ -102,6 +102,14 @@ class GraduationFeeController extends Controller
             $acknowledgementReceipt = 1;
         }
 
+        $amount = 0;
+        if ($amountPaid == null) {
+            $amount = 0;
+        }
+        if ($amountPaid != null) {
+            $amount = $amountPaid;
+        }
+
         $student = Student::find($id);
         $student_email = $student->email;
         $student_name = $student->first_name . ' ' . $student->last_name;
@@ -109,7 +117,7 @@ class GraduationFeeController extends Controller
 
         $graduation_fee = new GraduationFee();
         $graduation_fee->amount_due = $validatedData['amount_due'];
-        $graduation_fee->amount_paid = $validatedData['amount_paid'];
+        $graduation_fee->amount_paid = $amount;
         $graduation_fee->date = $validatedData['date'];
         $graduation_fee->student_id = $id;
 
