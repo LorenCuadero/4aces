@@ -217,7 +217,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     // Access the data passed from the Blade view
-    const $percentageInput = $("#percentage");
+    const $percentageInput = $(".percentage");
 
     // Counterpart
     const counterpartPercentageJanuary = $percentageInput.data(
@@ -479,7 +479,7 @@ $(document).ready(function () {
     };
 
     // Create the bar chart using the data and options
-    const barChartCanvas = $("#barChart");
+    const barChartCanvas = $(".barChart");
 
     if (barChartCanvas.length > 0) {
         const context = barChartCanvas[0].getContext("2d");
@@ -791,7 +791,7 @@ $(document).ready(function () {
 
         let barChart;
 
-        const barChartCanvas = $("#barChart")[0];
+        const barChartCanvas = $(".barChart")[0];
 
         if (barChartCanvas) {
             const context = barChartCanvas.getContext("2d");
@@ -1287,7 +1287,7 @@ $(document).ready(function () {
 
         printWindow.document.write(
             '<br><div class="centered">' +
-                '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
+                '<img src="https://i.ibb.co/1fRXrc4/PN-Logo-English-Blue-Baseline-1-removebg-preview.png" class="logo">' +
                 "</div>"
         );
         printWindow.document.write(
@@ -1325,10 +1325,10 @@ $(document).ready(function () {
         }, 1000);
     });
 
-    $(".printButtonOnFinancial").click(function () {
+    $("#printButtonOnFinancial").click(function () {
         const printWindowOnFinancialReports = window.open("", "_blank");
         printWindowOnFinancialReports.document.write(
-            "<html><head><title>Financial Statement</title>"
+            "<html><head><title>Summary of Payments and Payables</title>"
         );
         printWindowOnFinancialReports.document.write("<style>");
         printWindowOnFinancialReports.document.write(
@@ -1351,11 +1351,11 @@ $(document).ready(function () {
         // Header with logo and title
         printWindowOnFinancialReports.document.write(
             '<br><div class="centered">' +
-                '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
+                '<img src="https://i.ibb.co/1fRXrc4/PN-Logo-English-Blue-Baseline-1-removebg-preview.png" class="logo">' +
                 "</div>"
         );
         printWindowOnFinancialReports.document.write(
-            '<br><h4 class="centered">Statement of Accounts</h4>'
+            '<br><h4 class="centered">Summary of Payments and Payables/h4>'
         );
 
         if ($("#selected-batch-year-reports").length) {
@@ -1407,6 +1407,252 @@ $(document).ready(function () {
         }, 1000);
     });
 
+    $("#printPayableSummary").click(function () {
+        const printWindow = window.open("", "_blank");
+        printWindow.document.write(
+            "<html><head><title>Summary of Payables</title>"
+        );
+        printWindow.document.write("<style>");
+        printWindow.document.write(
+            "* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }"
+        );
+        printWindow.document.write(
+            "table { border-collapse: collapse; width: 80%; margin: 20px auto; }"
+        );
+        printWindow.document.write(
+            "table, th, td { border: 1px solid black; padding: 10px; }"
+        );
+        printWindow.document.write(".centered { text-align: center; }");
+        printWindow.document.write(
+            ".logo { width: 150px; height: 50px; margin: 0 auto; }"
+        );
+        printWindow.document.write("</style></head><body>");
+
+        // Header with logo and title
+        printWindow.document.write(
+            '<br><div class="centered">' +
+                '<img src="https://i.ibb.co/1fRXrc4/PN-Logo-English-Blue-Baseline-1-removebg-preview.png" class="logo">' +
+                "</div>"
+        );
+        printWindow.document.write(
+            '<br><h4 class="centered">Summary of Payables</h4>'
+        );
+
+        if ($("#selected-batch-year-reports").length) {
+            printWindow.document.write(
+                '<span class="centered">' +
+                    $("#selected-batch-year-reports").text() +
+                    "</span><br>"
+            );
+        } else if ($("#all-batch-year-reports").length) {
+            printWindow.document.write(
+                '<span class="centered">' +
+                    $("#all-batch-year-reports").text() +
+                    "</span><br>"
+            );
+        }
+
+        if ($("#dates-from-text-when-set").length) {
+            // Date range
+            printWindow.document.write(
+                '<span class="centered">' +
+                    $("#dates-from-text-when-set").text() +
+                    " - " +
+                    $("#dates-to-text-when-set").text() +
+                    "</span><br>"
+            );
+        } else if ($("#dates-started").length && $("#date-current").length) {
+            printWindow.document.write(
+                '<span class="centered">' +
+                    $("#dates-started").text() +
+                    " - " +
+                    $("#date-current").text() +
+                    "</span><br>"
+            );
+        }
+
+        // Calculate total from "Payables" column
+        const totalPayables = $("#example2 tbody tr")
+            .map(function () {
+                return parseFloat(
+                    $(this)
+                        .find("td:eq(2)")
+                        .text()
+                        .replace(/[^0-9.-]+/g, "")
+                );
+            })
+            .get()
+            .reduce((total, value) => total + value, 0);
+
+        // Display the table content with only "Name of Records" and "Payables" columns
+        printWindow.document.write(
+            '<table class="table table-bordered table-hover text-center">' +
+                '<thead style="color:#1f3c88;" >' +
+                "<tr>" +
+                "<th>Name of Records</th>" +
+                "<th>Payables</th>" +
+                "</tr>" +
+                "</thead>" +
+                "<tbody>" +
+                $("#example2 tbody tr")
+                    .map(function () {
+                        return (
+                            "<tr>" +
+                            "<td>" +
+                            $(this).find("td:eq(0)").text() +
+                            "</td>" +
+                            "<td>" +
+                            $(this).find("td:eq(2)").text() +
+                            "</td>" +
+                            "</tr>"
+                        );
+                    })
+                    .get()
+                    .join("") +
+                "</tbody>" +
+                '<tfoot style="color:#1f3c88">' +
+                "<tr>" +
+                "<th>Total</th>" +
+                "<th>₱ " +
+                totalPayables.toFixed(2) +
+                "</th>" +
+                "</tr>" +
+                "</tfoot>" +
+                "</table>"
+        );
+
+        printWindow.document.write("</body></html>");
+        printWindow.document.close();
+
+        // Trigger the print function on the new window or tab
+        setTimeout(() => {
+            printWindow.print();
+        }, 1000);
+    });
+
+    $("#printPaymentSummary").click(function () {
+        const printWindow = window.open("", "_blank");
+        printWindow.document.write(
+            "<html><head><title>Summary of Payments</title>"
+        );
+        printWindow.document.write("<style>");
+        printWindow.document.write(
+            "* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }"
+        );
+        printWindow.document.write(
+            "table { border-collapse: collapse; width: 80%; margin: 20px auto; }"
+        );
+        printWindow.document.write(
+            "table, th, td { border: 1px solid black; padding: 10px; }"
+        );
+        printWindow.document.write(".centered { text-align: center; }");
+        printWindow.document.write(
+            ".logo { width: 150px; height: 50px; margin: 0 auto; }"
+        );
+        printWindow.document.write("</style></head><body>");
+
+        // Header with logo and title
+        printWindow.document.write(
+            '<br><div class="centered">' +
+                '<img src="https://i.ibb.co/1fRXrc4/PN-Logo-English-Blue-Baseline-1-removebg-preview.png" class="logo">' +
+                "</div>"
+        );
+        printWindow.document.write(
+            '<br><h4 class="centered">Summary of Payments</h4>'
+        );
+
+        if ($("#selected-batch-year-reports").length) {
+            printWindow.document.write(
+                '<span class="centered">' +
+                    $("#selected-batch-year-reports").text() +
+                    "</span><br>"
+            );
+        } else if ($("#all-batch-year-reports").length) {
+            printWindow.document.write(
+                '<span class="centered">' +
+                    $("#all-batch-year-reports").text() +
+                    "</span><br>"
+            );
+        }
+
+        if ($("#dates-from-text-when-set").length) {
+            // Date range
+            printWindow.document.write(
+                '<span class="centered">' +
+                    $("#dates-from-text-when-set").text() +
+                    " - " +
+                    $("#dates-to-text-when-set").text() +
+                    "</span><br>"
+            );
+        } else if ($("#dates-started").length && $("#date-current").length) {
+            printWindow.document.write(
+                '<span class="centered">' +
+                    $("#dates-started").text() +
+                    " - " +
+                    $("#date-current").text() +
+                    "</span><br>"
+            );
+        }
+
+        // Calculate total from "Payments" column
+        const totalPayments = $("#example2 tbody tr")
+            .map(function () {
+                return parseFloat(
+                    $(this)
+                        .find("td:eq(1)")
+                        .text()
+                        .replace(/[^0-9.-]+/g, "")
+                );
+            })
+            .get()
+            .reduce((total, value) => total + value, 0);
+
+        // Display the table content with only "Name of Records" and "Payments" columns
+        printWindow.document.write(
+            '<table class="table table-bordered table-hover text-center">' +
+                '<thead style="color:#1f3c88;">' +
+                "<tr>" +
+                "<th>Name of Records</th>" +
+                "<th>Payments</th>" +
+                "</tr>" +
+                "</thead>" +
+                "<tbody>" +
+                $("#example2 tbody tr")
+                    .map(function () {
+                        return (
+                            "<tr>" +
+                            "<td>" +
+                            $(this).find("td:eq(0)").text() +
+                            "</td>" +
+                            "<td>" +
+                            $(this).find("td:eq(1)").text() +
+                            "</td>" +
+                            "</tr>"
+                        );
+                    })
+                    .get()
+                    .join("") +
+                "</tbody>" +
+                '<tfoot style="color:#1f3c88;">' +
+                "<tr>" +
+                "<th>Total</th>" +
+                "<th>₱ " +
+                totalPayments.toFixed(2) +
+                "</th>" +
+                "</tr>" +
+                "</tfoot>" +
+                "</table>"
+        );
+
+        printWindow.document.write("</body></html>");
+        printWindow.document.close();
+
+        // Trigger the print function on the new window or tab
+        setTimeout(() => {
+            printWindow.print();
+        }, 1000);
+    });
+
     $(".printButtonOnAcademicReports").click(function () {
         const printWindowOnAcademicReports = window.open("", "_blank");
         printWindowOnAcademicReports.document.write(
@@ -1428,10 +1674,169 @@ $(document).ready(function () {
         printWindowOnAcademicReports.document.write(
             ".logo { width: 150px; height: 50px; margin: 0 auto; }"
         );
-        printWindowOnAcademicReports.document.write("</style></head><body>");
+        printWindowOnAcademicReports.document.write(
+            "</style></head><body> " +
+                '<br><div class="centered">' +
+                '<img src="https://i.ibb.co/1fRXrc4/PN-Logo-English-Blue-Baseline-1-removebg-preview.png" class="logo">' +
+                "</div>"
+        );
 
         printWindowOnAcademicReports.document.write(
-            '<br><h4 class="centered" style="margin-top:50px">CERTIFICATE IN COMPUTER TECHNOLOGY</h4>' +
+            '<h4 class="centered" style="margin-top:20px">CERTIFICATE IN COMPUTER TECHNOLOGY</h4>' +
+                "<p>Effective SY: " +
+                $("#user_joined_year_int").val() +
+                " - " +
+                $("#user_joined_effective_year").val() +
+                "</p>"
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<br><br><span class="centered">' +
+                $(".student_name_academic").val() +
+                "</span><br><br><br>"
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<p class="text-disp"><b>General Point Average Per Semester</b></p><br>'
+        );
+
+        // Display the table content
+        printWindowOnAcademicReports.document.write(
+            '<table class="table table-bordered table-hover text-center">' +
+                $("#academic-table-report").html() +
+                "</table>"
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<p class="text-disp centered" style="font-size: 12px"><i>Note:</i> This record presents only the general ' +
+                "point average per semester and your general weighted average. For further details, please open" +
+                ' your <a href="https://ismis.usc.edu.ph/Account/Login?ReturnUrl=%2F"' +
+                ' style="text-decoration: #1f3c88" title="USC-ISMIS Link">ISMIS</a> account.</p>'
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<br><p class="centered">' +
+                "General Weighted Average: " +
+                $("#total_gpa_acad").val() +
+                "</p><br>"
+        );
+
+        printWindowOnAcademicReports.document.write("</body></html>");
+        printWindowOnAcademicReports.document.close();
+
+        // Trigger the print function on the new window or tab
+        setTimeout(() => {
+            printWindowOnAcademicReports.print();
+        }, 1000);
+    });
+
+    $(".viewSummaryAcad").click(function () {
+        const printWindowOnAcademicReports = window.open("", "_blank");
+        printWindowOnAcademicReports.document.write(
+            "<html><head><title>Academic Report</title>"
+        );
+        printWindowOnAcademicReports.document.write("<style>");
+        printWindowOnAcademicReports.document.write(
+            "* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            "table { border-collapse: collapse; width: 80%; margin: 20px auto; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            "table, th, td { border: 1px solid black; padding: 10px; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            ".centered { text-align: center; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            ".logo { width: 150px; height: 50px; margin: 0 auto; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            "</style></head><body>" +
+                '<br><div class="centered">' +
+                '<img src="https://i.ibb.co/1fRXrc4/PN-Logo-English-Blue-Baseline-1-removebg-preview.png" class="logo">' +
+                "</div>"
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<br><h4 class="centered" style="margin-top:20px">CERTIFICATE IN COMPUTER TECHNOLOGY</h4>' +
+                "<p>Effective SY: " +
+                $("#user_joined_year_int").val() +
+                " - " +
+                $("#user_joined_effective_year").val() +
+                "</p>"
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<br><br><span class="centered">' +
+                $(".student_name_academic").val() +
+                "</span><br><br><br>"
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<p class="text-disp"><b>General Point Average Per Semester</b></p><br>'
+        );
+
+        // Display the table content
+        printWindowOnAcademicReports.document.write(
+            '<table class="table table-bordered table-hover text-center">' +
+                $("#academic-table-report").html() +
+                "</table>"
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<p class="text-disp centered" style="font-size: 12px"><i>Note:</i> This record presents only the general ' +
+                "point average per semester and your general weighted average. For further details, please open" +
+                ' your <a href="https://ismis.usc.edu.ph/Account/Login?ReturnUrl=%2F"' +
+                ' style="text-decoration: #1f3c88" title="USC-ISMIS Link">ISMIS</a> account.</p>'
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<br><p class="centered">' +
+                "General Weighted Average: " +
+                $("#gwa_hidden_input").val() +
+                "</p><br>"
+        );
+
+        printWindowOnAcademicReports.document.write("</body></html>");
+        printWindowOnAcademicReports.document.close();
+
+        // Trigger the print function on the new window or tab
+        setTimeout(() => {
+            printWindowOnAcademicReports.print();
+        }, 1000);
+    });
+
+    $(".printButtonOnAdminAcademicReports").click(function () {
+        const printWindowOnAcademicReports = window.open("", "_blank");
+        printWindowOnAcademicReports.document.write(
+            "<html><head><title>Academic Report</title>"
+        );
+        printWindowOnAcademicReports.document.write("<style>");
+        printWindowOnAcademicReports.document.write(
+            "* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            "table { border-collapse: collapse; width: 80%; margin: 20px auto; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            "table, th, td { border: 1px solid black; padding: 10px; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            ".centered { text-align: center; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            ".logo { width: 150px; height: 50px; margin: 0 auto; }"
+        );
+        printWindowOnAcademicReports.document.write(
+            "</style></head><body>" +
+                '<br><div class="centered">' +
+                '<img src="https://i.ibb.co/1fRXrc4/PN-Logo-English-Blue-Baseline-1-removebg-preview.png" class="logo">' +
+                "</div>"
+        );
+
+        printWindowOnAcademicReports.document.write(
+            '<h4 class="centered" style="margin-top:20px">CERTIFICATE IN COMPUTER TECHNOLOGY</h4>' +
                 "<p>Effective SY: " +
                 $("#user_joined_year_int").val() +
                 " - " +
@@ -1501,11 +1906,14 @@ $(document).ready(function () {
             ".logo { width: 150px; height: 50px; margin: 0 auto; }"
         );
         printButtonOnDisciplinaryReports.document.write(
-            "</style></head><body>"
+            "</style></head><body>" +
+                '<br><div class="centered">' +
+                '<img src="https://i.ibb.co/1fRXrc4/PN-Logo-English-Blue-Baseline-1-removebg-preview.png" class="logo">' +
+                "</div>"
         );
 
         printButtonOnDisciplinaryReports.document.write(
-            '<br><h4 class="centered" style="margin-top:50px">Disciplinary Records</h4>' +
+            '<h4 class="centered" style="margin-top:20px">Disciplinary Records</h4>' +
                 "</p>"
         );
 
@@ -1528,6 +1936,96 @@ $(document).ready(function () {
         // Trigger the print function on the new window or tab
         setTimeout(() => {
             printButtonOnDisciplinaryReports.print();
+        }, 1000);
+    });
+
+    $(".printButtonOnAdminDisciplinaryReports").click(function () {
+        // Open a new window for printing
+        const printWindow = window.open("", "_blank");
+
+        // Write HTML and styles for the printing content
+        printWindow.document.write(
+            "<html><head><title>Disciplinary Report</title>"
+        );
+        printWindow.document.write("<style>");
+        printWindow.document.write(
+            "* { font-family: Arial, sans-serif; text-align: center; margin: 0 auto; }"
+        );
+        printWindow.document.write(
+            "table { border-collapse: collapse; width: 80%; margin: 20px auto; }"
+        );
+        printWindow.document.write(
+            "table, th, td { border: 1px solid black; padding: 10px; }"
+        );
+        printWindow.document.write(".centered { text-align: center; }");
+        printWindow.document.write(
+            ".logo { width: 150px; height: 50px; margin: 0 auto; }"
+        );
+        printWindow.document.write(
+            "</style></head><body>" +
+                '<br><div class="centered">' +
+                '<img src="https://i.ibb.co/1fRXrc4/PN-Logo-English-Blue-Baseline-1-removebg-preview.png" class="logo">' +
+                "</div>"
+        );
+
+        printWindow.document.write(
+            '<h4 class="centered" style="margin-top:20px">Disciplinary Records</h4></p>'
+        );
+
+        // Display the data from the modal
+        printWindow.document.write(
+            '<span class="centered">' +
+                $(".first_name_edit").text() +
+                " " +
+                $(".last_name_edit").text() +
+                "</span><br>"
+        );
+
+        // Create a table for disciplinary records
+        printWindow.document.write('<table class="centered">');
+        printWindow.document.write(
+            "<thead><tr><th>Title</th><th>Date</th><th>Description</th></tr></thead><tbody>"
+        );
+
+        // Add rows with disciplinary records
+        printWindow.document.write("<tr>");
+        printWindow.document.write("<td>Verbal Warning</td>");
+        printWindow.document.write(
+            "<td>" + $("#verbal_warning_date").val() + "</td>"
+        );
+        printWindow.document.write(
+            "<td>" + $("#verbal_warning_description").val() + "</td>"
+        );
+        printWindow.document.write("</tr>");
+
+        printWindow.document.write("<tr>");
+        printWindow.document.write("<td>Written Warning</td>");
+        printWindow.document.write(
+            "<td>" + $("#written_warning_date").val() + "</td>"
+        );
+        printWindow.document.write(
+            "<td>" + $("#written_warning_description").val() + "</td>"
+        );
+        printWindow.document.write("</tr>");
+
+        printWindow.document.write("<tr>");
+        printWindow.document.write("<td>Probationary Warning</td>");
+        printWindow.document.write(
+            "<td>" + $("#provisionary_date").val() + "</td>"
+        );
+        printWindow.document.write(
+            "<td>" + $("#provisionary_description").val() + "</td>"
+        );
+        printWindow.document.write("</tr>");
+
+        printWindow.document.write("</tbody></table>");
+
+        printWindow.document.write("</body></html>");
+        printWindow.document.close();
+
+        // Trigger the print function on the new window or tab
+        setTimeout(() => {
+            printWindow.print();
         }, 1000);
     });
 
@@ -1561,7 +2059,7 @@ $(document).ready(function () {
         // Header with logo and title
         printWindowOnCOA.document.write(
             '<br><div class="centered">' +
-                '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
+                '<img src="https://i.ibb.co/1fRXrc4/PN-Logo-English-Blue-Baseline-1-removebg-preview.png" class="logo">' +
                 "</div>"
         );
         printWindowOnCOA.document.write(
@@ -1622,7 +2120,7 @@ $(document).ready(function () {
             // Header with logo and title
             printWindowOnStudentCounterpart.document.write(
                 '<div style="text-align: left; margin-top:20px;">' +
-                    '<img src="https://www.passerellesnumeriques.org/wp-content/uploads/2016/03/PN_Logo_baseline_color_ENG.png" class="logo">' +
+                    '<img src="https://i.ibb.co/1fRXrc4/PN-Logo-English-Blue-Baseline-1-removebg-preview.png" class="logo">' +
                     "</div>" +
                     '<div style="text-align: center; margin-top:50px;">' +
                     "<h4>PASSERELLES NUMERIQUES PHILIPPINES FOUNDATION INC.</h4>" +
@@ -1670,24 +2168,24 @@ $(document).ready(function () {
             );
 
             printWindowOnStudentCounterpart.document.write(
-                '<div style="display: flex; justify-content: space-between;">' +
-                    '<div style="text-align: center;">' +
+                '<div style="display: flex; justify-content: space-between; float:right; text-align: right; ">' +
+                    '<div style="text-align: right; ">' +
                     "Payment Received By:<br><br><br>" +
                     '<span style="display: block;">' +
                     "<u><b>" +
                     $(".current_user_name").val() +
                     "</u></b>" +
                     "</span>" +
-                    '<span style="display: block;">Finance Staff</span>' +
+                    '<span style="display: block;">Admin and Finance Staff</span>' +
                     "</div>" +
-                    '<div style="text-align: center;  margin-top: 52px">' +
-                    '<span style="display: block;">' +
-                    "<u><b>" +
-                    $(".student_name").val() +
-                    "</u></b>" +
-                    "</span>" +
-                    '<span style="display: block;">Name and Signature Payee</span>' +
-                    "</div>" +
+                    // '<div style="text-align: center;  margin-top: 52px">' +
+                    // '<span style="display: block;">' +
+                    // "<u><b>" +
+                    // $(".student_name").val() +
+                    // "</u></b>" +
+                    // "</span>" +
+                    // '<span style="display: block;">Name and Signature Payee</span>' +
+                    // "</div>" +
                     "</div>"
             );
 

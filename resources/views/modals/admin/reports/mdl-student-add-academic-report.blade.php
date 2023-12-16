@@ -1,5 +1,4 @@
-<div class="modal fade" id="add-student-grd-modal" tabindex="-1" role="dialog" aria-labelledby="add-student-modal-label"
-    aria-hidden="true">
+<div class="modal fade" id="add-student-grd-modal" tabindex="-1" role="dialog" aria-labelledby="addGradeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,11 +9,11 @@
             </div>
             <div class="modal-body" style="text-align: left">
                 <form id="new-form" method="POST"
-                    action="{{ route('rpt.acd.addStudentGradeReport', ['id' => $student->id]) }}">
+                    action="{{ route('admin.reports.addStudentGradeReport', ['id' => $student->id]) }}">
                     @csrf
                     <input type="hidden" name="student_id" value="{{ $student->id }}">
                     <div class="form-group">
-                        <label for="course_code">Course Code <span class="text-danger">*</span></label>
+                        <label for="course_code">Course Code</label>
                         <input type="text" name="course_code" id="course_code" class="form-control">
                     </div>
                     <div class="form-group">

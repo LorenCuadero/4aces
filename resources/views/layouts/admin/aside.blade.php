@@ -15,19 +15,26 @@
                     </a>
                 </li>
                 <li class=" nav-item">
-                    <a href="{{ route('admin.financialReports') }}" class="nav-link {{ request()->routeIs('admin.financialReports') ? 'active' : '' }}" style="text-decoration: none">
+                    <a href="#" class="nav-link dropdown-toggle {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}" id="report-dropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        style="text-decoration: none; color:#fff">
                         <i class="nav-icon fa fa-file-text" style="color:#fff"></i>
                         <p style="color:#fff">Reports</p>
                     </a>
+                    <ul class="dropdown-menu" aria-labelledby="report-dropdown">
+                        <li><a class="dropdown-item" href="{{ route('admin.reports.financialReports') }}">Finance</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.reports.academicReports') }}">Academic</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.reports.indexDisciplinaryReports') }}">Disciplinary</a></li>
+                    </ul>
                 </li>
                 <li class=" nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.records.*') ? 'active' : ''}}" href="#" id="report-dropdown" role="button"
+                    <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.records.*') ? 'active' : ''}}" href="#" id="record-dropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                         style="text-decoration: none; color:#fff">
                         <i class="nav-icon fa-solid fa-folder"></i>
                         <p style="color:#fff">Records</p>
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="report-dropdown">
+                    <ul class="dropdown-menu" aria-labelledby="record-dropdown">
                         <li><a class="dropdown-item" href="{{ route('admin.records.counterpartRecords') }}">Counterpart</a></li>
                         <li><a class="dropdown-item" href="{{ route('admin.records.medicalShare') }}">Medical</a></li>
                         <li><a class="dropdown-item" href="{{ route('admin.records.personalCA') }}">Personal CA</a></li>

@@ -14,9 +14,11 @@ use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
 
 //
-class FinancialReportController extends Controller {
-    public function index() {
-        if(Auth::user()->role != '2') {
+class FinancialReportController extends Controller
+{
+    public function index()
+    {
+        if (Auth::user()->role != '2') {
             return redirect()->back()->with('error', 'You do not have permission to access this page');
         }
 
@@ -24,6 +26,10 @@ class FinancialReportController extends Controller {
         $medicalShareTotal = MedicalShare::sum('amount_paid');
         $graduationFeeTotal = GraduationFee::sum('amount_paid');
         $personalCashAdvanceTotal = PersonalCashAdvance::sum('amount_paid');
+        $counterpartTotalPayable = Counterpart::sum('amount_due') - $counterpartTotal;
+        $medicalShareTotalPayable = MedicalShare::sum('total_cost') * 0.15 - $medicalShareTotal;
+        $personalCashAdvanceTotalPayable = PersonalCashAdvance::sum('amount_due') - $personalCashAdvanceTotal;
+        $graduationFeeTotalPayable = GraduationFee::sum('amount_due') - $graduationFeeTotal;
 
         $dates = [
             Counterpart::min('date'),
@@ -47,6 +53,7 @@ class FinancialReportController extends Controller {
         $endToDate = Carbon::now()->format('F d, Y');
 
         $total = $counterpartTotal + $medicalShareTotal + $graduationFeeTotal + $personalCashAdvanceTotal;
+        $totalPayable = $counterpartTotalPayable + $medicalShareTotalPayable + $personalCashAdvanceTotalPayable + $graduationFeeTotalPayable;
 
         // Count the total number of students
         $totalNumberOfStudents = Student::count();
@@ -55,7 +62,7 @@ class FinancialReportController extends Controller {
         $batchYears = Student::distinct('batch_year')->pluck('batch_year');
 
         $totalStudentsByBatchYear = [];
-        foreach($batchYears as $year) {
+        foreach ($batchYears as $year) {
             $totalStudentsByBatchYear[$year] = Student::where('batch_year', $year)->count();
         }
 
@@ -71,13 +78,18 @@ class FinancialReportController extends Controller {
                 'graduationFeeTotal',
                 'personalCashAdvanceTotal',
                 'total',
+                'counterpartTotalPayable',
+                'medicalShareTotalPayable',
+                'graduationFeeTotalPayable',
+                'personalCashAdvanceTotalPayable',
+                'totalPayable',
                 'startFromDate',
                 'endToDate',
                 'totalNumberOfStudents',
                 'totalStudentsByBatchYear',
                 'batchYears',
                 'year',
-                'allBatchYear'
+                'allBatchYear',
             ), $data
         );
     }
@@ -86,19 +98,46 @@ class FinancialReportController extends Controller {
         if(Auth::user()->role != '2') {
             return redirect()->back()->with('error', 'You do not have permission to access this page');
         }
-        
+
         $dateFrom = $request->input('dateFrom');
         $dateTo = $request->input('dateTo');
         $batchYearSelected = $request->input('batchYear');
 
-        if($batchYearSelected == null) {
+        $dates = [
+            Counterpart::min('date'),
+            MedicalShare::min('date'),
+            GraduationFee::min('date'),
+            PersonalCashAdvance::min('date'),
+        ];
+
+        // Remove null and invalid dates
+        $validDates = array_filter($dates, function ($date) {
+            return $date !== null && strtotime($date) !== false;
+        });
+
+        // Find the earliest date
+        $earliestDate = $validDates ? min($validDates) : null;
+
+        // Set the start date to the earliest date or null
+        $startFromDate = $earliestDate ? Carbon::parse($earliestDate)->format('F d, Y') : null;
+
+        // Set the end date to the current date
+        $endToDate = Carbon::now()->format('F d, Y');
+
+
+        if ($batchYearSelected == null) {
             $allBatchYear = "All Batch Year";
             $counterpartTotal = Counterpart::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_paid');
             $medicalShareTotal = MedicalShare::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_paid');
             $graduationFeeTotal = GraduationFee::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_paid');
             $personalCashAdvanceTotal = PersonalCashAdvance::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_paid');
+            $counterpartTotalPayable = Counterpart::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_due') - $counterpartTotal;
+            $medicalShareTotalPayable = MedicalShare::whereBetween('date', [$dateFrom, $dateTo])->sum('total_cost') * 0.15 - $medicalShareTotal;
+            $personalCashAdvanceTotalPayable = PersonalCashAdvance::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_due') - $personalCashAdvanceTotal;
+            $graduationFeeTotalPayable = GraduationFee::whereBetween('date', [$dateFrom, $dateTo])->sum('amount_due') - $graduationFeeTotal;
 
             $total = $counterpartTotal + $medicalShareTotal + $graduationFeeTotal + $personalCashAdvanceTotal;
+            $totalPayable = $counterpartTotalPayable + $medicalShareTotalPayable + $personalCashAdvanceTotalPayable + $graduationFeeTotalPayable;
 
             $dateFrom = date('F d, Y', strtotime($dateFrom));
             $dateTo = date('F d, Y', strtotime($dateTo));
@@ -111,7 +150,7 @@ class FinancialReportController extends Controller {
             $batchYears = Student::distinct('batch_year')->pluck('batch_year');
 
             $totalStudentsByBatchYear = [];
-            foreach($batchYears as $year) {
+            foreach ($batchYears as $year) {
                 $totalStudentsByBatchYear[$year] = Student::where('batch_year', $year)->count();
             }
 
@@ -123,8 +162,13 @@ class FinancialReportController extends Controller {
                     'graduationFeeTotal',
                     'personalCashAdvanceTotal',
                     'total',
-                    'dateFrom',
-                    'dateTo',
+                    'counterpartTotalPayable',
+                    'medicalShareTotalPayable',
+                    'graduationFeeTotalPayable',
+                    'personalCashAdvanceTotalPayable',
+                    'totalPayable',
+                    'startFromDate',
+                    'endToDate',
                     'totalNumberOfStudents',
                     'totalStudentsByBatchYear',
                     'batchYears',
@@ -138,22 +182,44 @@ class FinancialReportController extends Controller {
             ->where('students.batch_year', $batchYearSelected)
             ->sum('counterparts.amount_paid');
 
+        $counterpartTotalPayable = Counterpart::join('students', 'counterparts.student_id', '=', 'students.id')
+            ->whereBetween('counterparts.date', [$dateFrom, $dateTo])
+            ->where('students.batch_year', $batchYearSelected)
+            ->sum('counterparts.amount_due') - $counterpartTotal;
+
         $medicalShareTotal = MedicalShare::join('students', 'medical_shares.student_id', '=', 'students.id')
             ->whereBetween('medical_shares.date', [$dateFrom, $dateTo])
             ->where('students.batch_year', $batchYearSelected)
             ->sum('medical_shares.amount_paid');
+
+        $medicalShareTotalPayable = MedicalShare::join('students', 'medical_shares.student_id', '=', 'students.id')
+            ->whereBetween('medical_shares.date', [$dateFrom, $dateTo])
+            ->where('students.batch_year', $batchYearSelected)
+            ->sum(\DB::raw('total_cost * 0.15')) - $medicalShareTotal;
 
         $graduationFeeTotal = GraduationFee::join('students', 'graduation_fees.student_id', '=', 'students.id')
             ->whereBetween('graduation_fees.date', [$dateFrom, $dateTo])
             ->where('students.batch_year', $batchYearSelected)
             ->sum('graduation_fees.amount_paid');
 
+        $graduationFeeTotalPayable = GraduationFee::join('students', 'graduation_fees.student_id', '=', 'students.id')
+            ->whereBetween('graduation_fees.date', [$dateFrom, $dateTo])
+            ->where('students.batch_year', $batchYearSelected)
+            ->sum('graduation_fees.amount_due') - $graduationFeeTotal;
+
         $personalCashAdvanceTotal = PersonalCashAdvance::join('students', 'personal_cash_advances.student_id', '=', 'students.id')
             ->whereBetween('personal_cash_advances.date', [$dateFrom, $dateTo])
             ->where('students.batch_year', $batchYearSelected)
             ->sum('personal_cash_advances.amount_paid');
 
+        $personalCashAdvanceTotalPayable = PersonalCashAdvance::join('students', 'personal_cash_advances.student_id', '=', 'students.id')
+            ->whereBetween('personal_cash_advances.date', [$dateFrom, $dateTo])
+            ->where('students.batch_year', $batchYearSelected)
+            ->sum('personal_cash_advances.amount_due') - $personalCashAdvanceTotal;
+
         $total = $counterpartTotal + $medicalShareTotal + $graduationFeeTotal + $personalCashAdvanceTotal;
+        $totalPayable = $counterpartTotalPayable + $medicalShareTotalPayable + $personalCashAdvanceTotalPayable + $graduationFeeTotalPayable;
+
 
         $dateFrom = date('F d, Y', strtotime($dateFrom));
         $dateTo = date('F d, Y', strtotime($dateTo));
@@ -165,7 +231,7 @@ class FinancialReportController extends Controller {
         $batchYears = Student::distinct('batch_year')->pluck('batch_year');
 
         $totalStudentsByBatchYear = [];
-        foreach($batchYears as $year) {
+        foreach ($batchYears as $year) {
             $totalStudentsByBatchYear[$year] = Student::where('batch_year', $year)->count();
         }
 
@@ -177,6 +243,11 @@ class FinancialReportController extends Controller {
                 'graduationFeeTotal',
                 'personalCashAdvanceTotal',
                 'total',
+                'counterpartTotalPayable',
+                'medicalShareTotalPayable',
+                'graduationFeeTotalPayable',
+                'personalCashAdvanceTotalPayable',
+                'totalPayable',
                 'dateFrom',
                 'dateTo',
                 'batchYearSelected',

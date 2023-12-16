@@ -46,30 +46,6 @@ class AuthController extends Controller
             return redirect()->back()->withInput(compact('email'))->with('error-incorrect-password', 'Incorrect password.');
         }
 
-        if ($user->receive_otp == 0) {
-            Auth::login($user);
-
-            if (!$user->email_verified_at) {
-                // Update the email_verified_at column to the current timestamp
-                $user->forceFill([
-                    'email_verified_at' => now(),
-                ])->save();
-            }
-
-            if ($user->inactive == 1) {
-                return redirect()->route('login')->with('error', 'Your account has been deactivated.');
-            }
-
-            // Redirect to the intended dashboard based on the user's role
-            if ($user->role == '0') {
-                return redirect()->route('payable.index');
-            } elseif ($user->role == '1') {
-                return redirect()->route('students.index');
-            } else {
-                return redirect()->route('dashboard.index');
-            }
-        }
-
         $otp = rand(100000, 999999);
 
         $user->otp = $otp;

@@ -17,7 +17,7 @@
                     <div class="row" style="text-align: left;">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="first_name_student">First Name</label>
+                                <label for="first_name_student">First Name  <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="first_name_student" name="first_name"
                                     value="{{ $user->first_name }}" autocomplete="on" />
                             </div>
@@ -27,14 +27,15 @@
                                     value="{{ $user->middle_name }}" />
                             </div>
                             <div class="form-group">
-                                <label for="last_name_student">Last Name</label>
+                                <label for="last_name_student">Last Name  <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="last_name_student" name="last_name"
                                     value="{{ $user->last_name }}" />
                             </div>
                             <div class="form-group">
-                                <label for="suffix_student">Suffix</label>
+                                <label for="suffix_student">Suffix </label>
                                 <select class="form-control" id="suffix_student" name="suffix">
-                                    <option value="" @if ($user->status == null || $user->status == 'None') selected @endif>Select Suffix</option>
+                                    <option value="" @if ($user->status == null || $user->status == 'None') selected @endif>Select Suffix
+                                    </option>
                                     <option value="Jr." @if ($user->status == 'Jr.') selected @endif>Jr.</option>
                                     <option value="II" @if ($user->status == 'II') selected @endif>II</option>
                                     <option value="III" @if ($user->status == 'III') selected @endif>III</option>
@@ -47,20 +48,26 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label for="gender_student">Gender</label>
-                                <select class="form-control" id="gender_student" name="gender">
-                                    <option value="{{ $user->gender }}">{{ $user->gender }}</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                <label for="gender_student">Gender  <span class="text-danger">*</span></label>
+                                <select class="form-control" id="gender_staff" name="gender">
+                                    <option value="{{ $user->gender }}">
+                                        @if ($user->gender == 'Male')
+                                            He
+                                        @endif
+                                        @if ($user->gender == 'Female')
+                                            She
+                                        @endif
+                                    </option>
+                                    <option value="Male">He</option>
+                                    <option value="Female">She</option>
                                     <option value="Non-binary">Non-Binary</option>
                                     <option value="Prefer not to say">Prefer not to say</option>
                                 </select>
                             </div>
                         </div>
-
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="email_student">Email Address</label>
+                                <label for="email_student">Email Address  <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" id="email_student" name="email"
                                     value="{{ $user->email }}" autocomplete="on" />
                             </div>
@@ -75,7 +82,7 @@
                                     value="{{ $user->contact_number }}" />
                             </div>
                             <div class="form-group">
-                                <label for="address_student">Address</label>
+                                <label for="address_student">Address  <span class="text-danger">*</span></label>
                                 <input name="address" class="form-control" id="address_student"
                                     value="{{ $user->address }}" autocomplete="on" />
                             </div>
@@ -85,7 +92,7 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label for="birthdate_student">Birthdate</label>
+                                <label for="birthdate_student">Birthdate  <span class="text-danger">*</span></label>
                                 <input type="date" max="{{ now()->subYears(18)->format('Y-m-d') }}" class="form-control"
                                     id="birthdate_student" name="birthdate" value="{{ $user->birthdate }}" />
                             </div>
@@ -98,7 +105,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="parent_name_student">Parent's / Guardian's Name</label>
+                                <label for="parent_name_student">Parent's / Guardian's Name  <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="parent_name_student" name="parent_name"
                                     value="{{ $user->parent_name }}" />
                             </div>
@@ -109,7 +116,7 @@
                             @enderror
 
                             <div class="form-group">
-                                <label for="parent_contact_student">Parent's / Guardian's Contact Number</label>
+                                <label for="parent_contact_student">Parent's / Guardian's Contact Number  <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="parent_contact_student"
                                     name="parent_contact" value="{{ $user->parent_contact }}" />
                             </div>
@@ -120,7 +127,7 @@
                             @enderror
 
                             <div class="form-group">
-                                <label for="batch_year_student">Batch Year</label>
+                                <label for="batch_year_student">Batch Year  <span class="text-danger">*</span></label>
                                 <select class="form-control" id="batch_year_student"name="batch_year">
                                     @php
                                         $currentYear = now()->year;
@@ -142,7 +149,7 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label for="joined_student">Joined</label>
+                                <label for="joined_student">Joined  <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="joined_student" name="joined"
                                     value="{{ $user->joined }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" />
                             </div>
@@ -156,7 +163,8 @@
                                 <button type="submit" class="btn btn-primary mr-2">Save changes</button>
                                 <button type="button" class="btn btn-danger mr-2" data-toggle="modal"
                                     data-target="#confirmDeleteModal">Delete</button>
-                                <a href="{{ route('admin.accounts.student-accounts') }}" class="btn btn-default">Cancel</a>
+                                <a href="{{ route('admin.accounts.student-accounts') }}"
+                                    class="btn btn-default">Cancel</a>
                             </div>
                         </div>
                     </div>

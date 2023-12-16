@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Student Account Creation Message</title>
+    <title>Student Academic Record Update</title>
 </head>
 
 <body>

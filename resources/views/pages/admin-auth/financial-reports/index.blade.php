@@ -13,16 +13,16 @@
                         <div class="card-header d-flex flex-wrap align-items-center justify-content-between"
                             style="background-color: #ffff; color: #1f3c88">
                             <p class="card-title mb-3 mb-md-0" style="color:#1f3c88; padding-left:0%; font-size: 22px">
-                                <b>Reports</b>
+                                <b>Finance Reports</b>
                             </p>
                             <div class="d-flex flex-wrap align-items-center ml-auto">
                                 <form class="form-inline mr-auto mr-md-0 mb-2 mb-md-0"
                                     style="display: flex; align-items: center;" id="date-form"
-                                    action="{{ route('admin.viewFinancialReportByDateFromAndTo') }}" method="POST">
+                                    action="{{ route('admin.reports.viewFinancialReportByDateFromAndTo') }}" method="POST">
                                     @csrf
                                     <div class="nav-item btn btn-sm p-0" style="display: flex; align-items:center;">
                                         <input type="date" class="form-control rounded p-2 filters" id="date-from"
-                                            name="dateFrom" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required >
+                                            name="dateFrom" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
                                     </div>
                                     <div class="nav-item btn btn-sm p-0 m-2" style="display: flex; align-items:center;">
                                         <p class="mb-0 text-to filters">to</p>
@@ -38,7 +38,8 @@
                                             <div class="form-group row text-left">
                                                 <div class="col-md-7">
                                                     <select class="form-control" name="batchYear" id="batch_year">
-                                                        <a id="allBatch" href="{{ route('admin.financialReports') }}">
+                                                        <a id="allBatch"
+                                                            href="{{ route('admin.reports.financialReports') }}">
                                                             <option value="">All
                                                                 Batch Year</option>
                                                         </a>
@@ -54,21 +55,35 @@
                                     <button type="submit" id="filter-submit" class="btn ml-1 filters"
                                         style="background-color: #1f3c88; color:#ffff" title="Filter"><i
                                             class='fas fa-filter' style='font-size:20px; color:#ffff'></i> Filter </button>
-                                    <a href="{{ route('admin.financialReports') }}" class="btn reset-filter filters ml-1"
+                                    <a href="{{ route('admin.reports.financialReports') }}"
+                                        class="btn reset-filter filters ml-1"
                                         style="background-color: #1f3c88; color:#ffffff" title="Reset Filter"><i
                                             class="fa fa-refresh" style="font-size:20px; color:#ffffff"></i> Reset</a>
-                                    <span class="buttons">
-                                        <button type="button" class="btn btn-default printButtonOnFinancial ml-1"
-                                            style="background-color: #1f3c88; color: #ffff;" title="Print"><i
-                                                class="fas fa-print" style="color: #ffffff"></i> Print</button></span>
+                                    <div class="dropdown ml-1">
+                                        <button class="btn btn-default dropdown-toggle" type="button"
+                                            id="printDropdownButton" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false" style="background-color: #1f3c88; color: #ffff;">
+                                            <i class="fas fa-print" style="color: #ffffff"></i> Print
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right"
+                                            aria-labelledby="printDropdownButton">
+                                            <a class="dropdown-item" href="#" id="printButtonOnFinancial">Print Summary</a>
+                                            <a class="dropdown-item" href="#" id="printPayableSummary">Print Payables
+                                                Summary</a>
+                                            <a class="dropdown-item" href="#" id="printPaymentSummary">Print Payments
+                                                Summary</a>
+                                        </div>
+                                    </div>
+
                                 </form>
+                                {{-- printButtonOnFinancial --}}
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="d-flex flex-wrap">
                             <div class="card-body" id="printableArea">
                                 <div class="table-responsive">
                                     <div class="m-2 mb-4">
-                                        <h5 class="mb-0">Statement of Accounts</h5>
+                                        <h5 class="mb-0">Summary of Payments and Payables</h5>
                                         @if (isset($batchYearSelected))
                                             <span id="selected-batch-year-reports">Batch {{ $batchYearSelected }}</span>
                                         @endif
@@ -87,49 +102,57 @@
                                     </div>
                                     <div class="table-responsive">
                                         <div class="custom-table-container">
-                                            <table id="example2"
-                                                class="table table-bordered table-hover text-center rounded"
-                                                style="width: 60%;">
+                                            <table id="example2" class="table table-hover text-left rounded"
+                                                style="width:90%">
                                                 <thead>
                                                     <tr>
-                                                        <th style="background-color: #ffff; color: #1f3c88; width: 50%;">
-                                                            Contribution Revenue
+                                                        <th style="background-color: #ffff; color: #1f3c88; ">
+                                                            Name of Records
                                                         </th>
-                                                        <th style="background-color: #ffff; color: #1f3c88; width: 50%;">
-                                                            Total
+                                                        <th style="background-color: #ffff; color: #1f3c88; ">
+                                                            Payments
+                                                        </th>
+                                                        <th style="background-color: #ffff; color: #1f3c88; ">
+                                                            Payables
                                                         </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-body">
                                                     <tr>
-                                                        <td style="width: 50%;">Parent's Counterpart</td>
-                                                        <td id="counterTotal" style="width: 50%;">₱
+                                                        <td style="">Parent's Counterpart</td>
+                                                        <td id="counterTotal" style="">₱
                                                             {{ number_format($counterpartTotal, 2) }}</td>
+                                                        <td>₱ {{ number_format($counterpartTotalPayable, 2) }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 50%;">Medical Share</td>
-                                                        <td id="medicalTotal" style="width: 50%;">₱
+                                                        <td style="">Medical Share</td>
+                                                        <td id="medicalTotal" style="">₱
                                                             {{ number_format($medicalShareTotal, 2) }}</td>
+                                                        <td>₱ {{ number_format($medicalShareTotalPayable, 2) }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 50%;">Graduation Fees</td>
-                                                        <td id="graduationTotal" style="width: 50%;">₱
+                                                        <td style="">Graduation Fees</td>
+                                                        <td id="graduationTotal" style="">₱
                                                             {{ number_format($graduationFeeTotal, 2) }}
                                                         </td>
+                                                        <td>₱ {{ number_format($graduationFeeTotalPayable, 2) }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 50%;">Personal Cash Advance</td>
-                                                        <td id="personalCashTotal" style="width: 50%;">₱
+                                                        <td style="">Personal Cash Advance</td>
+                                                        <td id="personalCashTotal" style="">₱
                                                             {{ number_format($personalCashAdvanceTotal, 2) }}</td>
+                                                        <td>₱ {{ number_format($personalCashAdvanceTotalPayable, 2) }}</td>
                                                     </tr>
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
-                                                        <th style="background-color: #ffff; color: #1f3c88; width: 50%;">
+                                                        <th style="background-color: #ffff; color: #1f3c88; ">
                                                             Total</th>
-                                                        <th style="background-color: #ffff; color: #1f3c88; width: 50%;"
+                                                        <th style="background-color: #ffff; color: #1f3c88; "
                                                             id="totalFinance">₱
                                                             {{ number_format($total, 2) }}</th>
+                                                        <th style="background-color: #ffff; color: #1f3c88; ">₱
+                                                            {{ number_format($totalPayable, 2) }}</th>
                                                     </tr>
                                                 </tfoot>
                                             </table>

@@ -15,24 +15,24 @@
                     @method('PUT')
                     <input type="hidden" name="counterpart_id">
                     <div class="form-group">
-                        <label for="course_code">Month</label>
+                        <label for="course_code">Month <span class="text-danger">*</span></label>
                         <input type="text" name="month_display" id="edit-month-display" class="form-control"
                             readonly>
                         <input type="hidden" name="month" id="edit-month-hidden">
                     </div>
                     <div class="form-group">
-                        <label for="amount_due">Year</label>
+                        <label for="amount_due">Year <span class="text-danger">*</span></label>
                         <input type="text" id="edit-year" name="year" class="form-control yearDropdown" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="amount_due">Amount Due</label>
+                        <label for="amount_due">Amount Due <span class="text-danger">*</span></label>
                         <input type="number" name="amount_due" id="edit-amount_due" class="form-control"
                             step="any">
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">Total Amount Paid</label>
                         <input type="number" name="amount_paid_previously" id="edit-amount_paid" class="form-control"
-                            step="any" readonly>
+                            step="any">
                     </div>
                     <div class="form-group">
                         <label for="amount_paid">Amount Paid</label>
@@ -40,7 +40,7 @@
                             step="any">
                     </div>
                     <div class="form-group">
-                        <label for="date">Date</label>
+                        <label for="date">Date <span class="text-danger">*</span></label>
                         <input type="date" name="date" class="form-control" id="edit-date" rows="3"
                             placeholder="" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required />
                     </div>

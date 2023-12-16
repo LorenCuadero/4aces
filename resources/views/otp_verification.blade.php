@@ -75,7 +75,7 @@
                         @endif
 
                         <br>
-                        <p class="text-center" id="otp-message">Did not received OTP?
+                        <p class="text-center" id="otp-message">Did not receive OTP?
                             <a id="resend_otp_link" href="#" data-email="{{ $user_email }}"
                                 style="width: 30%; text-decoration:none; color:rgb(249, 252, 255)"><strong>Resend
                                     OTP</strong></a>

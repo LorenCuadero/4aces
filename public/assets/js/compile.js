@@ -81,6 +81,14 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $(".select-student-link-dcpl").on("click", function (event) {
+        event.preventDefault();
+
+        $("#admin-student-selection-modal").modal("hide");
+    });
+});
+
+$(document).ready(function () {
     $("#closeButton").on("click", function (event) {
         event.preventDefault();
     });
@@ -96,6 +104,19 @@ $(document).ready(function () {
         $(".first_name").text(studentFName + " ");
         $(".last_name").text(studentLName);
         $(".student_id_dcpl_input").val(studentId);
+    });
+});
+
+$(document).ready(function () {
+    $("#add-admin-student-dcpl-modal").on("show.bs.modal", function (event) {
+        const buttonAdmin = $(event.relatedTarget);
+        const studentId = buttonAdmin.data("student-id-admin");
+        const studentLNameAdmin = buttonAdmin.data("student-lname");
+        const studentFNameAdmin = buttonAdmin.data("student-fname");
+
+        $(".first_name_dcpl_admin").text(studentFNameAdmin + " ");
+        $(".last_name_dcpl_admin").text(studentLNameAdmin);
+        $(".student_id_dcpl_input_admin").val(studentId);
     });
 });
 

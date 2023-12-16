@@ -139,7 +139,7 @@ class PersonalCashAdvanceController extends Controller {
         $validatedData = $request->validate([
             'purpose' => ['required', 'string', 'max:255'],
             'amount_due' => ['required'],
-            'amount_paid' => ['required'],
+            'amount_paid' => ['nullable'],
             'date' => ['required', 'date'],
         ]);
 
@@ -163,9 +163,17 @@ class PersonalCashAdvanceController extends Controller {
         $studentEmail = $personal_cash_advance->student->email;
         $studentName = $personal_cash_advance->student->first_name." ".$personal_cash_advance->student->last_name;
 
+        $amount = 0;
+        if ($amountPaid == null) {
+            $amount = $request->input('amount_paid_previous');
+        }
+        if ($amountPaid != null) {
+            $amount = $amountPaid + $request->input('amount_paid_previous');
+        }
+
         $personal_cash_advance->purpose = $validatedData['purpose'];
         $personal_cash_advance->amount_due = $validatedData['amount_due'];
-        $personal_cash_advance->amount_paid = $validatedData['amount_paid'] + $request->input('amount_paid_previous');
+        $personal_cash_advance->amount_paid = $amount;
         $personal_cash_advance->date = $validatedData['date'];
         $personal_cash_advance->student_id = $studentId;
 

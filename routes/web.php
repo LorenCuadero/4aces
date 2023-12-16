@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FinancialReportController;
 use App\Http\Controllers\ClosingOfAccountController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\AcademicController;
 
 /*
 |--------------------------------------------------------------------------
@@ -171,9 +172,23 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/{id}', [GraduationFeeController::class, 'deleteGraduationFee'])->name('admin.deleteGraduationFee');
     });
 
-    Route::prefix('/financial-reports')->group(function () {
-        Route::get('/', [FinancialReportController::class, 'index'])->name('admin.financialReports');
-        Route::post('/', [FinancialReportController::class, 'viewFinancialReportByDateFromAndTo'])->name('admin.viewFinancialReportByDateFromAndTo');
+    Route::prefix('/reports')->group(function () {
+        Route::get('/', [FinancialReportController::class, 'index'])->name('admin.reports.financialReports');
+        Route::post('/', [FinancialReportController::class, 'viewFinancialReportByDateFromAndTo'])->name('admin.reports.viewFinancialReportByDateFromAndTo');
+
+        Route::get('/academic-reports', [AcademicController::class, 'indexAcademicReports'])->name('admin.reports.academicReports');
+        Route::get('/academic-reports/{id}', [AcademicController::class, 'getStudentGradeReport'])->name('admin.reports.getStudentGradeReport');
+        Route::post('/academic-reports/{id}', [AcademicController::class, 'addStudentGradeReport'])->name('admin.reports.addStudentGradeReport');
+        Route::put('/academic-reports/{id}', [AcademicController::class, 'updateStudentGradeReport'])->name('admin.reports.updateStudentGradeReport');
+        Route::delete('/academic-reports/{id}', [AcademicController::class, 'destroyStudentGradeReport'])->name('admin.reports.destroyStudentGradeReport');
+
+        Route::get('/disciplinary-reports', [DisciplinaryController::class, 'indexDisciplinaryReports'])->name('admin.reports.indexDisciplinaryReports');
+        Route::post('/disciplinary-reports', [DisciplinaryController::class, 'storeForAdmin'])->name('admin.reports.storeForAdmin');
+        Route::get('/disciplinary-reports/{id}', [DisciplinaryController::class, 'showAdminDisciplinaryRecordsForStudent'])->name('admin.reports.showAdminDisciplinaryRecordsForStudent');
+        Route::put('/disciplinary-reports/{id}', [DisciplinaryController::class, 'updateForAdmin'])->name('admin.reports.updateForAdmin');
+        Route::delete('/disciplinary-reports/{id}', [DisciplinaryController::class, 'destroyForAdmin'])->name('admin.reports.destroyForAdmin');
+
+
     });
 
     Route::prefix('/closing-of-accounts-admin')->group(function () {
@@ -201,7 +216,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [AccountController::class, 'indexStudentsAccounts'])->name('admin.accounts.student-accounts');
         Route::get('/{id}', [AccountController::class, 'getStudentAccount'])->name('admin.getStudentAccount');
         Route::put('/{id}', [AccountController::class, 'updateStudentAccount'])->name('admin.updateStudentAccount');
-        // Route::delete('/{id}', [AccountController::class, 'deleteStudentAccount'])->name('admin.deleteStudentAccount');
         Route::delete('/{id}', [AccountController::class, 'softDeleteStudentAccount'])->name('admin.softDeleteStudentAccount');
         Route::post('/', [AccountController::class, 'storeStudentAccount'])->name('admin.storeStudentAccount');
     });

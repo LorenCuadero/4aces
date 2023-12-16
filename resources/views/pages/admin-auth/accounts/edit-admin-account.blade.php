@@ -16,13 +16,13 @@
                     <div class="row" style="text-align: left;">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="first_name_admin">First Name</label>
+                                <label for="first_name_admin">First Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="first_name_admin" name="first_name"
                                     value="{{ $user->first_name }}" autocomplete="on" />
                             </div>
                             <!-- Add the new fields to match the student information add form -->
                             <div class="form-group">
-                                <label for="suffix_admin">Suffix</label>
+                                <label for="suffix_admin">Suffix <span class="text-danger">*</span></label>
                                 <select class="form-control" id="suffix_admin" name="suffix">
                                     <option value="">Select Suffix</option>
                                     <option value="Jr.">Jr.</option>
@@ -33,10 +33,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="gender_admin">Gender</label>
+                                <label for="gender_admin">Gender <span class="text-danger">*</span></label>
                                 <select class="form-control" id="gender_admin" name="gender">
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option value="Male">He</option>
+                                    <option value="Female">She</option>
                                     <option value="Non-binary">Non-Binary</option>
                                     <option value="Prefer not to say">Prefer not to say</option>
                                 </select>
@@ -52,7 +52,7 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label for="civil_status_admin">Civil Status</label>
+                                <label for="civil_status_admin">Civil Status <span class="text-danger">*</span></label>
                                 <select name="civil_status" id="civil_status_admin" class="form-control">
                                     <option value="{{ $user->civil_status }}">{{ $user->civil_status }}</option>
                                     <option value="Single">Single</option>
@@ -71,12 +71,12 @@
                                     value="{{ $user->middle_name }}" />
                             </div>
                             <div class="form-group">
-                                <label for="address_admin">Address</label>
+                                <label for="address_admin">Address <span class="text-danger">*</span></label>
                                 <input name="address" class="form-control" id="address_admin" value="{{ $user->address }}"
                                     autocomplete="on" />
                             </div>
                             <div class="form-group">
-                                <label for="email_admin">Email Address</label>
+                                <label for="email_admin">Email Address <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" id="email_admin" name="email"
                                     value="{{ $user->email }}" autocomplete="on" />
                             </div>
@@ -86,7 +86,7 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label for="password_admin">Password</label>
+                                <label for="password_admin">Password <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="password_admin" name="password" />
                             </div>
                             @error('password')
@@ -97,12 +97,12 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="last_name_admin">Last Name</label>
+                                <label for="last_name_admin">Last Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="last_name_admin" name="last_name"
                                     value="{{ $user->last_name }}" />
                             </div>
                             <div class="form-group">
-                                <label for="birthdate_admin">Birthdate</label>
+                                <label for="birthdate_admin">Birthdate <span class="text-danger">*</span></label>
                                 <input type="date" max="{{ now()->subYears(18)->format('Y-m-d') }}"
                                     class="form-control" id="birthdate_admin" name="birthdate"
                                     value="{{ $user->birthdate }}" />
@@ -113,7 +113,7 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label for="department_admin">Department</label>
+                                <label for="department_admin">Department <span class="text-danger">*</span></label>
                                 <select name="department" id="department_admin" class="form-control">
                                     <option value="Administrative & Finance"
                                         @if ($user->department == 'Administrative & Finance') selected @endif>
@@ -122,7 +122,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="status_admin">Status</label>
+                                <label for="status_admin">Status <span class="text-danger">*</span></label>
                                 <select name="status" id="status_admin" class="form-control">
                                     <option value="0" @if ($user->status == 0) selected @endif>Active
                                     </option>

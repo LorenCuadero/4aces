@@ -72,7 +72,8 @@
                         <span class="buttons">
                             <button type="button" class="btn btn-default printButtonOnAcademicReports ml-1"
                                 style="background-color: #1f3c88; color: #ffff;" title="Print"><i class="fas fa-print"
-                                    style="color: #ffffff"></i> Print</button></span>
+                                    style="color: #ffffff"></i> Print</button>
+                        </span>
                     </div>
                     <!-- Reports Tab Content -->
                     <div class="tab-pane fade" id="reports">

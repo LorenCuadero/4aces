@@ -72,17 +72,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="parentName">Parent's Name</label>
+                        <label for="parentName">Parent / Guardian's Name</label>
                         <input type="text" id="parentName" name="parentName" class="form-control"
                             value="{{ Auth::user()->student->parent_name }}" required>
                     </div>
                     <div class="form-group">
-                        <label for="parentContact">Parent's Contact</label>
+                        <label for="parentContact">Parent / Guardian's Contact</label>
                         <input type="number" id="parentContact" name="parentContact" class="form-control"
                             value="{{ Auth::user()->student->parent_contact }}" required>
                     </div>
 
-                    <div
+                    {{-- <div
                         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h1 class="h2">OTP Settings</h1>
                     </div>
@@ -90,7 +90,7 @@
                     <select id="receiveOTP" name="receiveOTP" class="form-control">
                         <option value="1" {{ Auth::user()->student->receive_otp ? 'selected' : '' }}>Allow</option>
                         <option value="0" {{ !Auth::user()->student->receive_otp ? 'selected' : '' }}>Disallow</option>
-                    </select>
+                    </select> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

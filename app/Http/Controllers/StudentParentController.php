@@ -290,9 +290,9 @@ class StudentParentController extends Controller
         // Save changes
         $student->save();
 
-        // Update receive OTP setting
-        $user->receive_otp = $request->input('receiveOTP', 1); // Default to 0 if not provided
-        $user->save();
+        // // Update receive OTP setting
+        // $user->receive_otp = $request->input('receiveOTP', 1); // Default to 0 if not provided
+        // $user->save();
 
         return redirect()->back()->with('success', 'Student details updated successfully!');
     }

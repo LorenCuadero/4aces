@@ -14,11 +14,11 @@
                     @csrf
                     <input type="hidden" name="student_id" value="{{ $student->id }}">
                     <div class="form-group">
-                        <label for="course_code">Purpose</label>
-                        <textarea class="form-control" id="purpose" name="purpose"></textarea>
+                        <label for="course_code">Purpose <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="purpose" name="purpose" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="amount_due">Amount Due</label>
+                        <label for="amount_due">Amount Due <span class="text-danger">*</span></label>
                         <input type="number" name="amount_due" id="amount_due" class="form-control" step="any">
                     </div>
                     <div class="form-group">
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="date">Date</label>
+                        <label for="date">Date <span class="text-danger">*</span></label>
                         <input type="date" name="date" class="form-control" id="date" rows="3"
                             placeholder="" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required />
                     </div>
