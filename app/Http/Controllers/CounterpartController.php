@@ -128,12 +128,20 @@ class CounterpartController extends Controller
             'month' => 'required|string',
             'year' => 'required|integer',
             'amount_due' => 'required',
-            'amount_paid' => 'required',
+            'amount_paid' => 'nullable',
             'date' => 'required',
         ]);
 
+        $amount = 0;
+        if ($validatedData['amount_paid'] == null) {
+            $amount = 0;
+        }
+        if ($validatedData['amount_paid'] != null) {
+            $amount = $validatedData['amount_paid'];
+        }
+
         $dateOfTransaction = $validatedData['date'];
-        $amountPaid = $validatedData['amount_paid'];
+        $amountPaid = $amount;
         $amountPaidInWords = StoreLogsService::numberToWords($amountPaid);
         $category = "Parents Counterpart";
         $send_amount_due_only = 0;
@@ -152,7 +160,14 @@ class CounterpartController extends Controller
             return back()->with('error', 'Counterpart record failed to add, combination of month and year already exists!');
         }
 
-        $counterpart = $student->counterpart()->create($validatedData);
+        $counterpart = new Counterpart();
+        $counterpart->month = $validatedData['month'];
+        $counterpart->year = $validatedData['year'];
+        $counterpart->amount_due = $validatedData['amount_due'];
+        $counterpart->amount_paid = $amount;
+        $counterpart->date = $validatedData['date'];
+        $counterpart->student_id = $id;
+        $counterpart->save();
 
         $acknowledgementReceipt = 0;
         if ($request->has('print_acknowledegement_receipt')) {

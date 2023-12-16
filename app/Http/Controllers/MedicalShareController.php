@@ -80,7 +80,7 @@ class MedicalShareController extends Controller {
         $validatedData = $request->validate([
             'medical_concern' => ['required', 'string', 'max:255'],
             'amount_due' => ['required'],
-            'amount_paid' => ['required'],
+            'amount_paid' => ['nullable'],
             'date' => ['required', 'date'],
         ]);
 
@@ -99,11 +99,19 @@ class MedicalShareController extends Controller {
         $amountPaidInWords = StoreLogsService::numberToWords($validatedData['amount_paid']);
         $category = "Medical Share";
 
+        $amount = 0;
+        if ($amountPaid == null) {
+            $amount = 0;
+        }
+        if ($amountPaid != null) {
+            $amount = $amountPaid;
+        }
+
         $medical_share = new MedicalShare();
         $medical_share->medical_concern = $validatedData['medical_concern'];
         $medical_share->total_cost = $validatedData['amount_due'];
         $percent_share = $validatedData['amount_due'] * 0.15;
-        $medical_share->amount_paid = $amountPaid;
+        $medical_share->amount_paid = $amount;
         $medical_share->date = $dateOfTransaction;
         $medical_share->student_id = $id;
         $medical_share->save();
