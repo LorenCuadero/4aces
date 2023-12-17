@@ -1,22 +1,3 @@
-$(document).ready(function () {
-    var currentYear = new Date().getFullYear();
-    for (var i = currentYear; i >= currentYear - 5; i--) {
-        $(".yearDropdown").append(
-            $("<option>", {
-                value: i,
-                text: i,
-            })
-        );
-    }
-
-    // SOA Email Form Validation
-    const selectedMonth = $("#monthDropdown option:selected").val();
-    const selectedYear = $(".yearDropdown option:selected").val();
-
-    $("#month").val(selectedMonth);
-    $("#year").val(selectedYear);
-});
-
 const loadingOverlay = $(".loading-spinner-overlay");
 
 function showLoadingSpinner() {
