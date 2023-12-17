@@ -89,7 +89,7 @@
                         <div class="card text-dash">
                             <div class="card-header border-0" style="background-color: #ffff;">
                                 <div class="d-flex justify-content-between">
-                                    <h3 class="card-title">Monthly Acquisition</h3>
+                                    <h3 class="card-title">Yearly Acquisition</h3>
                                     <form id="monthly-form" action="{{ route('admin.perYearViewMonthlyAcquisition') }}"
                                         method="POST">
                                         @csrf

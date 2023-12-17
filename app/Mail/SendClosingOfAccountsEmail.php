@@ -41,7 +41,7 @@ class SendClosingOfAccountsEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "Closing of Accounts for Graduating Alumni"
+            subject: "Closing of Accounts for Graduating Students"
         );
     }
 

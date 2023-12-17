@@ -1516,8 +1516,8 @@ class AdminController extends Controller
         }
 
         $students = Student::where('batch_year', $request->selectedBatchYear)->get();
-        $month = $request->month;
-        $year = $request->year;
+        $month = $request->input('month');
+        $year = $request->input('year');
 
         foreach ($students as $student) {
             $student_name = $student->first_name . ' ' . $student->last_name;

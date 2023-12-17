@@ -46,7 +46,7 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label for="suffix_student">Suffix <span class="text-danger">*</span></label>
+                                <label for="suffix_student">Suffix </label>
                                 <select class="form-control" id="suffix_student" name="suffix">
                                     <option value="">Select Suffix</option>
                                     <option value="Jr.">Jr.</option>
