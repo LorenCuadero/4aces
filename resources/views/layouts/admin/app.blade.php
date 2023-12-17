@@ -105,29 +105,47 @@
 
 
     <script>
-        $(document).ready(function() {
+         $(document).ready(function () {
             // Handle click on pushmenu button
-            $('.navbar-nav a[data-widget="pushmenu"]').on('click', function() {
+            $('.navbar-nav a[data-widget="pushmenu"]').on('click', function () {
                 // Toggle the collapse class on the body
                 $('body').toggleClass('sidebar-collapse');
 
                 // Toggle 'sidebar-mini' class based on window width
+                if ($(window).width() < 992 && $(window).width() > 768 ) {
+
+                    $('body').removeClass('sidebar-collapse');
+                    $('body').addClass('sidebar-open');
+                }
                 if ($(window).width() < 768) {
                     $('body').toggleClass('sidebar-open');
                     $('body').addClass('mobile-view');
                     $('body').removeClass('sidebar-mini');
-                } else {
+                }else {
                     $('body').removeClass('mobile-view');
-
                 }
             });
 
-            $(document).on('click', function(e) {
+            if ($(window).width() < 992 && $(window).width() > 768) {
+                // console.log('testing');
+                $('body').addClass('sidebar-collapse');
+                $(document).on('click', function (e) {
+                    if (
+                        !$(e.target).closest('.main-sidebar').length && // Check if the click is not within the sidebar
+                        !$(e.target).closest('.navbar-nav').length && // Check if the click is not within the navbar
+                        $('body').hasClass('sidebar-open') // Check if the sidebar is open
+                    ) {
+                         console.log('testing');
+                        $('body').removeClass('sidebar-open');
+                        $('body').toggleClass('sidebar-collapse');
+                    }
+                });
+            }
+
+            $(document).on('click', function (e) {
                 if (
-                    !$(e.target).closest('.main-sidebar').length &&
-                    // Check if the click is not within the sidebar
-                    !$(e.target).closest('.navbar-nav').length &&
-                    // Check if the click is not within the navbar
+                    !$(e.target).closest('.main-sidebar').length && // Check if the click is not within the sidebar
+                    !$(e.target).closest('.navbar-nav').length && // Check if the click is not within the navbar
                     $('body').hasClass('sidebar-open') // Check if the sidebar is open
                 ) {
                     // Close the sidebar
@@ -135,6 +153,17 @@
                 }
             });
 
+        });
+
+        $(document).ready(function () {
+            // Add an "active" class to the clicked navigation item
+            $('.nav-link').on('click', function () {
+                // Remove active class from all other navigation items
+                $('.nav-link').removeClass('active');
+
+                // Add active class to the clicked navigation item
+                $(this).addClass('active');
+            });
         });
 
         $(document).ready(function() {

@@ -140,8 +140,8 @@
                             <div class="form-group">
                                 <label for="gender_student">Gender <span class="text-danger">*</span></label>
                                 <select class="form-control" id="gender_student" name="gender">
-                                    <option value="Male" selected>Male</option>
-                                    <option value="Female">Female</option>
+                                    <option value="Male" selected>He</option>
+                                    <option value="Female">She</option>
                                     <option value="Non-binary">Non-Binary</option>
                                     <option value="Prefer not to say">Prefer not to say</option>
                                 </select>

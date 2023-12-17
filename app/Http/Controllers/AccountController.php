@@ -325,11 +325,11 @@ class AccountController extends Controller {
             'suffix' => 'nullable',
             'last_name' => 'required',
             'gender' => 'required',
-            'contact_number' => 'nullable',
+            'contact_number' => ['nullable', 'regex:/^(?:\+63|09)\d{9}$/'],
             'birthdate' => 'required|date',
             'address' => 'required',
             'parent_name' => 'required',
-            'parent_contact' => 'required',
+            'parent_contact' => ['required', 'regex:/^(?:\+63|09)\d{9}$/'],
             'batch_year' => 'required',
             'joined' => 'required|date',
             'email' => 'unique:students,email',
@@ -347,45 +347,95 @@ class AccountController extends Controller {
 
         $email = strtolower($first_name.'.'.$validatedData['last_name'].'@student.passerellesnumeriques.org');
         // dd($email);
+        $checkEmail = User::withTrashed()->where('email', $email)->first();
+        if ($checkEmail) {
+            $checkEmail->restore();
 
-        $student_account = new User();
-        $student_account->name = ucfirst($validatedData['first_name']).' '.ucfirst($validatedData['last_name']);
-        $student_account->email = $email;
-        $student_account->password = bcrypt('d3f@ultP@$$w0rd');
-        $student_account->role = 0;
-        $student_account->save();
+            $student_account = User::where('email', $email)->first();
+            // dd($student_account);
+            $student_account->is_deleted = 0;
+            $student_account->deleted_at = null;
+            $student_account->name = ucfirst($validatedData['first_name']) . ' ' . ucfirst($validatedData['last_name']);
+            // $student_account->email = $email;
+            $student_account->password = bcrypt('d3f@ultP@$$w0rd');
+            $student_account->role = 0;
+            $student_account->save();
 
-        $student = new Student();
-        $student->first_name = $validatedData['first_name'];
-        if($validatedData['middle_name'] == null) {
-            $student->middle_name = "N/A";
-        } else {
-            $student->middle_name = $validatedData['middle_name'];
+            // dd($student_account);
+            // dd($middle_name);
+            $student = Student::where('email', $email)->first();
+            // dd($student);
+            if ($validatedData['middle_name'] == null) {
+                $student->middle_name = "N/A";
+            } else {
+                $student->middle_name = $validatedData['last_name'];
+            }
+            $student->last_name = $validatedData['last_name'];
+            if ($student->suffix == 'None') {
+                $student->suffix = null;
+            }
+            $student->birthdate = request()->birthdate;
+            $student->email = $email;
+            $student->password = bcrypt('d3f@ultP@$$w0rd');
+            $student->contact_number = $validatedData['contact_number'];
+            $student->address = trim($validatedData['address']);
+            $student->gender = $validatedData['gender'];
+            $student->parent_name = $validatedData['parent_name'];
+            $student->parent_contact = $validatedData['parent_contact'];
+            $currentYear = now()->year;
+            $endYear = $currentYear + 2;
+            if ($validatedData['batch_year'] > $endYear) {
+                if ($student_account) {
+                    $student_account->delete();
+                }
+                return redirect()->back()->with('error', 'Batch year invalid. Please try again.');
+            } else {
+                $student->batch_year = $validatedData['batch_year'];
+            }
+            $student->joined = $validatedData['joined'];
+            $student->user_id = $student_account->id;
+
+            $student->save();
+        }else{
+            $student_account = new User();
+            $student_account->name = ucfirst($validatedData['first_name']) . ' ' . ucfirst($validatedData['last_name']);
+            $student_account->email = $email;
+            $student_account->password = bcrypt('d3f@ultP@$$w0rd');
+            $student_account->role = 0;
+            $student_account->save();
+
+            $student = new Student();
+            $student->first_name = $validatedData['first_name'];
+            if ($validatedData['middle_name'] == null) {
+                $student->middle_name = "N/A";
+            } else {
+                $student->middle_name = $validatedData['middle_name'];
+            }
+            $student->last_name = $validatedData['last_name'];
+            if ($student->suffix == 'None') {
+                $student->suffix = null;
+            }
+            $student->birthdate = $validatedData['birthdate'];
+            $student->email = $email;
+            $student->password = bcrypt('d3f@ultP@$$w0rd');
+            $student->contact_number = $validatedData['contact_number'];
+            $student->address = trim($validatedData['address']);
+            $student->gender = $validatedData['gender'];
+            $student->parent_name = $validatedData['parent_name'];
+            $student->parent_contact = $validatedData['parent_contact'];
+
+            $currentYear = now()->year;
+            $endYear = $currentYear + 2;
+            if ($validatedData['batch_year'] > $endYear) {
+                return redirect()->back()->with('error', 'Batch year invalid. Please try again.');
+            } else {
+                $student->batch_year = $validatedData['batch_year'];
+            }
+            $student->joined = $validatedData['joined'];
+            $student->user_id = $student_account->id;
+
+            $student->save();
         }
-        $student->last_name = $validatedData['last_name'];
-        if($student->suffix == 'None') {
-            $student->suffix = null;
-        }
-        $student->birthdate = $validatedData['birthdate'];
-        $student->email = $email;
-        $student->password = bcrypt('d3f@ultP@$$w0rd');
-        $student->contact_number = $validatedData['contact_number'];
-        $student->address = trim($validatedData['address']);
-        $student->gender = $validatedData['gender'];
-        $student->parent_name = $validatedData['parent_name'];
-        $student->parent_contact = $validatedData['parent_contact'];
-
-        $currentYear = now()->year;
-        $endYear = $currentYear + 2;
-        if($validatedData['batch_year'] > $endYear) {
-            return redirect()->back()->with('error', 'Batch year invalid. Please try again.');
-        } else {
-            $student->batch_year = $validatedData['batch_year'];
-        }
-        $student->joined = $validatedData['joined'];
-        $student->user_id = $student_account->id;
-
-        $student->save();
 
         // // Try to save the staff, and handle success/failure
         if($student->save()) {
@@ -418,7 +468,7 @@ class AccountController extends Controller {
             'department' => 'required',
             'birthdate' => 'required|date',
             'address' => 'required',
-            'contact_number' => 'nullable',
+            'contact_number' => ['nullable', 'regex:/^(?:\+63|09)\d{9}$/'],
             'gender' => 'required',
             'civil_status' => 'required',
             'status' => 'required',
