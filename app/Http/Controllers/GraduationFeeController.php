@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Services\StoreLogsService;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class GraduationFeeController extends Controller
 {
@@ -19,7 +20,9 @@ class GraduationFeeController extends Controller
             return redirect()->back()->with('error', 'You do not have permission to access this page');
         }
 
-        $students = Student::all();
+        $users = User::where('is_deleted', false)->get();
+        $studentIds = $users->pluck('id');
+        $students = Student::whereIn('user_id', $studentIds)->get();
 
         $batchYears = [];
 
@@ -31,7 +34,11 @@ class GraduationFeeController extends Controller
 
         $studentIdsWithGraduationFees = GraduationFee::distinct()->pluck('student_id');
         $student_gf_records = Student::whereIn('id', $studentIdsWithGraduationFees)->get();
-        $studentsWithoutGraduationFees = Student::whereNotIn('id', $studentIdsWithGraduationFees)->get();
+        $studentsWithoutGraduationFees = Student::whereNotIn('id', $studentIdsWithGraduationFees)->whereIn('user_id', function ($query) {
+            $query->select('id')
+                ->from('users')
+                ->where('is_deleted', false);
+        })->get();
 
         $gradutionFeesRecords = GraduationFee::select('student_id', \DB::raw('SUM(amount_due) as total_due'), \DB::raw('SUM(amount_paid) as total_paid'))
             ->groupBy('student_id')

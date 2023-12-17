@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SendDeletionNotificationMS;
 use App\Services\StoreLogsService;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class MedicalShareController extends Controller {
     public function medicalShare() {
@@ -18,7 +19,9 @@ class MedicalShareController extends Controller {
             return redirect()->back()->with('error', 'You do not have permission to access this page');
         }
 
-        $students = Student::all();
+        $users = User::where('is_deleted', false)->get();
+        $studentIds = $users->pluck('id');
+        $students = Student::whereIn('user_id', $studentIds)->get();
 
         $batchYears = [];
 
@@ -30,7 +33,12 @@ class MedicalShareController extends Controller {
 
         $studentIdsWithMedicalShares = MedicalShare::distinct()->pluck('student_id')->toArray();
         $student_ms_records = Student::whereIn('id', $studentIdsWithMedicalShares)->get();
-        $student_with_no_ms_records = Student::whereNotIn('id', $studentIdsWithMedicalShares)->get();
+        $student_with_no_ms_records = Student::whereNotIn('id', $studentIdsWithMedicalShares)->whereIn('user_id', function ($query) {
+            $query->select('id')
+                ->from('users')
+                ->where('is_deleted', false);
+        })
+            ->get();
 
         $medicalShareRecords = MedicalShare::select('student_id', \DB::raw('SUM(total_cost) as total_due'), \DB::raw('SUM(amount_paid) as total_paid'))
             ->groupBy('student_id')

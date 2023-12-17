@@ -81,6 +81,11 @@
                 $('body').toggleClass('sidebar-collapse');
 
                 // Toggle 'sidebar-mini' class based on window width
+                if ($(window).width() < 992 && $(window).width() > 768 ) {
+
+                    $('body').removeClass('sidebar-collapse');
+                    $('body').addClass('sidebar-open');
+                }
                 if ($(window).width() < 768) {
                     $('body').toggleClass('sidebar-open');
                     $('body').addClass('mobile-view');
@@ -89,6 +94,22 @@
                     $('body').removeClass('mobile-view');
                 }
             });
+
+            if ($(window).width() < 992 && $(window).width() > 768) {
+                // console.log('testing');
+                $('body').addClass('sidebar-collapse');
+                $(document).on('click', function (e) {
+                    if (
+                        !$(e.target).closest('.main-sidebar').length && // Check if the click is not within the sidebar
+                        !$(e.target).closest('.navbar-nav').length && // Check if the click is not within the navbar
+                        $('body').hasClass('sidebar-open') // Check if the sidebar is open
+                    ) {
+                         console.log('testing');
+                        $('body').removeClass('sidebar-open');
+                        $('body').toggleClass('sidebar-collapse');
+                    }
+                });
+            }
 
             $(document).on('click', function (e) {
                 if (
@@ -119,6 +140,20 @@
 
 <body class="sidebar-mini layout-fixed scrollable-content" data-page="{{ Route::currentRouteName() }}">
     <div class="wrapper">
+
+        <style>
+             /* For WebKit browsers (Chrome, Safari) */
+            input[type="number"]::-webkit-inner-spin-button,
+            input[type="number"]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            /* For Firefox */
+            input[type="number"] {
+                -moz-appearance: textfield;
+            }
+        </style>
         @include('layouts.staff.loading')
         @include('layouts.staff.header')
         @include('layouts.staff.aside')

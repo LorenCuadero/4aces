@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Services\StoreLogsService;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class PersonalCashAdvanceController extends Controller {
     public function personalCA() {
@@ -18,7 +19,9 @@ class PersonalCashAdvanceController extends Controller {
             return redirect()->back()->with('error', 'You do not have permission to access this page');
         }
 
-        $students = Student::all();
+        $users = User::where('is_deleted', false)->get();
+        $studentIds = $users->pluck('id');
+        $students = Student::whereIn('user_id', $studentIds)->get();
 
         $batchYears = [];
 
@@ -30,7 +33,11 @@ class PersonalCashAdvanceController extends Controller {
 
         $studentIdsWithPersonalCA = PersonalCashAdvance::distinct()->pluck('student_id');
         $student_pca_records = Student::whereIn('id', $studentIdsWithPersonalCA)->get();
-        $studentsWithoutPCA = Student::whereNotIn('id', $studentIdsWithPersonalCA)->get();
+        $studentsWithoutPCA = Student::whereNotIn('id', $studentIdsWithPersonalCA)->whereIn('user_id', function ($query) {
+            $query->select('id')
+                ->from('users')
+                ->where('is_deleted', false);
+        })->get();
 
         $personalCArecords = PersonalCashAdvance::select('student_id', \DB::raw('SUM(amount_due) as total_due'), \DB::raw('SUM(amount_paid) as total_paid'))
             ->groupBy('student_id')

@@ -117,6 +117,8 @@ class StudentController extends Controller
         }
         if ($parent_contact == null) {
             return redirect()->back()->with('error', 'Parent Contact Number is required');
+        } elseif (!preg_match('/^(?:\+63|09)\d{9}$/', $parent_contact)) {
+            return redirect()->back()->with('error', 'Invalid format for Parent Contact Number');
         }
         if ($joined == null) {
             return redirect()->back()->with('error', 'Date Joined is required');
@@ -627,7 +629,9 @@ class StudentController extends Controller
     {
         if (Auth::user()->role == '1') {
             // Retrieve all students
-            $students = Student::whereDoesntHave('disciplinary')->get();
+            $users = User::where('is_deleted', false)->get();
+            $studentIds = $users->pluck('id');
+            $students = Student::whereIn('user_id', $studentIds)->whereDoesntHave('disciplinary')->get();
 
             // Retrieve all disciplinary records along with their associated students
             $studentsWithDisciplinaryRecords = Disciplinary::with('student')->get();
