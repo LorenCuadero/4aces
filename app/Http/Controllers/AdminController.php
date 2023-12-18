@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use App\Services\StoreLogsService;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -51,7 +52,10 @@ class AdminController extends Controller
         $receivedTotal = $medicalShareReceived + $counterpartReceived + $graduationFeeReceived + $personalCashAdvanceReceived;
 
         // Count the total number of students
-        $totalNumberOfStudents = Student::count();
+        $users = User::where('is_deleted', false)->get();
+        $studentIds = $users->pluck('id');
+        $totalNumberOfStudents = Student::whereIn('user_id', $studentIds)->count();
+        // $totalNumberOfStudents = Student::count();
 
         // Batch Years
         $batchYears = Student::distinct('batch_year')->pluck('batch_year');
